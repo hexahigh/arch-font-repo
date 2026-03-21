@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-garineldo
+pkgver=0.24
+pkgrel=1
+pkgdesc="Garineldo font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Garineldo'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Garineldo/Garineldo-024.zip")
+sha256sums=('ead625dc524b1ff8e5a45e0549e3bfb974046bb4c294fe144665b4d080b32244')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Garineldo
+License info from upstream page: OpenFontLicense
+EOF
+}

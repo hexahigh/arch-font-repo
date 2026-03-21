@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-etharnigsc
+pkgver=0.043
+pkgrel=1
+pkgdesc="EtharnigSc font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=EtharnigSc'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/EtharnigSc/EtharnigSc.zip")
+sha256sums=('e5abaf1a78317f2a9de2fb9c71347f4d0548918a51ac6fccb694dd79a7e79558')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=EtharnigSc
+License info from upstream page: OpenFontLicense
+EOF
+}

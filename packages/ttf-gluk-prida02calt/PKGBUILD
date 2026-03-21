@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-prida02calt
+pkgver=0.77
+pkgrel=1
+pkgdesc="Prida02Calt font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Prida02Calt'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Prida02Calt/Prida02Calt_077.zip")
+sha256sums=('295e9e60a1c98956bf754f7e0b4dbfca55b96b90a145aee4a9816412793bdf8e')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Prida02Calt
+License info from upstream page: OpenFontLicense
+EOF
+}

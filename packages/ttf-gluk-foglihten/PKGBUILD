@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-foglihten
+pkgver=0.68
+pkgrel=1
+pkgdesc="Foglihten font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Foglihten'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/foglihten/foglihten-068.zip")
+sha256sums=('0532108ea4f30cc82c87ecc6f14c8fcbb6f3c03ca98c1ca97449069b745d09dd')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Foglihten
+License info from upstream page: OpenFontLicense
+EOF
+}

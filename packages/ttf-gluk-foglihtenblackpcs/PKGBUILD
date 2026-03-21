@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-foglihtenblackpcs
+pkgver=0.75
+pkgrel=1
+pkgdesc="FoglihtenBlackPcs font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=FoglihtenBlackPcs'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/FoglihtenBlackPcs/FoglihtenBlackPcs-075.zip")
+sha256sums=('694e9daa6986b2d193719574925b24c39a256d2a2f64d2ad9573aa5aa12b5f3a')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=FoglihtenBlackPcs
+License info from upstream page: OpenFontLicense
+EOF
+}

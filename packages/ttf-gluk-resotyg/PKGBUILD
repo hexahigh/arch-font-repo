@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-resotyg
+pkgver=1.02
+pkgrel=1
+pkgdesc="ResotYg font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=ResotYg'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/ResotYg/ResotYg_PERSONAL_USE_v102.zip")
+sha256sums=('f97549ef918ba2925b573eba90382c1910b31c446381ae1d7dddc9f6b82866a6')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=ResotYg
+License info from upstream page: for Private Use
+EOF
+}

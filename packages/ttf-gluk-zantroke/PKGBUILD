@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-zantroke
+pkgver=0.36
+pkgrel=1
+pkgdesc="Zantroke font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Zantroke'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/zantroke/Zantroke-036.zip")
+sha256sums=('0c88a27959908c8f524f08cfe8c9462c386537bc31642653b9c51d4c07dc71f0')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Zantroke
+License info from upstream page: OpenFontLicense
+EOF
+}

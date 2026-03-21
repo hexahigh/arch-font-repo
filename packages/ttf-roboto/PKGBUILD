@@ -1,0 +1,25 @@
+pkgname=ttf-roboto
+pkgver=3.015
+pkgrel=1
+pkgdesc="Roboto and Roboto Condensed font families"
+arch=('any')
+url='https://github.com/googlefonts/roboto-3-classic'
+license=('custom:various')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://github.com/googlefonts/roboto-3-classic/releases/download/v${pkgver}/Roboto_v${pkgver}.zip")
+sha256sums=('bee3e9334ea86dd63e184598f31fb16750881c2da1a6f097a66e0f66a95b3d54')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Include all shipped OpenType and TrueType families from upstream.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  while IFS= read -r -d '' license_file; do
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/$(basename "${license_file}")"
+  done < <(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) -print0)
+}

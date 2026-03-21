@@ -1,0 +1,25 @@
+pkgname=ttf-lexend
+pkgver=0.r7894f02
+pkgrel=1
+pkgdesc="Lexend family collection (all upstream TTF/OTF variants)"
+arch=('any')
+url='https://github.com/googlefonts/lexend'
+license=('custom:OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+_commit='7894f02b2e7eabc48595f1d4eff3b17b48c6e651'
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/googlefonts/lexend/archive/${_commit}.tar.gz")
+sha256sums=('43d13c8fd7f85d76b2c3e35da8639e570d8734c6dd2915b9c1efe0a783c321b7')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Include all shipped OpenType and TrueType families from upstream.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  while IFS= read -r -d '' license_file; do
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/$(basename "${license_file}")"
+  done < <(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) -print0)
+}

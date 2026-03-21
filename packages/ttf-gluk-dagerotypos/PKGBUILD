@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-dagerotypos
+pkgver=0.03
+pkgrel=1
+pkgdesc="Dagerotypos font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Dagerotypos'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Dagerotypos/Dagerotypos_003.zip")
+sha256sums=('bec7b9b4ffa7dbab54f0ef18de64be8da206c4e25b51b60c2563f575229e34f7')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Dagerotypos
+License info from upstream page: OpenFontLicense
+EOF
+}

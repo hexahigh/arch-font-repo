@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-znikomitno24
+pkgver=0.55
+pkgrel=1
+pkgdesc="ZnikomitNo24 font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=ZnikomitNo24'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/ZnikomitNo24/ZnikomitNo24-055.zip")
+sha256sums=('7ac2e5d812e4712a22ed87d2e9c0ab69cff30c20ef1c0fd99da2fdfba03c9673')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=ZnikomitNo24
+License info from upstream page: OpenFontLicense
+EOF
+}

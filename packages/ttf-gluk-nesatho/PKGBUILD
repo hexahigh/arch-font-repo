@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-nesatho
+pkgver=1.24
+pkgrel=1
+pkgdesc="Nesatho font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Nesatho'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Nesatho/Nesatho.zip")
+sha256sums=('3fb2b5e516bda7e4eec5869991b271f8fdb803b1fe9f74ad817e22526e189e93')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Nesatho
+License info from upstream page: Freeware
+EOF
+}

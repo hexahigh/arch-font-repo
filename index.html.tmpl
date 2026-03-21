@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AFR - Arch Font Repo</title>
+    <style>
+        :root {
+            --bg: #f4f6f8;
+            --card: #ffffff;
+            --text: #1a202c;
+            --muted: #4a5568;
+            --accent: #005f73;
+            --border: #d9e2ec;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Noto Sans", "DejaVu Sans", sans-serif;
+            color: var(--text);
+            background: linear-gradient(170deg, #eef3f7 0%, #f7fbfd 60%, #f1f5f9 100%);
+        }
+
+        main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 2rem 1rem 3rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+        pre {
+            overflow-x: auto;
+            background: #0f172a;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 0.75rem;
+        }
+
+        code {
+            font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+            font-size: 0.95em;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        ul {
+            margin: 0.5rem 0 0;
+            padding-left: 1.25rem;
+            column-count: 2;
+            column-gap: 2rem;
+        }
+
+        @media (max-width: 720px) {
+            ul {
+                column-count: 1;
+            }
+        }
+
+        a {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="card">
+            <h1>AFR - Arch Font Repo</h1>
+            <p class="muted">Signed Arch Linux binary repository for font packages.</p>
+            <div class="meta">
+                <div><strong>Generated:</strong> {{generated_at}}</div>
+                <div><strong>Packages:</strong> {{package_count}}</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Repository URL</h2>
+            <p><a href="https://afr.080609.xyz/x86_64">https://afr.080609.xyz/x86_64</a></p>
+        </section>
+
+        <section class="card">
+            <h2>Signed Setup</h2>
+            <p class="muted">Use these steps to enable the repository with signature verification on Arch Linux clients.
+            </p>
+            <p><strong>1. Import and locally trust the AFR signing key:</strong></p>
+            <pre><code>curl -fsSL -o /tmp/afr.pub.asc https://afr.080609.xyz/afr.pub.asc
+sudo pacman-key --add /tmp/afr.pub.asc
+sudo pacman-key --lsign-key EEB57FEBBBFC5AC1CC48C353B67389CC0D0BDF88</code></pre>
+            <p><strong>2. Add the repository to /etc/pacman.conf:</strong></p>
+            <pre><code>[arch-font-repo]
+SigLevel = Required
+Server = https://afr.080609.xyz/x86_64</code></pre>
+            <p><strong>3. Refresh package databases and install:</strong></p>
+            <pre><code>sudo pacman -Syy
+sudo pacman -S ttf-ibm-plex</code></pre>
+        </section>
+
+        <section class="card">
+            <h2>Available Packages</h2>
+            <ul>
+                {{package_list_items}}
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:hexahigh0@gmail.com">hexahigh0@gmail.com</a></p>
+            <p>GitHub: <a href="https://github.com/hexahigh/arch-font-repo">github.com/hexahigh/arch-font-repo</a></p>
+        </section>
+    </main>
+</body>
+
+</html>

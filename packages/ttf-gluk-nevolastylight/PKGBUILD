@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-nevolastylight
+pkgver=1.73
+pkgrel=1
+pkgdesc="NevolastyLight font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=NevolastyLight'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/NevolastyLight/Nevolasty_free_Light.zip")
+sha256sums=('9a633d6eb6d978da4599da033de0fe5c34eb44eb68337d90ee350564246f0114')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=NevolastyLight
+License info from upstream page: free for commercial use
+EOF
+}

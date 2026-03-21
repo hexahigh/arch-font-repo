@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-resamitz
+pkgver=0.048
+pkgrel=1
+pkgdesc="Resamitz font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Resamitz'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Resamitz/Resamitz_0048.zip")
+sha256sums=('a46eb679dac7465ede9ca6305acdc714d1e50dc016bd7b68384e4903504fd4a3')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Resamitz
+License info from upstream page: OpenFontLicense
+EOF
+}

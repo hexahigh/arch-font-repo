@@ -1,0 +1,11 @@
+# Build artifacts
+build/
+repo/
+
+# Temporary files
+*.log
+.DS_Store
+
+__pycache__/
+# Local Netlify folder
+.netlify

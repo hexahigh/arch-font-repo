@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-gluketiudano23semibold
+pkgver=1.63
+pkgrel=1
+pkgdesc="GlukEtiudaNo23Semibold font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=GlukEtiudaNo23Semibold'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/GlukEtiudaNo23Semibold/GlukEtiudaNo23Semibold_Personal_Use.zip")
+sha256sums=('398b32c56254dd5654918ef1d5578aa10abd5c74873017e4572c5c313039568b')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=GlukEtiudaNo23Semibold
+License info from upstream page: for personal use
+EOF
+}

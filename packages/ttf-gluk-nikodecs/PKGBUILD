@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-nikodecs
+pkgver=0.29
+pkgrel=1
+pkgdesc="Nikodecs font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Nikodecs'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Nikodecs/Nikodecs_029.zip")
+sha256sums=('3b1cf06eac2905a25f1324bfe49974ae80583ed24efd9f8f6f72db16cd2de65a')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Nikodecs
+License info from upstream page: OpenFontLicense
+EOF
+}

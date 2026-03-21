@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-sudegnakno2
+pkgver=0.15
+pkgrel=1
+pkgdesc="SudegnakNo2 font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=SudegnakNo2'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/SudegnakNo2/SudegnakNo2_015.zip")
+sha256sums=('4efe61140dc4eacf9cb88a29a127849b519079b4deeeb8257e48f167e694f522')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=SudegnakNo2
+License info from upstream page: OpenFontLicense
+EOF
+}

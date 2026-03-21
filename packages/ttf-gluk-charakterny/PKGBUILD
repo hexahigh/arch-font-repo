@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-charakterny
+pkgver=0.25
+pkgrel=1
+pkgdesc="Charakterny font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Charakterny'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212//font/Charakterny/Charakterny.zip")
+sha256sums=('03f52d3718b81351e6f282c0422a8968697569b5034111f9dd1b353a4b7bd1de')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Charakterny
+License info from upstream page: OpenFontLicense
+EOF
+}

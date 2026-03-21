@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-glametrix
+pkgver=0.40
+pkgrel=1
+pkgdesc="Glametrix font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Glametrix'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/Glametrix/Glametrix_040.zip")
+sha256sums=('4a0b29b4c419026755f4764b7a6126e7e29225ea2702a7b544abf423d49414e3')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Glametrix
+License info from upstream page: OpenFontLicense
+EOF
+}

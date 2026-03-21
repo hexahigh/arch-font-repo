@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-kawoszeh
+pkgver=0.32
+pkgrel=1
+pkgdesc="Kawoszeh font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Kawoszeh'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/kawoszeh/kawoszeh-0.3.2.zip")
+sha256sums=('016474f8f073628b964d18c392fd566fff730c4ba9ecc74d0f741a513b85c92a')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Kawoszeh
+License info from upstream page: OpenFontLicense
+EOF
+}

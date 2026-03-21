@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-sportrop
+pkgver=0.9
+pkgrel=1
+pkgdesc="Sportrop font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Sportrop'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/sportrop/sportrop.zip")
+sha256sums=('634a6d166181d8221c2618205278bc842f7b8ee8391780be8c13242f6a7acc22')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Sportrop
+License info from upstream page: OpenFontLicense
+EOF
+}

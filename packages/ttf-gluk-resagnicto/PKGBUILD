@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-resagnicto
+pkgver=0.9991
+pkgrel=1
+pkgdesc="Resagnicto font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=Resagnicto'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/resagnicto/Resagnicto-09991.zip")
+sha256sums=('6148b6875994bb4d82e318220574b2895d88cc7383c23cd15fe3b1fd77553409')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=Resagnicto
+License info from upstream page: OpenFontLicense
+EOF
+}

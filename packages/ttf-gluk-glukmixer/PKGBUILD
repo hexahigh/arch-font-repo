@@ -1,0 +1,28 @@
+pkgname=ttf-gluk-glukmixer
+pkgver=0.30
+pkgrel=1
+pkgdesc="GlukMixer font by Gluk"
+arch=('any')
+url='https://www.glukfonts.pl/font.php?font=GlukMixer'
+license=('custom')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://www.glukfonts.pl/fontdl/f231212/font/GlukMixer/GlukMixer_030.zip")
+sha256sums=('748b30de5fed3cba7ab713dccdb4cd7a7c70863db7baac3fe4bd87019fc27eb5')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped font binaries for this family.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  cat > "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" << 'EOF'
+Source: https://www.glukfonts.pl/font.php?font=GlukMixer
+License info from upstream page: OpenFontLicense
+EOF
+}

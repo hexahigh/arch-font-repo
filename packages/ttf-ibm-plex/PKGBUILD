@@ -1,0 +1,25 @@
+pkgname=ttf-ibm-plex
+pkgver=6.4.0
+pkgrel=1
+pkgdesc="IBM Plex Mono, Sans, and Serif"
+arch=('any')
+url='https://github.com/IBM/plex'
+license=('custom:OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+conflicts=('ibm-plex-fonts')
+source=("${pkgname}-${pkgver}.zip::${url}/releases/download/v${pkgver}/TrueType.zip")
+sha256sums=('7e4f80047782fe9eb74cd0b63019da283a15db98942da476fee46098633a083c')
+
+package() {
+  cd TrueType
+
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Keep only hinted TTFs and isolate package files in a dedicated subfolder.
+  find -name '*.ttf' ! -path '*/unhinted/*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  install -Dm644 IBM-Plex-Mono/license.txt "${pkgdir}/usr/share/licenses/${pkgname}/license.txt"
+}

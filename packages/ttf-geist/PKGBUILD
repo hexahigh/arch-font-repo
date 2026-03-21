@@ -1,0 +1,24 @@
+pkgname=ttf-geist
+pkgver=1.8.0
+pkgrel=1
+pkgdesc="Geist and Geist Mono families (all upstream TTF/OTF variants)"
+arch=('any')
+url='https://github.com/vercel/geist-font'
+license=('custom:OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://github.com/vercel/geist-font/releases/download/${pkgver}/geist-font-${pkgver}.zip")
+sha256sums=('ee309b6b0762f89c3e8a799f700bee0323315ff047df3a587af978f8180daa28')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Include all shipped OpenType and TrueType families from upstream.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  while IFS= read -r -d '' license_file; do
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/$(basename "${license_file}")"
+  done < <(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) -print0)
+}
