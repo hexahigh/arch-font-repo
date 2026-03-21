@@ -3,11 +3,13 @@ import argparse
 from datetime import datetime, timezone
 import html
 import os
+import re
 import subprocess
 import sys
 from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
 from pathlib import Path
 import time
+from urllib.parse import unquote
 
 
 class Colors:
@@ -74,7 +76,56 @@ def parse_args() -> argparse.Namespace:
         default="index.html.tmpl",
         help="Template file for index generation (default: index.html.tmpl)",
     )
+    parser.add_argument(
+        "--build-unchanged",
+        action="store_true",
+        help="Build packages even when repo already contains matching pkgver/pkgrel",
+    )
     return parser.parse_args()
+
+
+def parse_pkgbuild_version_release(pkgbuild_path: Path) -> tuple[str, str] | None:
+    pkgver = None
+    pkgrel = None
+
+    for raw_line in pkgbuild_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
+            continue
+
+        match = re.match(r"^(pkgver|pkgrel)\s*=\s*(.+)$", line)
+        if not match:
+            continue
+
+        key, value = match.group(1), match.group(2).strip()
+        if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+            value = value[1:-1]
+
+        if key == "pkgver":
+            pkgver = value
+        elif key == "pkgrel":
+            pkgrel = value
+
+        if pkgver is not None and pkgrel is not None:
+            return (pkgver, pkgrel)
+
+    return None
+
+
+def repo_version_release_pairs(repo_x86_dir: Path, pkg_name: str) -> set[tuple[str, str]]:
+    pairs: set[tuple[str, str]] = set()
+    for pkg in repo_x86_dir.glob(f"{pkg_name}-*.pkg.tar.*"):
+        if pkg.name.endswith(".sig"):
+            continue
+        base = pkg.name.split(".pkg.tar.", 1)[0]
+        parts = base.rsplit("-", 3)
+        if len(parts) != 4:
+            continue
+        name, pkgver, pkgrel, _arch = parts
+        if name != pkg_name:
+            continue
+        pairs.add((pkgver, pkgrel))
+    return pairs
 
 
 def export_public_key(key_id: str, output_path: Path) -> None:
@@ -107,10 +158,164 @@ def package_names_from_repo(repo_x86_dir: Path) -> list[str]:
     return sorted(names)
 
 
+def latest_repo_packages(repo_x86_dir: Path) -> dict[str, Path]:
+    latest: dict[str, Path] = {}
+    for pkg in repo_x86_dir.glob("*.pkg.tar.*"):
+        if pkg.name.endswith(".sig"):
+            continue
+        base = pkg.name.split(".pkg.tar.", 1)[0]
+        parts = base.rsplit("-", 3)
+        if len(parts) != 4:
+            continue
+        pkgname = parts[0]
+        prev = latest.get(pkgname)
+        if prev is None or pkg.stat().st_mtime > prev.stat().st_mtime:
+            latest[pkgname] = pkg
+    return latest
+
+
+def normalize_font_label(raw_name: str) -> str:
+    name = unquote(raw_name).strip()
+    if not name:
+        return ""
+    name = re.sub(r"\.(ttf|otf|ttc|woff2?)$", "", name, flags=re.IGNORECASE)
+    name = name.replace("_", " ")
+    name = re.sub(r"\[(.*?)\]", "", name)
+    name = re.sub(r"\s+", " ", name).strip()
+    return name
+
+
+def font_labels_from_package_archive(pkg_archive: Path) -> set[str]:
+    labels: set[str] = set()
+    try:
+        result = subprocess.run(
+            ["bsdtar", "-tf", str(pkg_archive)],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return labels
+
+    for line in result.stdout.splitlines():
+        file_path = line.strip()
+        if not file_path:
+            continue
+        if not re.search(r"\.(ttf|otf|ttc|woff2?)$", file_path, flags=re.IGNORECASE):
+            continue
+        label = normalize_font_label(Path(file_path).name)
+        if label:
+            labels.add(label)
+    return labels
+
+
+def parse_pkgbuild_string_field(pkgbuild_path: Path, field_name: str) -> str | None:
+    pattern = re.compile(rf"^{re.escape(field_name)}\s*=\s*(.+)$")
+    for raw_line in pkgbuild_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
+            continue
+        match = pattern.match(line)
+        if not match:
+            continue
+        value = match.group(1).strip()
+        if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+            return value[1:-1].strip()
+        return value.strip()
+    return None
+
+
+def font_labels_from_pkgbuild_sources(pkgbuild_path: Path) -> set[str]:
+    labels: set[str] = set()
+    in_source = False
+
+    for raw_line in pkgbuild_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
+            continue
+
+        if not in_source and line.startswith("source=("):
+            in_source = True
+            if line.endswith(")"):
+                in_source = False
+            continue
+
+        if not in_source:
+            continue
+
+        if line == ")":
+            in_source = False
+            continue
+
+        if (line.startswith('"') and line.endswith('"')) or (line.startswith("'") and line.endswith("'")):
+            source_item = line[1:-1]
+        else:
+            source_item = line
+
+        source_item = source_item.split("::", 1)[-1]
+        filename = source_item.rsplit("/", 1)[-1]
+        filename = filename.split("?", 1)[0]
+        if not re.search(r"\.(ttf|otf|ttc|woff2?)$", filename, flags=re.IGNORECASE):
+            continue
+
+        label = normalize_font_label(filename)
+        if label:
+            labels.add(label)
+
+    return labels
+
+
+def derive_font_name(pkg_name: str, pkg_desc: str | None) -> str:
+    if pkg_desc:
+        google_match = re.match(r"^Google Fonts family:\s*(.+)$", pkg_desc)
+        if google_match:
+            return google_match.group(1).strip()
+        return pkg_desc.strip()
+
+    base = re.sub(r"^(ttf|otf|woff2?)-", "", pkg_name)
+    words = [w for w in base.replace("_", "-").split("-") if w]
+    if not words:
+        return pkg_name
+    return " ".join(word.capitalize() for word in words)
+
+
+def font_index_entries(
+    package_names: list[str],
+    packages_dir: Path,
+    repo_x86_dir: Path,
+) -> list[tuple[str, str]]:
+    latest_packages = latest_repo_packages(repo_x86_dir)
+    entries: list[tuple[str, str]] = []
+    for pkg_name in package_names:
+        labels: set[str] = set()
+
+        pkg_archive = latest_packages.get(pkg_name)
+        if pkg_archive is not None:
+            labels = font_labels_from_package_archive(pkg_archive)
+
+        pkgbuild_path = packages_dir / pkg_name / "PKGBUILD"
+        if not labels and pkgbuild_path.is_file():
+            labels = font_labels_from_pkgbuild_sources(pkgbuild_path)
+
+        if not labels:
+            pkg_desc = None
+            if pkgbuild_path.is_file():
+                pkg_desc = parse_pkgbuild_string_field(
+                    pkgbuild_path, "pkgdesc")
+            labels = {derive_font_name(pkg_name, pkg_desc)}
+
+        for label in sorted(labels):
+            entries.append((label, pkg_name))
+
+    entries.sort(key=lambda item: (item[0].lower(), item[1]))
+    return entries
+
+
 def render_index_from_template(
     template_path: Path,
     output_path: Path,
     package_names: list[str],
+    font_entries: list[tuple[str, str]],
 ) -> None:
     if not template_path.is_file():
         raise FileNotFoundError(f"Template file not found: {template_path}")
@@ -121,10 +326,26 @@ def render_index_from_template(
     if not package_items:
         package_items = "      <li>No packages found.</li>"
 
+    font_items = "\n".join(
+        (
+            "      <li data-font-entry "
+            f"data-font=\"{html.escape(font_name, quote=True)}\" "
+            f"data-package=\"{html.escape(pkg_name, quote=True)}\">"
+            f"<span class=\"font-name\">{html.escape(font_name)}</span>"
+            f"<span class=\"package-name\">{html.escape(pkg_name)}</span>"
+            "</li>"
+        )
+        for font_name, pkg_name in font_entries
+    )
+    if not font_items:
+        font_items = "      <li>No fonts found.</li>"
+
     replacements = {
         "{{generated_at}}": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "{{package_count}}": str(len(package_names)),
         "{{package_list_items}}": package_items,
+        "{{font_count}}": str(len(font_entries)),
+        "{{font_search_items}}": font_items,
     }
 
     content = template_path.read_text(encoding="utf-8")
@@ -205,7 +426,33 @@ def main() -> int:
         print(f"No package directories found under {packages_dir}")
         return 1
 
-    total_packages = len(package_paths)
+    total_discovered = len(package_paths)
+    packages_to_build: list[str] = []
+    skipped_unchanged: list[str] = []
+
+    for package_path in package_paths:
+        pkg_name = package_path.name
+        if args.build_unchanged:
+            packages_to_build.append(pkg_name)
+            continue
+
+        pkgbuild_path = package_path / "PKGBUILD"
+        if not pkgbuild_path.is_file():
+            packages_to_build.append(pkg_name)
+            continue
+
+        desired = parse_pkgbuild_version_release(pkgbuild_path)
+        if desired is None:
+            packages_to_build.append(pkg_name)
+            continue
+
+        existing_pairs = repo_version_release_pairs(repo_x86_dir, pkg_name)
+        if desired in existing_pairs:
+            skipped_unchanged.append(pkg_name)
+        else:
+            packages_to_build.append(pkg_name)
+
+    total_packages = len(packages_to_build)
     built_count = 0
     failed_count = 0
     failed_packages = []
@@ -215,7 +462,8 @@ def main() -> int:
 
     print(
         f"{colors.wrap('Starting build', colors.bold)}: "
-        f"{total_packages} packages, jobs={jobs}, sign={'on' if args.sign else 'off'}, logs={log_dir}"
+        f"discovered={total_discovered}, to_build={total_packages}, skipped_unchanged={len(skipped_unchanged)}, "
+        f"jobs={jobs}, sign={'on' if args.sign else 'off'}, logs={log_dir}"
     )
 
     completed = 0
@@ -226,7 +474,7 @@ def main() -> int:
         for i in range(active_slots)
     ]
     rendered_once = False
-    package_queue = [p.name for p in package_paths]
+    package_queue = list(packages_to_build)
     running: dict[Future, tuple[int, str, Path]] = {}
 
     def building_line(pkg_name: str, slot_idx: int) -> str:
@@ -262,44 +510,49 @@ def main() -> int:
         )
         running[future] = (slot_idx, pkg_name, log_file)
 
-    with ThreadPoolExecutor(max_workers=jobs) as executor:
-        for slot_idx in range(active_slots):
-            submit_next(executor, slot_idx)
-        rendered_once = render_worker_lines(
-            worker_lines, interactive, rendered_once)
-
-        while running:
-            done, _ = wait(running.keys(), return_when=FIRST_COMPLETED)
-            for future in done:
-                slot_idx, pkg_name, log_file = running.pop(future)
-                _, rc, _ = future.result()
-                completed += 1
-
-                if rc == 0:
-                    built_count += 1
-                else:
-                    failed_count += 1
-                    failed_packages.append(pkg_name)
-
-                worker_lines[slot_idx] = result_line(
-                    pkg_name, rc == 0)
-                rendered_once = render_worker_lines(
-                    worker_lines, interactive, rendered_once)
-
-                # Slight delay so that the last status update is visible before the next build starts.
-                if rc != 0:
-                    time.sleep(0.5)
-
+    if total_packages > 0:
+        with ThreadPoolExecutor(max_workers=jobs) as executor:
+            for slot_idx in range(active_slots):
                 submit_next(executor, slot_idx)
-                rendered_once = render_worker_lines(
-                    worker_lines, interactive, rendered_once)
+            rendered_once = render_worker_lines(
+                worker_lines, interactive, rendered_once)
+
+            while running:
+                done, _ = wait(running.keys(), return_when=FIRST_COMPLETED)
+                for future in done:
+                    slot_idx, pkg_name, log_file = running.pop(future)
+                    _, rc, _ = future.result()
+                    completed += 1
+
+                    if rc == 0:
+                        built_count += 1
+                    else:
+                        failed_count += 1
+                        failed_packages.append(pkg_name)
+
+                    worker_lines[slot_idx] = result_line(
+                        pkg_name, rc == 0)
+                    rendered_once = render_worker_lines(
+                        worker_lines, interactive, rendered_once)
+
+                    # Slight delay so that the last status update is visible before the next build starts.
+                    if rc != 0:
+                        time.sleep(0.5)
+
+                    submit_next(executor, slot_idx)
+                    rendered_once = render_worker_lines(
+                        worker_lines, interactive, rendered_once)
+    else:
+        print("No package builds required (all unchanged).")
 
     if interactive:
         print()
 
     repo_db_log = log_dir / "repo-db.log"
-    repo_db_ok = 0
+    repo_db_ok = 1
+    repo_db_ran = False
     if built_count > 0:
+        repo_db_ran = True
         repo_cmd = [sys.executable, str(update_repo_db_script)]
         if args.sign:
             repo_cmd.extend(["--sign", "--key-id", args.key_id])
@@ -314,10 +567,16 @@ def main() -> int:
             )
         if result.returncode == 0:
             repo_db_ok = 1
+        else:
+            repo_db_ok = 0
 
     print()
     print(colors.wrap("================ Build Summary ================", colors.cyan))
-    print(f"Total packages : {colors.wrap(str(total_packages), colors.bold)}")
+    print(
+        f"Discovered     : {colors.wrap(str(total_discovered), colors.bold)}")
+    print(f"Scheduled      : {colors.wrap(str(total_packages), colors.bold)}")
+    print(
+        f"Skipped        : {colors.wrap(str(len(skipped_unchanged)), colors.dim)}")
     print(f"Built          : {colors.wrap(str(built_count), colors.green)}")
     print(
         f"Failed         : {colors.wrap(str(failed_count), colors.red if failed_count else colors.green)}")
@@ -330,8 +589,11 @@ def main() -> int:
             print(f"  - {pkg_name}")
 
     print()
-    if repo_db_ok == 1:
+    if repo_db_ok == 1 and repo_db_ran:
         print(f"Repo metadata  : {colors.wrap('OK', colors.green)}")
+    elif repo_db_ok == 1 and not repo_db_ran:
+        print(
+            f"Repo metadata  : {colors.wrap('SKIPPED', colors.dim)} (no new builds)")
     else:
         print(
             f"Repo metadata  : {colors.wrap('FAILED', colors.red)} (see {repo_db_log})")
@@ -356,7 +618,14 @@ def main() -> int:
         index_out = repo_root_dir / "index.html"
         try:
             package_names = package_names_from_repo(repo_x86_dir)
-            render_index_from_template(template_path, index_out, package_names)
+            entries = font_index_entries(
+                package_names, packages_dir, repo_x86_dir)
+            render_index_from_template(
+                template_path,
+                index_out,
+                package_names,
+                entries,
+            )
             print(
                 f"Index page     : {colors.wrap(str(index_out), colors.green)}")
         except Exception as exc:  # pylint: disable=broad-except

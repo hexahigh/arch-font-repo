@@ -79,6 +79,60 @@
             column-gap: 2rem;
         }
 
+        .search-wrap {
+            margin: 0.5rem 0 1rem;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.65rem 0.8rem;
+            font-size: 1rem;
+            color: var(--text);
+            background: #ffffff;
+        }
+
+        .search-wrap input:focus {
+            outline: 2px solid rgba(0, 95, 115, 0.25);
+            border-color: var(--accent);
+        }
+
+        .font-results {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            column-count: 1;
+        }
+
+        .font-results li {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            padding: 0.45rem 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .font-results li:last-child {
+            border-bottom: 0;
+        }
+
+        .font-results li[hidden] {
+            display: none;
+        }
+
+        .font-name {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .package-name {
+            color: var(--muted);
+            font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 720px) {
             ul {
                 column-count: 1;
@@ -125,6 +179,18 @@ sudo pacman -S ttf-ibm-plex</code></pre>
         </section>
 
         <section class="card">
+            <h2>Find Font Package</h2>
+            <p class="muted">Search by font name and find the package that contains it.</p>
+            <div class="search-wrap">
+                <input id="font-search" type="search" placeholder="Search fonts (e.g. Inter, Geist, Roboto)" autocomplete="off" />
+            </div>
+            <p id="font-search-meta" class="muted">Showing {{font_count}} fonts.</p>
+            <ul id="font-search-results" class="font-results">
+                {{font_search_items}}
+            </ul>
+        </section>
+
+        <section class="card">
             <h2>Available Packages</h2>
             <ul>
                 {{package_list_items}}
@@ -137,6 +203,41 @@ sudo pacman -S ttf-ibm-plex</code></pre>
             <p>GitHub: <a href="https://github.com/hexahigh/arch-font-repo">github.com/hexahigh/arch-font-repo</a></p>
         </section>
     </main>
+    <script>
+        (() => {
+            const input = document.getElementById("font-search");
+            const meta = document.getElementById("font-search-meta");
+            const rows = Array.from(document.querySelectorAll("#font-search-results [data-font-entry]"));
+            const total = rows.length;
+
+            const updateMeta = (visibleCount, query) => {
+                if (!query) {
+                    meta.textContent = `Showing ${visibleCount} fonts.`;
+                    return;
+                }
+                meta.textContent = `Showing ${visibleCount} of ${total} fonts for "${query}".`;
+            };
+
+            const filterRows = () => {
+                const query = input.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                for (const row of rows) {
+                    const font = (row.getAttribute("data-font") || "").toLowerCase();
+                    const match = query === "" || font.includes(query);
+                    row.hidden = !match;
+                    if (match) {
+                        visibleCount += 1;
+                    }
+                }
+
+                updateMeta(visibleCount, query);
+            };
+
+            input.addEventListener("input", filterRows);
+            filterRows();
+        })();
+    </script>
 </body>
 
 </html>
