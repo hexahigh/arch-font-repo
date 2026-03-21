@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansmedefaidrin/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmedefaidrin/NotoSansMedefaidrin[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmedefaidrin/NotoSansMedefaidrin%5Bwght%5D.ttf"
 )
 sha256sums=(
   "47755a5e817c401cdca376815aae527195d333688277cce00a542b83ed532fa7"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/shantellsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/shantellsans/ShantellSans-Italic[BNCE,INFM,SPAC,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/shantellsans/ShantellSans[BNCE,INFM,SPAC,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shantellsans/ShantellSans-Italic%5BBNCE%2CINFM%2CSPAC%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shantellsans/ShantellSans%5BBNCE%2CINFM%2CSPAC%2Cwght%5D.ttf"
 )
 sha256sums=(
   "ebfce7d104d597c385b71e9fbf8f0e2034e73320f857086105dc265b82c05caa"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/geistmono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/geistmono/GeistMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geistmono/GeistMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"

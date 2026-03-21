@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/leaguegothic/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/leaguegothic/LeagueGothic[wdth].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguegothic/LeagueGothic%5Bwdth%5D.ttf"
 )
 sha256sums=(
   "44778c339892f79188c60b7471485dd5af92c59351c7f9629a00fc625c6cae5d"

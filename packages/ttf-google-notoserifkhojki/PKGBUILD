@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoserifkhojki/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifkhojki/NotoSerifKhojki[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifkhojki/NotoSerifKhojki%5Bwght%5D.ttf"
 )
 sha256sums=(
   "82ead5cfe70167960007329171dcffe99886373b3159619e596e84f08890234c"

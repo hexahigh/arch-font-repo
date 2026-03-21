@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/alansans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alansans/AlanSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alansans/AlanSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "06f10277275c9263ab3de42df06607bc983332fd6f8a67130ed7058151b8f512"

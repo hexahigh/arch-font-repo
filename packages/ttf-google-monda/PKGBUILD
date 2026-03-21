@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/monda/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/monda/Monda[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monda/Monda%5Bwght%5D.ttf"
 )
 sha256sums=(
   "319d4eda099ff5c9aab15b0e86af50c8f5bf5af3c27b2f2934ccb6d10f0583e1"

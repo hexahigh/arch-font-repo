@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kantumruypro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kantumruypro/KantumruyPro-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kantumruypro/KantumruyPro[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kantumruypro/KantumruyPro-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kantumruypro/KantumruyPro%5Bwght%5D.ttf"
 )
 sha256sums=(
   "7b300b8a1e2e9d7cddb68859551f1ad54a05019eff28da02e3be811c1257f0a7"

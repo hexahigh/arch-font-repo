@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/faustina/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/faustina/Faustina-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/faustina/Faustina[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/faustina/Faustina-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/faustina/Faustina%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2d8f6a7be96a15fd2deaa8e6b5320cec6c253216b5a8f7e1becccfc51147b877"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded%5Bwght%5D.ttf"
 )
 sha256sums=(
   "411a22de2734b25584e4764f7212b004f241181ac04944a3bcee0e0371afe547"

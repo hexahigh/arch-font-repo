@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftibetan/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftibetan/NotoSerifTibetan[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftibetan/NotoSerifTibetan%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0077789fc3cb20f358278ba4c6437eb14ade97d4d3e3281eaa42853efcd9dc8b"

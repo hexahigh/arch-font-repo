@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/inconsolata/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/inconsolata/Inconsolata[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inconsolata/Inconsolata%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "29bd0cfd0fb2a45f9b057c834a057724bae1f63b525a8ac83d3e7525706d9f80"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/biorhyme/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/biorhyme/BioRhyme[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhyme/BioRhyme%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "b14f883330579c3373e41c7c0acdfde91b2e812edfe1e6c5af91bd32a5fa7d13"

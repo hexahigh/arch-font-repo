@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/fustat/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/fustat/Fustat[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fustat/Fustat%5Bwght%5D.ttf"
 )
 sha256sums=(
   "197945947b2b8a0b9fc5622d9136d5f83c423f7f2e900c10bfb8b8cde8a45c47"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt%5Bwght%5D.ttf"
 )
 sha256sums=(
   "31501a9490dce395cdb40015237d3684186b79f81dd6a31442d669eb7da81066"

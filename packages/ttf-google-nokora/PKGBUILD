@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/nokora/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/nokora/Nokora[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nokora/Nokora%5Bwght%5D.ttf"
 )
 sha256sums=(
   "3fe944228254901b015c1c39178dac2e4217eba07118294b84dca34d28d4b2ee"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoserif/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoserif/NotoSerif-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoserif/NotoSerif[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserif/NotoSerif-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserif/NotoSerif%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a"

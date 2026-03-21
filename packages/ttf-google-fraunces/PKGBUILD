@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/fraunces/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/fraunces/Fraunces-Italic[SOFT,WONK,opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/fraunces/Fraunces[SOFT,WONK,opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fraunces/Fraunces-Italic%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fraunces/Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b"

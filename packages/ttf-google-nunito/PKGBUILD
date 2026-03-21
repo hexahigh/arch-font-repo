@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/nunito/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/nunito/Nunito-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/nunito/Nunito[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nunito/Nunito-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nunito/Nunito%5Bwght%5D.ttf"
 )
 sha256sums=(
   "580df76c95a1ec5ab878ceb25bb3d85c6a076804e9c970c8c6972aea775fdf65"

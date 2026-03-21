@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/montaguslab/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/montaguslab/MontaguSlab[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montaguslab/MontaguSlab%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "3b00031e7de1fd7d8cce0a7a4638a38a8988e16a8950210ebf8e57f688b14c4d"

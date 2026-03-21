@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/LICENCE.txt"
-  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"

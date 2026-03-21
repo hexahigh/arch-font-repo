@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/tiltwarp/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/tiltwarp/TiltWarp[XROT,YROT].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiltwarp/TiltWarp%5BXROT%2CYROT%5D.ttf"
 )
 sha256sums=(
   "97941703cd5fb1d5e86a062c9463ed12a613dbfbab9961c333699bdb2d277321"

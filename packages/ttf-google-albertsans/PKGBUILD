@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/albertsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/albertsans/AlbertSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/albertsans/AlbertSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/albertsans/AlbertSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/albertsans/AlbertSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "5c856c086e8743b84932aae46ced424729a703932b601e9eb8aaeac15a617ec6"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"

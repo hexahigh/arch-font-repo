@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoserifgeorgian/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifgeorgian/NotoSerifGeorgian[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifgeorgian/NotoSerifGeorgian%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "8c02263c5d73d40544f9ed91e30c4e947407057a3cc430d7b786189aeceff6df"

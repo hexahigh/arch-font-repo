@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/mirandasans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mirandasans/MirandaSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mirandasans/MirandaSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirandasans/MirandaSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirandasans/MirandaSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0d0ac9b2ed19a9f999ff3c7a2ac9f7c88b21c00c6a4c34654f4fdf8c0cabbf2b"

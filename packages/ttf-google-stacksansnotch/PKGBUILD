@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/stacksansnotch/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/stacksansnotch/StackSansNotch[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stacksansnotch/StackSansNotch%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ebffb381c127e2c8b2b4d7e9e2aa515bb44ba2c62bf1db2f75ce5ea25e7005bb"

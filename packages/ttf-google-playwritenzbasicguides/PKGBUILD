@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwritenzbasicguides
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwritenzbasicguides
+pkgdesc="Google Fonts family: Playwrite NZ Basic Guides"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+NZ+Basic+Guides"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/42dotsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwritenzbasicguides/PlaywriteNZBasicGuides-Regular.ttf"
+)
+sha256sums=(
+  "1e25d65ef980a81f53feb4fcded827df7edb116f32ffd40b8f4e7250d4d8976b"
+  "dde3c2d556fd8dbe766513a86dd32bbeb252f88b118d59a020841470e46c6c12"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

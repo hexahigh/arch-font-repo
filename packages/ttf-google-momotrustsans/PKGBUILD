@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/momotrustsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/momotrustsans/MomoTrustSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/momotrustsans/MomoTrustSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "476bf91ae130fe9bb42ab62a0ca5ba4667ab340bf5b9fe9d9a1cca4cadbe72f9"

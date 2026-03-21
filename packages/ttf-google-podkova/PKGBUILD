@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/podkova/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/podkova/Podkova[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/podkova/Podkova%5Bwght%5D.ttf"
 )
 sha256sums=(
   "7076d4436e0908702b4dcd94974cdedb01770649b9cc4a13030ea8fb20889d0b"

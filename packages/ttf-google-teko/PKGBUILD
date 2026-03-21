@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/teko/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/teko/Teko[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/teko/Teko%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4a193c54e911c1e8194d4db657423f2527f54a1239f24cb67ecb09128dc9f065"

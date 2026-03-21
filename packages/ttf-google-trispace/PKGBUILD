@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/trispace/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/trispace/Trispace[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trispace/Trispace%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "50fc74eff3191af1c918c047600d1e7f15324eb13f7c7c1cbbe43949bb261536"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/climatecrisis/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/climatecrisis/ClimateCrisis[YEAR].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/climatecrisis/ClimateCrisis%5BYEAR%5D.ttf"
 )
 sha256sums=(
   "ff2b5b1644c4fcdf1d5bea41205b694e0d865f3170301e4143a8b6f43ac72ebe"

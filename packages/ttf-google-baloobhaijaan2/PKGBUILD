@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/baloobhaijaan2/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/baloobhaijaan2/BalooBhaijaan2[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/baloobhaijaan2/BalooBhaijaan2%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ad09b05dc8bc678c9daf7c4c5f7ef1f55e5726127f4330b2e98e40b9dffcb860"

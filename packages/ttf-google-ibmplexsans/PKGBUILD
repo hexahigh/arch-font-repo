@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/redrose/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/redrose/RedRose[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redrose/RedRose%5Bwght%5D.ttf"
 )
 sha256sums=(
   "bb33f381066f9c041fa2266fb634a00b64caedd8301ce80926ba361d9a481464"

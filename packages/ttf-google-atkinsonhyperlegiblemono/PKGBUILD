@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1ebb31cf7393164f20d10c1d48406cddb5314feff8465531cf1e4ba37e9dd740"

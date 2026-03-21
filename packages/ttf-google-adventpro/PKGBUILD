@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "c8d52b6a6c2a6c46193a48d4e6dc7368896bc7d4c069f33abca0728476957aec"

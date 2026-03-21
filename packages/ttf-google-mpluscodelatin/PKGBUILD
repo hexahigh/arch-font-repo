@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/mpluscodelatin/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mpluscodelatin/MPLUSCodeLatin[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mpluscodelatin/MPLUSCodeLatin%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "04971e3fcee60b247395150d93b3616f6a0b092572332c96187b472976553abc"

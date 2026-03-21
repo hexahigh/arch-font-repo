@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/monasans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/monasans/MonaSans-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/monasans/MonaSans[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monasans/MonaSans-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monasans/MonaSans%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "9261dcb61fb5e3c587d50d7a9fdae12bc7422d8822d7ac06b8f34550479575de"

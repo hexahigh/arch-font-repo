@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/grenzegotisch/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/grenzegotisch/GrenzeGotisch[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenzegotisch/GrenzeGotisch%5Bwght%5D.ttf"
 )
 sha256sums=(
   "bca29af2c3c9e142d11f523f414902ab8fb9ab8ffa3c34c63b6b72aa4e7d6acc"

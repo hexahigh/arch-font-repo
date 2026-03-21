@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/aleo/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo%5Bwght%5D.ttf"
 )
 sha256sums=(
   "f13013bb1f4887b67240ec2ec5754ef968a3753ada1e538b598eae375cf74273"

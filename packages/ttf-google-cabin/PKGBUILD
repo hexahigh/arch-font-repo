@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/cabin/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "965bf33673aec648a3b399185639e502b58e52693d004fc03f6bbdf21b1a0094"

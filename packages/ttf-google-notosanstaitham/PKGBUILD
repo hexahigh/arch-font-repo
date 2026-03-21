@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaitham/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaitham/NotoSansTaiTham[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaitham/NotoSansTaiTham%5Bwght%5D.ttf"
 )
 sha256sums=(
   "8cf7ad1fbb6cd4a3b1596f813d6e0d57f919f612a72c2e2603506489f9dbebc6"

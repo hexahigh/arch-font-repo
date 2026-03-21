@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/sen/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sen/Sen[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sen/Sen%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1d37e58d4bc1383c5141211bbd5bf123d80aa1d26d5b09dfcbac2bfc2fffb826"

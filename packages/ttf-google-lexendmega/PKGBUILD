@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/lexendmega/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/lexendmega/LexendMega[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendmega/LexendMega%5Bwght%5D.ttf"
 )
 sha256sums=(
   "5da8505887d0fa7fe963445fd58852707fda34adfeb65af25c99d152bab285bd"

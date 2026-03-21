@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/EBGaramond-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/EBGaramond[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/EBGaramond-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/EBGaramond%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6f9e3a1c51f617e7b110862426204ec7a56d8c6d2f731373b5de6b8d069099b6"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ancizarserif/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ancizarserif/AncizarSerif-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ancizarserif/AncizarSerif[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ancizarserif/AncizarSerif-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ancizarserif/AncizarSerif%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b15d6b75ec5ada62baf3737ffcab2ca72d1126c3067b07001802f9c8df829caa"

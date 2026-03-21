@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay%5Bwght%5D.ttf"
 )
 sha256sums=(
   "435fbfb7e66988b2a06686a4cb966faec733f35d8fe100a1601573c27f3e0bb8"

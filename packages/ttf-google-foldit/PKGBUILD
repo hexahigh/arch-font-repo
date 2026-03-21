@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/foldit/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/foldit/Foldit[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/foldit/Foldit%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b0daefd86530f48f6f57e90770276e42e63b3daadc9cdcf0cfd4cb16a7499946"

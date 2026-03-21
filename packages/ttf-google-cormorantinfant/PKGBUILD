@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant%5Bwght%5D.ttf"
 )
 sha256sums=(
   "60700d351cac4650c51f3f9db318d2a420f8b45052dba2715eb5fec41f0f6956"

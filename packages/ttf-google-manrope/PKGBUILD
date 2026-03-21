@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/manrope/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/manrope/Manrope[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manrope/Manrope%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/worksans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/worksans/WorkSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/worksans/WorkSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/worksans/WorkSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/worksans/WorkSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "749aca05078664ce682dce1b1b10096ac397cb088c1a6df4e1bb56f0092a9272"

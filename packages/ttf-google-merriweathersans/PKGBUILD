@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e07e715e58eb63bd8d4ccf2b2e7d0a5d3ef5d93f596431f6dc3aed42ac1a2304"

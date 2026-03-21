@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ballet/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ballet/Ballet[opsz].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ballet/Ballet%5Bopsz%5D.ttf"
 )
 sha256sums=(
   "f916a0e34635667d5b9828401c10d461bb29780beddd45c30c5dc25c037dffbd"

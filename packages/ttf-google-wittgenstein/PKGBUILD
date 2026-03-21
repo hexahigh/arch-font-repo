@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ceaa4ae98243879fda69a6a0a86fea1816cc52ee25a026d9054b603dabd0f63b"

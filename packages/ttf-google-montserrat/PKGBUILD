@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/montserrat/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/montserrat/Montserrat-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/montserrat/Montserrat[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserrat/Montserrat-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserrat/Montserrat%5Bwght%5D.ttf"
 )
 sha256sums=(
   "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e"

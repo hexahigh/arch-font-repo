@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosanskawi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskawi/NotoSansKawi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskawi/NotoSansKawi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "13a37d6fb70d8c4c04f2b8452731029208427934ba4151dd1e8221f006950e3d"

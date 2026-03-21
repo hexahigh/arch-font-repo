@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/karla/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla%5Bwght%5D.ttf"
 )
 sha256sums=(
   "edf2c840acb9570fe02f40721126aa0da4e4011a0030cc6dce30780569f609b6"

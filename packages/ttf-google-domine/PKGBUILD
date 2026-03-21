@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/domine/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/domine/Domine[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/domine/Domine%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4931b601cf50f9e6ee749ae76778a067fb2e0df4296f08d095ef38afc526a5e4"

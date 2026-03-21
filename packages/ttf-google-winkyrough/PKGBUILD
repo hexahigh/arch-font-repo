@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/winkyrough/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/winkyrough/WinkyRough-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/winkyrough/WinkyRough[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkyrough/WinkyRough-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkyrough/WinkyRough%5Bwght%5D.ttf"
 )
 sha256sums=(
   "8c9cdb626a2a846b36a2eaf28988da22ed5848e1f67903e99cb4cca16e2e2f14"

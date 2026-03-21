@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/splinesansmono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/splinesansmono/SplineSansMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/splinesansmono/SplineSansMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/splinesansmono/SplineSansMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/splinesansmono/SplineSansMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4abb88162e4c0c5f9fc6c2f15d7085f7b7e27fd89f541a13488e1bcb829bde3f"

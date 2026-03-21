@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwantguides/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwantguides/EduAUVICWANTGuides[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwantguides/EduAUVICWANTGuides%5Bwght%5D.ttf"
 )
 sha256sums=(
   "11a98fa66908aa244c7608443d945dd50e2821d879bb25b5897ffc8f94712688"

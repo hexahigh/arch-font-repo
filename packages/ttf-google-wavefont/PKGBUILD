@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/wavefont/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wavefont/Wavefont[ROND,YELA,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wavefont/Wavefont%5BROND%2CYELA%2Cwght%5D.ttf"
 )
 sha256sums=(
   "739f76be0415d6176ad32a2ce489350c8e8ccc6862728d9dfacddb9b26054ccd"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/anybody/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "7f0313b042b462fcae1934436cc747f9fd4433e3b08fd6459a4a5104b0bbd5db"

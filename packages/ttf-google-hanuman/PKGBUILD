@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/hanuman/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hanuman/Hanuman[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hanuman/Hanuman%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a25f2b569874c06136214f53bcf419fc4c942a4da8257dfe189b2728bec0d15e"

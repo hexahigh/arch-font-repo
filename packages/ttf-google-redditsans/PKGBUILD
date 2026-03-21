@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4171b1a645795c28c2c8e90711742f6d61fc757ebe9f2017b9eddc03b39dcf69"

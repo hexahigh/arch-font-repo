@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/unbounded/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/unbounded/Unbounded[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unbounded/Unbounded%5Bwght%5D.ttf"
 )
 sha256sums=(
   "31e5d4e83955e7103c34570dd49b0570ef490800bd65b42923c0dd02445263b3"

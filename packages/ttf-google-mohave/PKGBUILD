@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/mohave/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mohave/Mohave-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mohave/Mohave[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mohave/Mohave-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mohave/Mohave%5Bwght%5D.ttf"
 )
 sha256sums=(
   "039b820470ad522dc92e98b3aeaea5d53f7e19a1e9d0248ff5df00b426868aa0"

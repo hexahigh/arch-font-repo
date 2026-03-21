@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/manuale/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6f5869d0892d8c06cabcccce3726cacc849bd0a96b83bef5850402ab2b9fce71"

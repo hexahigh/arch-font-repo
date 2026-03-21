@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kapakana/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kapakana/Kapakana[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kapakana/Kapakana%5Bwght%5D.ttf"
 )
 sha256sums=(
   "89c5e961d4a259af9f3a187be51aa1e095a6fca13a7ad20b40a1d690be7cdc0a"

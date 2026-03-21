@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/familjengrotesk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/familjengrotesk/FamiljenGrotesk-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/familjengrotesk/FamiljenGrotesk[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/familjengrotesk/FamiljenGrotesk-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/familjengrotesk/FamiljenGrotesk%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9708dd560d1f8aa1f006461aa447a31fda7b9aff662d152837654a388e0eb2ee"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a1da98a568fa3e62fbf76b7f4d735da7da0aa2ed055600937b15356bab5ff118"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/mulish/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish%5Bwght%5D.ttf"
 )
 sha256sums=(
   "097e9ac414d9251c8580c073a13f8899798c66db746de60662148789ca693f19"

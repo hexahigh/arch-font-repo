@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac"

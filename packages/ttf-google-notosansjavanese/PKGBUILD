@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansjavanese/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansjavanese/NotoSansJavanese[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansjavanese/NotoSansJavanese%5Bwght%5D.ttf"
 )
 sha256sums=(
   "8a5665bd3b16a64f953b24a71f12e298f5233be8a4ed17424129c5524a397892"

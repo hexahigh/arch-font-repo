@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/pixelifysans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/pixelifysans/PixelifySans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pixelifysans/PixelifySans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b66ba46f511a851ab09998b5a5a9fdbb102545a3864cb993095e1745996873a7"

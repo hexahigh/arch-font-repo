@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/danfo/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/danfo/Danfo[ELSH].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/danfo/Danfo%5BELSH%5D.ttf"
 )
 sha256sums=(
   "68e4cf6cb0eabde76d1fb41588062b2ee3882cd5fd1c868bcc8773788d848050"

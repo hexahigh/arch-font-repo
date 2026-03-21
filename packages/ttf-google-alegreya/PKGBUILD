@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya%5Bwght%5D.ttf"
 )
 sha256sums=(
   "f6f60d5d4cf4f4b1fc4e41353c897a2f5a16e6396c0cd8fa8bdfd2f4586a9a68"

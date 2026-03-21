@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notokufiarabic/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notokufiarabic/NotoKufiArabic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notokufiarabic/NotoKufiArabic%5Bwght%5D.ttf"
 )
 sha256sums=(
   "07fc70bfeb985cc1a87a8587d0a0c80bab11c86c9dc3fd95b6f0cb332f983e96"

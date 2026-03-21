@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/rethinksans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rethinksans/RethinkSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rethinksans/RethinkSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rethinksans/RethinkSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rethinksans/RethinkSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "453da5aa5ad479f38cfec84f83ea03fa89106e728e286272db8a4198d681a9db"

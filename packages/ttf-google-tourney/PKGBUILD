@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/tourney/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "8e4050fb74972d5c2021517f5c9bb7d60af585a36e967fa61762225ed77abae1"

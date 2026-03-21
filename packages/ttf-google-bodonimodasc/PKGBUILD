@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/bodonimodasc/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bodonimodasc/BodoniModaSC-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bodonimodasc/BodoniModaSC[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bodonimodasc/BodoniModaSC-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bodonimodasc/BodoniModaSC%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "86279342767d5f3e6b07b49dd591f196dcb0ec9ec8b9ea339c09221e61863d46"

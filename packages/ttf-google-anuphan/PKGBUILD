@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/anuphan/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/anuphan/Anuphan[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anuphan/Anuphan%5Bwght%5D.ttf"
 )
 sha256sums=(
   "cbc57ac0dddda1b70f246a16358fc3c2a32628a23a6d10ef64f746141d3fb159"

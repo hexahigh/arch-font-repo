@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "3e824d5099202de2c98cbd8e5ecba54da7d220c1ad851330726e65f3e60842d1"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/bigshouldersdisplay/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bigshouldersdisplay/BigShouldersDisplay[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshouldersdisplay/BigShouldersDisplay%5Bwght%5D.ttf"
 )
 sha256sums=(
   "338f9c050f19daeda1d597243faf79f3a3d437c338af58cb7047617d0ce08771"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/gluten/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gluten/Gluten[slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gluten/Gluten%5Bslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "9bf9f51b4e1279bc28c6cf78b4d3d0a07b254435a79e6597ad244defa6df1882"

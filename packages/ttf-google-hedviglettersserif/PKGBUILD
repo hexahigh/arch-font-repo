@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/hedviglettersserif/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hedviglettersserif/HedvigLettersSerif[opsz].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hedviglettersserif/HedvigLettersSerif%5Bopsz%5D.ttf"
 )
 sha256sums=(
   "2a603f9fb5d68c3a67b3ab5d79e685fbc0c0585a9a478e5b89b2edab135cc1f6"

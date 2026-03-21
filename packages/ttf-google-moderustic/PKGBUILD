@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/moderustic/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/moderustic/Moderustic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/moderustic/Moderustic%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ad031df41a349afe434a6afda47b004e8dca268fcf82772a2c297423a5948fc4"

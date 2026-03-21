@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftamil/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftamil/NotoSerifTamil-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftamil/NotoSerifTamil[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftamil/NotoSerifTamil-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftamil/NotoSerifTamil%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "f8ff8ce7d0a81bf8d5e121c635ef027250c531f2fd37d5988b8dd6e45f19d7f1"

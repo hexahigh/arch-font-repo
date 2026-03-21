@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum%5Bwght%5D.ttf"
 )
 sha256sums=(
   "af74fe3bf28777e8b7df9f7ed718b15f92e14d60448f36d7dd21ada6caeca33a"

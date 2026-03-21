@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoseriforiya/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriforiya/NotoSerifOriya[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriforiya/NotoSerifOriya%5Bwght%5D.ttf"
 )
 sha256sums=(
   "c90ff15ade263a49148e35af34e9c177c6d56881e81260b29f10123e9e227eca"

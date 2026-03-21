@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/jost/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1af3438a4d5f0ed2bdbc5751a5a67ebf6d537334161184b7fbb68503ef0ea0c5"

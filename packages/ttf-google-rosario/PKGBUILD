@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/rosario/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario%5Bwght%5D.ttf"
 )
 sha256sums=(
   "944998f475ee63b332a19137840d9e334c94ec6300f8091a5049a647798ca33a"

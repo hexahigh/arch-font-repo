@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/handjet/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/handjet/Handjet[ELGR,ELSH,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/handjet/Handjet%5BELGR%2CELSH%2Cwght%5D.ttf"
 )
 sha256sums=(
   "934a45d3b43276e1f857301e9cb07e00b829cca3d0c13e8e6f8c6790dd6c8a2c"

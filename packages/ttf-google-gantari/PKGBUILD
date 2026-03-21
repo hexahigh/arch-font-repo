@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/gantari/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4d95bf0e5a54632046323a75fb31f8e2af4071119482c02978746ddcd3866248"

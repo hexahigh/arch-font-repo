@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/yanonekaffeesatz/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/yanonekaffeesatz/YanoneKaffeesatz[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yanonekaffeesatz/YanoneKaffeesatz%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9efbe6f8570e8c3d8b000914bd1da07ff4977d1325cc2d046180e05f40677f01"

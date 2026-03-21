@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2710268527181a27b8e938617551bae29e714e6525247be6679bf897a9942a60"

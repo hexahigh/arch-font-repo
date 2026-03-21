@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansgujarati/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgujarati/NotoSansGujarati[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgujarati/NotoSansGujarati%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "c0b88977aa18b5e4fd05d646d560da89fde61b6581fa4507cb00dd90bd1bf7d4"

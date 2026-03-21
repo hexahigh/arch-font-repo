@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/playwriteaunsw/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteaunsw/PlaywriteAUNSW[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteaunsw/PlaywriteAUNSW%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"

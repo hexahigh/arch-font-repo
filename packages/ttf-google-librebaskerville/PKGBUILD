@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville%5Bwght%5D.ttf"
 )
 sha256sums=(
   "3624eddd4c8f8a908130a417ae7cd089c9da69899c4e0ca1a5217d0a6fae16fd"

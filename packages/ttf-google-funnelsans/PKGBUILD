@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a32303f6ea3542927121212a9e4f3fe3548741e6d448d9dc6f29e97cf50102e6"

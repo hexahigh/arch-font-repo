@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kumbhsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kumbhsans/KumbhSans[YOPQ,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumbhsans/KumbhSans%5BYOPQ%2Cwght%5D.ttf"
 )
 sha256sums=(
   "b7057fc68425720a92830bbd18b39f070d784a4551de7b0b7e1ad3cc6747d3fc"

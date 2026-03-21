@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notonastaliqurdu/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notonastaliqurdu/NotoNastaliqUrdu[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notonastaliqurdu/NotoNastaliqUrdu%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e90279e3fb2003c4d54f8685e25274bd7838b1b21c891520d71dbdb1d4a98907"

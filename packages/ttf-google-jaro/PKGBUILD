@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/jaro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jaro/Jaro[opsz].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaro/Jaro%5Bopsz%5D.ttf"
 )
 sha256sums=(
   "0072c96dc8ffe3207285f28cc622ecbd6938372e476bc232a2d03bd404250869"

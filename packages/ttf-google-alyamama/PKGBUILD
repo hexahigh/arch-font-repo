@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/alyamama/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alyamama/Alyamama[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alyamama/Alyamama%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9034b97c728d88af36129932cc8d6a544f225941a2640e860686fa2f44239294"

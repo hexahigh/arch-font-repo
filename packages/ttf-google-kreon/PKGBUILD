@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kreon/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kreon/Kreon[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kreon/Kreon%5Bwght%5D.ttf"
 )
 sha256sums=(
   "bec72f4e6e1f29541d7295ed2ed14fc868695673051b940352200d1ffc4095e3"

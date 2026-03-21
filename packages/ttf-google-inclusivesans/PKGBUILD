@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/inclusivesans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/inclusivesans/InclusiveSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/inclusivesans/InclusiveSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inclusivesans/InclusiveSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inclusivesans/InclusiveSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0690e0819628a20c5ee68388a7bae621e5c3e53be57276169decd00111d8f2cf"

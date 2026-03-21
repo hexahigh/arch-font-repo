@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/piazzolla/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/piazzolla/Piazzolla-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/piazzolla/Piazzolla[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/piazzolla/Piazzolla-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/piazzolla/Piazzolla%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "eb54463ef24368895c812c9117e677a59bd2379f80da85515e19b473f310e4ed"

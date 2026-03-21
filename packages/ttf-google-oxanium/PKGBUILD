@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/oxanium/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/oxanium/Oxanium[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxanium/Oxanium%5Bwght%5D.ttf"
 )
 sha256sums=(
   "fe17c0f2581d71b4e1ea7e636e7f4877c29223e11bb1dd1a871e8c3f2a86336b"

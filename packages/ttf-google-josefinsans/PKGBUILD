@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "aee5a4081e8a52f80428b30f178b719d115f18dad3e1fa15a986163e1078a85b"

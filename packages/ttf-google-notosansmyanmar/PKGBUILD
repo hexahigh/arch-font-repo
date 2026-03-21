@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansmyanmar/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmyanmar/NotoSansMyanmar[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmyanmar/NotoSansMyanmar%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "246a75859267af7da466823969d2e2b407ed8455ee5f74f4c8d63d8783be9b57"

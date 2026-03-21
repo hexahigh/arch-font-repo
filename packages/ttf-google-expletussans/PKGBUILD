@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6cc3a1a3e60a0db4f824c16d42e7db461a939abb0759a740a4135074001eaba5"

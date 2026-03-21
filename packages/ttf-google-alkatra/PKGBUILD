@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/alkatra/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alkatra/Alkatra[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alkatra/Alkatra%5Bwght%5D.ttf"
 )
 sha256sums=(
   "5985658cc7672eb25b95427a485ce922402908c90d9feaca2a88930cd98e54d9"

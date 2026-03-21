@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/geologica/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/geologica/Geologica[CRSV,SHRP,slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geologica/Geologica%5BCRSV%2CSHRP%2Cslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "778186245840aea0e60bec6a46e7fb1442e0cd78e41afeadffcd3e8824b379e0"

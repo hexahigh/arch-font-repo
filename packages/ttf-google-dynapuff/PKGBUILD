@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/dynapuff/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/dynapuff/DynaPuff[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dynapuff/DynaPuff%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "ad0bc2ae83f6dbf6f3edde26752324260c2fbaf9cc021748d363a879dd5b749c"

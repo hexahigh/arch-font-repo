@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/geom/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom%5Bwght%5D.ttf"
 )
 sha256sums=(
   "614e89d16af045c1c32716f67d1e826c692cf643c549cba46b38d41d6919d77b"

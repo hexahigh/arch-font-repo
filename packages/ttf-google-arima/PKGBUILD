@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/arima/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/arima/Arima[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arima/Arima%5Bwght%5D.ttf"
 )
 sha256sums=(
   "aae6749568fe746a578b16cb6ca8ca9a22729b0c738254e17c21b23a61972bd0"

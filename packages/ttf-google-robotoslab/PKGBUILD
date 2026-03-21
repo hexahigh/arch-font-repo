@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/apache/robotoslab/LICENSE.txt"
-  "https://github.com/google/fonts/raw/$_commit/apache/robotoslab/RobotoSlab[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/robotoslab/RobotoSlab%5Bwght%5D.ttf"
 )
 sha256sums=(
   "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"

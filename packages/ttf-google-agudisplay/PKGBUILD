@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/agudisplay/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/agudisplay/AguDisplay[MORF].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/agudisplay/AguDisplay%5BMORF%5D.ttf"
 )
 sha256sums=(
   "06d81dbbfab7578a8e9ec6692235c0f4e2503e62ce46c6854ae5ba28ddb72709"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa%5Bwght%5D.ttf"
 )
 sha256sums=(
   "27d2d3c15cded787be66c6f51c4b24bea99863f4f162961b5088e4521c2e2bd5"

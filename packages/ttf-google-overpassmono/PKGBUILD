@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/overpassmono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/overpassmono/OverpassMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpassmono/OverpassMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "86e5ff25c701ec446d20b1a85b02ee6d36de8503a7288a4c948f5459809af1f0"

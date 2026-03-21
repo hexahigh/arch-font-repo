@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmalayalam/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmalayalam/NotoSerifMalayalam[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmalayalam/NotoSerifMalayalam%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1df18163a0bf60f02131401ba1609df90051f40c4047684dda1c8a2e9586f7f2"

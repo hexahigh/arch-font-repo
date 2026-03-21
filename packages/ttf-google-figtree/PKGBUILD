@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/figtree/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree%5Bwght%5D.ttf"
 )
 sha256sums=(
   "140d37233e7f3ce7313798befa9600893bcceaf41a55fa0fa5ad52f7f657a268"

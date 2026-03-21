@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/afacadflux/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/afacadflux/AfacadFlux[slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/afacadflux/AfacadFlux%5Bslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "992be51252f484e260e4f84356dc0e87c3e458619b16d098c76b26ef5c5ab0fb"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/petrona/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a889ff77b75be8bcd1456ff147eb9dac647f3eb217fad50fb4877496884f6dcb"

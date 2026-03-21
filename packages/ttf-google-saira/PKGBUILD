@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/saira/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "f2665d4718b452b3818a877191355ac884a6b9b419d35408fe7ee487e9e8f30f"

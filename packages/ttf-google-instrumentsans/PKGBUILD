@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "9e27a72ed30eb49a08678f6a5d6ed98ec7ba5368f541637ee0683ec9134ef966"

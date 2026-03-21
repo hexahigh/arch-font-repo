@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/pathwayextreme/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/pathwayextreme/PathwayExtreme-Italic[opsz,wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/pathwayextreme/PathwayExtreme[opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pathwayextreme/PathwayExtreme-Italic%5Bopsz%2Cwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pathwayextreme/PathwayExtreme%5Bopsz%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "66a018bdb4174781a473d6b26c9873a8b8ed5f5c8086bc18f1532f850f61cacd"

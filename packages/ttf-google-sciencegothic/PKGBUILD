@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/sciencegothic/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sciencegothic/ScienceGothic[CTRS,slnt,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sciencegothic/ScienceGothic%5BCTRS%2Cslnt%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "458d52d8460dc5cb0f6b84cdd7285ef84dbded64183516d156e9bc15cb6c1349"

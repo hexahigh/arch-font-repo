@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0e4cc6ece88573545be2ed25835363662a6182ba4a4c1b5c8feda52add30e8a6"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansbengali/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbengali/NotoSansBengali[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbengali/NotoSansBengali%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "754f0e221aa7d5a915489f3bf1f20fe53ddc35ab2834a4d91656d78f9622de70"

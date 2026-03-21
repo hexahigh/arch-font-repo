@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/honk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/honk/Honk[MORF,SHLN].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/honk/Honk%5BMORF%2CSHLN%5D.ttf"
 )
 sha256sums=(
   "0bc7e93bd50c78f58e981cab4d452566f70a425815b7a3a7331f8d9c85ff0e26"

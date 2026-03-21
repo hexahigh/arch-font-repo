@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/rem/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rem/REM-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rem/REM[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rem/REM-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rem/REM%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2366789d24196c55c9a79058d3a56a3e659f0629cad97f47df83ace26396d7d6"

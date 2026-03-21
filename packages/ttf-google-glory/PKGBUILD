@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/glory/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9a1f7cf2f267af05d4816ea6340087454ea1d237bd9f29a76ef3932ec4055da7"

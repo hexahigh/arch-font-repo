@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/comme/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/comme/Comme[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comme/Comme%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2685ed3cc823fdf9c1f91e59ede79bc8823a1b5e5d654e10072bc6d310277065"

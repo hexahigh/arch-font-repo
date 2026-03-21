@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/capriola/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/capriola/Capriola[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/capriola/Capriola%5Bwght%5D.ttf"
 )
 sha256sums=(
   "01b7787451e430c45bfc2878b0726d37fb9d211fc21474f56f23e45efb8b7901"

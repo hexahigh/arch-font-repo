@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/alexandria/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/alexandria/Alexandria[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alexandria/Alexandria%5Bwght%5D.ttf"
 )
 sha256sums=(
   "56372aed19c2701f50e6e784110af55bf8796ed51648805324ad1adb0a3860bb"

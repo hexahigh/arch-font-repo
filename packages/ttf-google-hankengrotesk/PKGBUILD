@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/hankengrotesk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hankengrotesk/HankenGrotesk-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hankengrotesk/HankenGrotesk[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hankengrotesk/HankenGrotesk-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hankengrotesk/HankenGrotesk%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e02ccb89a86839b22feff7872ff5cc355cc0f58318d29eee20e2cf83a612f16d"

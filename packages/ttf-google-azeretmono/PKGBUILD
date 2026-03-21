@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2a0fd31798d131b38a9fe730a260bc9a1d85452e36cdf79e5fcaf937bf4d9f86"

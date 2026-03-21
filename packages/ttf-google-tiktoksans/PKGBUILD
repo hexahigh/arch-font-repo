@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/tiktoksans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/tiktoksans/TikTokSans[opsz,slnt,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiktoksans/TikTokSans%5Bopsz%2Cslnt%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "99e743f68f5eac487004c73aaca69c5d80d91ddb7b75c04bdf5f39331d9b7158"

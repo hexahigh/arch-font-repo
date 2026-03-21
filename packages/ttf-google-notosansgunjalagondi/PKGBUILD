@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansgunjalagondi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgunjalagondi/NotoSansGunjalaGondi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgunjalagondi/NotoSansGunjalaGondi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "08143215e0afaca5ccf91aae3f575029f918b9177d5bc18e0c49dd838a5ba5f4"

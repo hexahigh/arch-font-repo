@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/playfair/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair-Italic[opsz,wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair[opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair-Italic%5Bopsz%2Cwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair%5Bopsz%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "7d16bbb17375beefaa4d1d25c41f860cb161c9e614b44af790983a9fd7102627"

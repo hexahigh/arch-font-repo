@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk%5Bwght%5D.ttf"
 )
 sha256sums=(
   "3b4f3063b6ac7c1e403e2c4a5e8ef3a58190ff83ed7b15af66511858699139ce"

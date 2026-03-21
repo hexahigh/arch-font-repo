@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/doto/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/doto/Doto[ROND,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/doto/Doto%5BROND%2Cwght%5D.ttf"
 )
 sha256sums=(
   "26a7b58bdba6cda8a78ca6e8b3791d8013b8abc6d5e6519f84193893aee02020"

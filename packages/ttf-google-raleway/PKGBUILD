@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/raleway/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway%5Bwght%5D.ttf"
 )
 sha256sums=(
   "7e946cf1171784d1015279e7dc35f827957a6b5d1f1f659ae0c98e5f5e37ed9b"

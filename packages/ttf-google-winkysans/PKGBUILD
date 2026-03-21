@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "5f1811749ad7b006e3e98735553e144249e31f1265cb53a5107a9069af78f63f"

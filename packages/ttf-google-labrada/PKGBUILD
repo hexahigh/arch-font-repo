@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/labrada/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/labrada/Labrada-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/labrada/Labrada[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/labrada/Labrada-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/labrada/Labrada%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b1a62ca897c597c0a0f01be8cb50c0d8370579acd1eadc3f2cc43093d6bbd142"

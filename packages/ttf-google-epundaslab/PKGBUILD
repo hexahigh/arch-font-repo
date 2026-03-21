@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab%5Bwght%5D.ttf"
 )
 sha256sums=(
   "f30f6baa9bff013d6d75446aa847bc59cd3a57ec6517568e525b0a662f3d95ff"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/jura/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jura/Jura[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jura/Jura%5Bwght%5D.ttf"
 )
 sha256sums=(
   "54d85ef76f1fcf89671e196a9bca6b02683c68277caa89d89ff1b63a5fe9c421"

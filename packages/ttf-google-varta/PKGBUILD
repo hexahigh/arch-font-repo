@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/varta/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/varta/Varta[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/varta/Varta%5Bwght%5D.ttf"
 )
 sha256sums=(
   "291cdb55bc64894f58739446a46e19687574662722ab110c1a2b7e5d435171e0"

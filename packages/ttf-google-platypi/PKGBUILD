@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/platypi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/platypi/Platypi-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/platypi/Platypi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/platypi/Platypi-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/platypi/Platypi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ade68a34526aa802593c39d1ea9056337810d02663700c5a6bfebfab6b835e17"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/firacode/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/firacode/FiraCode[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firacode/FiraCode%5Bwght%5D.ttf"
 )
 sha256sums=(
   "926041dac670e6922505e35ac1661a4e8d20f1ffeabbbcb5edb5544370702369"

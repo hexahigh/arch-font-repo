@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansbalinese/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbalinese/NotoSansBalinese[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbalinese/NotoSansBalinese%5Bwght%5D.ttf"
 )
 sha256sums=(
   "11bc477b31ec9e66f86bf6f64c060dde84b34ed49582d881657b472c33c4e1e9"

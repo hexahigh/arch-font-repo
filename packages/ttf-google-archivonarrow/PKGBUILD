@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/archivonarrow/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/archivonarrow/ArchivoNarrow-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/archivonarrow/ArchivoNarrow[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivonarrow/ArchivoNarrow-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivonarrow/ArchivoNarrow%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b2087ef3fb91248e346600d19021249152a9688efea72905aa1996bb16a4c8de"

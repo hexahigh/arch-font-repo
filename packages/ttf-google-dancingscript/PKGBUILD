@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/dancingscript/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/dancingscript/DancingScript[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dancingscript/DancingScript%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6f090277c00af96651ce6dbcc38ff1591047a3bffef486e80b6a32e8276a8201"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/frankruhllibre/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/frankruhllibre/FrankRuhlLibre[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/frankruhllibre/FrankRuhlLibre%5Bwght%5D.ttf"
 )
 sha256sums=(
   "4e9720b2544d946737e7dfe0027a62c23c7247f0144f08bc437cdcc2e6a7d828"

@@ -13,7 +13,7 @@ source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Bold.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-BoldItalic.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Italic.ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Italic%5Bwght%5D.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Light.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-LightItalic.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Medium.ttf"
@@ -21,7 +21,7 @@ source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Regular.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-SemiBold.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-SemiBoldItalic.ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a25ddac0bdf238c47e731b9a772ce896ae62ddfc0dfba82da3cae196d0fa3d18"

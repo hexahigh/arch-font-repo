@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/hubotsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hubotsans/HubotSans-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hubotsans/HubotSans[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hubotsans/HubotSans-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hubotsans/HubotSans%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "9593ae8ccefcbd9f3dea9e4da74b421ea04da7f597e8e64250f6419fc6032139"

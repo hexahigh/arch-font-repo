@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/intertight/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight%5Bwght%5D.ttf"
 )
 sha256sums=(
   "50240ab035cf1b6b3307940235481d515c4b6de3ab1fa843dbe59e7892cb9d58"

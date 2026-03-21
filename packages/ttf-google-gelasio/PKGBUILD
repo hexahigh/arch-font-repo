@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/gelasio/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gelasio/Gelasio-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gelasio/Gelasio[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gelasio/Gelasio-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gelasio/Gelasio%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b393cb01867c919b44381512120dc3e4c954c7b47e2035c405f3a324799a4d29"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/besley/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e8d81ba3b06080b764626d4385f319344e102ddf2c08bb4209412ac22d695f69"

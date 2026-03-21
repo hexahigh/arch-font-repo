@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "c9b69fa18c372df2b187b49efc57b1ea643b86a938e5af32f6b5a7af1017c891"

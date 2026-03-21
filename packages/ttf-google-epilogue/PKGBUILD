@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/epilogue/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/epilogue/Epilogue-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/epilogue/Epilogue[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epilogue/Epilogue-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epilogue/Epilogue%5Bwght%5D.ttf"
 )
 sha256sums=(
   "95ebd6a2e4035b8398c83928fb85297b48441f27f405398c29b59aae899fc747"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosanshanifirohingya/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosanshanifirohingya/NotoSansHanifiRohingya[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanshanifirohingya/NotoSansHanifiRohingya%5Bwght%5D.ttf"
 )
 sha256sums=(
   "addc4a900f32e670a401766f144d6a1fc1bc7dffed87350e310ef1d68ba404f8"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/readexpro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/readexpro/ReadexPro[HEXP,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/readexpro/ReadexPro%5BHEXP%2Cwght%5D.ttf"
 )
 sha256sums=(
   "b41267a3903a45955f77b44596e080480c577fb7221df59672d0bc8cd8cd4b6f"

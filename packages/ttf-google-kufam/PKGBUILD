@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kufam/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2b79a19d4c611849e232c3471fca0355e909526a2ed8e04acab933d5168a01f1"

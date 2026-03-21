@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/phudu/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/phudu/Phudu[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/phudu/Phudu%5Bwght%5D.ttf"
 )
 sha256sums=(
   "907fa104d1ab720c2d698e51035593f5e6ea5283bd34a6c7cbdad5d6715e68de"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander%5Bwght%5D.ttf"
 )
 sha256sums=(
   "c98642ce049ee94f1868c47db44dbdc69e1800e2cf3edb539f030ac4abc22ceb"

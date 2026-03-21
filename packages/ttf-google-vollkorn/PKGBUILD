@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn%5Bwght%5D.ttf"
 )
 sha256sums=(
   "53f9c99fa3d47f7d632a42ee7bab4a834a60a744f6026d676c3a223cef2b2ef3"

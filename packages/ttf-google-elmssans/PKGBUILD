@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/elmssans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/elmssans/ElmsSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/elmssans/ElmsSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elmssans/ElmsSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elmssans/ElmsSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "864c1942a1eab3864b1c674e3358e360e530c17286ee27ea1a762cd3a2cb5101"

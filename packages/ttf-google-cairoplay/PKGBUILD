@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/cairoplay/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cairoplay/CairoPlay[slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cairoplay/CairoPlay%5Bslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "a4554e1799d42e1405924b61eb0e0722ae1623b1f1f07f995348f96c496362a9"

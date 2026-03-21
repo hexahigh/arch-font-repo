@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosansnkounjoined/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnkounjoined/NotoSansNKoUnjoined[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnkounjoined/NotoSansNKoUnjoined%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ddddb5913f75b8f4af1e50386b5ecdfa909b58685994f120b116a3ae5a1c8c48"

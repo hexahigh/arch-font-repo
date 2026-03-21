@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/chirongoroundtc/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/chirongoroundtc/ChironGoRoundTC[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chirongoroundtc/ChironGoRoundTC%5Bwght%5D.ttf"
 )
 sha256sums=(
   "7b9cc84fe1935d1418de4af57b4106038fb836b3a162e1b86507c7fc8543a759"

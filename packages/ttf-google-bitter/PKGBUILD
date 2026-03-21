@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/bitter/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bitter/Bitter-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bitter/Bitter[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitter/Bitter-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitter/Bitter%5Bwght%5D.ttf"
 )
 sha256sums=(
   "152a1e283e23b42c4940da4c72f2f5bebaa17969cb77c76d7af05903846006f1"

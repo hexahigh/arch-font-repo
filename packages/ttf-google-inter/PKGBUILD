@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/inter/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/inter/Inter-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/inter/Inter[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inter/Inter-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"

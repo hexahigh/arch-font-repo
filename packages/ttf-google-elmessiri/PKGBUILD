@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/elmessiri/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/elmessiri/ElMessiri[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elmessiri/ElMessiri%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b69113722df50071b68ea377ad261919f08fd0dd6672f68b8868445586a30770"

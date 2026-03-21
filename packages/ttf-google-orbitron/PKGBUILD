@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/orbitron/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/orbitron/Orbitron[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/orbitron/Orbitron%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ab609b0e110d622435ff337cdf233288556e011bbf9bd0550be98846c0630819"

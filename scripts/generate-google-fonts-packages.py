@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import collections
 import hashlib
 import re
 import struct
@@ -8,6 +7,7 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import quote
 
 
 FONT_EXTENSIONS = (".ttf", ".otf", ".ttc")
@@ -300,6 +300,34 @@ def collect_families(upstream_dir: Path, include_variable: bool) -> list[tuple[s
     return families
 
 
+def find_license_file(upstream_dir: Path, license_dir: str, family_dir: Path) -> Path | None:
+    for candidate_name in LICENSE_FILE_CANDIDATES:
+        direct = family_dir / candidate_name
+        if direct.is_file():
+            return direct
+
+    for candidate_name in LICENSE_FILE_CANDIDATES:
+        recursive_matches = sorted(path for path in family_dir.rglob(
+            candidate_name) if path.is_file())
+        if recursive_matches:
+            return recursive_matches[0]
+
+    license_root = upstream_dir / license_dir
+    for candidate_name in LICENSE_FILE_CANDIDATES:
+        root_matches = sorted(path for path in license_root.rglob(
+            candidate_name) if path.is_file())
+        if root_matches:
+            return root_matches[0]
+
+    repo_root_fallbacks = [upstream_dir /
+                           "LICENSE", upstream_dir / "LICENSE.txt"]
+    for fallback in repo_root_fallbacks:
+        if fallback.is_file():
+            return fallback
+
+    return None
+
+
 def build_family_model(upstream_dir: Path, license_dir: str, family_dir: Path, include_variable: bool) -> FontFamily:
     family_slug = family_dir.name.lower()
     pkgname = f"ttf-google-{family_slug}"
@@ -337,12 +365,7 @@ def build_family_model(upstream_dir: Path, license_dir: str, family_dir: Path, i
         else:
             pkgver = get_commit_date_pkgver(upstream_dir, commit)
 
-    license_file = None
-    for candidate_name in LICENSE_FILE_CANDIDATES:
-        candidate = family_dir / candidate_name
-        if candidate.exists():
-            license_file = candidate
-            break
+    license_file = find_license_file(upstream_dir, license_dir, family_dir)
     if license_file is None:
         raise RuntimeError(f"No supported license file found in {family_dir}")
 
@@ -350,20 +373,13 @@ def build_family_model(upstream_dir: Path, license_dir: str, family_dir: Path, i
     source_entries: list[str] = []
     sha256sums: list[str] = []
     download_name_by_repo_path: dict[str, str] = {}
-    basenames = collections.Counter(path.name for path in all_files)
 
     for path in all_files:
         repo_relative = path.relative_to(upstream_dir).as_posix()
-        basename = path.name
-        if basenames[basename] > 1:
-            local_name = repo_relative.replace("/", "__")
-            source_entries.append(
-                f'"{local_name}::https://github.com/google/fonts/raw/$_commit/{repo_relative}"')
-            download_name_by_repo_path[repo_relative] = local_name
-        else:
-            source_entries.append(
-                f'"https://github.com/google/fonts/raw/$_commit/{repo_relative}"')
-            download_name_by_repo_path[repo_relative] = basename
+        encoded_repo_relative = quote(repo_relative, safe="/")
+        source_entries.append(
+            f'"https://github.com/google/fonts/raw/$_commit/{encoded_repo_relative}"')
+        download_name_by_repo_path[repo_relative] = path.name
 
         sha256sums.append(f'"{sha256_file(path)}"')
 

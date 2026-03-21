@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/baskervvillesc/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/baskervvillesc/BaskervvilleSC[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/baskervvillesc/BaskervvilleSC%5Bwght%5D.ttf"
 )
 sha256sums=(
   "c70bd75ad8f4e4fd774a65cef5c0c97f9358944a3528505b875927bb54fa38cb"

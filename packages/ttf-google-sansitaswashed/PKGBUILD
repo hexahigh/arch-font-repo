@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/sansitaswashed/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaswashed/SansitaSwashed[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaswashed/SansitaSwashed%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e0513f56a7710b94b459ccb7ef77bb7a464e24c777fb2f7023b78af8915dbb86"

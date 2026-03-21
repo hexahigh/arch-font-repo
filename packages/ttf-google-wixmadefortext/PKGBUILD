@@ -15,13 +15,13 @@ source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-ExtraBold.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-ExtraBoldItalic.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Italic.ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Italic%5Bwght%5D.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Medium.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-MediumItalic.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Regular.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-SemiBold.ttf"
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-SemiBoldItalic.ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6ea47aed4703a072a5011bf429f998c718ff7c3ae57598f7e78c2d3fa1e25c33"

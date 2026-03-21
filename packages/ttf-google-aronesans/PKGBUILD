@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/aronesans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/aronesans/AROneSans[ARRR,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aronesans/AROneSans%5BARRR%2Cwght%5D.ttf"
 )
 sha256sums=(
   "c1bec22a6baf0cc6365b3f049694559f171a92ffa6eef2ddb26b0950ff6a4693"

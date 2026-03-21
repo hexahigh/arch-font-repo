@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1820869bd5baa1c2d88fa87c89eea532cf9442d841008acab720654b7f82823d"

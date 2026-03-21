@@ -1,0 +1,32 @@
+pkgname=ttf-google-jsmathcmsy10
+pkgver=001.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching apache/jsmathcmsy10
+pkgdesc="Google Fonts family: jsMath cmsy10"
+arch=('any')
+url="https://fonts.google.com/specimen/jsMath+cmsy10"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/aclonica/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/jsmathcmsy10/jsMath-cmsy10.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "9698e8f98809ce1ab9b88179309b427c7a4a17894e4e6e4328620c04225e2c43"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

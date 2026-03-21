@@ -1,0 +1,32 @@
+pkgname=ttf-google-kumaroneoutline
+pkgver=1.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kumaroneoutline
+pkgdesc="Google Fonts family: Kumar One Outline"
+arch=('any')
+url="https://fonts.google.com/specimen/Kumar+One+Outline"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/42dotsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumaroneoutline/KumarOneOutline-Regular.ttf"
+)
+sha256sums=(
+  "1e25d65ef980a81f53feb4fcded827df7edb116f32ffd40b8f4e7250d4d8976b"
+  "571c34cfa9c533f34de71081ddc7c7593d244d183a6114b8bac1a83a59e2f7ed"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

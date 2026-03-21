@@ -34,8 +34,8 @@ def main() -> int:
     root_dir = Path(__file__).resolve().parent.parent
     pkg_dir = root_dir / "packages" / package_name
     out_dir = root_dir / "repo" / "x86_64"
-    src_cache_dir = root_dir / "build" / "sources"
-    srcpkg_dir = root_dir / "build" / "srcpkgs"
+    src_cache_dir = root_dir / "build" / "sources" / package_name
+    srcpkg_dir = root_dir / "build" / "srcpkgs" / package_name
     build_dir = root_dir / "build" / "work" / package_name
 
     if not pkg_dir.is_dir():

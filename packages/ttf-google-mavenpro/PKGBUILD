@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/mavenpro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/mavenpro/MavenPro[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mavenpro/MavenPro%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1811f4f60ca9cb83c22df558dfb77d99fcba50a9fe964f8ae8e76ac25dc51861"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/smoochsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/smoochsans/SmoochSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/smoochsans/SmoochSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "fa0b71e1cd04a0ba1b95f17b45dbb2d9072a9a1e7760935dfbde8a3fe8f0402c"

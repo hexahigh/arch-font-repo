@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/anaheim/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/anaheim/Anaheim[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anaheim/Anaheim%5Bwght%5D.ttf"
 )
 sha256sums=(
   "e8a1cf20882d0cc27d95d7b5353fdca6a2a925a7de441e2ff0770881f8858b9d"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/catamaran/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/catamaran/Catamaran[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/catamaran/Catamaran%5Bwght%5D.ttf"
 )
 sha256sums=(
   "c88333734ad7cd30540ec6614d12aa829a0395715de30e336d22ddfa3005db42"

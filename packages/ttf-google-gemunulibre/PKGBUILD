@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/gemunulibre/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/gemunulibre/GemunuLibre[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gemunulibre/GemunuLibre%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9f1dccdd6211e2bbb679318dba3717d9eb1e3edc6fcab54beed05679d83a72b5"

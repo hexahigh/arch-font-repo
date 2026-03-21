@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/radiocanada/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/radiocanada/RadioCanada-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/radiocanada/RadioCanada[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/radiocanada/RadioCanada-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/radiocanada/RadioCanada%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "86b4932ef0e19f8fd573ec941c3e121ae80771187ad1b854ae2b52525d452544"

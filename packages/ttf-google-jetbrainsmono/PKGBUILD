@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d"

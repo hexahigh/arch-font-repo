@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/georama/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/georama/Georama-Italic[wdth,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/georama/Georama[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/georama/Georama-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/georama/Georama%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "e913854957b9c1aca0c81b29fca565827185ddee0f5a039319e0e45e1b7b3079"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/recursive/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/recursive/Recursive[CASL,CRSV,MONO,slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/recursive/Recursive%5BCASL%2CCRSV%2CMONO%2Cslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "f9f539cf7549bd417159dbdb9c400943a5b60a7366c2c6fbde9f095173d82479"

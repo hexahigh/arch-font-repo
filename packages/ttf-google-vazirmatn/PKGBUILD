@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/vazirmatn/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/vazirmatn/Vazirmatn[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vazirmatn/Vazirmatn%5Bwght%5D.ttf"
 )
 sha256sums=(
   "17e355067c8284f47743a1ee3b1ef7ff684ff0601eda357f9353b10b3016ab31"

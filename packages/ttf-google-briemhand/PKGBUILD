@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/briemhand/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/briemhand/BriemHand[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/briemhand/BriemHand%5Bwght%5D.ttf"
 )
 sha256sums=(
   "ebd116b7b49a952a803623ceda86b549253f094f35934923dcbf9ba178086d67"

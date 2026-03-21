@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"

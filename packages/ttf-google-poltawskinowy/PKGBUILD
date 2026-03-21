@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy%5Bwght%5D.ttf"
 )
 sha256sums=(
   "21f7082f0893d6029ff6a2240e047b0f6ed8e8d54d7d1ff5dd947c9f469fbb07"

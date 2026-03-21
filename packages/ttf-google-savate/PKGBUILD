@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/savate/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0c757edca5c56afa280139563437e84da51a4b98d387b039ac467fc8ea509c45"

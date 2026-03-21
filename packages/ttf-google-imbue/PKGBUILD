@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/imbue/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/imbue/Imbue[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imbue/Imbue%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "6bedaf6a91cc0f23c61b1be288107e7aab97913447575c6f59f395e4e04b4588"

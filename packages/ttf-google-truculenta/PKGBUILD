@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/truculenta/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/truculenta/Truculenta[opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/truculenta/Truculenta%5Bopsz%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "d4c3f10bf7997331b75c76d40535898729361c589b7301507120fa5582c827f3"

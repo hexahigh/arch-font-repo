@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/exo/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/exo/Exo-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/exo/Exo[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/exo/Exo-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/exo/Exo%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1159ea72ed1f7e7541cea35a0dece48d2abb0317d7c70f75a482f94932382a77"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/leaguespartan/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/leaguespartan/LeagueSpartan[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguespartan/LeagueSpartan%5Bwght%5D.ttf"
 )
 sha256sums=(
   "41c9980cacc325ccd1afa6553bcae038cc6c74fa519aff60bacb99e3854292ce"

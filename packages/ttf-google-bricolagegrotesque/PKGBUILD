@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/bricolagegrotesque/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/bricolagegrotesque/BricolageGrotesque[opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bricolagegrotesque/BricolageGrotesque%5Bopsz%2Cwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "4b5a7d8f37f5602621c8a8d7358a6a2e71317e6c231c661e15aef0275d3e07ba"

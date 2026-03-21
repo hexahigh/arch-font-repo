@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "995c7199cab65954f545996326755daee7b63cc6b42b06c13da1f9502ab08a99"

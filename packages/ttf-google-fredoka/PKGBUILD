@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/fredoka/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/fredoka/Fredoka[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fredoka/Fredoka%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "5c9e7eee5c6b25f4b05b8d53b2e470ea4962f9ced742d044a98f7d95d1375bab"

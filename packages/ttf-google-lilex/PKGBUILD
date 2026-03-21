@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/lilex/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/lilex/Lilex-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/lilex/Lilex[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilex/Lilex-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilex/Lilex%5Bwght%5D.ttf"
 )
 sha256sums=(
   "cc3bd94cf51f40137e353fc9ca0859d54ec07e59c2092270b64a0723f4b34011"

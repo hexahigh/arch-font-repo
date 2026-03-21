@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a642565cd75e9535acc67679fdc6a8a99115fb437b764e86b4d82b03d8b17945"

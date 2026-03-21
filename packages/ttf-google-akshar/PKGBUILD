@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/akshar/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/akshar/Akshar[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/akshar/Akshar%5Bwght%5D.ttf"
 )
 sha256sums=(
   "f177d40332e5a3f1b76d1d19821102173f30aab9dc58329db20ed1ab42ac7ec1"

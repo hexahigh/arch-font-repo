@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/miriamlibre/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/miriamlibre/MiriamLibre[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/miriamlibre/MiriamLibre%5Bwght%5D.ttf"
 )
 sha256sums=(
   "0cd2b9542857599d480b54cf372a86b523bc5ff683307029f129e1c161360d52"

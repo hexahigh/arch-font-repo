@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/hostgrotesk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hostgrotesk/HostGrotesk-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/hostgrotesk/HostGrotesk[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hostgrotesk/HostGrotesk-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hostgrotesk/HostGrotesk%5Bwght%5D.ttf"
 )
 sha256sums=(
   "f04ad0873907546e160c7a79b1e42bd3cd380c7e5ee4c1b3c11f43faca1675e7"

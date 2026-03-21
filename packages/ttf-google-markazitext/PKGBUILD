@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/markazitext/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/markazitext/MarkaziText[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/markazitext/MarkaziText%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6e7f259edf178c70b2ee36acfcc934b76d1cd56bb58d2c8f2ab8b5dded8bd430"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/notosanssyriacwestern/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssyriacwestern/NotoSansSyriacWestern[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssyriacwestern/NotoSansSyriacWestern%5Bwght%5D.ttf"
 )
 sha256sums=(
   "8636ef5e1d3912baff80863bdee75d056a3c148896ad0689c00aa72d11d83172"

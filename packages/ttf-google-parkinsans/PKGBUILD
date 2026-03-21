@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/parkinsans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/parkinsans/Parkinsans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/parkinsans/Parkinsans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9754f4a3b59a8c8f14f0a53433145c9fd54799ccb3a392dd6e2657aba1939039"

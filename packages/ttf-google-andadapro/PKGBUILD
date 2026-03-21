@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro%5Bwght%5D.ttf"
 )
 sha256sums=(
   "34f84fc4cafb1090f253e429fcdd72e9adb059864edd5ba3ba19ff4f0586769e"

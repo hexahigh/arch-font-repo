@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/commissioner/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/commissioner/Commissioner[FLAR,VOLM,slnt,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/commissioner/Commissioner%5BFLAR%2CVOLM%2Cslnt%2Cwght%5D.ttf"
 )
 sha256sums=(
   "4a7d88c77b4bc39ff84f2e058ba8f015636c50ce33588a86d9da97defe519933"

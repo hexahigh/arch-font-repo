@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/signikasc/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/signikasc/SignikaSC[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikasc/SignikaSC%5Bwght%5D.ttf"
 )
 sha256sums=(
   "1ba345a91338581e5f8fccc3e37e447ddea5b99ec9caec1b76c7c39492387d2f"

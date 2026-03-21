@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/susemono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "d5d12664886d0311d55bf6e9dd0c711c1d0eb26a131d99c04bf34d9f96529f64"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/nabla/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/nabla/Nabla[EDPT,EHLT].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nabla/Nabla%5BEDPT%2CEHLT%5D.ttf"
 )
 sha256sums=(
   "999d3ace5ea7f04761689794a9c877b0a5fc8b22a469518ffad78b4facb2e61b"

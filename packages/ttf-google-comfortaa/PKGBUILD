@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/comfortaa/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/comfortaa/Comfortaa[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comfortaa/Comfortaa%5Bwght%5D.ttf"
 )
 sha256sums=(
   "bc85bae0b512b799bbfb2b916e4d0a34cfd963d09778cd783e248b479e67760a"

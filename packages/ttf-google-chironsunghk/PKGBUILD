@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK%5Bwght%5D.ttf"
 )
 sha256sums=(
   "b8aea45c9cb6a682b68e32d2cfa454ce34117770b6bd6a956c1661428918c1f4"

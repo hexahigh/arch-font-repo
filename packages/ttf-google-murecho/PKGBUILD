@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/murecho/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/murecho/Murecho[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/murecho/Murecho%5Bwght%5D.ttf"
 )
 sha256sums=(
   "7d9f69e9be971aaa0caf64555545b3d34d23204d53ee88085790866ee21c75f9"

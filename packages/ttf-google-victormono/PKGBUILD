@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/victormono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "493589852331b4ea83f1d6b0cbdc157b002ffdb995cf2429acf0c9863bc8f3df"

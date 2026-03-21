@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefordisplay/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefordisplay/WixMadeforDisplay[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefordisplay/WixMadeforDisplay%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6ea47aed4703a072a5011bf429f998c718ff7c3ae57598f7e78c2d3fa1e25c33"

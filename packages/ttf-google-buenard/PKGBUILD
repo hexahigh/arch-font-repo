@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/buenard/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/buenard/Buenard[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/buenard/Buenard%5Bwght%5D.ttf"
 )
 sha256sums=(
   "6d23bd7e9bf8c35c58504f42c0fe2d55cb1295d6cc49fdb942c3a5bab6ebaca6"

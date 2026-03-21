@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/matangi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/matangi/Matangi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/matangi/Matangi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9fa2d688009a1dad3a8938b5649a9955cae6baecdae25461a26a1c4703a99627"

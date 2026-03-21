@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/literata/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "8742963604cd89dc81437811a850018fc03b2bfad686d7422c8235967c87614e"

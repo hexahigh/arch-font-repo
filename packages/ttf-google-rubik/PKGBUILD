@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/rubik/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rubik/Rubik-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/rubik/Rubik[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubik/Rubik-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubik/Rubik%5Bwght%5D.ttf"
 )
 sha256sums=(
   "472cbe7c25441df63e9c7864b43eb3c0f4b3df950c66a76224e6cfe1eae843fb"

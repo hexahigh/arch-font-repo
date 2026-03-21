@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/lemonada/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/lemonada/Lemonada[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lemonada/Lemonada%5Bwght%5D.ttf"
 )
 sha256sums=(
   "d8a8801a55cbc8eeaab7dc9396c4491d60cc7e4ecb2501c6f8282754d743fc2a"

@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918%5Bwght%5D.ttf"
 )
 sha256sums=(
   "733ac89b598ee093fe094927a8e66a988423a61b745c62233a2b0d6e2a159e58"

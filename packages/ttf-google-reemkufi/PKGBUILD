@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/reemkufi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/reemkufi/ReemKufi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/reemkufi/ReemKufi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "3e1dea8822e6e4008fe0ebd2f65f88579683cfee198c0089407fa197535dbe65"

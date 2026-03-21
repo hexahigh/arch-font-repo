@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/cascadiamono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiamono/CascadiaMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiamono/CascadiaMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiamono/CascadiaMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiamono/CascadiaMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "82c05d6c53dfa0c9025985c19e371810020b74ed2c61d51d370f2a8ab2506d52"

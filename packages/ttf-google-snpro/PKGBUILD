@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/snpro/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro%5Bwght%5D.ttf"
 )
 sha256sums=(
   "a4e05b7a060fb2d9bb47744942fe2f0c9f982997b065f3902e9b965ea19d6aad"

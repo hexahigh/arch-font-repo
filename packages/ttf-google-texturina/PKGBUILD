@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/texturina/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/texturina/Texturina-Italic[opsz,wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/texturina/Texturina[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/texturina/Texturina-Italic%5Bopsz%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/texturina/Texturina%5Bopsz%2Cwght%5D.ttf"
 )
 sha256sums=(
   "631ba6504ec2454e472196173aea91c423295787d2128f3732e73fb07a9ea1e0"

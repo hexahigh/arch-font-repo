@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/kalnia/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/kalnia/Kalnia[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kalnia/Kalnia%5Bwdth%2Cwght%5D.ttf"
 )
 sha256sums=(
   "46eec4220309d801b70628d371aeff217e5151dfaad11606a71f2af5f1396f7a"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/merienda/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/merienda/Merienda[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/merienda/Merienda%5Bwght%5D.ttf"
 )
 sha256sums=(
   "61470db03bfdf0616932a086346acf8eddaddbdffbac9c468f0d88ac72ccb151"

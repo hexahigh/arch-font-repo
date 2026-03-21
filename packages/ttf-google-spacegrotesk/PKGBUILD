@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/spacegrotesk/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/spacegrotesk/SpaceGrotesk[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf"
 )
 sha256sums=(
   "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"

@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/eczar/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/eczar/Eczar[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eczar/Eczar%5Bwght%5D.ttf"
 )
 sha256sums=(
   "003e3a0675b0b5d38cb6a188039d33a8d747a84effec32e7f8aa6e25cf6d3e2d"

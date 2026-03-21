@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono%5Bwght%5D.ttf"
 )
 sha256sums=(
   "495a16e8214dd38dec1b569224d3a740c8f646336877794c492638e3172e8e9c"

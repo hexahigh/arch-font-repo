@@ -10,8 +10,8 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/amarna/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna-Italic[wght].ttf"
-  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna-Italic%5Bwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna%5Bwght%5D.ttf"
 )
 sha256sums=(
   "12d84550f6bcde9c4f5c4e1c0adccc10ac50a9053ef328c3cbeffd0ff4effe4c"

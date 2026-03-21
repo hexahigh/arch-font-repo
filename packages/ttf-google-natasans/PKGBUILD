@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/natasans/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/natasans/NataSans[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/natasans/NataSans%5Bwght%5D.ttf"
 )
 sha256sums=(
   "2ccdb70afd2dc2b5aa5a45058caf525a6cf4b47fd2d5388fb32b81370f02d67c"

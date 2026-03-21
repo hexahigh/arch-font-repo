@@ -10,7 +10,7 @@ depends=('fontconfig')
 provides=('ttf-font')
 source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/yaldevi/OFL.txt"
-  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevi/Yaldevi[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevi/Yaldevi%5Bwght%5D.ttf"
 )
 sha256sums=(
   "9d8a27215d55e25527a33cc90f0dfd32e382454cf3b5d8f815f303c9030b42d1"
