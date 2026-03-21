@@ -162,6 +162,25 @@
         </section>
 
         <section class="card">
+            <h2>About the packages</h2>
+            <p>AFR packages are split into primarily two categories:</p>
+            <ul>
+                <li><strong>ttf-*</strong> - Packages containing TrueType fonts, these use font files sourced directly
+                    from the upstream vendor.</li>
+                <li><strong>otf-*</strong> - Packages containing OpenType fonts, these use font files sourced directly
+                    from the upstream vendor.</li>
+                <li><strong>ttf-google-*</strong> - Packages containing TrueType fonts, these use font files sourced
+                    from Google Fonts and are auto-generated. License is usually OFL, but can also be Apache or Ubuntu
+                    Font License.</li>
+                <li><strong>ttf-gluk-*</strong> - Contains fonts from <a href="https://glukfonts.pl">glukfonts.pl</a>,
+                    most of these are in ttf format. License can vary.</li>
+            </ul>
+            Variable fonts are currently not split into seperate -variable packages, but are included in the same
+            package as their static counterparts. This may change in the future. Ensure you have a variable font
+            compatible renderer.
+        </section>
+
+        <section class="card">
             <h2>Signed Setup</h2>
             <p class="muted">Use these steps to enable the repository with signature verification on Arch Linux clients.
             </p>
@@ -182,7 +201,8 @@ sudo pacman -S ttf-ibm-plex</code></pre>
             <h2>Find Font Package</h2>
             <p class="muted">Search by font name and find the package that contains it.</p>
             <div class="search-wrap">
-                <input id="font-search" type="search" placeholder="Search fonts (e.g. Inter, Geist, Roboto)" autocomplete="off" />
+                <input id="font-search" type="search" placeholder="Search fonts (e.g. Inter, Geist, Roboto)"
+                    autocomplete="off" />
             </div>
             <p id="font-search-meta" class="muted">Showing {{font_count}} fonts.</p>
             <ul id="font-search-results" class="font-results">
