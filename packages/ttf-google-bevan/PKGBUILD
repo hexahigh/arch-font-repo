@@ -1,0 +1,34 @@
+pkgname=ttf-google-bevan
+pkgver=2.100
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bevan
+pkgdesc="Google Fonts family: Bevan"
+arch=('any')
+url="https://fonts.google.com/specimen/Bevan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bevan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bevan/Bevan-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bevan/Bevan-Regular.ttf"
+)
+sha256sums=(
+  "578f12281f17e7dd88c9e553240243b29f4240043eef22093d32c043c4ab6dc0"
+  "bdf6744e1a398c2bbf80e94a8195209759992b25d09863eefacc42de4c9caf6b"
+  "8d16c0920330f1def84e342ce70626c27fbf179b4294e6391b19301ff5873469"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

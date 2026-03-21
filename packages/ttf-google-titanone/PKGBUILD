@@ -1,0 +1,32 @@
+pkgname=ttf-google-titanone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/titanone
+pkgdesc="Google Fonts family: Titan One"
+arch=('any')
+url="https://fonts.google.com/specimen/Titan+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/titanone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titanone/TitanOne-Regular.ttf"
+)
+sha256sums=(
+  "61be7c29f4835e2be7243db12213d75d53ff028f29f4b493212a1688b1d3a1ba"
+  "563ff6de179bbd44bcd7d2a6c448d6dc3bf935834237cf1250e506e65cd86ff1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

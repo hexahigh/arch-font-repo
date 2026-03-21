@@ -1,0 +1,36 @@
+pkgname=ttf-google-davidlibre
+pkgver=1.100
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/davidlibre
+pkgdesc="Google Fonts family: David Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/David+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/davidlibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/davidlibre/DavidLibre-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/davidlibre/DavidLibre-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/davidlibre/DavidLibre-Regular.ttf"
+)
+sha256sums=(
+  "01f227b494c348ca8daeeaecbb1e08988b222673ca4bdad1681e49ba4cc8a592"
+  "7610819c7888c8e7ecdfc573089113ec5355cf95078614ae0e30b509b05468f8"
+  "fa3e35197472768520a489b77009b75bfc55601f61a0c4d0c1b23ca7f87701ce"
+  "923f06e0f6dc84e1649d8cc5d5e12a8d663adf6aba83ba15baa5d559fb47b86e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

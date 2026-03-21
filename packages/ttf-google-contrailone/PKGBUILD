@@ -1,0 +1,32 @@
+pkgname=ttf-google-contrailone
+pkgver=1.003
+pkgrel=1
+_commit="6c7562912971540c681bb6597f1ef27298b98e82"  # Latest commit touching ofl/contrailone
+pkgdesc="Google Fonts family: Contrail One"
+arch=('any')
+url="https://fonts.google.com/specimen/Contrail+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/contrailone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/contrailone/ContrailOne-Regular.ttf"
+)
+sha256sums=(
+  "90bd333a5cf0ed09264fc3e559d44979373f6c3d983b0f65cc46e952b4eb61f0"
+  "a7665eddb068507736f593ca8eb9f547db8a8d61ea1cf03e072554aab5a0e8b1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

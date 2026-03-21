@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifmakasar
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifmakasar
+pkgdesc="Google Fonts family: Noto Serif Makasar"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Makasar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmakasar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmakasar/NotoSerifMakasar-Regular.ttf"
+)
+sha256sums=(
+  "d8f80a299c629ef4b73009b9e89c7ef4eee08c2a2ae5f595d81cf5db64c4af9b"
+  "f4c5619563060fb67fc9ef26e755ee8a9d4a27ba22e2938f25ffcd1e2b547f94"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

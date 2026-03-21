@@ -1,0 +1,50 @@
+pkgname=ttf-google-chakrapetch
+pkgver=1.000
+pkgrel=1
+_commit="a4c8c2a0f77efa06765d596d64d077af1d7f0dae"  # Latest commit touching ofl/chakrapetch
+pkgdesc="Google Fonts family: Chakra Petch"
+arch=('any')
+url="https://fonts.google.com/specimen/Chakra+Petch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chakrapetch/ChakraPetch-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "13831d02389d917d22fcfa6c79f98f8acbf61d230add0e73a4d4dc5f3bfb9e56"
+  "65fbf76d95651697275e19db4d717c0e95a789ddd3476478b05292104db278a0"
+  "bf012ce1894ffcf7d32d3e6548b90df7c40f30161b5cc295eb54ff61c21fab19"
+  "3aeea48f0ffab0d6ad8d3cd0cb9c0ceb98ecbcf363521ce56fceea51ecbb1d1f"
+  "13a106a367b903fb509ed11e7c921589a0d42c22540510d3ca8f6c7343bef76b"
+  "67e426488e221d5d9e5a3b62a34b45f1f534dabd1078bdc77fcdfe43630cbee0"
+  "d480f4f97405fac3600652e2e14fd0b14339031c0af4da11582994878f04d919"
+  "3a9185b6735897aeb38fdd132aae761a9092001c7615ac9e2238131bf9b099ed"
+  "98fcd638baa5c81ff0316b7538ce330ee3b23b1302726de3526d5933a8ecf986"
+  "45264de3204ddbd5fb3e14a2402acd5c630d16650ae5fc221d2c52da46a6734b"
+  "4e11c1bec71511bbea8a3bc3f4cebff479bb9681961d691a36f99e5234d8fe89"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

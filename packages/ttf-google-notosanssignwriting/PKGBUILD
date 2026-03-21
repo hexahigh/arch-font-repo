@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssignwriting
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssignwriting
+pkgdesc="Google Fonts family: Noto Sans SignWriting"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+SignWriting"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssignwriting/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssignwriting/NotoSansSignWriting-Regular.ttf"
+)
+sha256sums=(
+  "5cd389912c5b7f1d1ae7c341968109343697a7bdabf69c0dabafb5b6b8cc5477"
+  "1da27fe7b8e959efaf338818f2a6c1aa2c02ff97cf60c34c6d0825675ebc53fb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

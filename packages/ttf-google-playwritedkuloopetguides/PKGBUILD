@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwritedkuloopetguides
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwritedkuloopetguides
+pkgdesc="Google Fonts family: Playwrite DK Uloopet Guides"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+DK+Uloopet+Guides"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwritedkuloopetguides/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwritedkuloopetguides/PlaywriteDKUloopetGuides-Regular.ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "4424b40f5ff139716a70920ae2e23044d8259f570af137c43425bcd20e986dd7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

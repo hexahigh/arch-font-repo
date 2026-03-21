@@ -1,0 +1,32 @@
+pkgname=ttf-google-tenorsans
+pkgver=1.1
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tenorsans
+pkgdesc="Google Fonts family: Tenor Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Tenor+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tenorsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tenorsans/TenorSans-Regular.ttf"
+)
+sha256sums=(
+  "7b826efb1b74a50b1c1aef0a1ba4530925b993ceadc3016d1d787c68a61649dd"
+  "350c882fa9f19927ed108371691d393d5dc1c209edde8472cab8aa8013241366"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

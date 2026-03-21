@@ -1,0 +1,32 @@
+pkgname=ttf-google-antonio
+pkgver=1.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/antonio
+pkgdesc="Google Fonts family: Antonio"
+arch=('any')
+url="https://fonts.google.com/specimen/Antonio"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/antonio/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/antonio/Antonio[wght].ttf"
+)
+sha256sums=(
+  "ae9a754b006df720bb6721e7b78c04990df734f87195c6033140fceab60bebf6"
+  "9e95a2258ecdf3e45c72c5bbea1c4cd350e8f7bebc87c9dba53b29b1890b8903"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

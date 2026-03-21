@@ -1,0 +1,32 @@
+pkgname=ttf-google-synemono
+pkgver=2.000
+pkgrel=1
+_commit="6973827ce1339f7f32adc4a7c41d5f607a0ffb48"  # Latest commit touching ofl/synemono
+pkgdesc="Google Fonts family: Syne Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Syne+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/synemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/synemono/SyneMono-Regular.ttf"
+)
+sha256sums=(
+  "c80622543840e2bc72670a00daef3a6cb1af6fad522d15b9a5d9410733c878b5"
+  "b142b088680791725849cc74c54d7937c981de2378583bde72f826bd3eb267dc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

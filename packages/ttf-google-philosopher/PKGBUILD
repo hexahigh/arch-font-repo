@@ -1,0 +1,38 @@
+pkgname=ttf-google-philosopher
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/philosopher
+pkgdesc="Google Fonts family: Philosopher"
+arch=('any')
+url="https://fonts.google.com/specimen/Philosopher"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/philosopher/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/philosopher/Philosopher-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/philosopher/Philosopher-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/philosopher/Philosopher-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/philosopher/Philosopher-Regular.ttf"
+)
+sha256sums=(
+  "f1e511c19c29907ff2e7a3a575e7fa4cbbf5cedf551a0044db74cf4dc52fde89"
+  "2277c78b95657274b949f40b64b58d18fe7bbe0ec968c104d38906ec700024ea"
+  "a8abb9341d1dc574d301edebf9ad8ea68dd0ae61ca1fa640b9bbdb5f388013c4"
+  "1ec5f0cc140a5daefca74692c1693c224aaac6936b8eda16598d56eba94cf008"
+  "e1cba0b5003b5694f1d6cc0fbe629f78362ad38a9ffd4d0cb7abfd9698a575ed"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

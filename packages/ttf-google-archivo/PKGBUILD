@@ -1,0 +1,34 @@
+pkgname=ttf-google-archivo
+pkgver=2.001
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/archivo
+pkgdesc="Google Fonts family: Archivo"
+arch=('any')
+url="https://fonts.google.com/specimen/Archivo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivo/Archivo-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivo/Archivo[wdth,wght].ttf"
+)
+sha256sums=(
+  "108b4e57c9c796d3d38d0428ca7ee39de47ad93187302718d9b2d8864b9b716b"
+  "305d13b4eb80e62f7d517f78d7c045250d977552a420f2dbed906f314e761305"
+  "0e094a7d3c7c4c25cf1310c4b30014f1dae9332220b1c2c88f4fa996f0b05053"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

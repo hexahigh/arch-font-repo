@@ -1,0 +1,34 @@
+pkgname=ttf-google-tourney
+pkgver=1.015
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tourney
+pkgdesc="Google Fonts family: Tourney"
+arch=('any')
+url="https://fonts.google.com/specimen/Tourney"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tourney/Tourney[wdth,wght].ttf"
+)
+sha256sums=(
+  "8e4050fb74972d5c2021517f5c9bb7d60af585a36e967fa61762225ed77abae1"
+  "038c789a1ec5be0e935b8a7ad7de6cec7bd0ed8e54cd82f2c95478f54b0744ce"
+  "ee686a1a657ca9397d4d1e9ba3ada1c10a5d9b6da53aeb94411cd62b1b793377"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

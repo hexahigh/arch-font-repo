@@ -1,0 +1,40 @@
+pkgname=ttf-google-kohsantepheap
+pkgver=2.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kohsantepheap
+pkgdesc="Google Fonts family: Koh Santepheap"
+arch=('any')
+url="https://fonts.google.com/specimen/Koh+Santepheap"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/KohSantepheap-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/KohSantepheap-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/KohSantepheap-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/KohSantepheap-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kohsantepheap/KohSantepheap-Thin.ttf"
+)
+sha256sums=(
+  "65f03a12dedb8d9b1d032393334c3978818966fa72251089bed66a3fe3f56dfb"
+  "8f55fefd109aa87cab84befbd19279566df6b7b500009a8760275d385eef5898"
+  "7b1503b36d65a7c51d74d089d73153401013c960135f0697bea560f38e4e1cb9"
+  "340c7209ab55fe60b94506cf59894cdeaacca194e81e5deb8807d12b89be5383"
+  "d126f680d8081db439097252bdbe8846019f1a66737295d53775c4f56e2254c2"
+  "efc6360978f1f0acedb84116ca7d90447cb8fbed056b36b89b109bce698a144e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

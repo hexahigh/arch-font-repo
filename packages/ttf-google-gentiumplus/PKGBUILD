@@ -1,0 +1,38 @@
+pkgname=ttf-google-gentiumplus
+pkgver=6.101
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gentiumplus
+pkgdesc="Google Fonts family: Gentium Plus"
+arch=('any')
+url="https://fonts.google.com/specimen/Gentium+Plus"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumplus/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumplus/GentiumPlus-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumplus/GentiumPlus-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumplus/GentiumPlus-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumplus/GentiumPlus-Regular.ttf"
+)
+sha256sums=(
+  "c309a440be606e283ccacc746662d714b9c5b5a7a0a10dd2514b90206b55ddfe"
+  "716c4a16887550b13f40b408df5dad6c410c72a00867c5fe802a9ed483e3fb8d"
+  "35e7ad6591694a832de59df1899bccc88e0af8ad5fff20533b63751747851c71"
+  "18df1f3ddf09cf72338f25c45ca0d1922fb5e86cdd748522dbd6bede4fb1f99d"
+  "845e06bb4673a908a5f3b3b4ac9f38841750a07faa9aa45bfcb5796893346f0b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifgurmukhi
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifgurmukhi
+pkgdesc="Google Fonts family: Noto Serif Gurmukhi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Gurmukhi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifgurmukhi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifgurmukhi/NotoSerifGurmukhi[wght].ttf"
+)
+sha256sums=(
+  "3f7451b7e2c8381be0c5712f7b0dd5c2d75fe787ae16a99f18b7fa45627a0fde"
+  "0d15ba8362035a032156c0516038cb8ed93507f7a7762df3e65eaad9218d764b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

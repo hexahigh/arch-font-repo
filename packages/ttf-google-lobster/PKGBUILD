@@ -1,0 +1,32 @@
+pkgname=ttf-google-lobster
+pkgver=2.100
+pkgrel=1
+_commit="75eafbbbc75dfdf8e584fd5076cbac5b1ec2432f"  # Latest commit touching ofl/lobster
+pkgdesc="Google Fonts family: Lobster"
+arch=('any')
+url="https://fonts.google.com/specimen/Lobster"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobster/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobster/Lobster-Regular.ttf"
+)
+sha256sums=(
+  "88aece7d90f2bb7049719f11619a560af22af3451af141f12aa4f46bb157a99b"
+  "d6568e697fd50cedc0be04d8aae4127fe95add607e7bff954ca88604be80c205"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

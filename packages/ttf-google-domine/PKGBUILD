@@ -1,0 +1,32 @@
+pkgname=ttf-google-domine
+pkgver=2.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/domine
+pkgdesc="Google Fonts family: Domine"
+arch=('any')
+url="https://fonts.google.com/specimen/Domine"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/domine/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/domine/Domine[wght].ttf"
+)
+sha256sums=(
+  "4931b601cf50f9e6ee749ae76778a067fb2e0df4296f08d095ef38afc526a5e4"
+  "c63552cb60c658e90c1da3e83f9e7cf203562c39cdbf5a78ba9df62d8e7a1ed7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

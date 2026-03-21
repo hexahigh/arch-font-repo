@@ -1,0 +1,34 @@
+pkgname=ttf-google-elsie
+pkgver=1.003
+pkgrel=1
+_commit="c3ed201dcca38e31ded3fa68a0ff958ba4fd67bb"  # Latest commit touching ofl/elsie
+pkgdesc="Google Fonts family: Elsie"
+arch=('any')
+url="https://fonts.google.com/specimen/Elsie"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsie/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsie/Elsie-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsie/Elsie-Regular.ttf"
+)
+sha256sums=(
+  "0c3f4763f49c2cd37757a2856ad470aec6a416981ac6d6e3f900c1128be39de7"
+  "69339fcd10a5d5c12b72cf5127b44be5a0147d2531baf494004c7adad4af6338"
+  "9b3ff5056866667fb29f60beb4522994afdd4d5f580626c6fd9e6f5bf49f1ea5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

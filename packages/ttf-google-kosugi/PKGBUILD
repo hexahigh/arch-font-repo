@@ -1,0 +1,32 @@
+pkgname=ttf-google-kosugi
+pkgver=4.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching apache/kosugi
+pkgdesc="Google Fonts family: Kosugi"
+arch=('any')
+url="https://fonts.google.com/specimen/Kosugi"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/kosugi/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/kosugi/Kosugi-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "f5e81d6a6b865d9b88c54d2d3c16bcaa3b239dfcefaf2a62976ac9dc7574bab7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

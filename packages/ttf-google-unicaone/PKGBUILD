@@ -1,0 +1,32 @@
+pkgname=ttf-google-unicaone
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unicaone
+pkgdesc="Google Fonts family: Unica One"
+arch=('any')
+url="https://fonts.google.com/specimen/Unica+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unicaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unicaone/UnicaOne-Regular.ttf"
+)
+sha256sums=(
+  "05f4462985eece49ebd278c13ac1011b546e0a9a4675c542b7239edc90df55d4"
+  "5d5861ae199cb69049e77e7cd08a8ffd6c14e90da19c8db8df0f4004ca93bd8f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

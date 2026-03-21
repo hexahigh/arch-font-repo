@@ -1,0 +1,32 @@
+pkgname=ttf-google-bonheurroyale
+pkgver=1.010
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bonheurroyale
+pkgdesc="Google Fonts family: Bonheur Royale"
+arch=('any')
+url="https://fonts.google.com/specimen/Bonheur+Royale"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonheurroyale/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonheurroyale/BonheurRoyale-Regular.ttf"
+)
+sha256sums=(
+  "c130db0ae064ae91ddfa3f73c766d6998895cf4138f37d85398fc14ff62d555e"
+  "c37f2847c2d726e254762afe26354ed6d9b9ac88caa4c3473a89eef359fd2878"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

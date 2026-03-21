@@ -1,0 +1,32 @@
+pkgname=ttf-google-cherish
+pkgver=1.005
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cherish
+pkgdesc="Google Fonts family: Cherish"
+arch=('any')
+url="https://fonts.google.com/specimen/Cherish"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherish/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherish/Cherish-Regular.ttf"
+)
+sha256sums=(
+  "09fc82b47c15731fa66cc812d5110e00879c75209ab76d68bb813eff5ccc182d"
+  "5d6588a51682057329566baf12a11c405dea771a9dcec61ac5fe9a83d9db6b13"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

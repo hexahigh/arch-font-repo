@@ -1,0 +1,32 @@
+pkgname=ttf-google-fenix
+pkgver=004.301
+pkgrel=1
+_commit="3aa21df689d74851d85441c91e0c7b9af725774d"  # Latest commit touching ofl/fenix
+pkgdesc="Google Fonts family: Fenix"
+arch=('any')
+url="https://fonts.google.com/specimen/Fenix"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fenix/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fenix/Fenix-Regular.ttf"
+)
+sha256sums=(
+  "8586a7e75681c7297af4cc0641eb2b29e882c5187fe189a1160eceb4e95d4163"
+  "5104f5f344f64b5532850b131d7b9e033c112fcfa97dfef00a64c0a40bdae911"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

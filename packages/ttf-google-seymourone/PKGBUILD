@@ -1,0 +1,32 @@
+pkgname=ttf-google-seymourone
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/seymourone
+pkgdesc="Google Fonts family: Seymour One"
+arch=('any')
+url="https://fonts.google.com/specimen/Seymour+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/seymourone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/seymourone/SeymourOne-Regular.ttf"
+)
+sha256sums=(
+  "444798d79ed7957dd04526095a94b3070f163fe0850e9cf2ec497c758d288bfe"
+  "8699709245074a91a64b43495bf864f6df6d43648d7e9d0d09144ca74433c3d4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

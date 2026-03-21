@@ -1,0 +1,32 @@
+pkgname=ttf-google-gotu
+pkgver=2.320
+pkgrel=1
+_commit="68a7350a6050bbf6ae25e7ed2b31810a4edd0f00"  # Latest commit touching ofl/gotu
+pkgdesc="Google Fonts family: Gotu"
+arch=('any')
+url="https://fonts.google.com/specimen/Gotu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gotu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gotu/Gotu-Regular.ttf"
+)
+sha256sums=(
+  "159eb46ed0b08f8b9678d6f22f54cc614452d4ab0fb670b568f7a5f315afe511"
+  "766fbfb19d8a0c38814b23c42515ed9dea538fce18d741221eca321d0604a3f5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

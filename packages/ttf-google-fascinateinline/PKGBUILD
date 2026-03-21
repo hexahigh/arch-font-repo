@@ -1,0 +1,32 @@
+pkgname=ttf-google-fascinateinline
+pkgver=1.000
+pkgrel=1
+_commit="9673df0b825e09809e2cc732ebadb51b99795288"  # Latest commit touching ofl/fascinateinline
+pkgdesc="Google Fonts family: Fascinate Inline"
+arch=('any')
+url="https://fonts.google.com/specimen/Fascinate+Inline"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fascinateinline/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fascinateinline/FascinateInline-Regular.ttf"
+)
+sha256sums=(
+  "a7fe1f3d23034092b015aaeb53d2ecbc9e592be96b10bdfbcf8700ec6a6ffc97"
+  "413101810fe420520122880404d1f8e892269e6a6afa2e00e980f65ef632ee3b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

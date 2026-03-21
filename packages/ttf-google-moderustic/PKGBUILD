@@ -1,0 +1,32 @@
+pkgname=ttf-google-moderustic
+pkgver=2.120
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/moderustic
+pkgdesc="Google Fonts family: Moderustic"
+arch=('any')
+url="https://fonts.google.com/specimen/Moderustic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/moderustic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/moderustic/Moderustic[wght].ttf"
+)
+sha256sums=(
+  "ad031df41a349afe434a6afda47b004e8dca268fcf82772a2c297423a5948fc4"
+  "ba465ae65b26bbc2eede93f05d983912999c0916ef1160449da773fa3beb7467"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

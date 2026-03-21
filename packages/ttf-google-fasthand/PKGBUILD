@@ -1,0 +1,32 @@
+pkgname=ttf-google-fasthand
+pkgver=8.002
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fasthand
+pkgdesc="Google Fonts family: Fasthand"
+arch=('any')
+url="https://fonts.google.com/specimen/Fasthand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fasthand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fasthand/Fasthand-Regular.ttf"
+)
+sha256sums=(
+  "896b66a47308af2d268b0d93c59bb4c9e82870f63565b819e84f789c0825d992"
+  "f4a151d4d01ab2daf53e67904efd2b943c17ac7b7351de4e6ee7bda7697b0a13"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

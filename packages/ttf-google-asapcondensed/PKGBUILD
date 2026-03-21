@@ -1,0 +1,62 @@
+pkgname=ttf-google-asapcondensed
+pkgver=3.001
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/asapcondensed
+pkgdesc="Google Fonts family: Asap Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Asap+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asapcondensed/AsapCondensed-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "a6f4d778db0d2a87c2c6e560f71eb018b4253505b2f23c108724dea5d4d74ed0"
+  "30e3b2f8c5154fd754057e1a067a0e00ee67efe40e2178af16bcf244d1d0474a"
+  "e4a20e1abf15ed3d5895c5929dedd376286c85b8cbd4c9e4b18f71961a60fbb6"
+  "0ed4b4f29a0abed3a5049270f28d8e11c797edc7c0270cc51495c0578622f82a"
+  "a67d4459760386ad033b452a1008f5f34a5b21c7b73445038589a176c00982a0"
+  "6c904a245bb9d04b0b2b1cc441c77c1d2c3710ad872cfbc37cb644cc2857e860"
+  "75b9e39cb404a54bc660c808d3f65e7017c3e0a80b62a1e3e9f20d261561451f"
+  "e30503c60c1b098ae0657d1527ca596715491db012e2dff9433a61f6cfa7746a"
+  "978a8ea13f294dc9441d98716539a15f0fd66f35b461bb718027af5172a31f0f"
+  "e3d24bd65328b2906d3f076b84c7291e86799fa5e767890e7520303e71e28353"
+  "5c0efec5bc4edf6ab723c7e9aee01c6a77286a47b09ec2bb2242c1301b5d3f7f"
+  "30359421f6a9a4e227ede14895e686c278814492ff86417411af676464ac8b00"
+  "91a4c8a3a3199d7553aa9b720336cf3fef50b5dbac1d11f8a53241808d72faa0"
+  "94d51f12ddd8e944ba1d138c0b9394fe10ee0295e8a1e78b131e4ff7b15d1250"
+  "297336aba664e16c2c6aadb64a66fb31d63f048eae3d22409492cd2f1b4cdda0"
+  "92d1eb2579fa9868a1c3676bdb51079d5c13469aa61a12164e25dc46c24bdbae"
+  "297082b21a15095c4e63f67dcb543049a3bacab961891da82d30540074e939cb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

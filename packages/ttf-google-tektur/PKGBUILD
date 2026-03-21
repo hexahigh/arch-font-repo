@@ -1,0 +1,32 @@
+pkgname=ttf-google-tektur
+pkgver=1.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tektur
+pkgdesc="Google Fonts family: Tektur"
+arch=('any')
+url="https://fonts.google.com/specimen/Tektur"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tektur/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tektur/Tektur[wdth,wght].ttf"
+)
+sha256sums=(
+  "ff4bb37f716836feb5038e1bf5c47e5a1946717fcfabb175086ed49f85ea47fd"
+  "a4c451e5336874811267c2a514efa09bca7bc8cabf32a310f0b44e111eacb933"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-stacksansheadline
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stacksansheadline
+pkgdesc="Google Fonts family: Stack Sans Headline"
+arch=('any')
+url="https://fonts.google.com/specimen/Stack+Sans+Headline"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stacksansheadline/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stacksansheadline/StackSansHeadline[wght].ttf"
+)
+sha256sums=(
+  "ebffb381c127e2c8b2b4d7e9e2aa515bb44ba2c62bf1db2f75ce5ea25e7005bb"
+  "42ed62a3e0739d9f734298bc102efbccc17553cc10766bfa4e7844beb4089bfa"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

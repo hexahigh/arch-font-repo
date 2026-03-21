@@ -1,0 +1,32 @@
+pkgname=ttf-google-uoqmunthenkhung
+pkgver=1.197
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/uoqmunthenkhung
+pkgdesc="Google Fonts family: UoqMunThenKhung"
+arch=('any')
+url="https://fonts.google.com/specimen/UoqMunThenKhung"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/uoqmunthenkhung/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/uoqmunthenkhung/UoqMunThenKhung-Regular.ttf"
+)
+sha256sums=(
+  "406ef62322951b6ea94f7a91989971ddd05441e0768e638528b27e5e677c3b91"
+  "943a23eb10d40ca85ee08491c0e3fb3adbc4bd111ef1f93526a4f766a8e66fbd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

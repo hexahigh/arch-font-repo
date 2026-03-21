@@ -1,0 +1,32 @@
+pkgname=ttf-google-lohitbengali
+pkgver=2.5.1
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lohitbengali
+pkgdesc="Google Fonts family: Lohit Bengali"
+arch=('any')
+url="https://fonts.google.com/specimen/Lohit+Bengali"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohitbengali/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohitbengali/Lohit-Bengali.ttf"
+)
+sha256sums=(
+  "e88691a5e0a8a3f788f31db959701ec90a1d5e7505f1cc53c5663180a7d23c81"
+  "609aefb344d7c7e5b082f7dad501c5479f668896088a93b198675bf6213e8ee1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

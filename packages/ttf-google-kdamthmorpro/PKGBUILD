@@ -1,0 +1,32 @@
+pkgname=ttf-google-kdamthmorpro
+pkgver=1.003
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kdamthmorpro
+pkgdesc="Google Fonts family: Kdam Thmor Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Kdam+Thmor+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kdamthmorpro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kdamthmorpro/KdamThmorPro-Regular.ttf"
+)
+sha256sums=(
+  "355d9d22e809d67010fc5decd3d9ea6ba201fa8ed410a0207977a329e456b1eb"
+  "f3c0eb232ec1ca8991576cd93eb604868830dc201bf71f31fb7fba8cf4441226"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-glory
+pkgver=1.011
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/glory
+pkgdesc="Google Fonts family: Glory"
+arch=('any')
+url="https://fonts.google.com/specimen/Glory"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/glory/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/glory/Glory[wght].ttf"
+)
+sha256sums=(
+  "9a1f7cf2f267af05d4816ea6340087454ea1d237bd9f29a76ef3932ec4055da7"
+  "f24daaa4671778f0788535471fe9aa6a0a09ecb97ee644d9a7b5801de9f6cb94"
+  "7282178080ca4fc5feca7b6ff96212acee58462efdff8a43b80d67204f100837"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

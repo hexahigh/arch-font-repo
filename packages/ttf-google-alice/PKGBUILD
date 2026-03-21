@@ -1,0 +1,32 @@
+pkgname=ttf-google-alice
+pkgver=2.003
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alice
+pkgdesc="Google Fonts family: Alice"
+arch=('any')
+url="https://fonts.google.com/specimen/Alice"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alice/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alice/Alice-Regular.ttf"
+)
+sha256sums=(
+  "ef643b6b82fb5c2ce056e27b6bf6908433a785bbb6ee6dc23c4739743f063e54"
+  "8212c40f10b306af9b82272ae68314de6964522b6dabf6abdaff647e74ac8b58"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

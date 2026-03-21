@@ -1,0 +1,32 @@
+pkgname=ttf-google-delagothicone
+pkgver=1.005
+pkgrel=1
+_commit="690b65d64dabaebf9d18e2d7e8c8e7e02b4cccaf"  # Latest commit touching ofl/delagothicone
+pkgdesc="Google Fonts family: Dela Gothic One"
+arch=('any')
+url="https://fonts.google.com/specimen/Dela+Gothic+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/delagothicone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/delagothicone/DelaGothicOne-Regular.ttf"
+)
+sha256sums=(
+  "c0014792d4f4abc0508c295b277f2b17ae44465c8dc88d12af9cea48279b5fda"
+  "4ff87a0965f1b0505e5a2c58424bc6ad3cff27e56a82f21c2fc9d6b0e3857ee2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

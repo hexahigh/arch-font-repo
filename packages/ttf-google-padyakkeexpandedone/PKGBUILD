@@ -1,0 +1,32 @@
+pkgname=ttf-google-padyakkeexpandedone
+pkgver=1.500
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/padyakkeexpandedone
+pkgdesc="Google Fonts family: Padyakke Expanded One"
+arch=('any')
+url="https://fonts.google.com/specimen/Padyakke+Expanded+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/padyakkeexpandedone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/padyakkeexpandedone/PadyakkeExpandedOne-Regular.ttf"
+)
+sha256sums=(
+  "34553405dce90b2a0e6c5a544e3a17a40105473456c1dd028dcce1dc511a099e"
+  "fcdc6cb3fc277895c98fc120acaf12d421c911bba768eba2891049b5df225032"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

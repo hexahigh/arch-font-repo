@@ -1,0 +1,36 @@
+pkgname=ttf-google-oxygen
+pkgver=0.2.3
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oxygen
+pkgdesc="Google Fonts family: Oxygen"
+arch=('any')
+url="https://fonts.google.com/specimen/Oxygen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygen/Oxygen-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygen/Oxygen-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygen/Oxygen-Regular.ttf"
+)
+sha256sums=(
+  "1e20933206ca06421c7c378184da5476d195314cf4bcda2bf122cd45d69a956e"
+  "d86d9a11ad1aa242dbf50d2a2a3295baab2a11349dcf6db5bd28e36036b7f6c0"
+  "014b444c3073bcf433577cca0aaa177b35ab1b9a46ada562710006cb35128409"
+  "a328b8fa366bdd94f507ad02e2721ac49cb4257a9ef1e49560b230079386010e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

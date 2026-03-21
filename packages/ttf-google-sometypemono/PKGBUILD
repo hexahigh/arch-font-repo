@@ -1,0 +1,34 @@
+pkgname=ttf-google-sometypemono
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sometypemono
+pkgdesc="Google Fonts family: Sometype Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Sometype+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sometypemono/SometypeMono[wght].ttf"
+)
+sha256sums=(
+  "495a16e8214dd38dec1b569224d3a740c8f646336877794c492638e3172e8e9c"
+  "c1f25acdc7125e74e3f5bce7bda0d5053553c7a574513ecd2247ca30e5170bb3"
+  "4095fd328c988392fb00ab867134e69beff0fc16de66ecdd9e7e232c16f16f25"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

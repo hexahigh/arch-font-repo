@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifolduyghur
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifolduyghur
+pkgdesc="Google Fonts family: Noto Serif Old Uyghur"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Old+Uyghur"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifolduyghur/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifolduyghur/NotoSerifOldUyghur-Regular.ttf"
+)
+sha256sums=(
+  "bbbe0718f4570ed936c027b77b940f59eebff86a70e4f85076ab660609720456"
+  "c6505bee89c56d6feee73d811030c27c76d4c046274fbca5ce1d24c13508b974"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

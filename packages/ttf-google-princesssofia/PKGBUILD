@@ -1,0 +1,32 @@
+pkgname=ttf-google-princesssofia
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/princesssofia
+pkgdesc="Google Fonts family: Princess Sofia"
+arch=('any')
+url="https://fonts.google.com/specimen/Princess+Sofia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/princesssofia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/princesssofia/PrincessSofia-Regular.ttf"
+)
+sha256sums=(
+  "3f0f27931c92453994176af3b1e7954f9aac39fe145374d6d08c47c822e82e59"
+  "2b5df30a7b866cd764cc4ff586dc8c28e16967099d50ab582f003ffbc7228ee5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

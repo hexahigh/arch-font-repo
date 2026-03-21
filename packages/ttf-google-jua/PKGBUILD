@@ -1,0 +1,32 @@
+pkgname=ttf-google-jua
+pkgver=1.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jua
+pkgdesc="Google Fonts family: Jua"
+arch=('any')
+url="https://fonts.google.com/specimen/Jua"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jua/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jua/Jua-Regular.ttf"
+)
+sha256sums=(
+  "44a7c6e4c5572392ae122d3b1d8c6ba6fd640a7797e675384585d947f2773e3c"
+  "769677aef240bfc3b9965f2b50748075bff885e6c6992fc591a3fb268279f898"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

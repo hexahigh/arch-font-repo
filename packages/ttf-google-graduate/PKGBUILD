@@ -1,0 +1,32 @@
+pkgname=ttf-google-graduate
+pkgver=1.100
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/graduate
+pkgdesc="Google Fonts family: Graduate"
+arch=('any')
+url="https://fonts.google.com/specimen/Graduate"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/graduate/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/graduate/Graduate-Regular.ttf"
+)
+sha256sums=(
+  "2643f19f015fe49e170727d070b7ee501d3f38e0810208a0567aff7b656a1875"
+  "971222b309851d86f2513f89b510dc52d52ef7798b5f43af2c6f58d43df568e5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

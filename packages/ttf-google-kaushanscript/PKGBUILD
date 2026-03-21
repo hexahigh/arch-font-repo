@@ -1,0 +1,32 @@
+pkgname=ttf-google-kaushanscript
+pkgver=1.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kaushanscript
+pkgdesc="Google Fonts family: Kaushan Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Kaushan+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaushanscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaushanscript/KaushanScript-Regular.ttf"
+)
+sha256sums=(
+  "3336bf5d4e7eedba48ecb831f37bf676e901c39f2e6a422cceadd9d2ffa55be8"
+  "6d8d379d9bba98178bee476d68114c8f83812c18005ecccf679e70f60e03d8f6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

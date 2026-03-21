@@ -1,0 +1,34 @@
+pkgname=ttf-google-atkinsonhyperlegiblenext
+pkgver=2.001
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/atkinsonhyperlegiblenext
+pkgdesc="Google Fonts family: Atkinson Hyperlegible Next"
+arch=('any')
+url="https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblenext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblenext/AtkinsonHyperlegibleNext-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblenext/AtkinsonHyperlegibleNext[wght].ttf"
+)
+sha256sums=(
+  "aca6a428580965d2297d1b718042dd427c2a9443ece3b0d02d758e161e0c4030"
+  "ce9cffed32742ad2d9238c561a93220385e5934cdc02b8eb4097a50efa957dc6"
+  "5a455d1cfa099b601ab70751bb9673e8fe1854dc4500c80e1a220d0d75e31745"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

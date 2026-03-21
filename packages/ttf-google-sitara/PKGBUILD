@@ -1,0 +1,38 @@
+pkgname=ttf-google-sitara
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sitara
+pkgdesc="Google Fonts family: Sitara"
+arch=('any')
+url="https://fonts.google.com/specimen/Sitara"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sitara/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sitara/Sitara-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sitara/Sitara-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sitara/Sitara-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sitara/Sitara-Regular.ttf"
+)
+sha256sums=(
+  "95803fae1b063e592c67b5867f1f36df1df526e5ebf33c6cd4d4afa31a9d5586"
+  "6c1062617bde8a8b9156c5c19ec1645b02e15f7ad35680da8ff8b68b71864419"
+  "72c75e8437992707246bd3b5340f651ab7335a9c8c3f38d93730e1270f7522c3"
+  "fb27328a202750adeb1705e1ebbc10c2633da3334c49933b67fcf053088eef1e"
+  "db012b93bc95bb06c3d223165ac852a70a08153891f02dc6d8bbdd2f046245e0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

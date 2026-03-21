@@ -1,0 +1,32 @@
+pkgname=ttf-google-novacut
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novacut
+pkgdesc="Google Fonts family: Nova Cut"
+arch=('any')
+url="https://fonts.google.com/specimen/Nova+Cut"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/novacut/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/novacut/NovaCut.ttf"
+)
+sha256sums=(
+  "5505d1a010ee0f2eeecdf624984d2a6170480adab3091170abbcedd85361f1b9"
+  "09b4238312770fb6a4405027dc33feef1bb1c9283d3c907fe7282960da4eb5f7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

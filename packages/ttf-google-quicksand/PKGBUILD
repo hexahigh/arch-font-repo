@@ -1,0 +1,32 @@
+pkgname=ttf-google-quicksand
+pkgver=3.006
+pkgrel=1
+_commit="e3b5462bdd8153237ad58a3766d456d89c6a2f48"  # Latest commit touching ofl/quicksand
+pkgdesc="Google Fonts family: Quicksand"
+arch=('any')
+url="https://fonts.google.com/specimen/Quicksand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/quicksand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quicksand/Quicksand[wght].ttf"
+)
+sha256sums=(
+  "14d28541780d90f6577bb7abcc6f005bf6969614294e75c82abb8758a696ad46"
+  "39c9b64223561f56aaff6062a6f04063c4fc86809ad6768722c06614d977e1cc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

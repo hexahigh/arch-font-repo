@@ -1,0 +1,42 @@
+pkgname=ttf-google-maitree
+pkgver=1.003
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/maitree
+pkgdesc="Google Fonts family: Maitree"
+arch=('any')
+url="https://fonts.google.com/specimen/Maitree"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maitree/Maitree-SemiBold.ttf"
+)
+sha256sums=(
+  "1d08c63944e639bbfe8a1b81e3c6a63836806c126b3573b9cda0db83fd27ffe9"
+  "59899168d044143108b18fce46003c6774217019a4878d4313f6793b9d17fbf2"
+  "aaa310f9bc913882863b1d39bd70978b7d068ac831ef3789bd921f781392343d"
+  "64096b22cb796958391c704992d0cf698deb3478d4af6c131f1b5a435e851e08"
+  "6314fda8d95a2f69f16b63e8eca4a4a82e1b1ca519ec7039f99565d5d2b34e16"
+  "0b175f9b468961d37faf21bfbf27207c5aeda9f2b029841bccaf2747c2c269be"
+  "d160545b5b802658431d17bac37f016c7ea6b8a16ae8cecd7f9389da52581216"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

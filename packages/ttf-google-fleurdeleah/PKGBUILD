@@ -1,0 +1,32 @@
+pkgname=ttf-google-fleurdeleah
+pkgver=1.010
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fleurdeleah
+pkgdesc="Google Fonts family: Fleur De Leah"
+arch=('any')
+url="https://fonts.google.com/specimen/Fleur+De+Leah"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fleurdeleah/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fleurdeleah/FleurDeLeah-Regular.ttf"
+)
+sha256sums=(
+  "bb3ee29bfc75dc1ac4407831b665c92e9e58fb5e2e07022f6f731d8e063e37f8"
+  "11f6c19bd52835c66cf6cf78f060a467a92a85f1d667447ea8feefdd9bccba7d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-artifika
+pkgver=1.102
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/artifika
+pkgdesc="Google Fonts family: Artifika"
+arch=('any')
+url="https://fonts.google.com/specimen/Artifika"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/artifika/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/artifika/Artifika-Regular.ttf"
+)
+sha256sums=(
+  "3cb7c635ce885c1410af5cbe934d1a89b05055635a53a0a5971db5edc77a4ac1"
+  "51d5e3b59c907938e11964306dcd13e4e4cd413acac7dccce4f81860d1ed9f86"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

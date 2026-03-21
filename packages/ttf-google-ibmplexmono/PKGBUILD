@@ -1,0 +1,58 @@
+pkgname=ttf-google-ibmplexmono
+pkgver=2.3
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/ibmplexmono
+pkgdesc="Google Fonts family: IBM Plex Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexmono/IBMPlexMono-ThinItalic.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "ac27abd6450a64dd94467580a02fe6235156d5b92f2926ebbc8e7489df64e0be"
+  "af4e05a761e98c1adf064c48a6352c9bec1a6ad70982cd2a544149323391f98e"
+  "826b765bd5173b97d521053330a66277edc224f8cc5f1e0035df1d995d5f003c"
+  "8ae22766094bd04c2808a3c9dec812dcf061786c26ebd25eea211ae685eb2c39"
+  "3362fc791b0652193328b862c1c5f23a789bc7288b1617fa63302f88689a2a34"
+  "780bcf65509d72a35ec114b57bcbe220dc6b77d8ea2e9b25e294be3c570c5025"
+  "2bb4dd18abb03cb8a0a1ae69a0a10b194e02027b817c7b13126ef4724a7f5c73"
+  "a9b4c49bb299e05b5f6c481e7fb5e78943d2793249a0c8874ab574a2d1ea6755"
+  "de6e0f805a15a2a1538be5d1074741298a07ffcba6fa1f4cd93983ff73155a7d"
+  "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46"
+  "d3c38e55c78f5b0f28009fddba4834ec503278936a5986032424c9bd2d23aa46"
+  "391ef0e273eb52571eccaab6a6dbddeec48e1d282cb7bf153043512b797ed6f0"
+  "c44c820c14b4f1b818344e5f5dc189cee98b1d5e56b4e80055496c228f3cc7ea"
+  "3782f01f12b444c62be712676646c552fc23443e8fd02d5b5619c6c4b975516d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-oldenburg
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oldenburg
+pkgdesc="Google Fonts family: Oldenburg"
+arch=('any')
+url="https://fonts.google.com/specimen/Oldenburg"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oldenburg/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oldenburg/Oldenburg-Regular.ttf"
+)
+sha256sums=(
+  "fc59ca3cd3bcb47bd4df597519111ec130c25cabcc57a8808dd2d243cdcec6ae"
+  "b4f815de562b5fb7881b0338513bfffaf812f6b075d1ade01b75b4d746998823"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

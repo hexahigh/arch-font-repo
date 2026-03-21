@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansbalinese
+pkgver=2.006
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansbalinese
+pkgdesc="Google Fonts family: Noto Sans Balinese"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Balinese"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbalinese/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbalinese/NotoSansBalinese[wght].ttf"
+)
+sha256sums=(
+  "11bc477b31ec9e66f86bf6f64c060dde84b34ed49582d881657b472c33c4e1e9"
+  "ccca9d3492b86930d8e0272d1e06d9e2e11147489b04d9858aa58e766cc30374"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

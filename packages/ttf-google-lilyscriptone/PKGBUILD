@@ -1,0 +1,32 @@
+pkgname=ttf-google-lilyscriptone
+pkgver=1.002
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lilyscriptone
+pkgdesc="Google Fonts family: Lily Script One"
+arch=('any')
+url="https://fonts.google.com/specimen/Lily+Script+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilyscriptone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilyscriptone/LilyScriptOne-Regular.ttf"
+)
+sha256sums=(
+  "878aec7282ab41d058cedbf90e14512bcb4fbd0658496de8c2dfc592ed1f0cd0"
+  "191c8e3bfd653ae020cf23cd5b4c5a6a2de7412464a290e51461dd084aa62765"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-nosifer
+pkgver=001.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nosifer
+pkgdesc="Google Fonts family: Nosifer"
+arch=('any')
+url="https://fonts.google.com/specimen/Nosifer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nosifer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nosifer/Nosifer-Regular.ttf"
+)
+sha256sums=(
+  "b41b99f35b507564e54f6b2f5162ad1c21f94a16837c632da6632b376a341f42"
+  "09c5ac35e34dc7a397d5f698b703c5640b59cf93d4d343ebae4f16f3859d09b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

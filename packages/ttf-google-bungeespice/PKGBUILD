@@ -1,0 +1,32 @@
+pkgname=ttf-google-bungeespice
+pkgver=2.000
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bungeespice
+pkgdesc="Google Fonts family: Bungee Spice"
+arch=('any')
+url="https://fonts.google.com/specimen/Bungee+Spice"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bungeespice/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bungeespice/BungeeSpice-Regular.ttf"
+)
+sha256sums=(
+  "d5787a50dde5be6c6daecab9ed459939b1bc37cff0d0e00257eaf1ec2cf4c16c"
+  "ccf8e3f7eb1ac87ed217097332856f9007484362a00ae3b42a03c6ef851158d0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

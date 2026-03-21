@@ -1,0 +1,34 @@
+pkgname=ttf-google-stardosstencil
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stardosstencil
+pkgdesc="Google Fonts family: Stardos Stencil"
+arch=('any')
+url="https://fonts.google.com/specimen/Stardos+Stencil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stardosstencil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stardosstencil/StardosStencil-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stardosstencil/StardosStencil-Regular.ttf"
+)
+sha256sums=(
+  "88d3abd47414e7912d0d2eb44ca89e0b1bd7c43cc2ebe58a8a75281ad75a0f60"
+  "6b15f50b1b358512d922b5f11937af17e90704587e1d7fb009f1715d2d5dfa74"
+  "208b13d15387c282a1c0c439a8e4c38809243d15c361b31da440b25a7e4f39ae"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-tiltneon
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tiltneon
+pkgdesc="Google Fonts family: Tilt Neon"
+arch=('any')
+url="https://fonts.google.com/specimen/Tilt+Neon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiltneon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiltneon/TiltNeon[XROT,YROT].ttf"
+)
+sha256sums=(
+  "97941703cd5fb1d5e86a062c9463ed12a613dbfbab9961c333699bdb2d277321"
+  "c22333dfd1cd14c2a612b36ea1c50ea13e5e9244181e5129a63c944a165823a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

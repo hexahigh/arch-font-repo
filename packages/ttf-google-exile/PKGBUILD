@@ -1,0 +1,32 @@
+pkgname=ttf-google-exile
+pkgver=1.000
+pkgrel=1
+_commit="1796e34455b893092713d206e7f23e3e07699f00"  # Latest commit touching ofl/exile
+pkgdesc="Google Fonts family: Exile"
+arch=('any')
+url="https://fonts.google.com/specimen/Exile"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/exile/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/exile/Exile-Regular.ttf"
+)
+sha256sums=(
+  "797b2ad17e3d320f01742ca767b8f469b966b89dcf40fd05e90fcbbc5940fb7b"
+  "b8a059a844d6269e9136bec589d79455d0568eadd347e8769a46b1cd9babc6a2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-agbalumo
+pkgver=2.000
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/agbalumo
+pkgdesc="Google Fonts family: Agbalumo"
+arch=('any')
+url="https://fonts.google.com/specimen/Agbalumo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/agbalumo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/agbalumo/Agbalumo-Regular.ttf"
+)
+sha256sums=(
+  "e338828ef7e0686999d6e041d8b2020a952e537179c4bec70a43cf04000f1202"
+  "d9e35c6debf1319267140838f3c30c3c51d9f47c7050b5482c14c5accf7f4d94"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

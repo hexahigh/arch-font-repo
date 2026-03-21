@@ -1,0 +1,32 @@
+pkgname=ttf-google-suezone
+pkgver=1.001
+pkgrel=1
+_commit="df36bf1482130a95c54d7c8797d0715407e065b7"  # Latest commit touching ofl/suezone
+pkgdesc="Google Fonts family: Suez One"
+arch=('any')
+url="https://fonts.google.com/specimen/Suez+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/suezone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/suezone/SuezOne-Regular.ttf"
+)
+sha256sums=(
+  "aa8a8196a3e22c3bd985e33cd3245ae9a38accba5e79fc0e3b292612a8d6b337"
+  "3ef86844aad0cf9db7dcbda326f3d2f54cc4ccfe56db949e9e0c60a17031bd41"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

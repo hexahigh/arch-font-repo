@@ -1,0 +1,34 @@
+pkgname=ttf-google-karlatamilinclined
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karlatamilinclined
+pkgdesc="Google Fonts family: Karla Tamil Inclined"
+arch=('any')
+url="https://fonts.google.com/specimen/Karla+Tamil+Inclined"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/karlatamilinclined/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karlatamilinclined/KarlaTamilInclined-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karlatamilinclined/KarlaTamilInclined-Regular.ttf"
+)
+sha256sums=(
+  "fdecdad755f4e5e95bee491c7521f31625dc08283562ea8579543c90430eb269"
+  "57788fe46fa9b701cf284104c0946c6f2ef669cb7e39fbca404a41e315eed0e5"
+  "d563ace3a74ca1ce9c02cd32fb6dca5de7974f53de3304ac734980e02ba4f1c9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,44 @@
+pkgname=ttf-google-ekmukta
+pkgver=2.538
+pkgrel=1
+_commit="b6b13967323a4f3a70bb8496d16702d67d727cc0"  # Latest commit touching ofl/ekmukta
+pkgdesc="Google Fonts family: Ek Mukta"
+arch=('any')
+url="https://fonts.google.com/specimen/Ek+Mukta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ekmukta/EkMukta-SemiBold.ttf"
+)
+sha256sums=(
+  "2ee5e8e47cd7d08f60bb9555f72b25912c9e81b13f5bc9a0551ddf943da6ca98"
+  "1d62434625ca99e03acd200702ed5fd4d47231d134809807cdd7fb419f6409d1"
+  "9e9ffe6a3113b5b4720b56175bbef76836a9b0e9bb9effe4fc968b50d98f575a"
+  "4d793ee781d99bd9498d1089eb461bfb8133bf1b05e0a2dac659905206c06837"
+  "afabee30a12d8bdac36fc2b639e60f26e6f63b2f11613547cfca0d5e4167b54a"
+  "a98b7fad6cfae99c498b36002b290daf4c540cfb12dba86bab72f163299b0f56"
+  "d14f40a588b232cac9fb3063c707df93fc10e8d265694fc99fcfafcc8ab7b3b4"
+  "26d85f32f084a74b3eb976c28fa148383ac9822b086d94a41bef4659f3cad568"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-alansans
+pkgver=1.000
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alansans
+pkgdesc="Google Fonts family: Alan Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Alan+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alansans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alansans/AlanSans[wght].ttf"
+)
+sha256sums=(
+  "06f10277275c9263ab3de42df06607bc983332fd6f8a67130ed7058151b8f512"
+  "790fbddcc580daf47be830730eff012c77a427d7e2506d2a8b99473f1971a932"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

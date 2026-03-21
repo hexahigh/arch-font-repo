@@ -1,0 +1,36 @@
+pkgname=ttf-google-gayathri
+pkgver=1.000
+pkgrel=1
+_commit="ac67ce77dcc241dbc0f3b2e7fa686408b63d5d5d"  # Latest commit touching ofl/gayathri
+pkgdesc="Google Fonts family: Gayathri"
+arch=('any')
+url="https://fonts.google.com/specimen/Gayathri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gayathri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gayathri/Gayathri-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gayathri/Gayathri-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gayathri/Gayathri-Thin.ttf"
+)
+sha256sums=(
+  "b2cc52a7162f0c8f71924211d040de37b19894f563a0190a75c017e2dc28d08a"
+  "ad62d4ab2990d5bba9203c205513a8e162a44a03c58269f9a8b138cad9c0d5e3"
+  "c4fab5d994518247f78d96bf212a7d5b36563b60663136765fbaebd33a74d4f9"
+  "5c60a888ea5c0d1d259a1803fdbe9d7fa5c8ef9edce952482efa9f59dde4519d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

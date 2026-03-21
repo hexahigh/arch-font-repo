@@ -1,0 +1,32 @@
+pkgname=ttf-google-recursive
+pkgver=1.085
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/recursive
+pkgdesc="Google Fonts family: Recursive"
+arch=('any')
+url="https://fonts.google.com/specimen/Recursive"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/recursive/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/recursive/Recursive[CASL,CRSV,MONO,slnt,wght].ttf"
+)
+sha256sums=(
+  "f9f539cf7549bd417159dbdb9c400943a5b60a7366c2c6fbde9f095173d82479"
+  "653221ca467f4732fe6856ac493f6c409e9f56a7674abe36b2364acc89796f7c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

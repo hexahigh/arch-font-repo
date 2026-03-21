@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindjalandhar
+pkgver=0.702
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindjalandhar
+pkgdesc="Google Fonts family: Hind Jalandhar"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Jalandhar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/HindJalandhar-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/HindJalandhar-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/HindJalandhar-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/HindJalandhar-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindjalandhar/HindJalandhar-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "40ae9e8beea31bcf27e0a223424a5b904de716f6d3343c9425a268a7c04ac1a8"
+  "b4fec2a8eedb6ecdd29ed7862bb76f847e077424f0337c7eaf09185aa1447d47"
+  "8d15a3dba9d59aa768c78d62daa259129e391ca68994d32a954b193e77c208de"
+  "ec31a2104441edd54607610e7c9c14a13cb7fd57d63cff24330a1734a4dad7e1"
+  "8f231651b67f8fa5dbd3e464036ce0e9eaf8c9d12e34946196a7b6a79ccadc44"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

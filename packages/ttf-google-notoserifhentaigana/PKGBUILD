@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifhentaigana
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifhentaigana
+pkgdesc="Google Fonts family: Noto Serif Hentaigana"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Hentaigana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhentaigana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhentaigana/NotoSerifHentaigana[wght].ttf"
+)
+sha256sums=(
+  "4061fdf96d90c8337d66506bbc240e0e1b5a58132967842ab831f6c76e821a28"
+  "94d31f3669977a8464d7f4c6597a2c0bacab636e70548e1a3184ffc7e0a5abf1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

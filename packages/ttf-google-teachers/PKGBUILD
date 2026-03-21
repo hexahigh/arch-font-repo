@@ -1,0 +1,34 @@
+pkgname=ttf-google-teachers
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/teachers
+pkgdesc="Google Fonts family: Teachers"
+arch=('any')
+url="https://fonts.google.com/specimen/Teachers"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/teachers/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/teachers/Teachers-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/teachers/Teachers[wght].ttf"
+)
+sha256sums=(
+  "01bcbd4041e01aa832e3d5f26312dc577145c6245f7819ee0726a207614c88fc"
+  "5e0edd5dfffac145df5fa1c10c85baf350e3f738d6c2b2dbbf487f7427ce9ea9"
+  "b59c8c0c5b1990935916d3fc414f87d0116f1bc0be355382968454e5d4b8e015"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

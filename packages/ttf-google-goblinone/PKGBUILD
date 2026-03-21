@@ -1,0 +1,32 @@
+pkgname=ttf-google-goblinone
+pkgver=1.001
+pkgrel=1
+_commit="2dcc32eb988b1049ba92e41e469c8f8362c06d1c"  # Latest commit touching ofl/goblinone
+pkgdesc="Google Fonts family: Goblin One"
+arch=('any')
+url="https://fonts.google.com/specimen/Goblin+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/goblinone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/goblinone/GoblinOne.ttf"
+)
+sha256sums=(
+  "042a570b306ab893c6168be7e6e79bbceae46097141357ad0af7ef8bb179ed7b"
+  "26a15eafd8911f547e846066a1eea0521af2d870d6f17b8ecf0741768b99d099"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

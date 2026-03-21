@@ -1,0 +1,32 @@
+pkgname=ttf-google-monda
+pkgver=2.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/monda
+pkgdesc="Google Fonts family: Monda"
+arch=('any')
+url="https://fonts.google.com/specimen/Monda"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/monda/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monda/Monda[wght].ttf"
+)
+sha256sums=(
+  "319d4eda099ff5c9aab15b0e86af50c8f5bf5af3c27b2f2934ccb6d10f0583e1"
+  "c95b63f7612df912adc262cb0ef3e8a6c3e6022beb279d9c2ca01c557aa94b59"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

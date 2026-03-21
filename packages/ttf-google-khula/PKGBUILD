@@ -1,0 +1,40 @@
+pkgname=ttf-google-khula
+pkgver=1.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/khula
+pkgdesc="Google Fonts family: Khula"
+arch=('any')
+url="https://fonts.google.com/specimen/Khula"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/Khula-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/Khula-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/Khula-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/Khula-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khula/Khula-SemiBold.ttf"
+)
+sha256sums=(
+  "2171558d2482764644a2f793696fa2e48c361730ecc87686b9a29082d6daeb10"
+  "923cafe77cf48066e151f91358800bd9e036b1c417b9fcc326da39d281b87fe7"
+  "ba71d616a428488071037fba6fa660396f0a189fc545cf60b7a0de709075947f"
+  "805bec764710d2e18590c3b783d0ba241e76368a718107ede318f84b940e5075"
+  "825477d3c995997ebd41245fc4177bf1681bfd6546674e0d67a29a094c78644f"
+  "b12c4895da1a0e7eccc18c844baa1054fd51eab70d3a65786e7c8437fea51986"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

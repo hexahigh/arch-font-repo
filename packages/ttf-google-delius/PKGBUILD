@@ -1,0 +1,32 @@
+pkgname=ttf-google-delius
+pkgver=1.001
+pkgrel=1
+_commit="a5e9f10e0d0c17fe0a41e8dc29f90fd64a4e7d89"  # Latest commit touching ofl/delius
+pkgdesc="Google Fonts family: Delius"
+arch=('any')
+url="https://fonts.google.com/specimen/Delius"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/delius/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/delius/Delius-Regular.ttf"
+)
+sha256sums=(
+  "d8eb8611f8c98d20cbf18a28425652d6022dc2a5cca15026b920f1f2bc92a612"
+  "c0fd66626926b637d64eb13de013b3318dbd72cdf92c33e41a29a03828bab6f6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

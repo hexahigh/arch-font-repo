@@ -1,0 +1,34 @@
+pkgname=ttf-google-victormono
+pkgver=1.561
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/victormono
+pkgdesc="Google Fonts family: Victor Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Victor+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/victormono/VictorMono[wght].ttf"
+)
+sha256sums=(
+  "493589852331b4ea83f1d6b0cbdc157b002ffdb995cf2429acf0c9863bc8f3df"
+  "e393afee873d56e052c10bdfcbf67053c429895bd73a4f8e59100a09ffb9d8ec"
+  "6fab3abe37b456f56d180987e04a3a0c326bace2cb825bc638b6be1eb03edf8f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

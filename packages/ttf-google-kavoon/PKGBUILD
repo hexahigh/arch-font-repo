@@ -1,0 +1,32 @@
+pkgname=ttf-google-kavoon
+pkgver=1.004
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kavoon
+pkgdesc="Google Fonts family: Kavoon"
+arch=('any')
+url="https://fonts.google.com/specimen/Kavoon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kavoon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kavoon/Kavoon-Regular.ttf"
+)
+sha256sums=(
+  "82831e8f12ecb6deb2f4d9919a04049895b4619e0301fa6b699c861bd7311c54"
+  "d9600e05c23bba0872171f094cffe98851f52d3ce1d343f1741d32bfcbcdffa2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-tirodevanagarihindi
+pkgver=1.52
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tirodevanagarihindi
+pkgdesc="Google Fonts family: Tiro Devanagari Hindi"
+arch=('any')
+url="https://fonts.google.com/specimen/Tiro+Devanagari+Hindi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirodevanagarihindi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirodevanagarihindi/TiroDevanagariHindi-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirodevanagarihindi/TiroDevanagariHindi-Regular.ttf"
+)
+sha256sums=(
+  "2ed6051706542c5d6d96480318152b17900bb6d4dbadb11d7d5d6464d8b3e0dd"
+  "eed07aca7291e34fa2c4f3e48be325b261f60516ecf835610fee30dade0f78ec"
+  "d2abcb4d352f0bfab91632df5d9c8173882073c182e662fa731a5a738e6681d7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

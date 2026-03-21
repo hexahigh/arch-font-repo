@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskayahli
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskayahli
+pkgdesc="Google Fonts family: Noto Sans Kayah Li"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Kayah+Li"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskayahli/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskayahli/NotoSansKayahLi[wght].ttf"
+)
+sha256sums=(
+  "e053c471ccf7602350e2f9f77bb479dfadc040173ce4e50309dba9ce1ae7e09a"
+  "477e12ed1a0255e8b51f4228d0fa66fc740a0b546d632a82d3080c37fdd087f5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

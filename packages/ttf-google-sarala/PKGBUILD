@@ -1,0 +1,34 @@
+pkgname=ttf-google-sarala
+pkgver=1.004
+pkgrel=1
+_commit="9c21bdc225e761527699b4c11758e66214d94992"  # Latest commit touching ofl/sarala
+pkgdesc="Google Fonts family: Sarala"
+arch=('any')
+url="https://fonts.google.com/specimen/Sarala"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarala/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarala/Sarala-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarala/Sarala-Regular.ttf"
+)
+sha256sums=(
+  "afb8c471158619593df0fb501453bd39fda42396e2cc3911e2a0a471c11b863c"
+  "b08ccab2a22b3dcfad6a9b88d5b700cb830c7557ae13e9264e61cd6a96ecc268"
+  "9e7e34335efeaec81e791b76126a3d26a77230bca9e580aa1658ccf72cebce7b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

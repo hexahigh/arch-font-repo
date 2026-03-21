@@ -1,0 +1,32 @@
+pkgname=ttf-google-modernantiqua
+pkgver=1.0
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/modernantiqua
+pkgdesc="Google Fonts family: Modern Antiqua"
+arch=('any')
+url="https://fonts.google.com/specimen/Modern+Antiqua"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/modernantiqua/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/modernantiqua/ModernAntiqua-Regular.ttf"
+)
+sha256sums=(
+  "3e908f3a95680bdf3c8456bfbf76392605b34cb3fba109e46441056ab966cb35"
+  "36ce0d70604b58915a29189065a1b8383d5197ba117994c87cbfd4f360831efd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

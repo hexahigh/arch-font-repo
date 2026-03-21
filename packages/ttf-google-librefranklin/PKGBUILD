@@ -1,0 +1,34 @@
+pkgname=ttf-google-librefranklin
+pkgver=3.000
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librefranklin
+pkgdesc="Google Fonts family: Libre Franklin"
+arch=('any')
+url="https://fonts.google.com/specimen/Libre+Franklin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librefranklin/LibreFranklin[wght].ttf"
+)
+sha256sums=(
+  "2710268527181a27b8e938617551bae29e714e6525247be6679bf897a9942a60"
+  "b8d2f40203bd4d90fe3e805953d9b79d62a6486db756d984b0d8ef4435b367ba"
+  "2329f394b10ed1c71107df20fddc11e2bb1b68c1ecbb385f975b36fd64a971f8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

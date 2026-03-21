@@ -1,0 +1,34 @@
+pkgname=ttf-google-nunitosans
+pkgver=3.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nunitosans
+pkgdesc="Google Fonts family: Nunito Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Nunito+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nunitosans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nunitosans/NunitoSans-Italic[YTLC,opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nunitosans/NunitoSans[YTLC,opsz,wdth,wght].ttf"
+)
+sha256sums=(
+  "efbb0c9e864cef973982d9a17567e6be5c3d1759695574586f3f18c7ecca064b"
+  "d9d5db18f3c11221a4fbb553cbc709391c1179964c7eaa4466ef43c78aa4492f"
+  "f934d7142fb4784bf828da485b7dcbd90c0c80d514e9d49a5da0ed3a1ae2491d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

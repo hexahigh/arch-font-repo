@@ -1,0 +1,32 @@
+pkgname=ttf-google-datatype
+pkgver=1.202
+pkgrel=1
+_commit="e37dcc1ec707d4cef933212558d31c293cfcdb84"  # Latest commit touching ofl/datatype
+pkgdesc="Google Fonts family: Datatype"
+arch=('any')
+url="https://fonts.google.com/specimen/Datatype"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/datatype/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/datatype/Datatype[wdth,wght].ttf"
+)
+sha256sums=(
+  "7dc22cae34310e9c41a072b1f7cea4627605faa5dcec3a6b3b9ec91e985d2000"
+  "ecc12db4d3d268be54f3de142064784633bf489081e70d0f29dde948a0bfc791"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-sanchez
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sanchez
+pkgdesc="Google Fonts family: Sanchez"
+arch=('any')
+url="https://fonts.google.com/specimen/Sanchez"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sanchez/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sanchez/Sanchez-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sanchez/Sanchez-Regular.ttf"
+)
+sha256sums=(
+  "5f8ff4a3f951c104e99245bdb952be08c73369222048bbf19fa3bf7170d10949"
+  "50978369880866e41534bcdb215ebed9b632efae31d434b252a607688bf4bc05"
+  "759e73bad0b78e84555215fd9a68637cf445d41d29e0e9834f5ee9dc43fa7684"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

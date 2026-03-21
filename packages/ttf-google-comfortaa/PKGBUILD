@@ -1,0 +1,32 @@
+pkgname=ttf-google-comfortaa
+pkgver=3.105
+pkgrel=1
+_commit="db64f6bde4ced22493138096badb4fe2f7f8f7a0"  # Latest commit touching ofl/comfortaa
+pkgdesc="Google Fonts family: Comfortaa"
+arch=('any')
+url="https://fonts.google.com/specimen/Comfortaa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/comfortaa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comfortaa/Comfortaa[wght].ttf"
+)
+sha256sums=(
+  "bc85bae0b512b799bbfb2b916e4d0a34cfd963d09778cd783e248b479e67760a"
+  "0fc3f45dc48b614db9c39181502544b37217ecbf8bee2fb35886992bc96c5bd3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

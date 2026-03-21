@@ -1,0 +1,32 @@
+pkgname=ttf-google-matangi
+pkgver=3.004
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/matangi
+pkgdesc="Google Fonts family: Matangi"
+arch=('any')
+url="https://fonts.google.com/specimen/Matangi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/matangi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/matangi/Matangi[wght].ttf"
+)
+sha256sums=(
+  "9fa2d688009a1dad3a8938b5649a9955cae6baecdae25461a26a1c4703a99627"
+  "1f2a23098e137dc241492fde76543abaaccad4726e99b198002e6dffbdf5a45d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

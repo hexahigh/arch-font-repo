@@ -1,0 +1,32 @@
+pkgname=ttf-google-montaga
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montaga
+pkgdesc="Google Fonts family: Montaga"
+arch=('any')
+url="https://fonts.google.com/specimen/Montaga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/montaga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montaga/Montaga-Regular.ttf"
+)
+sha256sums=(
+  "cb8bbf7a86eefa8c146f24ae5be74fffa887ba83719ab3c87036be8e3d0191e2"
+  "2f84c4a9ee4921dd629ad55c0003e5f15448737884dea1c3ffd9aacaf3b476a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

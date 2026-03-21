@@ -1,0 +1,32 @@
+pkgname=ttf-google-ysabeausc
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ysabeausc
+pkgdesc="Google Fonts family: Ysabeau SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Ysabeau+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ysabeausc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ysabeausc/YsabeauSC[wght].ttf"
+)
+sha256sums=(
+  "1343b9162a2d24f685767766ea23a75a80b88ba13ba421244e65b72210578b78"
+  "be5128bbae3feaf10b2766724c42b2cb21ccb968ae943688e61ed048d59762b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

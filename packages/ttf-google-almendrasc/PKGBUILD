@@ -1,0 +1,32 @@
+pkgname=ttf-google-almendrasc
+pkgver=1.002
+pkgrel=1
+_commit="5f69e9bffcf2bc95abc6d19871a7e2e6d2666edb"  # Latest commit touching ofl/almendrasc
+pkgdesc="Google Fonts family: Almendra SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Almendra+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendrasc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendrasc/AlmendraSC-Regular.ttf"
+)
+sha256sums=(
+  "b7eae5e3c3447f70caa14e0c43f5e0d953f54ee59df406f6362863bcee1a0a95"
+  "dca733b5b03e4ea52c666365777c8f6b360d55de04efc9d834cf9f82b68308be"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

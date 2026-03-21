@@ -1,0 +1,32 @@
+pkgname=ttf-google-ballet
+pkgver=1.100
+pkgrel=1
+_commit="c3c7f361964dc8ae1a48e627ac3ddf585424acc3"  # Latest commit touching ofl/ballet
+pkgdesc="Google Fonts family: Ballet"
+arch=('any')
+url="https://fonts.google.com/specimen/Ballet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ballet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ballet/Ballet[opsz].ttf"
+)
+sha256sums=(
+  "f916a0e34635667d5b9828401c10d461bb29780beddd45c30c5dc25c037dffbd"
+  "6500b6abb6dd31c3389e8f32a21ae3c66e3257d0afefecf7688aa23f742cb677"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

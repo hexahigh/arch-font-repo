@@ -1,0 +1,32 @@
+pkgname=ttf-google-batangche
+pkgver=2.21
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/batangche
+pkgdesc="Google Fonts family: BatangChe"
+arch=('any')
+url="https://fonts.google.com/specimen/BatangChe"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/batangche/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/batangche/BatangChe-Regular.ttf"
+)
+sha256sums=(
+  "cc115f501827fffddcbf1ef86e5248ee55e40f0c3fb9725173b248ccc2d5df51"
+  "34aff823e0d9b86e7b7cb6913612e06638812a1d9af061272510b4cbf9d4c6ba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-chelseamarket
+pkgver=1.001
+pkgrel=1
+_commit="0ce474e0e3927c591fc48f30bc2007d8185bdd36"  # Latest commit touching ofl/chelseamarket
+pkgdesc="Google Fonts family: Chelsea Market"
+arch=('any')
+url="https://fonts.google.com/specimen/Chelsea+Market"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chelseamarket/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chelseamarket/ChelseaMarket-Regular.ttf"
+)
+sha256sums=(
+  "ae6de2f6fc00f76cc7eb0d97c1ae5e0b7ec734f20ad7f58cf4c74738dc822d21"
+  "7243be29a2d74e6a826e1091f74c89e58cc8010047c6db8de13f616e81b1f5f2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

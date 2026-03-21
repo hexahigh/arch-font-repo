@@ -1,0 +1,32 @@
+pkgname=ttf-google-nuosusil
+pkgver=2.300
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nuosusil
+pkgdesc="Google Fonts family: Nuosu SIL"
+arch=('any')
+url="https://fonts.google.com/specimen/Nuosu+SIL"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nuosusil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nuosusil/NuosuSIL-Regular.ttf"
+)
+sha256sums=(
+  "4a90b22c5b61d15805fc786aa22592a4e8b52c4ff5774a4bb2c1ae0cb79b083a"
+  "632b875ede95598e162da0323fb79e0f4dace58643ddbe29bfc460c78ee2ac64"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

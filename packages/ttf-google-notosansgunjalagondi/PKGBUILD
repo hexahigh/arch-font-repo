@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansgunjalagondi
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansgunjalagondi
+pkgdesc="Google Fonts family: Noto Sans Gunjala Gondi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Gunjala+Gondi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgunjalagondi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgunjalagondi/NotoSansGunjalaGondi[wght].ttf"
+)
+sha256sums=(
+  "08143215e0afaca5ccf91aae3f575029f918b9177d5bc18e0c49dd838a5ba5f4"
+  "1de8a430d5c176994d1c5ae61151af141ae39fcb38a29f340b1f46e7ad9522d4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

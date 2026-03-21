@@ -1,0 +1,32 @@
+pkgname=ttf-google-lemon
+pkgver=1.003
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lemon
+pkgdesc="Google Fonts family: Lemon"
+arch=('any')
+url="https://fonts.google.com/specimen/Lemon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lemon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lemon/Lemon-Regular.ttf"
+)
+sha256sums=(
+  "e317ef2e8f152eea3bd96bfad4868cc406625cc4336087fd645e10a5f2b859f3"
+  "6a3973a9ea7c05e6041969d0a5e8f2b04db3b2ccd5e5bc98bc7ff52c0940ce2f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

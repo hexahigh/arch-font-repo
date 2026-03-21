@@ -1,0 +1,32 @@
+pkgname=ttf-google-chonburi
+pkgver=1.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chonburi
+pkgdesc="Google Fonts family: Chonburi"
+arch=('any')
+url="https://fonts.google.com/specimen/Chonburi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chonburi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chonburi/Chonburi-Regular.ttf"
+)
+sha256sums=(
+  "74584d937293a9cacdcd2eb05851b71aa1527901c18b87961d2f877c77a1b486"
+  "aa0dac4df08af10785ba1dc10121492227f8e4288f0a23d11dd1d1f5a7f6ebfa"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

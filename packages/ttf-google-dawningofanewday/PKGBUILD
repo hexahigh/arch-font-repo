@@ -1,0 +1,32 @@
+pkgname=ttf-google-dawningofanewday
+pkgver=1.002
+pkgrel=1
+_commit="6c09fffc661ac7f9e73cde427d3655abbdd2844e"  # Latest commit touching ofl/dawningofanewday
+pkgdesc="Google Fonts family: Dawning of a New Day"
+arch=('any')
+url="https://fonts.google.com/specimen/Dawning+of+a+New+Day"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dawningofanewday/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dawningofanewday/DawningofaNewDay.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "2b2afa623dbb1926e3b026603287b4d15ee05778106e26a7b33ef94d4be29dcb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

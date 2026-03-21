@@ -1,0 +1,32 @@
+pkgname=ttf-google-crushed
+pkgver=001.001
+pkgrel=1
+_commit="890cebdb57b9f27ebf3c2ddf59084a6869a59444"  # Latest commit touching apache/crushed
+pkgdesc="Google Fonts family: Crushed"
+arch=('any')
+url="https://fonts.google.com/specimen/Crushed"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/crushed/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/crushed/Crushed-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "ce930a0ae7db21bc6d6fb08fc9964e84bf0ecaa60a6fde560d3d2a4ae0949a1a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

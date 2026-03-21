@@ -1,0 +1,32 @@
+pkgname=ttf-google-gafata
+pkgver=4.002
+pkgrel=1
+_commit="efe7968e74d6c41697f02810ffd76afca67c85d7"  # Latest commit touching ofl/gafata
+pkgdesc="Google Fonts family: Gafata"
+arch=('any')
+url="https://fonts.google.com/specimen/Gafata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gafata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gafata/Gafata-Regular.ttf"
+)
+sha256sums=(
+  "eb6c70cb6b575ad22df022d454df7a20582915e6e8da19b579c6cbef37a26bb5"
+  "a816ae1fc683a8c093666b3b7f5de8e8dbdfca658459a484138e65378d4326b6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

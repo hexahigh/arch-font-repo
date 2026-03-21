@@ -1,0 +1,32 @@
+pkgname=ttf-google-average
+pkgver=1.003
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/average
+pkgdesc="Google Fonts family: Average"
+arch=('any')
+url="https://fonts.google.com/specimen/Average"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/average/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/average/Average-Regular.ttf"
+)
+sha256sums=(
+  "b8397dc8f7ede718fda9a553018d3dc2e90db99da53a85cb644204ce4e629844"
+  "f9efcc21a222870178c86d2d47d3861a40284d25acd28657554f646f68902e34"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

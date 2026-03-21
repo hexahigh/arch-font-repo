@@ -1,0 +1,32 @@
+pkgname=ttf-google-sarina
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sarina
+pkgdesc="Google Fonts family: Sarina"
+arch=('any')
+url="https://fonts.google.com/specimen/Sarina"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarina/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarina/Sarina-Regular.ttf"
+)
+sha256sums=(
+  "2cc926050c4c6ccd9a0288b7792e2fcf93e5629ee6269e35986f092275e5a1b9"
+  "89c6e14d7638e48463cc6c61b2e463e3dcc5780a26197bcf7f4412d70048a4a6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanspahawhhmong
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanspahawhhmong
+pkgdesc="Google Fonts family: Noto Sans Pahawh Hmong"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Pahawh+Hmong"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspahawhhmong/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspahawhhmong/NotoSansPahawhHmong-Regular.ttf"
+)
+sha256sums=(
+  "55c7d320c0be6098bd42e7665397f2f15b46ba6b1fad2708969bf073402d012e"
+  "8b575d82f37d1119c7fb6d0f569fafea572bddfeb83861c8501d4ab5a5faef92"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

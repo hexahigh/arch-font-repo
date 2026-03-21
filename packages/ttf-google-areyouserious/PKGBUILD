@@ -1,0 +1,32 @@
+pkgname=ttf-google-areyouserious
+pkgver=1.100
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/areyouserious
+pkgdesc="Google Fonts family: Are You Serious"
+arch=('any')
+url="https://fonts.google.com/specimen/Are+You+Serious"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/areyouserious/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/areyouserious/AreYouSerious-Regular.ttf"
+)
+sha256sums=(
+  "424875d518bd5175f201a74349796121c959f9c095f960b9d57521612a77ec7a"
+  "e2f61a166f382d7031ce750fe31d9a6d009a7dc8b63aafe4feff65e5cb4b3874"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

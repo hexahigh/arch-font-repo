@@ -1,0 +1,32 @@
+pkgname=ttf-google-zcoolqingkehuangyou
+pkgver=1.000
+pkgrel=1
+_commit="7f1b83ecdae8ccb7507fa6e06396e57bc0a5665d"  # Latest commit touching ofl/zcoolqingkehuangyou
+pkgdesc="Google Fonts family: ZCOOL QingKe HuangYou"
+arch=('any')
+url="https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolqingkehuangyou/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolqingkehuangyou/ZCOOLQingKeHuangYou-Regular.ttf"
+)
+sha256sums=(
+  "f1bce31b817dee01c1e4ef8bc45d8ecb95f01f4abbf0a985007cb3cd0fd8123d"
+  "54f0c0df4308cd74cd0f2fd3494ae054dbc4a1fd6fa7d71f4807eb4cdd8b4136"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

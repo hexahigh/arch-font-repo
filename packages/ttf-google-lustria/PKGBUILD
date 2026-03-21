@@ -1,0 +1,32 @@
+pkgname=ttf-google-lustria
+pkgver=001.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lustria
+pkgdesc="Google Fonts family: Lustria"
+arch=('any')
+url="https://fonts.google.com/specimen/Lustria"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lustria/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lustria/Lustria-Regular.ttf"
+)
+sha256sums=(
+  "930fed5b06a415736dc3b4e5f4f01585523b672717564bf677f93966bcd57636"
+  "8b50753779d151674dcc74bdf9cdde1e788d8fb2b9ace8fb183a0def0f7361ce"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

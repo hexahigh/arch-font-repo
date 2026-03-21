@@ -1,0 +1,32 @@
+pkgname=ttf-google-bahiana
+pkgver=1.005
+pkgrel=1
+_commit="85fb94c01ef81a2048180627e679e9d885815114"  # Latest commit touching ofl/bahiana
+pkgdesc="Google Fonts family: Bahiana"
+arch=('any')
+url="https://fonts.google.com/specimen/Bahiana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bahiana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bahiana/Bahiana-Regular.ttf"
+)
+sha256sums=(
+  "e3ed3ad6cb257e16dc1789900707c5cd1cdef2d60d155389342604991cf693f9"
+  "75760e955339cd70012c8bd9577d373f8bdd4256a73f571f61a42f58ea26fe9c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-dohyeon
+pkgver=1.001
+pkgrel=1
+_commit="7e73e5a40f4145727a4783093db7695673c82a6c"  # Latest commit touching ofl/dohyeon
+pkgdesc="Google Fonts family: Do Hyeon"
+arch=('any')
+url="https://fonts.google.com/specimen/Do+Hyeon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dohyeon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dohyeon/DoHyeon-Regular.ttf"
+)
+sha256sums=(
+  "de5ff32211a4340b01477af39ee339d639438955e409f79b666d4b9207f3c92c"
+  "35644be7f28e0a68a447b1f7af351dcde5674b870f24f7b5f43e26d00b4ab653"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

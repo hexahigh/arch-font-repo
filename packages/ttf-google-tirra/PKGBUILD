@@ -1,0 +1,42 @@
+pkgname=ttf-google-tirra
+pkgver=4.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tirra
+pkgdesc="Google Fonts family: Tirra"
+arch=('any')
+url="https://fonts.google.com/specimen/Tirra"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirra/Tirra-SemiBold.ttf"
+)
+sha256sums=(
+  "b61e343344d321bceb488ee3f8eaa6df0eab3b20b694ce5600cf59403256dff3"
+  "331d779c1bb9fd679d06af0dc6a91a53ddfe931221898df669b52c94ce837cfc"
+  "503457bac22b9e8324b2d3a49ee081c650db97c8020b667f0636013f2a6066bf"
+  "6b7f42f0d22f23c09dafecc98d9912ce6089ff6daa89aff00ab0fc2c13615fb6"
+  "1142a9e6507967d48d9526e67561d1ac3802296f187a1739abba4cdbf202b74c"
+  "548e2fd7556a95bc24f6bfc7c32661cb746cca4f25c52dc0a6945e4bed061d25"
+  "cc99dbef65d904245b13d0178b96e3839bb2d60eacceadfccb74ce59ff8b57c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-michroma
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/michroma
+pkgdesc="Google Fonts family: Michroma"
+arch=('any')
+url="https://fonts.google.com/specimen/Michroma"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/michroma/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/michroma/Michroma-Regular.ttf"
+)
+sha256sums=(
+  "33c39ce59a45bfb0dae3280e98bdb46be59d6d68efc62d4dc5fae90a26d2f393"
+  "b62301163788bc5b7f8fcac0b74b184e34e1827e577b499ecb724da065098f87"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

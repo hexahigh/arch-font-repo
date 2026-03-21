@@ -1,0 +1,32 @@
+pkgname=ttf-google-linefont
+pkgver=3.002
+pkgrel=1
+_commit="cb90ebb2b68fed2c0b36a8169861066424846ab1"  # Latest commit touching ofl/linefont
+pkgdesc="Google Fonts family: Linefont"
+arch=('any')
+url="https://fonts.google.com/specimen/Linefont"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/linefont/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/linefont/Linefont[wdth,wght].ttf"
+)
+sha256sums=(
+  "cab4ad0d72d01c3e4d539e8bd4c1b4fca51718538db77e3802550a173329e617"
+  "94cab92c51d91e7cac90f03144fa527a9fc6d1712bbbe09ab04c28cdf922026e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-taiheritagepro
+pkgver=2.600
+pkgrel=1
+_commit="670b231de4715944bc8faf66406f476bf54d754a"  # Latest commit touching ofl/taiheritagepro
+pkgdesc="Google Fonts family: Tai Heritage Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Tai+Heritage+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/taiheritagepro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taiheritagepro/TaiHeritagePro-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taiheritagepro/TaiHeritagePro-Regular.ttf"
+)
+sha256sums=(
+  "268fac20d46709abff409b4be3847359f30c3ee4c4b7f7e5aa6dd29a4db29f49"
+  "658ba5d655942e0139233cc8e8a7e04529976c38dd9abd80a093dceccad42ff4"
+  "dd2e9d518584b2214762ab4de572c5bd2d3955c0d32b74739a5c471412e2bbac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

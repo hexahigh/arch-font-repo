@@ -1,0 +1,32 @@
+pkgname=ttf-google-marhey
+pkgver=1.000
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marhey
+pkgdesc="Google Fonts family: Marhey"
+arch=('any')
+url="https://fonts.google.com/specimen/Marhey"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/marhey/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marhey/Marhey[wght].ttf"
+)
+sha256sums=(
+  "096744f008d418398e0b72ce8d4c46f195c036600a7a48df256ac95e026a79dc"
+  "19c30686157ec965797fae8c8feb7bb142b082217227562d1a809c067df447e9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

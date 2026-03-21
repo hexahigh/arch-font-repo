@@ -1,0 +1,32 @@
+pkgname=ttf-google-pathwaygothicone
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pathwaygothicone
+pkgdesc="Google Fonts family: Pathway Gothic One"
+arch=('any')
+url="https://fonts.google.com/specimen/Pathway+Gothic+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pathwaygothicone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pathwaygothicone/PathwayGothicOne-Regular.ttf"
+)
+sha256sums=(
+  "ad4275c6aa3ddcf5ed3f0a788732e13ba57799b1d8deb00de3fc2a928ea70ea2"
+  "0b2785c0bbd9c67667875d8d48eeeef9751bb814038747ba00f693b888dbbdf7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

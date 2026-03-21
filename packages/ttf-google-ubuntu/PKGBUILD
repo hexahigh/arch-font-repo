@@ -1,0 +1,46 @@
+pkgname=ttf-google-ubuntu
+pkgver=0.83
+pkgrel=1
+_commit="a4f3deeca2d7547351ff746f7bf3b51f5528dbcf"  # Latest commit touching ufl/ubuntu
+pkgdesc="Google Fonts family: Ubuntu"
+arch=('any')
+url="https://fonts.google.com/specimen/Ubuntu"
+license=('UFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/UFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntu/Ubuntu-Regular.ttf"
+)
+sha256sums=(
+  "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"
+  "679b5c1e09cab3156bb8ef529735f9382bf31ca7ac737382ab959297f8d82ad4"
+  "875d776e7f33c50b1d1b594791da0eba9865648f232f08bcba00bba9dfa01d96"
+  "4ab857e72f781a8967a6e4a9ac8858fbd6b3a9f9782db349d4b62b78ed02860b"
+  "a5d3ef89f219e90e1f22616adf2bd4a86c8ddd37aff58cd223482c44e3a92eef"
+  "8fc50d6238be2076f602578d846c81a680f3c1ad58c372cc272b4dee6e68ff90"
+  "3cd952b8b52581e48a8fa95b31c8829c2baa41b635042a69587d57f98092961e"
+  "54f65387b462fef9b4fb45f4e84344d5a9cfa660e281189e8d5e0ddcfccf5e8c"
+  "3128df86a31805618436d0ae5651ba4285d0c9de0a39057d025f64ee33bceb64"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/UFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

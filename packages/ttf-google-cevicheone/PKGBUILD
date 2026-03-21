@@ -1,0 +1,32 @@
+pkgname=ttf-google-cevicheone
+pkgver=1.002
+pkgrel=1
+_commit="cb031d577c5a790549229f2cd2d9c11c3eeffe0c"  # Latest commit touching ofl/cevicheone
+pkgdesc="Google Fonts family: Ceviche One"
+arch=('any')
+url="https://fonts.google.com/specimen/Ceviche+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cevicheone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cevicheone/CevicheOne-Regular.ttf"
+)
+sha256sums=(
+  "9a33b452a3107542c35fc5fcee80e4d8798c82aca071c2f6f58a0f8dc5ad61fe"
+  "366249c911e689cd5ea3d576c0eba0c37a938e0a58721fce3733a4244dd9ab32"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,42 @@
+pkgname=ttf-google-playfairdisplaysc
+pkgver=1.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playfairdisplaysc
+pkgdesc="Google Fonts family: Playfair Display SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Playfair+Display+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfairdisplaysc/PlayfairDisplaySC-Regular.ttf"
+)
+sha256sums=(
+  "e414e07f7a4da16ed47ebec80d52dd79f21d3ca42bc92385a755d8078a038814"
+  "9a508229401e2a5deb52ff9c11f00446a482bd25029836a54027716310cfe0b0"
+  "6bea69bbdbbc93addd99bd124763e1fc8a31c9d72513e2d22087d04676e1546f"
+  "b58a968cfc9b4e96e6857a206e1b042dc3fdbe5dc31cd75825d864f80ac7e915"
+  "3fe8dda7cb14eced6cd56fe2eb7eae8bee5d70caa301e75a23f1ce19fa6b82cb"
+  "9d9c78080ddb51db269056bd0d84e11007e6f6e1980ec15e757158afbb6f3ad4"
+  "55df09f0a49905a0f5e478597b5b3fc78acf0512ceb568504f3cdc4659662e47"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

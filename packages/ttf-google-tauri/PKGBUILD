@@ -1,0 +1,32 @@
+pkgname=ttf-google-tauri
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tauri
+pkgdesc="Google Fonts family: Tauri"
+arch=('any')
+url="https://fonts.google.com/specimen/Tauri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tauri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tauri/Tauri-Regular.ttf"
+)
+sha256sums=(
+  "6506b2fa2a14259a8859608a6148a4591d67bbaef4d8e1948b43c4078561b0e5"
+  "fca89fc675b89363e550b1308eeede7fa0f5f4e1eb2bf9b9bb5d432c01817a39"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

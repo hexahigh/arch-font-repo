@@ -1,0 +1,32 @@
+pkgname=ttf-google-allura
+pkgver=1.110
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/allura
+pkgdesc="Google Fonts family: Allura"
+arch=('any')
+url="https://fonts.google.com/specimen/Allura"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allura/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allura/Allura-Regular.ttf"
+)
+sha256sums=(
+  "c8cb4c94a558b6cb82ac5dc981a73a0b8aee35a5c52c8a7832fc0280c289ad49"
+  "9c142b2e515832c0dfc4ff8b8ea18f40314943bf937b72e2b23c4661bac14cc6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

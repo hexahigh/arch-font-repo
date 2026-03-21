@@ -1,0 +1,32 @@
+pkgname=ttf-google-luxuriousroman
+pkgver=1.010
+pkgrel=1
+_commit="3b34879b5dcc3adf0a0a3105e65ad3265b6b5bc3"  # Latest commit touching ofl/luxuriousroman
+pkgdesc="Google Fonts family: Luxurious Roman"
+arch=('any')
+url="https://fonts.google.com/specimen/Luxurious+Roman"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/luxuriousroman/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/luxuriousroman/LuxuriousRoman-Regular.ttf"
+)
+sha256sums=(
+  "b0c6f67b9ee530515e627d9909c8de84dfd30995a8c9802279beed28c740c4e9"
+  "30d6bc4b25cf075560f0dd90a77a8ed8165bd280a863de1c3ab429fbf9ace58b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-miama
+pkgver=0.32
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miama
+pkgdesc="Google Fonts family: Miama"
+arch=('any')
+url="https://fonts.google.com/specimen/Miama"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/miama/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/miama/Miama-Regular.ttf"
+)
+sha256sums=(
+  "6958d8c61b6b223f81bdc2109941e5d0004996dde61e197d628e0293f4f1bc58"
+  "2dfff84eb0d46ac727e99438417e244d3a92e4d09b26c3039b40d640f07aba6b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

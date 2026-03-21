@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskhmer
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskhmer
+pkgdesc="Google Fonts family: Noto Sans Khmer"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Khmer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskhmer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskhmer/NotoSansKhmer[wdth,wght].ttf"
+)
+sha256sums=(
+  "be0407f060aea48787ff9e75d8d3aedef70aef113b3ce9aca26fdaacd10b1870"
+  "f37a8431a0c5d5ed2f81a767417546aca576a81fb7eff9c924d46aecf828f2ca"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-architectsdaughter
+pkgver=1.003
+pkgrel=1
+_commit="5e2db8c087907e15306c67ad16c1e6eb85cb8f27"  # Latest commit touching ofl/architectsdaughter
+pkgdesc="Google Fonts family: Architects Daughter"
+arch=('any')
+url="https://fonts.google.com/specimen/Architects+Daughter"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/architectsdaughter/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/architectsdaughter/ArchitectsDaughter-Regular.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "6159718a08898e34bc1cb7354086141a5f9a70b73e54dbec27ead0d59a697359"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

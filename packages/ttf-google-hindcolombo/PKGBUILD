@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindcolombo
+pkgver=1.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindcolombo
+pkgdesc="Google Fonts family: Hind Colombo"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Colombo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/HindColombo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/HindColombo-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/HindColombo-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/HindColombo-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindcolombo/HindColombo-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "c32801dc19d5f50fd49a6d8794fdd8e89300cf4618692ea27feec10f1952b2b6"
+  "e3e47d4d3366f60fd3765d6e2716f063e30c54e32c57234e6ee4087993517186"
+  "97e18df23617b28a000c9836a85792b677ea735ef105c1cf5c09ffc7dba1a2fb"
+  "b7faf28ff25b882e2024fdf7d933ecaaa2a6e7fb26cef09b45a5a9fabe820514"
+  "98d35b2a27a16e3315cd0ba867aa27e9512831c911e63a068ab23de3e62a69d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

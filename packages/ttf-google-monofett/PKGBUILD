@@ -1,0 +1,32 @@
+pkgname=ttf-google-monofett
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/monofett
+pkgdesc="Google Fonts family: Monofett"
+arch=('any')
+url="https://fonts.google.com/specimen/Monofett"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/monofett/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monofett/Monofett-Regular.ttf"
+)
+sha256sums=(
+  "a6695ce9e8a5a86bfa3a55b65c3be569a0eca8dbf4c38bae323ac2433008916b"
+  "1483f18841a24238172d6f3462a3ea790b7a3e6ca8bb55d404dede93669238d5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

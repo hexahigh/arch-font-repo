@@ -1,0 +1,32 @@
+pkgname=ttf-google-cambo
+pkgver=2.001
+pkgrel=1
+_commit="5189c8865705e521031cd63ced39b73045bb9a94"  # Latest commit touching ofl/cambo
+pkgdesc="Google Fonts family: Cambo"
+arch=('any')
+url="https://fonts.google.com/specimen/Cambo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambo/Cambo-Regular.ttf"
+)
+sha256sums=(
+  "5454dc5cf2f46a2005f42f13ee2a998c7d0afd7f556f32fda208c72b266f7adc"
+  "526c80a8d006783e899537314972ac43449b520f53b96befc17c47175e9b2e2a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

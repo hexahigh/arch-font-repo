@@ -1,0 +1,36 @@
+pkgname=ttf-google-kopubbatang
+pkgver=1.01
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kopubbatang
+pkgdesc="Google Fonts family: Kopubbatang"
+arch=('any')
+url="https://fonts.google.com/specimen/Kopubbatang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kopubbatang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kopubbatang/KoPubBatang-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kopubbatang/KoPubBatang-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kopubbatang/KoPubBatang-Regular.ttf"
+)
+sha256sums=(
+  "9c56b4e2e4e922cc37e19e1a9e2e1128beaa17a812e1b67c8ac371b0fb57ae03"
+  "e21f1202062cf8a76173cce5aba07a88b79ac21b78aa885dc5c9e28dc1b672ac"
+  "4b48b18e81ecc50b54a5d34e625ac21a5a9b6b043e3f6bab6cd87279a645587b"
+  "e7e51c6d8d1131d8dab207ad8da64be861070700b20b19fcb4cd13556d0cc27c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

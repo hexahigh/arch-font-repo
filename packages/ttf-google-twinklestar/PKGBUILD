@@ -1,0 +1,32 @@
+pkgname=ttf-google-twinklestar
+pkgver=2.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/twinklestar
+pkgdesc="Google Fonts family: Twinkle Star"
+arch=('any')
+url="https://fonts.google.com/specimen/Twinkle+Star"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/twinklestar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/twinklestar/TwinkleStar-Regular.ttf"
+)
+sha256sums=(
+  "bbb2d117979266df4a2178e2ed7d6d03df765bd3a8763733b8446350f109533f"
+  "fa38cff73e64d3da161a857cdc3babfb8427149356cb61f40a17310261652604"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

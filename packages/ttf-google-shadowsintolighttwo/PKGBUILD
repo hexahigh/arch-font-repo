@@ -1,0 +1,32 @@
+pkgname=ttf-google-shadowsintolighttwo
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shadowsintolighttwo
+pkgdesc="Google Fonts family: Shadows Into Light Two"
+arch=('any')
+url="https://fonts.google.com/specimen/Shadows+Into+Light+Two"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shadowsintolighttwo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shadowsintolighttwo/ShadowsIntoLightTwo-Regular.ttf"
+)
+sha256sums=(
+  "6a28d4d5d8b4d1ea89ace5a047ac6e0de182acdb8bfa22897bf7702102094f69"
+  "d2540170b1b1df3094de433b4632755ba91ecb65626202a3c8affd2245e08405"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

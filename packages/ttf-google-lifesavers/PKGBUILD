@@ -1,0 +1,36 @@
+pkgname=ttf-google-lifesavers
+pkgver=3.100
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lifesavers
+pkgdesc="Google Fonts family: Life Savers"
+arch=('any')
+url="https://fonts.google.com/specimen/Life+Savers"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lifesavers/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lifesavers/LifeSavers-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lifesavers/LifeSavers-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lifesavers/LifeSavers-Regular.ttf"
+)
+sha256sums=(
+  "42ec400dfab4bd4872c48c9fb4369e91b399b98071adaae1495d5a8efef56d8d"
+  "cbcc2ded1b108aca167abc1a8d752b1deb975c445611c0fb725d32d21dcfb000"
+  "a7392b6a21ec8f22e5019d0adf9945fc4acba8761d4ff1e53eec65c9a230b454"
+  "9cfbf78067b2f17079be543d38bc614ddad23cc6e9c61f119b2ad96289236056"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

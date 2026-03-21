@@ -1,0 +1,32 @@
+pkgname=ttf-google-nixieone
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nixieone
+pkgdesc="Google Fonts family: Nixie One"
+arch=('any')
+url="https://fonts.google.com/specimen/Nixie+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nixieone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nixieone/NixieOne-Regular.ttf"
+)
+sha256sums=(
+  "e711c816f7de931244976f51166baa15446fc307e5d0ea04fdca1bc2c04afb1c"
+  "69030eb096d2590d00f4ac79fefa1e6e9c12f2d396a37527a1f7d6c047cd0f5d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

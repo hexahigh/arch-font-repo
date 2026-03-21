@@ -1,0 +1,32 @@
+pkgname=ttf-google-inconsolata
+pkgver=3.001
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inconsolata
+pkgdesc="Google Fonts family: Inconsolata"
+arch=('any')
+url="https://fonts.google.com/specimen/Inconsolata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/inconsolata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inconsolata/Inconsolata[wdth,wght].ttf"
+)
+sha256sums=(
+  "29bd0cfd0fb2a45f9b057c834a057724bae1f63b525a8ac83d3e7525706d9f80"
+  "23ded25b447074d00659392bf9b1123d89df55cb07b0ad9bfef3366d199b5fcb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

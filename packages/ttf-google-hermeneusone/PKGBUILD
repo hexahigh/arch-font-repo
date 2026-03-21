@@ -1,0 +1,32 @@
+pkgname=ttf-google-hermeneusone
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hermeneusone
+pkgdesc="Google Fonts family: Hermeneus One"
+arch=('any')
+url="https://fonts.google.com/specimen/Hermeneus+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hermeneusone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hermeneusone/HermeneusOne-Regular.ttf"
+)
+sha256sums=(
+  "6e54fc004ebeb61322ecab1d86334ebf69e7051632d48eca489beee505d70762"
+  "53ff8b668ff603beb3a15b298c35d80932f57a47c889e6e96bb93d434da25808"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

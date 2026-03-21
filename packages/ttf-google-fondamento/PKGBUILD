@@ -1,0 +1,34 @@
+pkgname=ttf-google-fondamento
+pkgver=1.000
+pkgrel=1
+_commit="fe6836ec8db35c5b1e8c5829b080d98cc99e2438"  # Latest commit touching ofl/fondamento
+pkgdesc="Google Fonts family: Fondamento"
+arch=('any')
+url="https://fonts.google.com/specimen/Fondamento"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fondamento/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fondamento/Fondamento-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fondamento/Fondamento-Regular.ttf"
+)
+sha256sums=(
+  "382232d1add5623ba5b06394afa071f4eeecccb6d2b2bd02cfecff4a8a45065a"
+  "8303c76ccfaf81a065c3653a1d559f76e8223a3200a79451d5dedd33cebbef9e"
+  "ee03a7ccb3b7cdf3cd095d0cc34f9e70c16b1779cbc7c466bf9077323a6ea764"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

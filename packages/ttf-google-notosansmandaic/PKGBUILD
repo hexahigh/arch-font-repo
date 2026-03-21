@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmandaic
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmandaic
+pkgdesc="Google Fonts family: Noto Sans Mandaic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Mandaic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmandaic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmandaic/NotoSansMandaic-Regular.ttf"
+)
+sha256sums=(
+  "b5a142ed5fe40575370ceffe3f611ce95bb12afcffd363bed18cbf6f624daa13"
+  "28f9cdd5221c0c0ce42871996a3ca716e0f2f7be5131423e51021c6397be0fdc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

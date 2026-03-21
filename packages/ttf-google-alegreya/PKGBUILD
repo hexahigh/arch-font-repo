@@ -1,0 +1,34 @@
+pkgname=ttf-google-alegreya
+pkgver=2.009
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alegreya
+pkgdesc="Google Fonts family: Alegreya"
+arch=('any')
+url="https://fonts.google.com/specimen/Alegreya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreya/Alegreya[wght].ttf"
+)
+sha256sums=(
+  "f6f60d5d4cf4f4b1fc4e41353c897a2f5a16e6396c0cd8fa8bdfd2f4586a9a68"
+  "fa915eec76227935dc5fb678953c94b71287c360928013cfdb441dfe52f5a391"
+  "ba5564634b93a8f8ba57b48cd4f1ae7417d2b4656fbac779028679b00de3cf12"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

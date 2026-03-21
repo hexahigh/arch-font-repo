@@ -1,0 +1,34 @@
+pkgname=ttf-google-adventpro
+pkgver=3.000
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/adventpro
+pkgdesc="Google Fonts family: Advent Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Advent+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adventpro/AdventPro[wdth,wght].ttf"
+)
+sha256sums=(
+  "c8d52b6a6c2a6c46193a48d4e6dc7368896bc7d4c069f33abca0728476957aec"
+  "0917a5d65589025f2a752b1b0568f924dac49a065a25b4d60116b3c6d4d9ebae"
+  "b60ab2920b89bdc4b7dadfb282cadac6e03833e7a80844f9eac096359b2b9766"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

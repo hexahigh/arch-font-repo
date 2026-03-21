@@ -1,0 +1,34 @@
+pkgname=ttf-google-josefinslab
+pkgver=2.100
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/josefinslab
+pkgdesc="Google Fonts family: Josefin Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Josefin+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinslab/JosefinSlab-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinslab/JosefinSlab[wght].ttf"
+)
+sha256sums=(
+  "40be94683ce097454926ce71af843ceebf8a5eb01dc196f58063d65951cc5dae"
+  "2629d8e5c81bf652f096179d89e525c3d02824307cdd10852053979fe72c8ee9"
+  "52f8addf239848d129cfde96c3290b78e271ad657ef5645068d4f08046c2d1b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

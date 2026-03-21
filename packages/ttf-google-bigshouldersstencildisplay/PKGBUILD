@@ -1,0 +1,32 @@
+pkgname=ttf-google-bigshouldersstencildisplay
+pkgver=2.001
+pkgrel=1
+_commit="cb6de51f7d212276ac535f279543c9a53a3eda24"  # Latest commit touching ofl/bigshouldersstencildisplay
+pkgdesc="Google Fonts family: Big Shoulders Stencil Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Big+Shoulders+Stencil+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshouldersstencildisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshouldersstencildisplay/BigShouldersStencilDisplay[wght].ttf"
+)
+sha256sums=(
+  "338f9c050f19daeda1d597243faf79f3a3d437c338af58cb7047617d0ce08771"
+  "93bbefb9f3a497fcfeec5d1ac85c4a947a32b8e5bcaf3b7b5efff52f1b11b0e4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

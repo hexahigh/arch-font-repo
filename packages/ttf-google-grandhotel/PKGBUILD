@@ -1,0 +1,32 @@
+pkgname=ttf-google-grandhotel
+pkgver=001.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grandhotel
+pkgdesc="Google Fonts family: Grand Hotel"
+arch=('any')
+url="https://fonts.google.com/specimen/Grand+Hotel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandhotel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandhotel/GrandHotel-Regular.ttf"
+)
+sha256sums=(
+  "4c0a1150a363b42bd8681ff4a00315ac49510a944c4c9978237ff8b90a8920a5"
+  "ec7ae65d49c936cb5ed32534ab74dbd40c56733de5145ac3aae9da362e02b50f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

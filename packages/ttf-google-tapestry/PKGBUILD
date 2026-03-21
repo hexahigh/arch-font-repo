@@ -1,0 +1,32 @@
+pkgname=ttf-google-tapestry
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tapestry
+pkgdesc="Google Fonts family: Tapestry"
+arch=('any')
+url="https://fonts.google.com/specimen/Tapestry"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tapestry/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tapestry/Tapestry-Regular.ttf"
+)
+sha256sums=(
+  "ade4b61436a9ec043fcb4b2ee823e05d9f6ae38b4aa0e130f62d785805b486fd"
+  "1434a2e7ba36fb5266a8ef7889eb4e873b64b58007e89c00caf5802cabdfff6f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

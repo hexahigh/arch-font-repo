@@ -1,0 +1,32 @@
+pkgname=ttf-google-antic
+pkgver=1.0012
+pkgrel=1
+_commit="5377601ab307a09f13b876da5a783d3145b2291f"  # Latest commit touching ofl/antic
+pkgdesc="Google Fonts family: Antic"
+arch=('any')
+url="https://fonts.google.com/specimen/Antic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/antic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/antic/Antic-Regular.ttf"
+)
+sha256sums=(
+  "c1f8e0feb0babaacf774b971bcfd791e44125b9d61ff074e4c20924e9661556e"
+  "c5452292fc4356733af7b2d75d3a22ce4f782a519fce1ae9229947f1a5e39c89"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-dynalight
+pkgver=1.000
+pkgrel=1
+_commit="74f5f222a72b4ea0397a05b9be4bc3fdd14ae51a"  # Latest commit touching ofl/dynalight
+pkgdesc="Google Fonts family: Dynalight"
+arch=('any')
+url="https://fonts.google.com/specimen/Dynalight"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dynalight/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dynalight/Dynalight-Regular.ttf"
+)
+sha256sums=(
+  "ee2c069b30f3e9a5aaf52357117ee3443ee27f17c29a2ec68861db283379905c"
+  "360da5d767b48c849d06a608a4605d53c32a49fde127603aa83b096b6b43d0f1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-ubuntucondensed
+pkgver=0.83
+pkgrel=1
+_commit="a4f3deeca2d7547351ff746f7bf3b51f5528dbcf"  # Latest commit touching ufl/ubuntucondensed
+pkgdesc="Google Fonts family: Ubuntu Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Ubuntu+Condensed"
+license=('UFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntucondensed/UFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntucondensed/UbuntuCondensed-Regular.ttf"
+)
+sha256sums=(
+  "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"
+  "6c1f68d2e85832feae9ea30d2a6c0ea71ea623e8ea342bf00a414f6493ccf720"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/UFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

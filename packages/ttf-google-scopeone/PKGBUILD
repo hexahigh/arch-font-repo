@@ -1,0 +1,32 @@
+pkgname=ttf-google-scopeone
+pkgver=1.002
+pkgrel=1
+_commit="213563795a4ebec7d6cf16d7a436c39d7273f38b"  # Latest commit touching ofl/scopeone
+pkgdesc="Google Fonts family: Scope One"
+arch=('any')
+url="https://fonts.google.com/specimen/Scope+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/scopeone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/scopeone/ScopeOne-Regular.ttf"
+)
+sha256sums=(
+  "b5c776129b160163c84620b35fd45dea45edf49789cda5a94c2290c230581e0b"
+  "3ea90d6c246321acc26260255f24095cc1f91fc33380bbc9283dfdf5b77118cd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

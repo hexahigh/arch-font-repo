@@ -1,0 +1,36 @@
+pkgname=ttf-google-lekton
+pkgver=34.000
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lekton
+pkgdesc="Google Fonts family: Lekton"
+arch=('any')
+url="https://fonts.google.com/specimen/Lekton"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lekton/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lekton/Lekton-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lekton/Lekton-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lekton/Lekton-Regular.ttf"
+)
+sha256sums=(
+  "3fa0ceff4b9a2d28dde43bc63cde3acfb5e6e92d13a53e484ca0e501e18c7e2e"
+  "9aab5a281f3428d882e67d9a945930822380f5b28ad00f5fbf79e21dadee375f"
+  "ab5fb533f4ef21191a522b5c92e2bbccad6cf46d927a3fdc7617334a68977427"
+  "ccbb465d255a4bd0242af595d5f5410e635bd0dbf2f4b612b390e508a93d7a3a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

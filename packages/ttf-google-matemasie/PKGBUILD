@@ -1,0 +1,32 @@
+pkgname=ttf-google-matemasie
+pkgver=1.001
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/matemasie
+pkgdesc="Google Fonts family: Matemasie"
+arch=('any')
+url="https://fonts.google.com/specimen/Matemasie"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/matemasie/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/matemasie/Matemasie-Regular.ttf"
+)
+sha256sums=(
+  "6b90824ea2277fe4f30b5c78f1cf10bdfde5d7e004cb7d316d7e743fe949718d"
+  "5ad4d54e1216448e4acf6044bf3a2a1d36e955cd8dea61e9146e8dfc8f1f5cc7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

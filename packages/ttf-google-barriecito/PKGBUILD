@@ -1,0 +1,32 @@
+pkgname=ttf-google-barriecito
+pkgver=1.001
+pkgrel=1
+_commit="1db3649020195426bf93234475f3177e4d8a2fdc"  # Latest commit touching ofl/barriecito
+pkgdesc="Google Fonts family: Barriecito"
+arch=('any')
+url="https://fonts.google.com/specimen/Barriecito"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/barriecito/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/barriecito/Barriecito-Regular.ttf"
+)
+sha256sums=(
+  "d90fb3bcba8c59ffd661fe1973eb4d39d9b70da666343bdd584d4b09e12e5204"
+  "ff32a099b68e0eb5e236adcb9a58141d00fbdf196586e421d1c6a0d1859f75b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

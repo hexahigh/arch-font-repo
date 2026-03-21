@@ -1,0 +1,32 @@
+pkgname=ttf-google-paprika
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/paprika
+pkgdesc="Google Fonts family: Paprika"
+arch=('any')
+url="https://fonts.google.com/specimen/Paprika"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/paprika/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/paprika/Paprika-Regular.ttf"
+)
+sha256sums=(
+  "96c9adf4335fee2c0b8028009d85d6bf59e6bde8d378fe589f188b7390eae9ce"
+  "a53bba54989b5401d61115332ad2554c3cc6b7ab82e02cb0bd1abc4d48ad63cb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

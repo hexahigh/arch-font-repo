@@ -1,0 +1,34 @@
+pkgname=ttf-google-chironheihk
+pkgver=2.530
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chironheihk
+pkgdesc="Google Fonts family: Chiron Hei HK"
+arch=('any')
+url="https://fonts.google.com/specimen/Chiron+Hei+HK"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironheihk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironheihk/ChironHeiHK-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironheihk/ChironHeiHK[wght].ttf"
+)
+sha256sums=(
+  "68b9a31cc191bb8f5f428f191209f7d08c6b5b0d4816a293e5bd230724e84f10"
+  "e9e78771ef2cedf21cc01cf3f547036f55e5b183190473cb6f3804f49507707b"
+  "0d788ded72dc88f478818182179af4c7cd143df0bf86557d29729ab132333930"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-cookie
+pkgver=1.004
+pkgrel=1
+_commit="f8a80a71cf09d551da5c8852c5938d3592100769"  # Latest commit touching ofl/cookie
+pkgdesc="Google Fonts family: Cookie"
+arch=('any')
+url="https://fonts.google.com/specimen/Cookie"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cookie/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cookie/Cookie-Regular.ttf"
+)
+sha256sums=(
+  "c832a4230a713d080aa2f2544d9a298ed911f689b2c48f7f276a0196b16d2b8a"
+  "9daf3cc9e5efe1b65094cdf1f14729ef6f07a70c27ee0679bf7f544a828b080e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

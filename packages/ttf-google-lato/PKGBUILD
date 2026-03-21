@@ -1,0 +1,66 @@
+pkgname=ttf-google-lato
+pkgver=2.015
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lato
+pkgdesc="Google Fonts family: Lato"
+arch=('any')
+url="https://fonts.google.com/specimen/Lato"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lato/Lato-ThinItalic.ttf"
+)
+sha256sums=(
+  "74ba064d03f1f1c4a952da936c3eb71866c34404916734de3cae73b34357e59e"
+  "808c62839c62dbce7de689af7603666fc7f8b81e0df537d8a5212c87580d4337"
+  "3214f75bf96783a571bd25338c867c669e7c5e7c08a227f18a7b63766d6e6cbe"
+  "8a0aace75d33794eece4b28187bfc1df0bbd2888b5d8a56e01788c8d65d16be1"
+  "62c1b7f0d2e74b45960154c3520efc337b553db0961bfdc950d5618334596cc8"
+  "61018de62bdaf90d4ac80b1d53c5c130756c8e9219aea3d2773fc9bd5869af97"
+  "a42b384b9c37913a61023e3a47c07fead26e776127bbc9e6a0c96fe413089374"
+  "989989b481db5df0827d90c51fd08d024fe7bc4e367046e2584a0d3b0487936d"
+  "fc56526250b9b64ce0908c52350b03e91b84afecb08fd2834a12e57b91abdb31"
+  "e399c44efe1387100531d26c7e4800c5d12251b890d6654a3098c7c679cb1786"
+  "cf2a774503baf418d584f49967bd160e1e03f087c13b25602f28024ec7788f08"
+  "700e6722fd14a10e7646347a6b14c486d4c364a373ba61c70e0b5ccee7811635"
+  "d3ac182a6833e005745dd75679fbad081c0b12535df4e93ad8ed57817a31a338"
+  "ecbce6cffa42d8a67afeb27a9d6e85d515e81481d4b2cece989e833a48048405"
+  "d636e4683231f931eda222d588e944d082bfd3bdba02f928bee461c0f185b251"
+  "71b8b7decbe75a881ed267be539d402bd1e9420b799658aada4e0d1bd5af803c"
+  "5adeb6b334d8fb99ef053bc052b952773d544315e0e1d668a12c0ce8bd51375c"
+  "663c55bfe9a38270fff44da273bf4d792eafc3e7e1201f62c3064cad80c5d5e7"
+  "e5e86e219ce6987b175470d94d57753a387d1860b635da6327a60e8d19a33beb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

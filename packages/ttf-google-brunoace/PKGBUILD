@@ -1,0 +1,32 @@
+pkgname=ttf-google-brunoace
+pkgver=1.100
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/brunoace
+pkgdesc="Google Fonts family: Bruno Ace"
+arch=('any')
+url="https://fonts.google.com/specimen/Bruno+Ace"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/brunoace/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brunoace/BrunoAce-Regular.ttf"
+)
+sha256sums=(
+  "0818bff7217e2a147826e6f18f6b4c5094f7415fcc61298883dde2fded9b4411"
+  "2ebb34cae30afcb6859757b8c0cc49c49203781216e4446e07a77046c633cc2b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

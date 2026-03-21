@@ -1,0 +1,32 @@
+pkgname=ttf-google-sirinstencil
+pkgver=1.002
+pkgrel=1
+_commit="e262405051c716b417fd124e0b2b439ce8d95b4e"  # Latest commit touching ofl/sirinstencil
+pkgdesc="Google Fonts family: Sirin Stencil"
+arch=('any')
+url="https://fonts.google.com/specimen/Sirin+Stencil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sirinstencil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sirinstencil/SirinStencil-Regular.ttf"
+)
+sha256sums=(
+  "ca19ac21c7656f493189093eca52b4239fcc5eacc15ab2e3d67cfbfc0e6e443b"
+  "0e231c6220787179588fe8b1c8921bff70207f1f556a6ef7e35e46ae04352b2d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

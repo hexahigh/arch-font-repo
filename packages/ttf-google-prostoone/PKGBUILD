@@ -1,0 +1,32 @@
+pkgname=ttf-google-prostoone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/prostoone
+pkgdesc="Google Fonts family: Prosto One"
+arch=('any')
+url="https://fonts.google.com/specimen/Prosto+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/prostoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prostoone/ProstoOne-Regular.ttf"
+)
+sha256sums=(
+  "7039124ec9c84f9d637637da9f80158f0d3681c82d4e6a811053467f7c33d587"
+  "745974a4c404cc1fd646d4134940ed359657d6c28634b544f9cbc0f830791ea6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

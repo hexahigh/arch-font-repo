@@ -1,0 +1,36 @@
+pkgname=ttf-google-cardo
+pkgver=1.0451
+pkgrel=1
+_commit="5f99a56415a5d804aa991b1ffe621f7d9b1dc90b"  # Latest commit touching ofl/cardo
+pkgdesc="Google Fonts family: Cardo"
+arch=('any')
+url="https://fonts.google.com/specimen/Cardo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cardo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cardo/Cardo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cardo/Cardo-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cardo/Cardo-Regular.ttf"
+)
+sha256sums=(
+  "8e28b778b6e1a7ff9ca72f4dee2d53120aa2856dc1bfd0be44307e365b0e45bb"
+  "6c9383b1471936ee83b08b67bf79f0ed92bee3d5e8363ec3ba21309d5a272e36"
+  "52c51cfde3a827dd9428511c4a968699952b8a917c5f0e97be782cbfa1880f9c"
+  "bcb81f376f1c3892c7026dabf2beafbd1a7ee8ae95d132ee7d4ff7d7c3988261"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

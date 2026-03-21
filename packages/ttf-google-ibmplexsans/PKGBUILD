@@ -1,0 +1,34 @@
+pkgname=ttf-google-ibmplexsans
+pkgver=3.201
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/ibmplexsans
+pkgdesc="Google Fonts family: IBM Plex Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsans/IBMPlexSans[wdth,wght].ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "0b94c5e981993764db32bf9c610ecc60cbd34ad77ec2f10ba03c64ab75124d8e"
+  "3b031aa4216174205bd8471f88a49b91f093169e9e87bd5262242bc5967fe2e3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

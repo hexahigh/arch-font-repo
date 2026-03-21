@@ -1,0 +1,32 @@
+pkgname=ttf-google-molengo
+pkgver=0.11
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/molengo
+pkgdesc="Google Fonts family: Molengo"
+arch=('any')
+url="https://fonts.google.com/specimen/Molengo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/molengo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/molengo/Molengo-Regular.ttf"
+)
+sha256sums=(
+  "4dee45deee99672fbe342b2f4b7aa75b0cd12de18a68f9732c77f096bab47e0e"
+  "179b2472bbc83c90ffe3a64e31e7ce6915d22173ee5073cc4e786e9fc7792d76"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

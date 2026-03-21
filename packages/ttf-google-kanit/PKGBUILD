@@ -1,0 +1,66 @@
+pkgname=ttf-google-kanit
+pkgver=2.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kanit
+pkgdesc="Google Fonts family: Kanit"
+arch=('any')
+url="https://fonts.google.com/specimen/Kanit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanit/Kanit-ThinItalic.ttf"
+)
+sha256sums=(
+  "eb998cc5a685b240cdb46a0b5747e70334c8c57bbd7b1f6b044d75719358df67"
+  "5d290c2cc9926764bd782aa6abc47a8f55bd64641d0afb56e115ee522698ee7e"
+  "7fe3f1d87e33e165eae2d664e42a31faf542d24e431a2e7da36f4e4eee5f8529"
+  "5dec5b080dab13de9d2295437c0ff3ec05c9e75587dfc31358c005eb4efa5e70"
+  "194d26ba90b782465bd4653cc5a1cdf7a9bed7b9e271df4f6fb41b5dba359d78"
+  "70082870d1f5bb6ae9faa708572b2c36de3c076caae187edae753f709d0de984"
+  "e874a96de66b5340174ddf9c621593280a21e9adb8e07bb1587112de274acad5"
+  "f90e440b41170f2f75f2930d3273dbe9ed7a5ac49f7dbdc375ba5f8d2e224745"
+  "e62305565471f6ef1139581e2afbcd0b108fc2a8b140052cd06ec2852aad9cf9"
+  "7cbe69393a7bf948dd49e575369344a907f06b0182e7a618c033c67208abb27d"
+  "7c04b0be6011782fcc4c032f4033ef6f6ba1fef99b135ba1ee68b800c53017ec"
+  "e5cd0a7ce9ce65b7be59287320d247b7627b0a437a6a3bd1174440ceed4af1c6"
+  "50a237034244026a7c63fe55e24e0b4298babe363cde043e032075b764c545a2"
+  "266a8044e599ce2feef7dffa8e3ce7648c94927daba20c4838629054633cf8c4"
+  "27170c049660b2f962d3ed28441fd20f4c743503ca031fec9c2b4542d6c52736"
+  "67e64baf1a7e6e076435518ff0e6bf25c4d74b98143cd1a2688db906c0abce11"
+  "df1f635f3022306a7f61ed03cdc1a90364f31e19454bd287cffe45f98ca805d0"
+  "740d8a4d92ddae394d13a3caea845c048b6d62b58f9fb92ed4ac0118ed38c083"
+  "6f61a638ba025b495fbf23a05f96af31ae3e9ca710506da123e3d63abdcf7d40"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

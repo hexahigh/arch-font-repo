@@ -1,0 +1,32 @@
+pkgname=ttf-google-sonsieone
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sonsieone
+pkgdesc="Google Fonts family: Sonsie One"
+arch=('any')
+url="https://fonts.google.com/specimen/Sonsie+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sonsieone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sonsieone/SonsieOne-Regular.ttf"
+)
+sha256sums=(
+  "6cbe0f55c154b5dee71ca4f2418d69e4e916448ef2ab52dc4541197b292efa24"
+  "af927e627f54066390d6433631106defec38541255083ea36e4c4da27dad7525"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

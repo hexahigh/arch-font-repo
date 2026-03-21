@@ -1,0 +1,34 @@
+pkgname=ttf-google-thenautigal
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/thenautigal
+pkgdesc="Google Fonts family: The Nautigal"
+arch=('any')
+url="https://fonts.google.com/specimen/The+Nautigal"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/thenautigal/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thenautigal/TheNautigal-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thenautigal/TheNautigal-Regular.ttf"
+)
+sha256sums=(
+  "ed90d1f988ede9fa1db0ed42f25db2cf7b47d8f411832205a073c6553d44f98b"
+  "d51898da90096cefd2edfc5aa4fea2bdde3bad012ba1de08ae659f06bb420e6f"
+  "c7239b999c0d8127683116c8563307f0adbd63f7b16b342c180f8196941eca67"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

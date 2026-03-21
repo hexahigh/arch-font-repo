@@ -1,0 +1,38 @@
+pkgname=ttf-google-b612mono
+pkgver=1.008
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/b612mono
+pkgdesc="Google Fonts family: B612 Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/B612+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/b612mono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/b612mono/B612Mono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/b612mono/B612Mono-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/b612mono/B612Mono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/b612mono/B612Mono-Regular.ttf"
+)
+sha256sums=(
+  "a815f65bc72d90494b01842d3171f7cb0f9f935e023d9cc260904d221ef1064a"
+  "b467b1d19fdabed42be51d87e38c86645ceeff2f828f294775188d00d1fd68ca"
+  "91a6a8535fc61354a2c59a64ea205a4f6957c2e09ac4ff91a1fc61d346c004e1"
+  "d58fa807e69d18159a40d5790d25772239df20167b50a0f840e9feb253002c9c"
+  "b98cb96cc8a6206dae08c063d60902df7e6d40f86139ebdb97256704253c9c69"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

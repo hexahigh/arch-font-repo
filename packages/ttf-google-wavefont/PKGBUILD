@@ -1,0 +1,32 @@
+pkgname=ttf-google-wavefont
+pkgver=3.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/wavefont
+pkgdesc="Google Fonts family: Wavefont"
+arch=('any')
+url="https://fonts.google.com/specimen/Wavefont"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wavefont/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wavefont/Wavefont[ROND,YELA,wght].ttf"
+)
+sha256sums=(
+  "739f76be0415d6176ad32a2ce489350c8e8ccc6862728d9dfacddb9b26054ccd"
+  "1fbb81718f9e46647f105f6d641d7c5b0e1796f0d0e4a75e9d3134f1acc2f0a3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

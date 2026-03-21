@@ -1,0 +1,32 @@
+pkgname=ttf-google-arima
+pkgver=1.101
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/arima
+pkgdesc="Google Fonts family: Arima"
+arch=('any')
+url="https://fonts.google.com/specimen/Arima"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arima/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arima/Arima[wght].ttf"
+)
+sha256sums=(
+  "aae6749568fe746a578b16cb6ca8ca9a22729b0c738254e17c21b23a61972bd0"
+  "c6b0db0d4343e9d08b8e79f9c6f868576c94bc0c839d349535f030b011884e45"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

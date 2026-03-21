@@ -1,0 +1,32 @@
+pkgname=ttf-google-longcang
+pkgver=2.001
+pkgrel=1
+_commit="35e5529ffaf259a96693b048d9d97cdaa76b6837"  # Latest commit touching ofl/longcang
+pkgdesc="Google Fonts family: Long Cang"
+arch=('any')
+url="https://fonts.google.com/specimen/Long+Cang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/longcang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/longcang/LongCang-Regular.ttf"
+)
+sha256sums=(
+  "603546b7219a94bb59bf8294458194a5010119486354092b66a09a3fd61aeacc"
+  "e5bf2c3f24ef2327c6f136d8f73e2f9dfdf44896fdbeb35a9515f44777bb91bc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

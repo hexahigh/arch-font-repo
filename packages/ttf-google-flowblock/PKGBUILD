@@ -1,0 +1,32 @@
+pkgname=ttf-google-flowblock
+pkgver=1.101
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/flowblock
+pkgdesc="Google Fonts family: Flow Block"
+arch=('any')
+url="https://fonts.google.com/specimen/Flow+Block"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/flowblock/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/flowblock/FlowBlock-Regular.ttf"
+)
+sha256sums=(
+  "54665278a85e00842c5a261c2bc51c4735082f0164edcd95da27ed11e253e604"
+  "41df2ad95d9ae2d3573e7e958186e04a852a44a568e5c2fc5fbd22e416b50acc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

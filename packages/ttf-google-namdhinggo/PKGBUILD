@@ -1,0 +1,40 @@
+pkgname=ttf-google-namdhinggo
+pkgver=3.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/namdhinggo
+pkgdesc="Google Fonts family: Namdhinggo"
+arch=('any')
+url="https://fonts.google.com/specimen/Namdhinggo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/Namdhinggo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/Namdhinggo-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/Namdhinggo-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/Namdhinggo-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/namdhinggo/Namdhinggo-SemiBold.ttf"
+)
+sha256sums=(
+  "d3474845766e4361040178d2ddd0683efbd7117b4faf19ea99fc1574ecc51e7c"
+  "69523d079c45e6dbc82f9000c505b7a90b0b804cf705cb8864a5031c46b93c61"
+  "7a0780a1d6b3df02d13c03427dff4fd518d514b829258cf4146d36e78d9c2178"
+  "c37b90c812c6679eca031d49eab12b499ffd5d66f9845edc0b4ce877a72c69e3"
+  "fdf20478b42495053869abe4d8a16d273e418e3a343f5261a1e48770912b7e5a"
+  "62604448b98a7e364ca1eb321c64b34b28884581cb6d2edf1b6455a58cc8f764"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

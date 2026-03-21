@@ -1,0 +1,32 @@
+pkgname=ttf-google-tulpenone
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tulpenone
+pkgdesc="Google Fonts family: Tulpen One"
+arch=('any')
+url="https://fonts.google.com/specimen/Tulpen+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tulpenone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tulpenone/TulpenOne-Regular.ttf"
+)
+sha256sums=(
+  "6fc386ac48a529b85c21f90a6c8d2111c6271b3063f9ddd78e92645db5259510"
+  "b773d2fd30f5ef174560ce0fe05b05c6fa901e710236c4e9eea4c3f669580005"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

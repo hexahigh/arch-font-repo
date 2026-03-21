@@ -1,0 +1,32 @@
+pkgname=ttf-google-benne
+pkgver=1.001
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/benne
+pkgdesc="Google Fonts family: Benne"
+arch=('any')
+url="https://fonts.google.com/specimen/Benne"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/benne/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/benne/Benne-Regular.ttf"
+)
+sha256sums=(
+  "d4a77174d44252b564b086e4003b9e84c7a4f52859ea3b316c1242d813bbc5c4"
+  "681a3aadbde40f411b34bf6fb555971b1d6c1e979adf7eea5793f9bdd5ec7f3d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

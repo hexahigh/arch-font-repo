@@ -1,0 +1,38 @@
+pkgname=ttf-google-farro
+pkgver=1.101
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/farro
+pkgdesc="Google Fonts family: Farro"
+arch=('any')
+url="https://fonts.google.com/specimen/Farro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/farro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/farro/Farro-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/farro/Farro-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/farro/Farro-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/farro/Farro-Regular.ttf"
+)
+sha256sums=(
+  "2f9d46ed4ff595fe040cfcd11d41f80cd6b31b72c8e1b4ac793db50382cd3154"
+  "7671a5d122d2e303c7ecdbeb0e3ce552ec8ab644484d587e72ac71a06d3d9a07"
+  "0e66c58243c6f4f7b10ea268b52687c627d658d607493865aee474acf2b5d7fb"
+  "a5447bf5122e9a9804007c56353653ee7f223008120d428a5176a028ec697c80"
+  "eed5807e2779c1fba1a1627a1d34b0450e4fc6a87200522e2f3e3f617221c82b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

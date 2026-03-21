@@ -1,0 +1,34 @@
+pkgname=ttf-google-castoro
+pkgver=2.04
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/castoro
+pkgdesc="Google Fonts family: Castoro"
+arch=('any')
+url="https://fonts.google.com/specimen/Castoro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/castoro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/castoro/Castoro-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/castoro/Castoro-Regular.ttf"
+)
+sha256sums=(
+  "336c6a25afd535f9019824e419f5b507d31360a2fb1c87c6e1a663dc74c3b248"
+  "802fea3a19b819c1b2705ef3c1c0bff3b8e37f832e40da1d2e6932d733f99fcc"
+  "9af87f7db6ab1da918c0b0312bea5f4349782f1397b541a1d0fb2fc4ee35aead"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

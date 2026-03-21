@@ -1,0 +1,32 @@
+pkgname=ttf-google-jura
+pkgver=5.106
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jura
+pkgdesc="Google Fonts family: Jura"
+arch=('any')
+url="https://fonts.google.com/specimen/Jura"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jura/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jura/Jura[wght].ttf"
+)
+sha256sums=(
+  "54d85ef76f1fcf89671e196a9bca6b02683c68277caa89d89ff1b63a5fe9c421"
+  "188b415d44810d68b4d6b4a8c281f864184c2b8edc5e88e6357c89f7b44075bf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

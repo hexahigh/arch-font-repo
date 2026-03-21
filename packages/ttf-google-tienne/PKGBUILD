@@ -1,0 +1,36 @@
+pkgname=ttf-google-tienne
+pkgver=1.001
+pkgrel=1
+_commit="4723ae0153a065e41468d7e2666cd44961f594c7"  # Latest commit touching ofl/tienne
+pkgdesc="Google Fonts family: Tienne"
+arch=('any')
+url="https://fonts.google.com/specimen/Tienne"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tienne/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tienne/Tienne-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tienne/Tienne-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tienne/Tienne-Regular.ttf"
+)
+sha256sums=(
+  "01af2625d6247ecd2430d1d1603c579f85989d43b2d9129e08e0ac0df8909918"
+  "491c1dae79c296f300dd18ab595eb8a693a231263bf1a003dc28bd2feac5462a"
+  "f9037fef19a075cac703910c3c71ad747addba0aa008fb66d69769f79a41320a"
+  "2fa9043583bbe9496744b9e3e1a1d473379c77366357f6bc853c94ad53d8c31c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

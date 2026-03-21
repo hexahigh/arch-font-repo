@@ -1,0 +1,32 @@
+pkgname=ttf-google-cherrybombone
+pkgver=4.100
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cherrybombone
+pkgdesc="Google Fonts family: Cherry Bomb One"
+arch=('any')
+url="https://fonts.google.com/specimen/Cherry+Bomb+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherrybombone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherrybombone/CherryBombOne-Regular.ttf"
+)
+sha256sums=(
+  "0e04cbdaa14fc3e98b6ad1c9156b04d952cbdd0d31845766bae4cb543a71bcba"
+  "9596c6793eb0335057d655b13751ce7ccb50ef0cd15cb52c58465fb62de2bb8f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

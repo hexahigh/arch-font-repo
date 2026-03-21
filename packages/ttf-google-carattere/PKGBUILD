@@ -1,0 +1,32 @@
+pkgname=ttf-google-carattere
+pkgver=1.010
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/carattere
+pkgdesc="Google Fonts family: Carattere"
+arch=('any')
+url="https://fonts.google.com/specimen/Carattere"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/carattere/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carattere/Carattere-Regular.ttf"
+)
+sha256sums=(
+  "c83b38a64847eb1a4583a044f001c82c52df49e77f0a40edf4d0d2aa9c3ef9f9"
+  "2ee075b50a75aeaea0d976d916b535fbcd423a684e97fe8536fd8f9efe905ae6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

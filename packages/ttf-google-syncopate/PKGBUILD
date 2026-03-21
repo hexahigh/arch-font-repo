@@ -1,0 +1,34 @@
+pkgname=ttf-google-syncopate
+pkgver=1.001
+pkgrel=1
+_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/syncopate
+pkgdesc="Google Fonts family: Syncopate"
+arch=('any')
+url="https://fonts.google.com/specimen/Syncopate"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/syncopate/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/syncopate/Syncopate-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/syncopate/Syncopate-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "c71f5a40a83115518443c13474e5132804f4a91ce26e26fd9718cd3814ad4b2e"
+  "fcbb10798b80c981afabaa1055bde2ee29b283069b44cdfc68457e903a056ac1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

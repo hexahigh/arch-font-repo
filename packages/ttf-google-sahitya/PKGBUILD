@@ -1,0 +1,34 @@
+pkgname=ttf-google-sahitya
+pkgver=1.001
+pkgrel=1
+_commit="84c4e0dbf515ed8592d6b28e1b29b52dcff4350c"  # Latest commit touching ofl/sahitya
+pkgdesc="Google Fonts family: Sahitya"
+arch=('any')
+url="https://fonts.google.com/specimen/Sahitya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sahitya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sahitya/Sahitya-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sahitya/Sahitya-Regular.ttf"
+)
+sha256sums=(
+  "9ee6b2ec20a06c599a07412690876eb457bf192c10e886e60d8bdffb80bc21a3"
+  "9feb27b5d2980b741355bb6240d0f0b44d0f4cfdb15c11980049f4750fcaa88a"
+  "f43e57c9eb3c936e195009a5755906d34cdffb7e5ac4d0a51d260150f118ee62"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

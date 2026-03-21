@@ -1,0 +1,32 @@
+pkgname=ttf-google-amarante
+pkgver=1.001
+pkgrel=1
+_commit="72f2d71612f9d8c6db879300973917f0bb09be61"  # Latest commit touching ofl/amarante
+pkgdesc="Google Fonts family: Amarante"
+arch=('any')
+url="https://fonts.google.com/specimen/Amarante"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarante/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarante/Amarante-Regular.ttf"
+)
+sha256sums=(
+  "89bf0833b785c49b0f271273ab440bdc20c85bf0322537dc901df940bf1579da"
+  "de5eb7cc2b13632fe3f9fedbe4dc34571a76758cfb52b71fdace8fc4a7638a2f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

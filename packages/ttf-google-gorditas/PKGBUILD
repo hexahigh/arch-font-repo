@@ -1,0 +1,34 @@
+pkgname=ttf-google-gorditas
+pkgver=1.001
+pkgrel=1
+_commit="6291aad8a3d10ee602dcd5340e1469a0217eab7a"  # Latest commit touching ofl/gorditas
+pkgdesc="Google Fonts family: Gorditas"
+arch=('any')
+url="https://fonts.google.com/specimen/Gorditas"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gorditas/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gorditas/Gorditas-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gorditas/Gorditas-Regular.ttf"
+)
+sha256sums=(
+  "860cbfdc9dbc3f0e8d35af80c31e8f20945bff393d4f483dfc157469e01d321c"
+  "26b8259c2f61ef10dfa2a2fe1d1e113dfb241d6f780ce15878d005f86c1465c5"
+  "95543aaa4c3e1dc22b220b29bcbd8618ff744d904ed4c23179ab5a911d554ee0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssymbols2
+pkgver=2.008
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssymbols2
+pkgdesc="Google Fonts family: Noto Sans Symbols 2"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Symbols+2"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssymbols2/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssymbols2/NotoSansSymbols2-Regular.ttf"
+)
+sha256sums=(
+  "b118dd41337806a5d4797052c77caf3bd096aed783e5eb21b4d11154351e1ac0"
+  "7d5fb73b7ca67a6798101741f5d280a3d016a56a197afcd4199dbb57b4b82a21"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

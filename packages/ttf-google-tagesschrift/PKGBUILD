@@ -1,0 +1,32 @@
+pkgname=ttf-google-tagesschrift
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tagesschrift
+pkgdesc="Google Fonts family: Tagesschrift"
+arch=('any')
+url="https://fonts.google.com/specimen/Tagesschrift"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tagesschrift/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tagesschrift/Tagesschrift-Regular.ttf"
+)
+sha256sums=(
+  "2505c0a47285ae4e987e1d08924025a562d13bc507e7a9daefdd0db09f9df842"
+  "c8d9506c31912f8151dd98cc23793692552534f21fcdd2d489eb923f4c00dfb7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

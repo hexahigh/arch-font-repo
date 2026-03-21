@@ -1,0 +1,66 @@
+pkgname=ttf-google-poppins
+pkgver=4.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poppins
+pkgdesc="Google Fonts family: Poppins"
+arch=('any')
+url="https://fonts.google.com/specimen/Poppins"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poppins/Poppins-ThinItalic.ttf"
+)
+sha256sums=(
+  "6be04893d770899a015649c7aa3b582f871b272f8747a92b78b17c3e5c8b2573"
+  "d82aaaf98a9283f9a8edd24e51173337d8eaf09e25cd3d98831f8ec8461748a1"
+  "f4852ca89c29f69d800e14f097ed4d1f0a0cc454e9f77d73bfd6db1f71c287a0"
+  "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c"
+  "3572ac8116a0ac7317d342262b29937bcbaf94d8f03f90df6fe666fa7e2fb43a"
+  "f2ab17c1a63a0ecc12c2461848fc8a469395e3cd2d641803e889c643d9f958e1"
+  "dc00a2eb988373e9f4e99bf8ff76c6315ee21d36b341cbbff024e4c18cc7ac03"
+  "55c03314cc754e26f741f97890e5e9cbe3b3278fe3abcecfecafd60111b2643d"
+  "7171a17e4cda8f6ded78a7a931f9b7f38987057f3ffd1fe07a71528ad0f01e49"
+  "4fa76ae75b40f926420514044722cb97f32186cafd3b38263cc34dad7174d46d"
+  "650ba57fa99d12ec40c31ccfb680be656be4497fbe14164617d67e32ffe9cd46"
+  "b8f9c5be59723fadf8e5447fa1245c2c53b60a3464a24d6ece9ee3c283d8917b"
+  "90373e7d838d32468438fc3e152dca0bdb12edcab99ea639f158790b1ba1fd05"
+  "765addf6c7c11ec3c54325cacd68cabd05df8e4b6455302d812a9b9bafd1c614"
+  "7e65201e9b79159e2300267cc885e16c8dcef2424cdfa09a29bfb0980a94a7ba"
+  "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286"
+  "16bb118aa232c9a13fa238027d24d7854dd1a1d9cbaf99b17fec4388d56b432c"
+  "6d8e5d9d29140cc93e321745fa1243c67889e6bc3639ec34db64f3da7a496352"
+  "46df80ac970f5e84829b868d283878b4d97e289c7b1245541d8bbf66b5d670a8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

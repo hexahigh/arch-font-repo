@@ -1,0 +1,38 @@
+pkgname=ttf-google-arsenalsc
+pkgver=2.001
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/arsenalsc
+pkgdesc="Google Fonts family: Arsenal SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Arsenal+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arsenalsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arsenalsc/ArsenalSC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arsenalsc/ArsenalSC-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arsenalsc/ArsenalSC-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arsenalsc/ArsenalSC-Regular.ttf"
+)
+sha256sums=(
+  "a94cfd8d1f5c33f9a7506def359b907f3313f7008bb57fc893985963cd342f8f"
+  "a06dae429de1ffd9de35b290bd0bc2cafc6e542390b118ab95f5414d2d99414b"
+  "f2e9fc066073bff6dbf4b99af102e9f303abab11886665df0346ffb3c54b090b"
+  "e384e807ddd1888db1ae39fb96df3065e224b6d975dbef972e6697a7249547ef"
+  "56d7ae5099045e6b04a963156f665abeb5cfec2b55af0ddec74af6564bc7af47"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstakri
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstakri
+pkgdesc="Google Fonts family: Noto Sans Takri"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Takri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstakri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstakri/NotoSansTakri-Regular.ttf"
+)
+sha256sums=(
+  "7289a413acc7fa6ec0a40f1c92652e02178fe3a36e2fee2f98af8ceada41b0a4"
+  "129764150a358e24eb65ec117d140440e84b28bf4aad23a608fe9526f10c4701"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-mysoul
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mysoul
+pkgdesc="Google Fonts family: My Soul"
+arch=('any')
+url="https://fonts.google.com/specimen/My+Soul"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mysoul/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mysoul/MySoul-Regular.ttf"
+)
+sha256sums=(
+  "5d9c0715f247ead158013109a3c7a053d044ab58d74cbae50594f648189ac550"
+  "28bcb050c1220145fd6aff6f6f13b1b8f4a9608388c0c34e4ff94452e5e6444f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

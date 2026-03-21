@@ -1,0 +1,40 @@
+pkgname=ttf-google-zenoldmincho
+pkgver=1.500
+pkgrel=1
+_commit="6c4ff7159f6296ebd06b92d8010b086fcb795409"  # Latest commit touching ofl/zenoldmincho
+pkgdesc="Google Fonts family: Zen Old Mincho"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Old+Mincho"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/ZenOldMincho-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/ZenOldMincho-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/ZenOldMincho-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/ZenOldMincho-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenoldmincho/ZenOldMincho-SemiBold.ttf"
+)
+sha256sums=(
+  "469d214f9842809659c827b7f2adaf40ec0df6efdd5fe18b7127665c32aafaec"
+  "84a80d8bca79d7d9478935045b216ed003ad40fdea5fd9116d524eb26e872cdc"
+  "d6b95c1ff45c8dac153d28961e4c37d7d03b648330c71f884d124dc652a13c0d"
+  "e60c7961e5110d0f08f902de43fe60865f1538845ff2092c779837257efac3bf"
+  "4c051a78a21c4e8e9dccf1c754776d33f356b8cc6ef95d9b64761b9bae814b84"
+  "d98b9783652081f7f9e662b0568bddeaf6462962dd39edf68781268eb60ea3a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

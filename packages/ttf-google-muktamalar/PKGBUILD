@@ -1,0 +1,44 @@
+pkgname=ttf-google-muktamalar
+pkgver=2.538
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktamalar
+pkgdesc="Google Fonts family: Mukta Malar"
+arch=('any')
+url="https://fonts.google.com/specimen/Mukta+Malar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamalar/MuktaMalar-SemiBold.ttf"
+)
+sha256sums=(
+  "d24ff874133ecd133e55d7c4070d2edab14d3933477c2bccb3a0d8d1cc9c33bf"
+  "d9b89b888d5e8c2e5e178118faffede3513ed74963cb2327a6381ebe6cc49c4c"
+  "111b0e1ec07834b6e3a4589e811affcf521740589bd40bd2c279ae111a071aca"
+  "b3509f55536f5ae6778b05f419b699ff315bed47218a4b7bbc848909a447a30e"
+  "c29de0bc65be9ac013d9d3add8fa9a90b084ad2c241c8991c1cf9b63966fb566"
+  "24a63c81bf17a90a6593190bf9c7b676183f5943b4a529db1a4ef2eb0c71805f"
+  "51904041260855ef4ba2bf845c9bc6511ea330157b704a44c85b029195d32a73"
+  "da06e2bef0ed1298499804c3c53f8be0d6c138177c4eb9ff7e8bbab5c9f53e5e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

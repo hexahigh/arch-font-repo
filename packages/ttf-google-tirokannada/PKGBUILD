@@ -1,0 +1,34 @@
+pkgname=ttf-google-tirokannada
+pkgver=1.52
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tirokannada
+pkgdesc="Google Fonts family: Tiro Kannada"
+arch=('any')
+url="https://fonts.google.com/specimen/Tiro+Kannada"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirokannada/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirokannada/TiroKannada-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirokannada/TiroKannada-Regular.ttf"
+)
+sha256sums=(
+  "2ed6051706542c5d6d96480318152b17900bb6d4dbadb11d7d5d6464d8b3e0dd"
+  "e22b96140842bcdb7c453d68bd18f96aec535182f8b59e5071c8279c6be73c26"
+  "5543779e9eaecf5fcafc2275b37cddd70eddb7352af35da028ab8228b4593050"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

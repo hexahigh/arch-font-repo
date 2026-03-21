@@ -1,0 +1,44 @@
+pkgname=ttf-google-martelsans
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/martelsans
+pkgdesc="Google Fonts family: Martel Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Martel+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martelsans/MartelSans-SemiBold.ttf"
+)
+sha256sums=(
+  "5641212407f956b828bf632afc4bbb3344f461f82255ab56756d9e3e8604c7b1"
+  "887a02992fb3560da586411d99be7ea1988d8ac6810ca881141f8fda7ac5e4aa"
+  "a6b8bb30ba51cf0e8afbaa47ea157bf952a1ee79ad89e772a7dff6404a2b64b4"
+  "eeced1acab2ab2ebc2eeb9cf80f162583c1b36fab2e1f65bdb14c4a68bde6868"
+  "dc353b8e790286b8a721a371e39f2e2eb37ace13756a4580adca7e6d8543e46c"
+  "e1c54736ae22799fbc2bc10d2c753b319d87dd9346ebbe86fbe0b8c59009acaa"
+  "5c365880e5c79763c745ca132049518e69873cf3da6f7ee91711dc522b021100"
+  "920cb398017087b2369a036df676335a32a3af71c4560dbde0e2199a004c9fc1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

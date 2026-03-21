@@ -1,0 +1,32 @@
+pkgname=ttf-google-ooohbaby
+pkgver=1.011
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ooohbaby
+pkgdesc="Google Fonts family: Oooh Baby"
+arch=('any')
+url="https://fonts.google.com/specimen/Oooh+Baby"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ooohbaby/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ooohbaby/OoohBaby-Regular.ttf"
+)
+sha256sums=(
+  "a768f4c2b04f8e960236f9854c8afeb3626fb34927f25aa66aa7f1cc8cea715e"
+  "904d1b79093da1ae4b7436ac2190ddf5048e3cb839b2dc0c0516d0f58a1c25ee"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

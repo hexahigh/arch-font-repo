@@ -1,0 +1,32 @@
+pkgname=ttf-google-greatvibes
+pkgver=1.103
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/greatvibes
+pkgdesc="Google Fonts family: Great Vibes"
+arch=('any')
+url="https://fonts.google.com/specimen/Great+Vibes"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/greatvibes/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/greatvibes/GreatVibes-Regular.ttf"
+)
+sha256sums=(
+  "61093a21f5e63dedf54222b3c09997e54c0fe43e3851d21386e02ddcbc246d49"
+  "8d509802186f1b51572531ecf313e8098f9a5bfdfaca93f0c9b34467f9982d15"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

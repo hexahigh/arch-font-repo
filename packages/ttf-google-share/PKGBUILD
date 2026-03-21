@@ -1,0 +1,38 @@
+pkgname=ttf-google-share
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/share
+pkgdesc="Google Fonts family: Share"
+arch=('any')
+url="https://fonts.google.com/specimen/Share"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/share/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/share/Share-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/share/Share-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/share/Share-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/share/Share-Regular.ttf"
+)
+sha256sums=(
+  "9d96f445b6e9c701428811d0177f894874f8d6f07ecc30d568c506542368f3ff"
+  "9419ff27f645fe25ae465342d77c82fcd2a3f6b97a7ff09051432e64f2df7581"
+  "08cc32f8a09bd9ff4336cce6428af68f8fc2140d25535fd10d64ff5244a8ad82"
+  "657d449c3205cd6b072ab8e29dc5fb15c1d8320b111bd43a016852171e0b6892"
+  "ef1c3522c12628f19174fbdb2939a2dbd03c83d2498e4a8c0c74c6a4caa9914b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

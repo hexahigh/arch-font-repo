@@ -1,0 +1,32 @@
+pkgname=ttf-google-sacramento
+pkgver=1.000
+pkgrel=1
+_commit="2ea673c7f9fcaab3f382a1113a46b7a1632af425"  # Latest commit touching ofl/sacramento
+pkgdesc="Google Fonts family: Sacramento"
+arch=('any')
+url="https://fonts.google.com/specimen/Sacramento"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sacramento/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sacramento/Sacramento-Regular.ttf"
+)
+sha256sums=(
+  "2e2cb5a98da665f2ab82a9fd01fb18c2337f845761b0c163f690ed65f3b94677"
+  "9341fda10adbfeb7efc94302b34507a3e227d7e7f5c432df3f5ac8753ff73d24"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

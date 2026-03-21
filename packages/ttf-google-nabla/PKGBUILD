@@ -1,0 +1,32 @@
+pkgname=ttf-google-nabla
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nabla
+pkgdesc="Google Fonts family: Nabla"
+arch=('any')
+url="https://fonts.google.com/specimen/Nabla"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nabla/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nabla/Nabla[EDPT,EHLT].ttf"
+)
+sha256sums=(
+  "999d3ace5ea7f04761689794a9c877b0a5fc8b22a469518ffad78b4facb2e61b"
+  "e45cec60eb2099b4b4ffee8ebe005d1d3060771071ede1caeeeb12e37a2c00ae"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

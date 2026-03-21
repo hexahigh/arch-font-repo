@@ -1,0 +1,34 @@
+pkgname=ttf-google-mate
+pkgver=1.003
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/mate
+pkgdesc="Google Fonts family: Mate"
+arch=('any')
+url="https://fonts.google.com/specimen/Mate"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mate/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mate/Mate-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mate/Mate-Regular.ttf"
+)
+sha256sums=(
+  "171b5e77742daf0aaa952ad9a9fc4afd78b3f3e80170a49a510ef849f4b915fb"
+  "52c32eaa806f093934883ee47df2cdb57fb000cbcb537c4982f45fb6decfc37f"
+  "95480334bc38a94236f03cf1c8dec24ea5a906712a559598d40b322c61d14b43"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

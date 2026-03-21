@@ -1,0 +1,34 @@
+pkgname=ttf-google-petrona
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/petrona
+pkgdesc="Google Fonts family: Petrona"
+arch=('any')
+url="https://fonts.google.com/specimen/Petrona"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/petrona/Petrona[wght].ttf"
+)
+sha256sums=(
+  "a889ff77b75be8bcd1456ff147eb9dac647f3eb217fad50fb4877496884f6dcb"
+  "f4ad599093d29a668e2f945e027b47baee8476647d92bc8c23a89b0f86c08078"
+  "0ede77fbf726541cf93ece7b721a7b069f004cb413ab205f74963560015ab075"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

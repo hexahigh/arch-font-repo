@@ -1,0 +1,32 @@
+pkgname=ttf-google-lexendpeta
+pkgver=1.007
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lexendpeta
+pkgdesc="Google Fonts family: Lexend Peta"
+arch=('any')
+url="https://fonts.google.com/specimen/Lexend+Peta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendpeta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendpeta/LexendPeta[wght].ttf"
+)
+sha256sums=(
+  "5da8505887d0fa7fe963445fd58852707fda34adfeb65af25c99d152bab285bd"
+  "48bd753c216bdb19a469a6570a8756f23045c1e46f8d498f6cf1038cbcdc135b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

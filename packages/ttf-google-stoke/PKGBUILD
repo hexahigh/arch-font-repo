@@ -1,0 +1,34 @@
+pkgname=ttf-google-stoke
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stoke
+pkgdesc="Google Fonts family: Stoke"
+arch=('any')
+url="https://fonts.google.com/specimen/Stoke"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stoke/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stoke/Stoke-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stoke/Stoke-Regular.ttf"
+)
+sha256sums=(
+  "a57810cbca0b4715ae8610dd7a268260cebbdd4fd76d304e371517f828150669"
+  "6d7657845f2003b7119bb981d4f2363182c77f3a20d1a3a3b2b4465814e9dfb8"
+  "da50d1746c29010693ff20832aeb0caa94b3b0566443057341e6df3c715df8b2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

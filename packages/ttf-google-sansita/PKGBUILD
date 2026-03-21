@@ -1,0 +1,46 @@
+pkgname=ttf-google-sansita
+pkgver=1.006
+pkgrel=1
+_commit="87ad93e46e77755ba02f25ae38418266b5d55f86"  # Latest commit touching ofl/sansita
+pkgdesc="Google Fonts family: Sansita"
+arch=('any')
+url="https://fonts.google.com/specimen/Sansita"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansita/Sansita-Regular.ttf"
+)
+sha256sums=(
+  "0cf28cdcf1cdfd35054352816b2d8c81bd6d6f73632198b61507f26dd4dcbeea"
+  "392e7979b1667704c2ed9aebf3fbf014c1f927a372ab31fd05b19b291dc4d24b"
+  "e537293697dcb4905ad05a90cbe5cabc352ccdd31d54ef70b0927ea51b919925"
+  "03d70e42bdc01c1cfb43da0a54ddf21e6f768ddbbc7cbf86134bcdbc2a860174"
+  "bd35f8c971731bcbc963b76e9db4511e7cd9e5b8a30acd94a8cd6d106204f3ca"
+  "f513fd5f5c45f47572e17d849affd3e488676fa48472817dc38069b820403480"
+  "f4a9f1ad4126507a4d7f33875afd5fc79912e64a58af03657939528a59ced503"
+  "10bd5c614aa8d17e7ee27a788342b835bcb355d14a49bdc19d6edf7ecdd94858"
+  "1b25171a67a8fb26972f8bdabe31ed3ccd37db4ea8f7d817fc37d572024208ad"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

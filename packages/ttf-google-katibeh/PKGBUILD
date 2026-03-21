@@ -1,0 +1,32 @@
+pkgname=ttf-google-katibeh
+pkgver=1.0010
+pkgrel=1
+_commit="795a28b9eafcb757914b0e22de95d9f8265cc466"  # Latest commit touching ofl/katibeh
+pkgdesc="Google Fonts family: Katibeh"
+arch=('any')
+url="https://fonts.google.com/specimen/Katibeh"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/katibeh/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/katibeh/Katibeh-Regular.ttf"
+)
+sha256sums=(
+  "251f65282ff48a7e8ef3fb661fc99254d9b3b0c368427c98b1edbfe4ca66e888"
+  "334eeadb58eb442734fe7dea87412cbbd8c3fd00294252723aadf19a850cf11f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

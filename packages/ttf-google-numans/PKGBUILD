@@ -1,0 +1,32 @@
+pkgname=ttf-google-numans
+pkgver=001.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/numans
+pkgdesc="Google Fonts family: Numans"
+arch=('any')
+url="https://fonts.google.com/specimen/Numans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/numans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/numans/Numans-Regular.ttf"
+)
+sha256sums=(
+  "760fb433c515570f6b77ebc60299c2c91d5f03848c659452a9d2458b28935768"
+  "d331ef3473572f5eb0dd05b6de238b65b4d875eb1c5296e18225a7b4e64436f3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

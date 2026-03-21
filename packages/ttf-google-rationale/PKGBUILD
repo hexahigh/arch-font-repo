@@ -1,0 +1,32 @@
+pkgname=ttf-google-rationale
+pkgver=1.011
+pkgrel=1
+_commit="0e5725e1df786a8a13b8752dbbd18145023ce48c"  # Latest commit touching ofl/rationale
+pkgdesc="Google Fonts family: Rationale"
+arch=('any')
+url="https://fonts.google.com/specimen/Rationale"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rationale/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rationale/Rationale-Regular.ttf"
+)
+sha256sums=(
+  "064539f87826887d2062b7823b2b97b7625d68b642f6c945c99c0b8dc8084195"
+  "744e163c734a06bd20da3737d0cc4ceb8dc5a8c09fdfd4e9feacbeddd2081c5c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

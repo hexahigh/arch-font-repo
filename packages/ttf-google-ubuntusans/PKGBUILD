@@ -1,0 +1,34 @@
+pkgname=ttf-google-ubuntusans
+pkgver=1.006
+pkgrel=1
+_commit="12ce293bf447bd569e0759698bd39d52472fbbaa"  # Latest commit touching ufl/ubuntusans
+pkgdesc="Google Fonts family: Ubuntu Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Ubuntu+Sans"
+license=('UFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusans/LICENCE.txt"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusans/UbuntuSans-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusans/UbuntuSans[wdth,wght].ttf"
+)
+sha256sums=(
+  "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"
+  "603f7a4b837143b742a8df3ad3ad80164a50e4529f02e3f6aa533b78e209d3df"
+  "37e90bba45a2a1172d9f6078e45daebaa1b4e537943205cc1309f142a254fe40"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENCE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-allertastencil
+pkgver=1.02
+pkgrel=1
+_commit="3f73c2eb035060c81777a3f950586bb7cdaf6cff"  # Latest commit touching ofl/allertastencil
+pkgdesc="Google Fonts family: Allerta Stencil"
+arch=('any')
+url="https://fonts.google.com/specimen/Allerta+Stencil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allertastencil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allertastencil/AllertaStencil-Regular.ttf"
+)
+sha256sums=(
+  "08fba9df5c9890f3ab00ee63f63e005ad93a23746f7484f5fe9501a1ad32730e"
+  "8c504d1be20768941ab04251a389ad82d5782d647fa1c4029c811dc5bc2abd59"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

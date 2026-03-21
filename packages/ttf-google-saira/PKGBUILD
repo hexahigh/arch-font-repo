@@ -1,0 +1,34 @@
+pkgname=ttf-google-saira
+pkgver=1.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/saira
+pkgdesc="Google Fonts family: Saira"
+arch=('any')
+url="https://fonts.google.com/specimen/Saira"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/saira/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/saira/Saira[wdth,wght].ttf"
+)
+sha256sums=(
+  "f2665d4718b452b3818a877191355ac884a6b9b419d35408fe7ee487e9e8f30f"
+  "965972c2543b72948aedb55fae36e23175661d0f9d2d8d7f14a1009e466912f8"
+  "9d050fc5a01c85f74c4257c207d50b55d1e40c37308c642f974a2c5003231dde"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-forum
+pkgver=1.000
+pkgrel=1
+_commit="a748fc6b738075c2be721f3d45d0fedebef2c640"  # Latest commit touching ofl/forum
+pkgdesc="Google Fonts family: Forum"
+arch=('any')
+url="https://fonts.google.com/specimen/Forum"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/forum/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/forum/Forum-Regular.ttf"
+)
+sha256sums=(
+  "1bfe7d2aca99042eabf37079152fef8abdda2c36dad454ae89b858a3cb1078c5"
+  "5c9fbe9c4ce76d0269f5088d921d57e58082fd9c28433eacb6de95baf938adf8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

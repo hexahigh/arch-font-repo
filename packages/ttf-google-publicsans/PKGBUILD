@@ -1,0 +1,34 @@
+pkgname=ttf-google-publicsans
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/publicsans
+pkgdesc="Google Fonts family: Public Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Public+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/publicsans/PublicSans[wght].ttf"
+)
+sha256sums=(
+  "157a9e77f7580246e97c769490e2e977ae94399f9d30f4556015c41fe8c28bac"
+  "6ce292b05aa8c66bc644bedff834b4d0ddee9af75c55f98dcb28faa32a81056f"
+  "d75a7dc1a27eb9e336d5b33f55489d2ecb5621bf694d5c43b2415bce2ca830a8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-souliyo
+pkgver=1.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/souliyo
+pkgdesc="Google Fonts family: Souliyo"
+arch=('any')
+url="https://fonts.google.com/specimen/Souliyo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/souliyo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/souliyo/Souliyo-Regular.ttf"
+)
+sha256sums=(
+  "e8d0118fa9d640543e7f6848d1d93f47313c7f56b64f73f37291d859cd5932bf"
+  "670b32212a405c987e8f0a31bac7b51ed73fa43f1a2d5750bc833c00d5b352cc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

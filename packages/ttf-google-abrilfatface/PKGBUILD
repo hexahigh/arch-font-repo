@@ -1,0 +1,32 @@
+pkgname=ttf-google-abrilfatface
+pkgver=1.001
+pkgrel=1
+_commit="5e7d9dd147772bdd3af703d8d4129820cdcb2a49"  # Latest commit touching ofl/abrilfatface
+pkgdesc="Google Fonts family: Abril Fatface"
+arch=('any')
+url="https://fonts.google.com/specimen/Abril+Fatface"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/abrilfatface/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abrilfatface/AbrilFatface-Regular.ttf"
+)
+sha256sums=(
+  "aba8997e16b1e3888c6e855ba883c70d96bd4375bff8cb9c7ce0f097200f74b8"
+  "5971d4a3758a922a9fedc7f6fb825a96341a2e718c45a4b2c9a6b417c8c4dbe9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

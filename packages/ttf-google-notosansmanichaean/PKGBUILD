@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmanichaean
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmanichaean
+pkgdesc="Google Fonts family: Noto Sans Manichaean"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Manichaean"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmanichaean/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmanichaean/NotoSansManichaean-Regular.ttf"
+)
+sha256sums=(
+  "b1d3bb52a18917b0fe332721a4cd438d601fe9439d4359e36cc33d90c29c39d6"
+  "692e31fc2600b1db6a369dd50b808914ebea385530b0d95ca1f103e7943e7487"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

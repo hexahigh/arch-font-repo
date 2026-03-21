@@ -1,0 +1,32 @@
+pkgname=ttf-google-notorashihebrew
+pkgver=1.007
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notorashihebrew
+pkgdesc="Google Fonts family: Noto Rashi Hebrew"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Rashi+Hebrew"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notorashihebrew/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notorashihebrew/NotoRashiHebrew[wght].ttf"
+)
+sha256sums=(
+  "9b9fe028b5ba74d231659a1bbaf0ed09b11e759d1ca6a070999e16d151616b47"
+  "4da0058f46aa66f9a334967a640a1e56abb642eba3c1c3fc5080f6282c9eb126"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

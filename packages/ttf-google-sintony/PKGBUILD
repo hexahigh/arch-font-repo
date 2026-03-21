@@ -1,0 +1,34 @@
+pkgname=ttf-google-sintony
+pkgver=1.001
+pkgrel=1
+_commit="ccb52c6a041f9d076893a37b7075bc687c8de5da"  # Latest commit touching ofl/sintony
+pkgdesc="Google Fonts family: Sintony"
+arch=('any')
+url="https://fonts.google.com/specimen/Sintony"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sintony/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sintony/Sintony-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sintony/Sintony-Regular.ttf"
+)
+sha256sums=(
+  "dd028a807788d5e22e9f8cc18f026cda23369954673658f2ecc7d30bdb364b89"
+  "f091d492eb4b5940e30679a204b0e5465b5b35c7a604b3da330e850e93402bef"
+  "b1781da0efb28c1668aa0e8b331868a1bb2eef1a02967e01e6a166f3aae34958"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

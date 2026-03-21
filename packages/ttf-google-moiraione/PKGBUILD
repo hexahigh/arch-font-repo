@@ -1,0 +1,32 @@
+pkgname=ttf-google-moiraione
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/moiraione
+pkgdesc="Google Fonts family: Moirai One"
+arch=('any')
+url="https://fonts.google.com/specimen/Moirai+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/moiraione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/moiraione/MoiraiOne-Regular.ttf"
+)
+sha256sums=(
+  "0f2daa61cee069893d44ba24f3bdddbba18ac33b011fd8944e8682dbf347c61d"
+  "432f48aa773510211ac50c9d8130e50fe135c4d8c05645828ccde7e652ea8106"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

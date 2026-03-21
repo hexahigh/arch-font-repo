@@ -1,0 +1,36 @@
+pkgname=ttf-google-dongle
+pkgver=2.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dongle
+pkgdesc="Google Fonts family: Dongle"
+arch=('any')
+url="https://fonts.google.com/specimen/Dongle"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dongle/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dongle/Dongle-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dongle/Dongle-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dongle/Dongle-Regular.ttf"
+)
+sha256sums=(
+  "f9e59049e824264bffd626d0901cfcaac9d5ba756988b904d3e3e0e233493607"
+  "944c498c0d1a1832ab36f173b1b3aa5ae77b2a914e00c4d79e05338fae36472d"
+  "bb04e03dbe44fb0c619434f31565e62b5bac67229d5ed72eeac69c2e74e9a45c"
+  "2966e7a9d312a868e2b5477bf9a3e59b8ce16beb76e7e52305ab5897d1ce9741"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

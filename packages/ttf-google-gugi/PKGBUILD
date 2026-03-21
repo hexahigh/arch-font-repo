@@ -1,0 +1,32 @@
+pkgname=ttf-google-gugi
+pkgver=3.00
+pkgrel=1
+_commit="71462da1649ab51601ec70391dc86595f80c42b7"  # Latest commit touching ofl/gugi
+pkgdesc="Google Fonts family: Gugi"
+arch=('any')
+url="https://fonts.google.com/specimen/Gugi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gugi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gugi/Gugi-Regular.ttf"
+)
+sha256sums=(
+  "391ac3126dacc95b92a8f3408467879edb3245344bc411530a30d5aada52df92"
+  "c0b1f979979cfc309fb2438fa9464f96173353e0c4842cc7a5919658184ed9d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

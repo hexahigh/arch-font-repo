@@ -1,0 +1,34 @@
+pkgname=ttf-google-fuzzybubbles
+pkgver=1.010
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fuzzybubbles
+pkgdesc="Google Fonts family: Fuzzy Bubbles"
+arch=('any')
+url="https://fonts.google.com/specimen/Fuzzy+Bubbles"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fuzzybubbles/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fuzzybubbles/FuzzyBubbles-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fuzzybubbles/FuzzyBubbles-Regular.ttf"
+)
+sha256sums=(
+  "373164fa83991434f3fcfb9ef3cd0d8d4ffc44407841c08d9d6a43c07ffab978"
+  "f18fa58c66cf2540800f10ae4c9ae315c89149c41ace2a394c5efca7354c4ea8"
+  "407829f1e0b6b73a9482ffdfd22702bb149a020fad33f95eb30bc98bf9d471d5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

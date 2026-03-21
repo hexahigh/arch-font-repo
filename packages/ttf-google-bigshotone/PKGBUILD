@@ -1,0 +1,32 @@
+pkgname=ttf-google-bigshotone
+pkgver=1.001
+pkgrel=1
+_commit="75ac32f120526355cea5d7ea6cfd3b01b215413c"  # Latest commit touching ofl/bigshotone
+pkgdesc="Google Fonts family: Bigshot One"
+arch=('any')
+url="https://fonts.google.com/specimen/Bigshot+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshotone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshotone/BigshotOne-Regular.ttf"
+)
+sha256sums=(
+  "0d5fa0cce86012de872273700eef4fd162459e7c24a6a314911380627391071b"
+  "3f87c969632dca932a76e875bb6931e32a003577436fe1f14eccefb274cf2ade"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

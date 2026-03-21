@@ -1,0 +1,32 @@
+pkgname=ttf-google-robotoslab
+pkgver=2.002
+pkgrel=1
+_commit="369504809965ab8a0e467ad1f2d00ea07eefe1d0"  # Latest commit touching apache/robotoslab
+pkgdesc="Google Fonts family: Roboto Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Roboto+Slab"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/robotoslab/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/robotoslab/RobotoSlab[wght].ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "786ae192477447d33c6672c3055fba7cbfe45184c9a79e77a14f15716ca05b16"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

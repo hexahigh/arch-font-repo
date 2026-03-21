@@ -1,0 +1,32 @@
+pkgname=ttf-google-poetsenone
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poetsenone
+pkgdesc="Google Fonts family: Poetsen One"
+arch=('any')
+url="https://fonts.google.com/specimen/Poetsen+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poetsenone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poetsenone/PoetsenOne-Regular.ttf"
+)
+sha256sums=(
+  "24af1fb3ab8dfeddc83162b7f3b6c1104149b6c3022f1aa948ef4f8ff7e6bf7c"
+  "61943821534f3ba438a50e84c6efe90207abc03262fae04b52e4d1dfea3eab26"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskhojki
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskhojki
+pkgdesc="Google Fonts family: Noto Sans Khojki"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Khojki"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskhojki/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskhojki/NotoSansKhojki-Regular.ttf"
+)
+sha256sums=(
+  "82ead5cfe70167960007329171dcffe99886373b3159619e596e84f08890234c"
+  "0b50d1f6d4f8c4254095eb3a9a7603444d9f30e21d8dca1305971288b8e5be1b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,36 @@
+pkgname=ttf-google-benchnine
+pkgver=0.92.18
+pkgrel=1
+_commit="84c59b290c2ff7cea7c275f5a39fbeabf41b4480"  # Latest commit touching ofl/benchnine
+pkgdesc="Google Fonts family: BenchNine"
+arch=('any')
+url="https://fonts.google.com/specimen/BenchNine"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/benchnine/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/benchnine/BenchNine-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/benchnine/BenchNine-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/benchnine/BenchNine-Regular.ttf"
+)
+sha256sums=(
+  "460966d12f306a007930575c3b8bc336fe0c32f880d622af6d3b745a06ca79a4"
+  "5d3c445184569f424ed6d434cad16bdda130c5a395f79e2674f447cd5495cb97"
+  "b1a0aa5fd59b09aff1e396fb617c7ca9223c39e1bbbc1199d96784a8ce707878"
+  "abc1e1dfcfcf8fecf322d85bd461f308a68d313ab2a82f4f192d9580a82bb0d7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

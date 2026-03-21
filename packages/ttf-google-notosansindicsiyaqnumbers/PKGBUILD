@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansindicsiyaqnumbers
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansindicsiyaqnumbers
+pkgdesc="Google Fonts family: Noto Sans Indic Siyaq Numbers"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Indic+Siyaq+Numbers"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansindicsiyaqnumbers/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansindicsiyaqnumbers/NotoSansIndicSiyaqNumbers-Regular.ttf"
+)
+sha256sums=(
+  "5bc7346cabfde1fbca124566f67198f154d5d356e022639f2406f087def374f2"
+  "35045d5e8f0794db6432f4c13bfe123a05183fd2487fba2d0ebfdb76a92a9c33"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-specialgothiccondensedone
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/specialgothiccondensedone
+pkgdesc="Google Fonts family: Special Gothic Condensed One"
+arch=('any')
+url="https://fonts.google.com/specimen/Special+Gothic+Condensed+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/specialgothiccondensedone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/specialgothiccondensedone/SpecialGothicCondensedOne-Regular.ttf"
+)
+sha256sums=(
+  "0bac2fe19bcf60beddb3c9301da3c7889e6d5b996af22462853ff391b933f978"
+  "f77948acc3218b715003475f7739d7be101fb59bd8887182866225c9de2c935f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

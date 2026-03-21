@@ -1,0 +1,32 @@
+pkgname=ttf-google-caesardressing
+pkgver=1.000
+pkgrel=1
+_commit="b4c724343ca847fe0dedcc812e3a13312defa77d"  # Latest commit touching ofl/caesardressing
+pkgdesc="Google Fonts family: Caesar Dressing"
+arch=('any')
+url="https://fonts.google.com/specimen/Caesar+Dressing"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/caesardressing/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caesardressing/CaesarDressing-Regular.ttf"
+)
+sha256sums=(
+  "bcb0bda74430ccc281a616a81d0a287fed5a423815b00b222e0b7f603f85b26f"
+  "009dea24a4d4a3a7e02d683087babb1738acc0b949cce38c485fab325c9e9295"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

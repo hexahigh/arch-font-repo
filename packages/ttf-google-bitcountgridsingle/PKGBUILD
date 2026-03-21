@@ -1,0 +1,32 @@
+pkgname=ttf-google-bitcountgridsingle
+pkgver=1.0
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bitcountgridsingle
+pkgdesc="Google Fonts family: Bitcount Grid Single"
+arch=('any')
+url="https://fonts.google.com/specimen/Bitcount+Grid+Single"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcountgridsingle/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcountgridsingle/BitcountGridSingle[CRSV,ELSH,ELXP,slnt,wght].ttf"
+)
+sha256sums=(
+  "061dfb7681d7fff942e04f5217c40e05d2fe5a3cea6001222039fea4b0432254"
+  "f28e3429f64e9f27b32c6819a7f7b0d58164cf2716fdb9c3df8a5b35187d41a4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

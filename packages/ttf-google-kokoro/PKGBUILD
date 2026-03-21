@@ -1,0 +1,32 @@
+pkgname=ttf-google-kokoro
+pkgver=1.00
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kokoro
+pkgdesc="Google Fonts family: Kokoro"
+arch=('any')
+url="https://fonts.google.com/specimen/Kokoro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kokoro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kokoro/Kokoro-Regular.ttf"
+)
+sha256sums=(
+  "d3711c90a7deda6210d30e41b945f16bdaa00662b30ee0b7c36abfee82525bfe"
+  "b2dba96998a92ad56927b2ceb59254f41103a50794d42b020e300c60126d5e95"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

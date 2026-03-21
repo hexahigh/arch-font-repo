@@ -1,0 +1,32 @@
+pkgname=ttf-google-alikeangular
+pkgver=1.300
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alikeangular
+pkgdesc="Google Fonts family: Alike Angular"
+arch=('any')
+url="https://fonts.google.com/specimen/Alike+Angular"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alikeangular/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alikeangular/AlikeAngular-Regular.ttf"
+)
+sha256sums=(
+  "fb5d6a8310a52ccc2036f1c98db07ece3a9f167d9b3138e13452fefc4c865fd9"
+  "3706438e11bb219d6dbbb19958b637dc19470638da28fd97a620f7d7069bf448"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

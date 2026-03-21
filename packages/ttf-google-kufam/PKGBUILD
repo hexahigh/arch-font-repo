@@ -1,0 +1,34 @@
+pkgname=ttf-google-kufam
+pkgver=1.301
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kufam
+pkgdesc="Google Fonts family: Kufam"
+arch=('any')
+url="https://fonts.google.com/specimen/Kufam"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kufam/Kufam[wght].ttf"
+)
+sha256sums=(
+  "2b79a19d4c611849e232c3471fca0355e909526a2ed8e04acab933d5168a01f1"
+  "37c5cf29cb515099783461051cf2c927fc18605b3e7e0088f9bd2150aed756a9"
+  "f17a89b518c833de289598d0662bb9a07d09cc7d75b7079a15f1305f624bbcda"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

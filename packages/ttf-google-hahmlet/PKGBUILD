@@ -1,0 +1,32 @@
+pkgname=ttf-google-hahmlet
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hahmlet
+pkgdesc="Google Fonts family: Hahmlet"
+arch=('any')
+url="https://fonts.google.com/specimen/Hahmlet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hahmlet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hahmlet/Hahmlet[wght].ttf"
+)
+sha256sums=(
+  "ddadb10d28a303e3ef3b1f7ec55d3027903b9ec566d2f87d3ee03f3c87c91711"
+  "892bffe530255770a7435226154a02f519055ff6bedf64254f37f21d15a59279"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

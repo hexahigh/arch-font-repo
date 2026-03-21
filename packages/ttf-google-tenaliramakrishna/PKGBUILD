@@ -1,0 +1,32 @@
+pkgname=ttf-google-tenaliramakrishna
+pkgver=1.0.5
+pkgrel=1
+_commit="f9c5e5c825e86dcfc5a8c693ba09b8ba776ef32b"  # Latest commit touching ofl/tenaliramakrishna
+pkgdesc="Google Fonts family: Tenali Ramakrishna"
+arch=('any')
+url="https://fonts.google.com/specimen/Tenali+Ramakrishna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tenaliramakrishna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tenaliramakrishna/TenaliRamakrishna-Regular.ttf"
+)
+sha256sums=(
+  "cbdf9d35f32a9a2f02fb23c8b89c115a5a8e45feaaa2266920c4594c83dd5ed4"
+  "270de242b3a71275be5919cd1d5aefa272ae4a996d45e83b9672e15152caa4b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

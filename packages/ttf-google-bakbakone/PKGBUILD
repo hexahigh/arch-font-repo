@@ -1,0 +1,32 @@
+pkgname=ttf-google-bakbakone
+pkgver=1.003
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bakbakone
+pkgdesc="Google Fonts family: Bakbak One"
+arch=('any')
+url="https://fonts.google.com/specimen/Bakbak+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bakbakone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bakbakone/BakbakOne-Regular.ttf"
+)
+sha256sums=(
+  "f2f87c78860447f0bba5f99a1ff7c7e53cc39ead09bc7f130432e58df66be8ff"
+  "238dd2cf76f0fa33e02ea67c2f9697731378ad567503ca6b1f778778093ff84f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

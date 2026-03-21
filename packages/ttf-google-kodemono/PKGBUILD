@@ -1,0 +1,32 @@
+pkgname=ttf-google-kodemono
+pkgver=1.206
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kodemono
+pkgdesc="Google Fonts family: Kode Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Kode+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kodemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kodemono/KodeMono[wght].ttf"
+)
+sha256sums=(
+  "56de2b11bf783431f18a9ada94a2ff20fafaab49fe8b0b1f63e29df9187957b1"
+  "5ce8baede4ef692ea485e630a9fbd485c847f74954df66db5de0564b6dd8c3db"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

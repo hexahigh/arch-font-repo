@@ -1,0 +1,32 @@
+pkgname=ttf-google-shafarik
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shafarik
+pkgdesc="Google Fonts family: Shafarik"
+arch=('any')
+url="https://fonts.google.com/specimen/Shafarik"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shafarik/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shafarik/Shafarik-Regular.ttf"
+)
+sha256sums=(
+  "1f43120e025ded73f14be9cca6e2fa6d67ab38af6c6c1446c094c9da8edafe97"
+  "b25cb985bffa87ece4c4ec9d5c62c28623de9a7016978bda41d7df01cb17f028"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

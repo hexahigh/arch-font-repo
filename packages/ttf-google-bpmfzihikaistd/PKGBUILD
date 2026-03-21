@@ -1,0 +1,32 @@
+pkgname=ttf-google-bpmfzihikaistd
+pkgver=1.610
+pkgrel=1
+_commit="96e87d79ab3278cb5336304d0e60c1abf7536aed"  # Latest commit touching ofl/bpmfzihikaistd
+pkgdesc="Google Fonts family: Bpmf Zihi Kai Std"
+arch=('any')
+url="https://fonts.google.com/specimen/Bpmf+Zihi+Kai+Std"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bpmfzihikaistd/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bpmfzihikaistd/BpmfZihiKaiStd-Regular.ttf"
+)
+sha256sums=(
+  "7f4e87a64cb3f3421650b2f0f12fbf23e97f06f93d1d395cae6a8d3205db1c26"
+  "043aaa657f2b28d46ef9d4970064a10ed6fd162f4afb28b9253f25d4f8de341b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

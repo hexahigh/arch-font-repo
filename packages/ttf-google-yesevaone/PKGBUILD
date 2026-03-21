@@ -1,0 +1,32 @@
+pkgname=ttf-google-yesevaone
+pkgver=2.000
+pkgrel=1
+_commit="ff4c398e61c1e27c85eac4a084ee20f02f261962"  # Latest commit touching ofl/yesevaone
+pkgdesc="Google Fonts family: Yeseva One"
+arch=('any')
+url="https://fonts.google.com/specimen/Yeseva+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yesevaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yesevaone/YesevaOne-Regular.ttf"
+)
+sha256sums=(
+  "ab592d1abca19428b89d851706fa7815ec25139c6affb45d366577ca63fb91b7"
+  "88362b33820f0011e163e67b1d570fecd442aa8c05eaac89d5162f9c40d9dac3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

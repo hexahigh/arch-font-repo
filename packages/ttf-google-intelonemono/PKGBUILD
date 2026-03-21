@@ -1,0 +1,54 @@
+pkgname=ttf-google-intelonemono
+pkgver=1.006
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/intelonemono
+pkgdesc="Google Fonts family: Intel One Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Intel+One+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intelonemono/IntelOneMono[wght].ttf"
+)
+sha256sums=(
+  "a25ddac0bdf238c47e731b9a772ce896ae62ddfc0dfba82da3cae196d0fa3d18"
+  "b220487554fc6379d31d55536b0cddb3c23da1618dd8833d6e1caf3b25fa0bd4"
+  "4092cdc296cc65ace3192b1f2c410ea1880bf2863513bada14b94d1e7eca6322"
+  "4d384d29f925f242bdf598f327e44f19279d45bd7c0baee0d9490a7d9cad3da0"
+  "9f93248b7f85aa3c21d3edcce4477048151f84f173bb88be2246b9f231946d85"
+  "c1db45f875215fb5a29a811df5e9d4e8b6f0d84245175ab6ef621d349dd87831"
+  "906fd25498c7b7d9806b8b7ab22b6b9b19e2ff0e26bf2905cf926ceff0bcc680"
+  "4cf19027f59495106fbe7a9d248ba5594cfb4def803fb96bd744caae607389e2"
+  "7256211f9ec38c5d4300dda3b891732dbac3a144a4c833025fc617a956776de4"
+  "f92cb99ca8d984cfa570c17cf056dc7dbe3e7e2235d1a44c3b57205d4059aefa"
+  "c7c7ecf4f26904e5ce85eea26df242e0e7cc4077d247cce730e13cfe9f8d1baa"
+  "b165030c9b371e5b1b8bedebf3bade7adc7326b5bae159db632c28bcab5542ac"
+  "e5354cc14c6f9299c06a81b76760a5d2a20cee56466b88d6b6fc6aa295694779"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

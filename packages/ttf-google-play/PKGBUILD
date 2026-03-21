@@ -1,0 +1,34 @@
+pkgname=ttf-google-play
+pkgver=2.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/play
+pkgdesc="Google Fonts family: Play"
+arch=('any')
+url="https://fonts.google.com/specimen/Play"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/play/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/play/Play-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/play/Play-Regular.ttf"
+)
+sha256sums=(
+  "6d216cec166b6e139adaa599053dd49720c053e1f2adb4845de3cc9c3704344d"
+  "45c572eccda4cf335165b750345258e753035bf48ee2fdf37faa07c7db88bce0"
+  "eed0da79005cab35d6ed0eacab594ed67cc643be0b2632fa9e440b3bc5078dc4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

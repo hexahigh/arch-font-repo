@@ -1,0 +1,32 @@
+pkgname=ttf-google-signikasc
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/signikasc
+pkgdesc="Google Fonts family: Signika SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Signika+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikasc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikasc/SignikaSC[wght].ttf"
+)
+sha256sums=(
+  "1ba345a91338581e5f8fccc3e37e447ddea5b99ec9caec1b76c7c39492387d2f"
+  "0ffd156ad5600bfe17498effd0c69edc1d6cb09fdbfda1a94f9ceb0f8b403222"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

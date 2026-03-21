@@ -1,0 +1,32 @@
+pkgname=ttf-google-odormeanchey
+pkgver=8.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/odormeanchey
+pkgdesc="Google Fonts family: Odor Mean Chey"
+arch=('any')
+url="https://fonts.google.com/specimen/Odor+Mean+Chey"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/odormeanchey/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/odormeanchey/OdorMeanChey-Regular.ttf"
+)
+sha256sums=(
+  "3f747f7502101ae1e66f6e794e1a37aa2967580239dc5b9d6a28fd7c0f3495e3"
+  "29cb2e094a7e8ed9dd5701f48a5ef42c4e15db8acd85ea78e22804ae67188fbe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

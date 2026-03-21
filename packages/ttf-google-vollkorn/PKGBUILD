@@ -1,0 +1,34 @@
+pkgname=ttf-google-vollkorn
+pkgver=5.001
+pkgrel=1
+_commit="5081ec64046ff04e82233258ba3faad2545813dd"  # Latest commit touching ofl/vollkorn
+pkgdesc="Google Fonts family: Vollkorn"
+arch=('any')
+url="https://fonts.google.com/specimen/Vollkorn"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkorn/Vollkorn[wght].ttf"
+)
+sha256sums=(
+  "53f9c99fa3d47f7d632a42ee7bab4a834a60a744f6026d676c3a223cef2b2ef3"
+  "cd947ae49b5d46e812d8d09434fbe8ec452286cd5557ef6a762a3562e2c8d300"
+  "4ebef434f76f80286204840354a84db79a0dc3c87deeeb791e015b70b2ade49d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

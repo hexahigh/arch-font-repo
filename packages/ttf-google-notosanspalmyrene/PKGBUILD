@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanspalmyrene
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanspalmyrene
+pkgdesc="Google Fonts family: Noto Sans Palmyrene"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Palmyrene"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspalmyrene/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspalmyrene/NotoSansPalmyrene-Regular.ttf"
+)
+sha256sums=(
+  "387a4cccbc74240911059aad6db9ab13be0c72a8d7cd98c94a63d6c3ece8f5e0"
+  "d9cb8aeef761d8f0639bdb182f03048435473f623f7567c9b6477fe320cd8404"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

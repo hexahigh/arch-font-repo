@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifdivesakuru
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifdivesakuru
+pkgdesc="Google Fonts family: Noto Serif Dives Akuru"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Dives+Akuru"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifdivesakuru/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifdivesakuru/NotoSerifDivesAkuru-Regular.ttf"
+)
+sha256sums=(
+  "6e876fdd3f09f2b80d70545636e003a2d0acf844c787ed194b703a22455943c8"
+  "8b6753cdf9e4703af44f7f196994912f6fa683a176d45b49d4c8624030d544dd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

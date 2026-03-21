@@ -1,0 +1,54 @@
+pkgname=ttf-google-koho
+pkgver=1.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/koho
+pkgdesc="Google Fonts family: KoHo"
+arch=('any')
+url="https://fonts.google.com/specimen/KoHo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koho/KoHo-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "0878e7d6e842bc3c45154059a1c2812de0d31dca343fe6bc16abc9afdee3e3de"
+  "ad66b62adef88839e0292bbf4a1dfb5d9345826a19a3ffd780d34f7bc669e1b1"
+  "e040183789349e09b44bd98058687e59793cd8cda5c3b2aa6d3c7fa4319a37f0"
+  "de98ca80b3696c4b182bde204d63a30a5d4a071e4b7078f9433064bf3d24c478"
+  "7237959faa377f413d3d10ded225217ab6aa60b1a554ebeae5222ae9adab0259"
+  "436be41906dc80786358d7546ed279b5051ffb3e10dab86154d0b100d89eb6a0"
+  "5cfb9a15757cf45f5a0b1a37dc8cc0991a8f3f9570c74d8fcde9e66a940535c6"
+  "f15e5b6444466997bba7b40abde407863a94db89fb6a001e42524dac0cda7dcf"
+  "8c32e67f574b150164ff616209e8239192949bb18f3e94e01ac91fb5419286b9"
+  "14d8bba68904145404c88d6e1c0117b512f8d089340db4b56cc6616691f66400"
+  "d9dfeb7f627c7ce3ed9437c8130504daf2644ece5f54a27b9f7930dbdd45ad30"
+  "5396d7a25b9d571c6ba5505452c46dfda299513c4bfff9c727ac2c309ac0b84f"
+  "22be368fcf0a729d95fea1a66d35a3ceccf1390ab43d377bba12ed63390d3515"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

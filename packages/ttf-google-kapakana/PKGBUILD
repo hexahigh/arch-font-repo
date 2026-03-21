@@ -1,0 +1,32 @@
+pkgname=ttf-google-kapakana
+pkgver=1.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kapakana
+pkgdesc="Google Fonts family: Kapakana"
+arch=('any')
+url="https://fonts.google.com/specimen/Kapakana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kapakana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kapakana/Kapakana[wght].ttf"
+)
+sha256sums=(
+  "89c5e961d4a259af9f3a187be51aa1e095a6fca13a7ad20b40a1d690be7cdc0a"
+  "5ff3af9e470b5b278d645099214818ceb3933b542fbfd4b38c0a9b0be29fd35e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

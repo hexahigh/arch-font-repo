@@ -1,0 +1,34 @@
+pkgname=ttf-google-newsreader
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/newsreader
+pkgdesc="Google Fonts family: Newsreader"
+arch=('any')
+url="https://fonts.google.com/specimen/Newsreader"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/newsreader/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newsreader/Newsreader-Italic[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newsreader/Newsreader[opsz,wght].ttf"
+)
+sha256sums=(
+  "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8"
+  "796668611f80b64d5adf182fde3b6f29ed83b4e7cbec7b96937e84ac01364792"
+  "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

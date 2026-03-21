@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansgujarati
+pkgver=2.106
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansgujarati
+pkgdesc="Google Fonts family: Noto Sans Gujarati"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Gujarati"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgujarati/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgujarati/NotoSansGujarati[wdth,wght].ttf"
+)
+sha256sums=(
+  "c0b88977aa18b5e4fd05d646d560da89fde61b6581fa4507cb00dd90bd1bf7d4"
+  "9901d8552f1dd5d2c50dbd4caa6f6e174e74e8264f06594ab259ae6e7b1ac428"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

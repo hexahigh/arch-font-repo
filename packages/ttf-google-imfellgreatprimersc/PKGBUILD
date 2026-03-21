@@ -1,0 +1,32 @@
+pkgname=ttf-google-imfellgreatprimersc
+pkgver=3.00
+pkgrel=1
+_commit="723776af754da6972dc8dec7877935b50ed58635"  # Latest commit touching ofl/imfellgreatprimersc
+pkgdesc="Google Fonts family: IM Fell Great Primer SC"
+arch=('any')
+url="https://fonts.google.com/specimen/IM+Fell+Great+Primer+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellgreatprimersc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellgreatprimersc/IMFeGPsc28P.ttf"
+)
+sha256sums=(
+  "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+  "78952e5990c83116ef01ad7402f4384b1b9bc5c6c38690d2048f16a5317ff0c4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

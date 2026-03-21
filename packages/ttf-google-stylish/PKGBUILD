@@ -1,0 +1,32 @@
+pkgname=ttf-google-stylish
+pkgver=1.64
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stylish
+pkgdesc="Google Fonts family: Stylish"
+arch=('any')
+url="https://fonts.google.com/specimen/Stylish"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stylish/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stylish/Stylish-Regular.ttf"
+)
+sha256sums=(
+  "a9b3e7e1cf5735dc49d802b88b1858a2a50307ba2a877ddf3f0b27d8b1d0abc5"
+  "3ea2e4c9d0183fdcc1362039305ef30fa8bb5154f030b303a029059a44a8516c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

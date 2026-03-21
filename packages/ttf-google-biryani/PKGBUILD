@@ -1,0 +1,44 @@
+pkgname=ttf-google-biryani
+pkgver=1.004
+pkgrel=1
+_commit="71ecb026b2c429c7939e35b0323ca8f4f3ab032c"  # Latest commit touching ofl/biryani
+pkgdesc="Google Fonts family: Biryani"
+arch=('any')
+url="https://fonts.google.com/specimen/Biryani"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biryani/Biryani-SemiBold.ttf"
+)
+sha256sums=(
+  "505bb8f3c30f2006b4e02d250fda31ed94b651a35f1124a201ca1c405ce989af"
+  "45d7963ee617b4508f16d182e0eb7aeebb6431614a0641ccc8d4534f3673bafa"
+  "5e1b0cc60cbf479a1ce41c6b764fcb25160726485c6676db8e789ed4bab43e43"
+  "ea9ae707985de3f2318fb2ba812facef31253c27e1b039bae922dced15f2273a"
+  "f2a95908cf136847faa9dbda8226d1d2f45cfcadf17696d082010404509dd770"
+  "83238e32854ac489e02276aebca90d4c675ea95a4413c3ce3d012581c67fea8b"
+  "0b846b4f8600e7943a3a86a2f7ce04c20daa7d2cdad74c951edcc8e07c367116"
+  "8bb5d78fb28fa27909394f3c3548ce544376e23448ff15fbb7cb22ee650b0e5d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

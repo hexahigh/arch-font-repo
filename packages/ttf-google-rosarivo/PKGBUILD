@@ -1,0 +1,34 @@
+pkgname=ttf-google-rosarivo
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rosarivo
+pkgdesc="Google Fonts family: Rosarivo"
+arch=('any')
+url="https://fonts.google.com/specimen/Rosarivo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosarivo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosarivo/Rosarivo-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosarivo/Rosarivo-Regular.ttf"
+)
+sha256sums=(
+  "8a59454b7f1cc0b1fa29805781769047e5c269aa629e3422c2d7fc04b89e5c1f"
+  "a9865d8ed5f7984c6994b8630a6ee9fa29395a13a72b5e257b3461139e305b47"
+  "8b6503b67c5c080bbef8cebc59f4665b7c6d45429c677ebffa0dbe797a4dc4d0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

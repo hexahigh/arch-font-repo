@@ -1,0 +1,36 @@
+pkgname=ttf-google-kaiseiopti
+pkgver=5.003
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kaiseiopti
+pkgdesc="Google Fonts family: Kaisei Opti"
+arch=('any')
+url="https://fonts.google.com/specimen/Kaisei+Opti"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiopti/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiopti/KaiseiOpti-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiopti/KaiseiOpti-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiopti/KaiseiOpti-Regular.ttf"
+)
+sha256sums=(
+  "6c5445d4febbf6d84025b874a85c51e7e4bfa7495279eccdb4c317a6de857b46"
+  "48e0a6e35903eeaea2b9559ac62cbe83dac701b2c9355c7cff8927722c965acc"
+  "5fb67055d4d3e60625b6ee10c93fa87e348b7d99f2bfd2632bdf4e43c96d54da"
+  "990cfb1fb00f311c8975c2c5f4778b2fe5462fd5eabf0884828a323dad3f18c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-denkone
+pkgver=1.004
+pkgrel=1
+_commit="d9c0d325833eb568b5cb79347cb83124e2b99be4"  # Latest commit touching ofl/denkone
+pkgdesc="Google Fonts family: Denk One"
+arch=('any')
+url="https://fonts.google.com/specimen/Denk+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/denkone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/denkone/DenkOne-Regular.ttf"
+)
+sha256sums=(
+  "9224862f76f6ffc1a12abf2ae4310e584cfdd2a475c503f74d1e0c0e8bee5ed0"
+  "088761eca739820556435bd4eafb8637808a55e121bed582d493969525c97211"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

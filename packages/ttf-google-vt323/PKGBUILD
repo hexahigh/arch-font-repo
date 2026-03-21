@@ -1,0 +1,32 @@
+pkgname=ttf-google-vt323
+pkgver=2.000
+pkgrel=1
+_commit="ac066b164b52a9fa0e45dde61d3e34e164e7b45c"  # Latest commit touching ofl/vt323
+pkgdesc="Google Fonts family: VT323"
+arch=('any')
+url="https://fonts.google.com/specimen/VT323"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vt323/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vt323/VT323-Regular.ttf"
+)
+sha256sums=(
+  "27d9af34210253e7ca1251fbace86c6f65b40031d6ce1a75493a1b2093631298"
+  "cf4de751ada78ceac033dbe16a687742939995b77bc2a052ae17a4957958594d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

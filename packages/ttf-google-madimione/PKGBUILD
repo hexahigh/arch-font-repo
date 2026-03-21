@@ -1,0 +1,32 @@
+pkgname=ttf-google-madimione
+pkgver=1.000
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/madimione
+pkgdesc="Google Fonts family: Madimi One"
+arch=('any')
+url="https://fonts.google.com/specimen/Madimi+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/madimione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/madimione/MadimiOne-Regular.ttf"
+)
+sha256sums=(
+  "27b3e0a9b6a32c6e2a7b0de74126ae7858725be68bb9b1d8b61f5f7c1970a7aa"
+  "e70355081d3f4eb1fb3d523c4b803a8977669f6ba7c2c14ecee88d2d19fec690"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

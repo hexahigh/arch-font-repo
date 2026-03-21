@@ -1,0 +1,32 @@
+pkgname=ttf-google-matesc
+pkgver=1.003
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/matesc
+pkgdesc="Google Fonts family: Mate SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Mate+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/matesc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/matesc/MateSC-Regular.ttf"
+)
+sha256sums=(
+  "171b5e77742daf0aaa952ad9a9fc4afd78b3f3e80170a49a510ef849f4b915fb"
+  "7aa5db42e899619bf2ecac412fc5668a3ea5d5cdc0af05cf95656c10fdfb50a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,38 @@
+pkgname=ttf-google-almarai
+pkgver=1.10
+pkgrel=1
+_commit="3d8d20e89d99f25cadd5aa26953f7b070235ac8f"  # Latest commit touching ofl/almarai
+pkgdesc="Google Fonts family: Almarai"
+arch=('any')
+url="https://fonts.google.com/specimen/Almarai"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/almarai/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almarai/Almarai-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almarai/Almarai-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almarai/Almarai-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almarai/Almarai-Regular.ttf"
+)
+sha256sums=(
+  "142e053c374dd465a92bd7378116b517e344dbc662361308130fc2566db30c2a"
+  "06401391b5b39fbcf2bc0c6a6e03faf992435e7b011183a1861737e913af8613"
+  "9f8f72f1cb06db787a5b32e314a109267e53c505c9f9ab0dad5aa8ff8b219a07"
+  "a57bca270340202a28899f7488ee76ed9b93115b89d7a81db92d68e29993da5a"
+  "5b5cad33c8e5922083728d271cdcda91f96ba291f1307eccc4f4ef732dc19622"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

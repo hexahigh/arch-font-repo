@@ -1,0 +1,34 @@
+pkgname=ttf-google-alef
+pkgver=1.002
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alef
+pkgdesc="Google Fonts family: Alef"
+arch=('any')
+url="https://fonts.google.com/specimen/Alef"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alef/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alef/Alef-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alef/Alef-Regular.ttf"
+)
+sha256sums=(
+  "c267a00c9476c78a2336d7b372b536885b8b24173a29ed53496f67a742c14961"
+  "5dae0d7b2365288d8a34f5fb033d4278be96cef2547862cb93ceb8373e10bcf1"
+  "a32adcc953ac356906901778460083dc207d4560cb586fd9ea24ec5b186969ed"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

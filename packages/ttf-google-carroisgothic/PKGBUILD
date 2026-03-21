@@ -1,0 +1,32 @@
+pkgname=ttf-google-carroisgothic
+pkgver=1.002
+pkgrel=1
+_commit="9c6064a3c8fa028ca819fa14943ace073c39fff4"  # Latest commit touching ofl/carroisgothic
+pkgdesc="Google Fonts family: Carrois Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Carrois+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/carroisgothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carroisgothic/CarroisGothic-Regular.ttf"
+)
+sha256sums=(
+  "afc1b710d644c1262e1765d2401abcf93a545a4cb051955e2243fbabb8164e25"
+  "5fa38885ea9f9ea2d42319d1e88ce9170d67b858da7a67a2740460d15d7fcff8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

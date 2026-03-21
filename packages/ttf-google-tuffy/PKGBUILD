@@ -1,0 +1,38 @@
+pkgname=ttf-google-tuffy
+pkgver=1.272
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tuffy
+pkgdesc="Google Fonts family: Tuffy"
+arch=('any')
+url="https://fonts.google.com/specimen/Tuffy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tuffy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tuffy/Tuffy-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tuffy/Tuffy-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tuffy/Tuffy-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tuffy/Tuffy-Regular.ttf"
+)
+sha256sums=(
+  "a36ab46c8b1a74a480a1c51d6a5af08b643e870c6d247f233bc97c97c8ad2098"
+  "b7327bb4d996039fb42e7d3cb885bc851cc7683521f1c08b485086cb39aedb5f"
+  "03818734e59d18e9daf66887d275f03481a189291e771ee0b758fa1fc1398a2f"
+  "8b2d94ce0067ce36091c25fe2221368f21bba402cb360fd977339d43bf484e87"
+  "e4818f18c471c4a6a7f1d5f80c7a0ef0fd7b95b63364fd48f15768c449d8f958"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

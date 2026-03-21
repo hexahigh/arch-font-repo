@@ -1,0 +1,42 @@
+pkgname=ttf-google-nobile
+pkgver=1.000
+pkgrel=1
+_commit="1dc415d8793d58184e1a1c805e6399162ead6ecc"  # Latest commit touching ofl/nobile
+pkgdesc="Google Fonts family: Nobile"
+arch=('any')
+url="https://fonts.google.com/specimen/Nobile"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nobile/Nobile-Regular.ttf"
+)
+sha256sums=(
+  "9465823369fbe1ae0b5a3065021d53ef8c56e113e664229455dc80b237fa6a07"
+  "d7c865eebef07f288fa2788528023537cb6a155fc89af352cb0b1441f7447558"
+  "ddfc58964740d28b33eac62edde3b5807ffaf3f18199ca30667988d3a15eccad"
+  "21bc5dc61007c4478be3f541238c38637434b29abe39c800cedc6115c85e40a1"
+  "0926ef055e7637dd23eeb1717a45b6eef4e5c5c1bd99a9516d2770e587ae4524"
+  "ac8e7d909380ce15e49a2209f77ec55f13088f1c71b24a4ff1cc0340b88d48af"
+  "fc2eab24ea3dbe7f5d80324fa5c5d3ea5098175755c3218e3d54cec4355987f2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

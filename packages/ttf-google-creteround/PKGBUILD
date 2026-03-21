@@ -1,0 +1,34 @@
+pkgname=ttf-google-creteround
+pkgver=1.001
+pkgrel=1
+_commit="5192c5405dbda49df9ca73c7ec582d5516605c2d"  # Latest commit touching ofl/creteround
+pkgdesc="Google Fonts family: Crete Round"
+arch=('any')
+url="https://fonts.google.com/specimen/Crete+Round"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/creteround/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/creteround/CreteRound-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/creteround/CreteRound-Regular.ttf"
+)
+sha256sums=(
+  "4938e917ac54665be1dd862f54634d991b39c5d1eef69345d66a5089e401bfb4"
+  "eee412e43d843b89a3170b9c5dbae2ce5da95ff729916d3a2c3441aed3411b42"
+  "2b06ee75c35806b9fab35e054fbb97af98fb6b2419c6105697351dc1a2b306c8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-astloch
+pkgver=1.002
+pkgrel=1
+_commit="d959b591f37db5dd43ac47abbb7935b9607edaa2"  # Latest commit touching ofl/astloch
+pkgdesc="Google Fonts family: Astloch"
+arch=('any')
+url="https://fonts.google.com/specimen/Astloch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/astloch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/astloch/Astloch-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/astloch/Astloch-Regular.ttf"
+)
+sha256sums=(
+  "4e69611ba5017f1fde74c31d342f5c85604814b1b45387b9ab46205996dec38e"
+  "dee95fb52f9b24afc701e9991208275f654160870db06bec84cecb25e10fbeee"
+  "1b6f98e4c391da70d9166182369f90164cb02870ad210c4b3287f35ff28227f0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

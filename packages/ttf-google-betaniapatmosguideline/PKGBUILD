@@ -1,0 +1,32 @@
+pkgname=ttf-google-betaniapatmosguideline
+pkgver=11.002
+pkgrel=1
+_commit="556ca1ebbb9667df0c2dce90474c663d03d73128"  # Latest commit touching ofl/betaniapatmosguideline
+pkgdesc="Google Fonts family: Betania Patmos Guide Line"
+arch=('any')
+url="https://fonts.google.com/specimen/Betania+Patmos+Guide+Line"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/betaniapatmosguideline/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/betaniapatmosguideline/BetaniaPatmosGuideLine-Regular.ttf"
+)
+sha256sums=(
+  "7a71c720294f46b9de81bb649691930c7c340066385076fc643d5c4f82d510b4"
+  "5bc4f5e9459ad2607db4ed44a5afa13b4c774b42a11c412208eb907372c28140"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

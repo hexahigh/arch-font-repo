@@ -1,0 +1,36 @@
+pkgname=ttf-google-amiko
+pkgver=1.001
+pkgrel=1
+_commit="f53cebfa1de2e7a509ad435cbd704b9a0631d30a"  # Latest commit touching ofl/amiko
+pkgdesc="Google Fonts family: Amiko"
+arch=('any')
+url="https://fonts.google.com/specimen/Amiko"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiko/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiko/Amiko-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiko/Amiko-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiko/Amiko-SemiBold.ttf"
+)
+sha256sums=(
+  "bd8323cd1d2b6bbdfbbf99cb41ec1156d0352ced170de4aa3a96d95e6e20bf5b"
+  "70d2a2e9eeee950c666f5c94836e9fcd3fd3297d1975c952db2518d0e5ebc9ef"
+  "402d4d96034762fee68518fd95b778cf6a9d70cab838fa1a817cb783d39639a4"
+  "ddfc0e53ccdc4f13cac4599f97d5775be74b2e1e0773cf1bdce71483a476fbf6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-mansalva
+pkgver=2.112
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/mansalva
+pkgdesc="Google Fonts family: Mansalva"
+arch=('any')
+url="https://fonts.google.com/specimen/Mansalva"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mansalva/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mansalva/Mansalva-Regular.ttf"
+)
+sha256sums=(
+  "14ac0a5413a923c9ad11b6f541df17207fb7a0e0725e43eb29c88eb04c3ea2aa"
+  "613ca294f0a364fd282a06d5e8a65db5d8f2bb8b834f8b21437a53cf70dafb8a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

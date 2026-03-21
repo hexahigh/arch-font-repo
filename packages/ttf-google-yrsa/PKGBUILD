@@ -1,0 +1,34 @@
+pkgname=ttf-google-yrsa
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/yrsa
+pkgdesc="Google Fonts family: Yrsa"
+arch=('any')
+url="https://fonts.google.com/specimen/Yrsa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yrsa/Yrsa[wght].ttf"
+)
+sha256sums=(
+  "27d2d3c15cded787be66c6f51c4b24bea99863f4f162961b5088e4521c2e2bd5"
+  "45ba3f6094da57a30d777804850f4108f0ac6538f6366be6bde38cc1059a3230"
+  "d853a1fb40e077537a7fd5c447638aa001621fe572d32dd5f633e8e5f58e4e19"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-unlock
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unlock
+pkgdesc="Google Fonts family: Unlock"
+arch=('any')
+url="https://fonts.google.com/specimen/Unlock"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unlock/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unlock/Unlock-Regular.ttf"
+)
+sha256sums=(
+  "c1cf7f8c4f87824f85386000ea0edd60aa7d4d1a07b87a6e9627149fc9705511"
+  "916edbbc325dd8abc630d688c88b4501df9494183295662f017ebe2ace843519"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

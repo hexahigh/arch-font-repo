@@ -1,0 +1,32 @@
+pkgname=ttf-google-bubblerone
+pkgver=1.003
+pkgrel=1
+_commit="a417930dac06add2fb8b9b3d99b4147c49dbce36"  # Latest commit touching ofl/bubblerone
+pkgdesc="Google Fonts family: Bubbler One"
+arch=('any')
+url="https://fonts.google.com/specimen/Bubbler+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bubblerone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bubblerone/BubblerOne-Regular.ttf"
+)
+sha256sums=(
+  "39602407e30d466bf169f46d690aaae4f5f039258e5642f91a80bb132ce6e14a"
+  "a6dfd3cba4ffb33a603317be430f2cb8ff91ce04e529af79ae7fdef6dd2e1782"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

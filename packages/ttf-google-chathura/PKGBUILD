@@ -1,0 +1,40 @@
+pkgname=ttf-google-chathura
+pkgver=1.002
+pkgrel=1
+_commit="fcf20208f8ca014ddaba92dd83db4e3033127bce"  # Latest commit touching ofl/chathura
+pkgdesc="Google Fonts family: Chathura"
+arch=('any')
+url="https://fonts.google.com/specimen/Chathura"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/Chathura-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/Chathura-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/Chathura-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/Chathura-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chathura/Chathura-Thin.ttf"
+)
+sha256sums=(
+  "1e78135a80dfb42c70e8d66d81bceb0e0d9a81fa4f2aac8a81f9337d5626a96d"
+  "0a493c95a74cc13f6766dbf2de4c47dda0c446c5fc0d6576b970d7890ce9f9aa"
+  "8323a68a9b99940ce5009503503c0a75b739ac2e1e767e32c4b35b20b0a163fc"
+  "a998baa580e25340e1a44a343c62a0f106f4763e7e0cf153f279fb6c965a122d"
+  "aff3aab23f202092d411dae54a612968dee39cf411c0d8049e6a9ea99f7e2c14"
+  "ffa6266426a6339d2dcb9ae7ccd0d06f5360e91c9a67db2597d70b0bd2e10aad"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

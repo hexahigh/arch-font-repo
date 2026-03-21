@@ -1,0 +1,32 @@
+pkgname=ttf-google-grechenfuemen
+pkgver=1.010
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grechenfuemen
+pkgdesc="Google Fonts family: Grechen Fuemen"
+arch=('any')
+url="https://fonts.google.com/specimen/Grechen+Fuemen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grechenfuemen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grechenfuemen/GrechenFuemen-Regular.ttf"
+)
+sha256sums=(
+  "350eba96ff4c979070566cd24d068784c482a65d1485dc14e3ccb56f06594972"
+  "0048d2ccb3f58ce8994804be5764e074771977f4add2f3dd12dfe9a658f1adc0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

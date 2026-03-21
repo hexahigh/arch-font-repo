@@ -1,0 +1,32 @@
+pkgname=ttf-google-lalezar
+pkgver=1.004
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lalezar
+pkgdesc="Google Fonts family: Lalezar"
+arch=('any')
+url="https://fonts.google.com/specimen/Lalezar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lalezar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lalezar/Lalezar-Regular.ttf"
+)
+sha256sums=(
+  "327bac41d89cf9f32e0efe353228018e1661cff458a5d4905714958514df7bd5"
+  "7b80807bc831f141de0f7dcf6816412bf0c548968d548c5156ca388733390ea9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

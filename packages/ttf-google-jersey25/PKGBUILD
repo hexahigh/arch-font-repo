@@ -1,0 +1,32 @@
+pkgname=ttf-google-jersey25
+pkgver=1.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jersey25
+pkgdesc="Google Fonts family: Jersey 25"
+arch=('any')
+url="https://fonts.google.com/specimen/Jersey+25"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey25/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey25/Jersey25-Regular.ttf"
+)
+sha256sums=(
+  "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+  "4d4acdd89a748e9548041a3046d95536c500e1a7be9197c6aeef7d980f79d370"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

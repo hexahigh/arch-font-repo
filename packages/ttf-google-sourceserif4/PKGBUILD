@@ -1,0 +1,34 @@
+pkgname=ttf-google-sourceserif4
+pkgver=4.004
+pkgrel=1
+_commit="bf51302780b3fa944f0e8e957fee5a5830065583"  # Latest commit touching ofl/sourceserif4
+pkgdesc="Google Fonts family: Source Serif 4"
+arch=('any')
+url="https://fonts.google.com/specimen/Source+Serif+4"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourceserif4/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourceserif4/SourceSerif4-Italic[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourceserif4/SourceSerif4[opsz,wght].ttf"
+)
+sha256sums=(
+  "5f94c3fd3a23131a417ab5a0c8452de57e70c3cfb9f604d88241f7065ebf9fd9"
+  "15fbc7e4679489a501998c3669272637a6646388ef7e4bd77eebb5bf967a1f42"
+  "97b2d4da6e3cb494b5a1e66ae176914d852ccabef49e0c02c0df25f3e39aca0b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

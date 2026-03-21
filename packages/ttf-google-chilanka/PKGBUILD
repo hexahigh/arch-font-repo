@@ -1,0 +1,32 @@
+pkgname=ttf-google-chilanka
+pkgver=1.600
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chilanka
+pkgdesc="Google Fonts family: Chilanka"
+arch=('any')
+url="https://fonts.google.com/specimen/Chilanka"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chilanka/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chilanka/Chilanka-Regular.ttf"
+)
+sha256sums=(
+  "f7516c3dde20383922ee27750d432cc2b95b4ba275204d374b7305ef95ed2d14"
+  "c6ce47d1a8d387310469c8e355351ff2bd4106030c2a45f1cef0c93215075ed7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

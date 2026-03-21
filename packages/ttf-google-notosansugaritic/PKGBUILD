@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansugaritic
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansugaritic
+pkgdesc="Google Fonts family: Noto Sans Ugaritic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Ugaritic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansugaritic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansugaritic/NotoSansUgaritic-Regular.ttf"
+)
+sha256sums=(
+  "1c95c4c9e705f165c9577063a49b5e86914e2f38d62db454143b261bfee674c1"
+  "68d5a37ab45ba3ab091dda2aa392698963a90e2b399e131394892b8224da6491"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

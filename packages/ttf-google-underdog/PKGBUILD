@@ -1,0 +1,32 @@
+pkgname=ttf-google-underdog
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/underdog
+pkgdesc="Google Fonts family: Underdog"
+arch=('any')
+url="https://fonts.google.com/specimen/Underdog"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/underdog/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/underdog/Underdog-Regular.ttf"
+)
+sha256sums=(
+  "b0316f404a7b291e40921c605160181065791a5010a2d2d5691fc7e28cdbdff2"
+  "33f9aee5b2aaeb85e1f433fb21916d0c6dbae74e23b94d978b8131bdbddc40c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

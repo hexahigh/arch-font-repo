@@ -1,0 +1,36 @@
+pkgname=ttf-google-trochut
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/trochut
+pkgdesc="Google Fonts family: Trochut"
+arch=('any')
+url="https://fonts.google.com/specimen/Trochut"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/trochut/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trochut/Trochut-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trochut/Trochut-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trochut/Trochut-Regular.ttf"
+)
+sha256sums=(
+  "72a22b6dd29b6b0cdcc98de30701b46532c9f7314ee095df3063d10775dd70c3"
+  "5a9cf2c2525cd56ff866e172a2f18eb2669ea4e9b6238c954da9dadd1386c527"
+  "4931fa0cd1418dc3dc9e68a2b1a3cae83d03a6a0743bce27e37841aaea2a4682"
+  "720759af046a690bebcc0fee08df6841d564438219ca86544c375b9252a1224e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

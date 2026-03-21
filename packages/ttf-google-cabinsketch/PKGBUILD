@@ -1,0 +1,34 @@
+pkgname=ttf-google-cabinsketch
+pkgver=1.100
+pkgrel=1
+_commit="3bb35f25623a157bb04dbf5fdd2b86410d81c263"  # Latest commit touching ofl/cabinsketch
+pkgdesc="Google Fonts family: Cabin Sketch"
+arch=('any')
+url="https://fonts.google.com/specimen/Cabin+Sketch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabinsketch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabinsketch/CabinSketch-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabinsketch/CabinSketch-Regular.ttf"
+)
+sha256sums=(
+  "f6fc9fbae062e4efc1b0306e27715d43cd64a48b8ffba81c22034b8efee4fce2"
+  "0961688037b97947495c2e35e6e5a93f2b234490514e33346605ffedf9c7e6be"
+  "a6f989fcc910ca321e06cd6a20dbcab20f9e41bce084911432857cfe286355e7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

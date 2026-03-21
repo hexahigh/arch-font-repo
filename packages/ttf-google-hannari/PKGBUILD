@@ -1,0 +1,32 @@
+pkgname=ttf-google-hannari
+pkgver=1.12
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hannari
+pkgdesc="Google Fonts family: Hannari"
+arch=('any')
+url="https://fonts.google.com/specimen/Hannari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hannari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hannari/Hannari-Regular.ttf"
+)
+sha256sums=(
+  "de2246895f0ac21fe05b095d586d36cbc9f987ebcaed1e050c61e69667caf1c6"
+  "6f2eece25a378a3e85f82c5f1862cc886dfba3eb677d3a9c18c5a49937bb9b53"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

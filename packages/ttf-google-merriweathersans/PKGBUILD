@@ -1,0 +1,34 @@
+pkgname=ttf-google-merriweathersans
+pkgver=2.001
+pkgrel=1
+_commit="c5afa3ea7e2488eb1c7579a052f612cbbdb903c5"  # Latest commit touching ofl/merriweathersans
+pkgdesc="Google Fonts family: Merriweather Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Merriweather+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/merriweathersans/MerriweatherSans[wght].ttf"
+)
+sha256sums=(
+  "e07e715e58eb63bd8d4ccf2b2e7d0a5d3ef5d93f596431f6dc3aed42ac1a2304"
+  "882e6763fa1f35dc03cd61c1e3186dba2408828c807895dfa16875b1242ad59d"
+  "bef90d227eeb5b58e27d0a421df6c5d8df2e6a6d68aa08bdc51faa54f1d997dc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

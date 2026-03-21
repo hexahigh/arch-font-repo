@@ -1,0 +1,32 @@
+pkgname=ttf-google-liter
+pkgver=1.004
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/liter
+pkgdesc="Google Fonts family: Liter"
+arch=('any')
+url="https://fonts.google.com/specimen/Liter"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/liter/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/liter/Liter-Regular.ttf"
+)
+sha256sums=(
+  "3e12fb44d6ae7f513c44d182db1bbd0fa075408cda1b7cbdb2b74556be804af2"
+  "379fe197584f098a0318278c5e1b453a1ef8f017925041e3e51e18efb025822d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

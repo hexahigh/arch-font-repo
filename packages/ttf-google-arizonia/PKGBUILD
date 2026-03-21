@@ -1,0 +1,32 @@
+pkgname=ttf-google-arizonia
+pkgver=1.010
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/arizonia
+pkgdesc="Google Fonts family: Arizonia"
+arch=('any')
+url="https://fonts.google.com/specimen/Arizonia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arizonia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arizonia/Arizonia-Regular.ttf"
+)
+sha256sums=(
+  "a525f5a38671cd1a5e0071968fe39c8a135b4f42d412a92ab9cf970923332430"
+  "8df1c10bc15d0aba145d4599c25cafad83db686d2cefa42619f069b6f1bbce62"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

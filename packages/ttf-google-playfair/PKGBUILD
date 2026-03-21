@@ -1,0 +1,34 @@
+pkgname=ttf-google-playfair
+pkgver=2.203
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playfair
+pkgdesc="Google Fonts family: Playfair"
+arch=('any')
+url="https://fonts.google.com/specimen/Playfair"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair-Italic[opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playfair/Playfair[opsz,wdth,wght].ttf"
+)
+sha256sums=(
+  "7d16bbb17375beefaa4d1d25c41f860cb161c9e614b44af790983a9fd7102627"
+  "ae0d7a72a93804925040c277b4cd7e0607f48bb68dbbce70e3da6b5949f911ca"
+  "33cfecbc9948cf9eafe54dc9f36d19a03b393cf12221b20be235926d1ca1db61"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

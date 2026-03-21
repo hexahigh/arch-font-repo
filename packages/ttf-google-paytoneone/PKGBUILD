@@ -1,0 +1,32 @@
+pkgname=ttf-google-paytoneone
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/paytoneone
+pkgdesc="Google Fonts family: Paytone One"
+arch=('any')
+url="https://fonts.google.com/specimen/Paytone+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/paytoneone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/paytoneone/PaytoneOne-Regular.ttf"
+)
+sha256sums=(
+  "12404fcefccc3cb964cb2406510ba679b30f7d7ae689db08df5b455ae24b3feb"
+  "1c07073b0b578199b54c7866d55e2b631d285e8aa4bb4fbc08809d980cd49b14"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

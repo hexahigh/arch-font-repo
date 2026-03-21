@@ -1,0 +1,32 @@
+pkgname=ttf-google-sawarabigothic
+pkgver=20141215
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sawarabigothic
+pkgdesc="Google Fonts family: Sawarabi Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Sawarabi+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sawarabigothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sawarabigothic/SawarabiGothic-Regular.ttf"
+)
+sha256sums=(
+  "5f247fad3e8a86b6c0779dff09277047c1ce2b0b7580a1093347a8af755352ba"
+  "04f2f9111bb69cb8d3706c27b44879c2c0fac593a11edf5cfe8cec1efc92c789"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

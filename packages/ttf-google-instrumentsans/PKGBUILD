@@ -1,0 +1,34 @@
+pkgname=ttf-google-instrumentsans
+pkgver=1.000
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/instrumentsans
+pkgdesc="Google Fonts family: Instrument Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Instrument+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/instrumentsans/InstrumentSans[wdth,wght].ttf"
+)
+sha256sums=(
+  "9e27a72ed30eb49a08678f6a5d6ed98ec7ba5368f541637ee0683ec9134ef966"
+  "a74203cc5066a3b2f8de1a7b0887ef897773c2319dc86c911f8e85350cde0d07"
+  "b24f1812584816958afcf22e22d08e44318c5e51651e25d2438efdde389b33b1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

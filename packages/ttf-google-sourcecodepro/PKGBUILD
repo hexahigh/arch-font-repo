@@ -1,0 +1,34 @@
+pkgname=ttf-google-sourcecodepro
+pkgver=1.026
+pkgrel=1
+_commit="bd62bd8b4715f007af6905b0c9fd030f8410b289"  # Latest commit touching ofl/sourcecodepro
+pkgdesc="Google Fonts family: Source Code Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Source+Code+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourcecodepro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourcecodepro/SourceCodePro-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sourcecodepro/SourceCodePro[wght].ttf"
+)
+sha256sums=(
+  "cb30d3086a8b3ce0b9e3690bf48d6620402b61160bc658076f95180ccd9e9dae"
+  "6db77d25aa7b30eff449305b5c998e475694c74d398421127ea5a60f536413cd"
+  "b400fc584e10aff25d0e775ce181b4fc1c5ea1b5dc37b81aeb2084375b945790"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

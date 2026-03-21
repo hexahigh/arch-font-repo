@@ -1,0 +1,32 @@
+pkgname=ttf-google-croissantone
+pkgver=1.001
+pkgrel=1
+_commit="c417e3815d3ada9a80ad1a4ef774834114c1fada"  # Latest commit touching ofl/croissantone
+pkgdesc="Google Fonts family: Croissant One"
+arch=('any')
+url="https://fonts.google.com/specimen/Croissant+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/croissantone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/croissantone/CroissantOne-Regular.ttf"
+)
+sha256sums=(
+  "eba176d3ae86af6b41e9b744e4d18fb56e2a6ad671381bddb61fabb86b1d39c1"
+  "55ccb462d07bab853281e9fd9646f0cc258bfb1ae8ff645f857ba1f921f7f69e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

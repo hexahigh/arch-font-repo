@@ -1,0 +1,32 @@
+pkgname=ttf-google-strong
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/strong
+pkgdesc="Google Fonts family: Strong"
+arch=('any')
+url="https://fonts.google.com/specimen/Strong"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/strong/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/strong/Strong-Regular.ttf"
+)
+sha256sums=(
+  "c8af073a60e30b55ef5d0e4f80cea168e06dd65bdee7ec18c1ea8de8f7228780"
+  "4cae5278cb372d0ec20fe7b00a969a9766b5ecab9f1a16c3d9d31f2fa8c0b461"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

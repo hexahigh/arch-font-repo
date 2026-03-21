@@ -1,0 +1,32 @@
+pkgname=ttf-google-chewy
+pkgver=1.001
+pkgrel=1
+_commit="301e764385ba5592427d546a54b50de44ba5212c"  # Latest commit touching apache/chewy
+pkgdesc="Google Fonts family: Chewy"
+arch=('any')
+url="https://fonts.google.com/specimen/Chewy"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/chewy/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/chewy/Chewy-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "7cf75ea288f82fd20badea8ab4da7a656a96a7277c170811e813b3d3d6294147"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

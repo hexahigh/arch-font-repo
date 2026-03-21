@@ -1,0 +1,32 @@
+pkgname=ttf-google-ramsina
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ramsina
+pkgdesc="Google Fonts family: Ramsina"
+arch=('any')
+url="https://fonts.google.com/specimen/Ramsina"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramsina/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramsina/Ramsina-Regular.ttf"
+)
+sha256sums=(
+  "c22a5e58c7ae6fbc6e98f4f19fdbd48314989311a2274a668d4f40635e215be1"
+  "87d01c937ef69150eb2b3ad59ad0369fae2b574cb4bf780956d2aa0672969aaa"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

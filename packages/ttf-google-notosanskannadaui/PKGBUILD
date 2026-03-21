@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskannadaui
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskannadaui
+pkgdesc="Google Fonts family: Noto Sans Kannada UI"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Kannada+UI"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskannadaui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskannadaui/NotoSansKannadaUI[wdth,wght].ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "a0b35c3ff628b3da3df104a1d5c83408ed50ce33168976704a298936a2900329"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

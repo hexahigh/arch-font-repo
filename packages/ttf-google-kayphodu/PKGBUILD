@@ -1,0 +1,38 @@
+pkgname=ttf-google-kayphodu
+pkgver=3.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kayphodu
+pkgdesc="Google Fonts family: Kay Pho Du"
+arch=('any')
+url="https://fonts.google.com/specimen/Kay+Pho+Du"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kayphodu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kayphodu/KayPhoDu-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kayphodu/KayPhoDu-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kayphodu/KayPhoDu-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kayphodu/KayPhoDu-SemiBold.ttf"
+)
+sha256sums=(
+  "1968df42d8d640e1680750aaea7e81ef3f45aaa514eff4df2ef0c9174a2e3fda"
+  "8d89876b4e2adeb97b9d312ff448e3a66dce7c52c7c21d564159a292ff60787e"
+  "4bb552ffcfe2bf7495188616375af8ead67b05536d43fc35b915aa6ce9eb619b"
+  "aa54e0cd1c01e7e8ac9887eaf3dac3e7ef2df9c2b58049ef8a0ab8b1a76cbe1e"
+  "07f14ba8c7b3e40bb879da8908aaff4546435edd61e2924f6eae10b54f8e63d4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

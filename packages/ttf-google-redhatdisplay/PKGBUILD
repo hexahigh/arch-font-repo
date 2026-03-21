@@ -1,0 +1,34 @@
+pkgname=ttf-google-redhatdisplay
+pkgver=1.030
+pkgrel=1
+_commit="a8f71ade4db810122d3e6634341668bd93324b1c"  # Latest commit touching ofl/redhatdisplay
+pkgdesc="Google Fonts family: Red Hat Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Red+Hat+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatdisplay/RedHatDisplay[wght].ttf"
+)
+sha256sums=(
+  "435fbfb7e66988b2a06686a4cb966faec733f35d8fe100a1601573c27f3e0bb8"
+  "6f1e62869decc48f589b022b88b486b1f3f55792618e79f986a6b656c9378a59"
+  "46c9d4c4a2415e7e72020b318f5cda2bcbc9018d78b1a67e480a76d8d6e4b379"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

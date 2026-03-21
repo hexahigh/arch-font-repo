@@ -1,0 +1,32 @@
+pkgname=ttf-google-mako
+pkgver=1.100
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/mako
+pkgdesc="Google Fonts family: Mako"
+arch=('any')
+url="https://fonts.google.com/specimen/Mako"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mako/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mako/Mako-Regular.ttf"
+)
+sha256sums=(
+  "5e13aac27147fa739af42e7314d48c7ed92d7986cb1fe5d84f32c09377ad8a7d"
+  "660904f61bb44671dd8f5029bf179f82c7f78daa1c250c7dadb5927f1f1ef816"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

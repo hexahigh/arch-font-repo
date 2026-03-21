@@ -1,0 +1,32 @@
+pkgname=ttf-google-milonga
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/milonga
+pkgdesc="Google Fonts family: Milonga"
+arch=('any')
+url="https://fonts.google.com/specimen/Milonga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/milonga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/milonga/Milonga-Regular.ttf"
+)
+sha256sums=(
+  "3997621a219c7758e31dbafdd3cbd2bcb0b6144a41d1ca068d04dbcc4bafcde6"
+  "202ce337fad18b3d542af04e6dbd76a19b47c00c88d15b7555cef54e1818e383"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

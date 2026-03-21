@@ -1,0 +1,32 @@
+pkgname=ttf-google-griffy
+pkgver=1.000
+pkgrel=1
+_commit="77f88f6e7f3534ee4d5eae4bb02c298a00251686"  # Latest commit touching ofl/griffy
+pkgdesc="Google Fonts family: Griffy"
+arch=('any')
+url="https://fonts.google.com/specimen/Griffy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/griffy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/griffy/Griffy-Regular.ttf"
+)
+sha256sums=(
+  "879ec56fcc9a961937fd24d542b3b7b3f2b8cb3236b7351e62d16719e25de14c"
+  "c889c3f8d169631386a297eae8b5bdefbf8d06aa9f4f325faec31b9b5f38eeb5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

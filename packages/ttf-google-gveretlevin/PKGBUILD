@@ -1,0 +1,32 @@
+pkgname=ttf-google-gveretlevin
+pkgver=2.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gveretlevin
+pkgdesc="Google Fonts family: Gveret Levin"
+arch=('any')
+url="https://fonts.google.com/specimen/Gveret+Levin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gveretlevin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gveretlevin/GveretLevin-Regular.ttf"
+)
+sha256sums=(
+  "d9b228718f3f81e69ce614c6b2f4c382fd34396ca8149b4f28d07e85b8781eba"
+  "05c443395d48b97f43469da4fb08772a4c612fda306348577dbc40a1267912b1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

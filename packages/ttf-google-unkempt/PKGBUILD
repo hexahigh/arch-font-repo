@@ -1,0 +1,34 @@
+pkgname=ttf-google-unkempt
+pkgver=1.002
+pkgrel=1
+_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/unkempt
+pkgdesc="Google Fonts family: Unkempt"
+arch=('any')
+url="https://fonts.google.com/specimen/Unkempt"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/unkempt/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/unkempt/Unkempt-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/unkempt/Unkempt-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "9dd344f69eb53372db32b5d7558f2addb3d159f4723b8b39364514d8e032a631"
+  "512ce8e7226e0009307f10d47c08ee9a9878690766579ff28c5b1dddfa179f4c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

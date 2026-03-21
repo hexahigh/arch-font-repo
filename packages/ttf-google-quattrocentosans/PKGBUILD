@@ -1,0 +1,38 @@
+pkgname=ttf-google-quattrocentosans
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quattrocentosans
+pkgdesc="Google Fonts family: Quattrocento Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Quattrocento+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocentosans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocentosans/QuattrocentoSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocentosans/QuattrocentoSans-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocentosans/QuattrocentoSans-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocentosans/QuattrocentoSans-Regular.ttf"
+)
+sha256sums=(
+  "b00c646b7d04a6da1665a148815b8c589c1e05ed7e1febf7ccbd91758747cb03"
+  "3c5fcbfa0108c6b8d5f182fbba798d838f6be42c0ca6b4b3462e88a275682eb5"
+  "f96418eff31cc33e1c68e68103c10310007280dc06b734cbf936584d532ec29e"
+  "4107f2ad5d4993e764df336df9d6919ce5cf3600c5fc44488e1d724116f99114"
+  "8ee55c4a998c079efce0db96a30520a121d2bb90fe568f6a9e5cef54cc82ad59"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

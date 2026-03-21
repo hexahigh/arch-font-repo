@@ -1,0 +1,34 @@
+pkgname=ttf-google-poly
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poly
+pkgdesc="Google Fonts family: Poly"
+arch=('any')
+url="https://fonts.google.com/specimen/Poly"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poly/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poly/Poly-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poly/Poly-Regular.ttf"
+)
+sha256sums=(
+  "56edbe5fff7981dae6f6eff32f61ba04cd54324e5abfa44b1257b2a307ea561c"
+  "c83e89d46d98ddab1ad7897df36e93f4889ecce358bd0b1977a70a11c5303823"
+  "1e1a8d7991d5f4f22268c967fe6e7f4de2e006c7a70c2d9d3fbd43b5563e9181"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

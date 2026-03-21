@@ -1,0 +1,52 @@
+pkgname=ttf-google-titilliumweb
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/titilliumweb
+pkgdesc="Google Fonts family: Titillium Web"
+arch=('any')
+url="https://fonts.google.com/specimen/Titillium+Web"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/titilliumweb/TitilliumWeb-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "c0562e066174197902a4a10606673d189f067970ef89c6013943b9cf182aadbc"
+  "6e064771c29aee4c79c9aebbd560db79faa71f4c1944ea27f12d82be8a04b1cb"
+  "e2e8e1812041e2c5868f1d03ac24994312052c5381cca2e80748f08cb7e13093"
+  "744068ee0f1623c61567b0981d51c49edba012d74c5ba73076847c0143284a25"
+  "38d310af66c015016c39455b0fde799d83980b844fd1f5d4c45ef558e6d700a2"
+  "3160c0243db4ba708a5a6ffade89847d506a5fe7accc06423dd1705a6a47aebb"
+  "4f08e681c1b38f825125a1a5a9c8a38d0eb94eea51b04cdb2a17cbec47f90833"
+  "c9bbaf3fdb9cfcfa4a1b4e860f2c5ee32158e80b6b0f1160b40dda2c98037d10"
+  "cc48c25d01e36a414864de23e223145e9b76234e2a12beeac8d204c83ccafc45"
+  "7b6b4452c65cc8b8522e92e7d4d4c2e6d7675341ceafd041bb6bd30297517ea5"
+  "7c92f15302d7ac1836015cb9cf4068796406667b304a061b75df8e11f1648c81"
+  "dcc38dfead3e114992922cb06844d467ce5cfe62baba841ff4053c250dcb41e9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

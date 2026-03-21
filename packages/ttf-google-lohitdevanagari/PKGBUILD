@@ -1,0 +1,32 @@
+pkgname=ttf-google-lohitdevanagari
+pkgver=2.94.0
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lohitdevanagari
+pkgdesc="Google Fonts family: Lohitdevanagari"
+arch=('any')
+url="https://fonts.google.com/specimen/Lohitdevanagari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohitdevanagari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohitdevanagari/Lohit-Devanagari.ttf"
+)
+sha256sums=(
+  "4fe81901e6f84cfce1145c715e931352a9a12aa7ac75cc193eb523c0cb0e5eb5"
+  "e2fa70cdd6cd6638554dc278699b0cfaad7f9421fa05ae8e03bb62164069bd21"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

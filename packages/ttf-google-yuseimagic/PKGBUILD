@@ -1,0 +1,32 @@
+pkgname=ttf-google-yuseimagic
+pkgver=1.200
+pkgrel=1
+_commit="2f79cd039c3c3721b8a668dcf23bce302e99ac3e"  # Latest commit touching ofl/yuseimagic
+pkgdesc="Google Fonts family: Yusei Magic"
+arch=('any')
+url="https://fonts.google.com/specimen/Yusei+Magic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yuseimagic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yuseimagic/YuseiMagic-Regular.ttf"
+)
+sha256sums=(
+  "c74e8c47951ddd9c902f07097761cfa0457993e28d8e1e946e273c0250be77c9"
+  "82098615f39ed9da6a8ccc674b9006e49c70dd5b775a7a1697f6bedd22ce25a2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

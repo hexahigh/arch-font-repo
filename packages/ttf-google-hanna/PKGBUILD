@@ -1,0 +1,32 @@
+pkgname=ttf-google-hanna
+pkgver=1.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hanna
+pkgdesc="Google Fonts family: Hanna"
+arch=('any')
+url="https://fonts.google.com/specimen/Hanna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hanna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hanna/BM-HANNA.ttf"
+)
+sha256sums=(
+  "d724dea493d89a7a9681186e2fb462b7cd551674960ee4142ae6b325261b5115"
+  "34b1050226ecb057de6d83a494ee015b2d0c9e0238fa3d42da37b0c55aec9a8a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

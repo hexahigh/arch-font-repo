@@ -1,0 +1,32 @@
+pkgname=ttf-google-nats
+pkgver=1.0.4
+pkgrel=1
+_commit="4317ab24e2d150194ef8ac5b07b06c9069e9b58e"  # Latest commit touching ofl/nats
+pkgdesc="Google Fonts family: NATS"
+arch=('any')
+url="https://fonts.google.com/specimen/NATS"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nats/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nats/NATS-Regular.ttf"
+)
+sha256sums=(
+  "c0a7efe98e77cbfcf1a5ca43e874e25cf53d9185c56295bc3b5c407f95dae638"
+  "0e660a99459c55c9031f9c55b8b5038debadaec56bab4849d838f7e411f2fcbb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

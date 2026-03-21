@@ -1,0 +1,32 @@
+pkgname=ttf-google-varela
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/varela
+pkgdesc="Google Fonts family: Varela"
+arch=('any')
+url="https://fonts.google.com/specimen/Varela"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/varela/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/varela/Varela-Regular.ttf"
+)
+sha256sums=(
+  "5a8751bef5a4fc867ae015099267905034345260f14060fa276aac4051ddd8b4"
+  "87cf0ddd50cd297cd6facfaac8bf59bf8d0b1a3b8b6619957ba08e72043d1896"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

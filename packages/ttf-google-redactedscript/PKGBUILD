@@ -1,0 +1,36 @@
+pkgname=ttf-google-redactedscript
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/redactedscript
+pkgdesc="Google Fonts family: Redacted Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Redacted+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/redactedscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redactedscript/RedactedScript-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redactedscript/RedactedScript-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redactedscript/RedactedScript-Regular.ttf"
+)
+sha256sums=(
+  "ed836da2ff14b9b2d04001057e03c0531afdd2626bf66a612b17124589f58efa"
+  "48ad6a76be6f094893541898d1c9a04e3debe48645c314cf07add92c019e7983"
+  "5ff11d7b9510a90cbee1525564457b6991a65e0a413ecc4fdbdde697452fe665"
+  "1ebaab9642a2f43fa33f449760469903143fd1d08b2433eb6c15e28602d9360d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

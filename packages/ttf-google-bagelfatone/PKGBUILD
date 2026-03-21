@@ -1,0 +1,32 @@
+pkgname=ttf-google-bagelfatone
+pkgver=1.000
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bagelfatone
+pkgdesc="Google Fonts family: Bagel Fat One"
+arch=('any')
+url="https://fonts.google.com/specimen/Bagel+Fat+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bagelfatone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bagelfatone/BagelFatOne-Regular.ttf"
+)
+sha256sums=(
+  "4f40ab196ccf674056fed8b0e6d4f918eea183a149be8a67bff1239413ebada9"
+  "9286944032c5a9b20ad70940105417beae14013e0b4f5fc292425afdc4330245"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-archivoblack
+pkgver=1.006
+pkgrel=1
+_commit="94a7d81318e438525a5285e07ab72c050fdfeb44"  # Latest commit touching ofl/archivoblack
+pkgdesc="Google Fonts family: Archivo Black"
+arch=('any')
+url="https://fonts.google.com/specimen/Archivo+Black"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivoblack/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/archivoblack/ArchivoBlack-Regular.ttf"
+)
+sha256sums=(
+  "3173acd82f8c6159b5b1037b539fcbd4edff68e65c2ea8b9412b5a5ca97b08ff"
+  "dd9a89a019b4849f66ab75455fe7bdf931311042cbb0f0f97acc061539703180"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

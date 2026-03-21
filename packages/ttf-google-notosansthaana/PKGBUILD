@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansthaana
+pkgver=3.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansthaana
+pkgdesc="Google Fonts family: Noto Sans Thaana"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Thaana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansthaana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansthaana/NotoSansThaana[wght].ttf"
+)
+sha256sums=(
+  "5de6fbfe9ca25509fd60e47be3fab3cc236abe20bc1b123a5c2bd12f067fd13c"
+  "a296795c892a9ec2b0f4d3af315568506ef9fd55920386170992d3935d8866ca"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-qwigley
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/qwigley
+pkgdesc="Google Fonts family: Qwigley"
+arch=('any')
+url="https://fonts.google.com/specimen/Qwigley"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/qwigley/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/qwigley/Qwigley-Regular.ttf"
+)
+sha256sums=(
+  "bff9838fb62b99b45b3b976fdd842f5aa43b02b5f84bd28e949834096c5fffb7"
+  "6a018d872fa8ad613a71a48383b3f0f987a0e7cd305678ca3a7c87648e6cdbb2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

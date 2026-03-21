@@ -1,0 +1,32 @@
+pkgname=ttf-google-kellyslab
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kellyslab
+pkgdesc="Google Fonts family: Kelly Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Kelly+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kellyslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kellyslab/KellySlab-Regular.ttf"
+)
+sha256sums=(
+  "393d494f9ebb5db6a3552ffa03a4c6f3746c22808b40d011b391681da55ca3f6"
+  "cbf98bddb534c52d2f1150aed233c53e5e3a7966b7be1ab860550c23f9930c27"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

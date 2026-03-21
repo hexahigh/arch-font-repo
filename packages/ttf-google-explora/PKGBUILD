@@ -1,0 +1,32 @@
+pkgname=ttf-google-explora
+pkgver=1.010
+pkgrel=1
+_commit="1796e34455b893092713d206e7f23e3e07699f00"  # Latest commit touching ofl/explora
+pkgdesc="Google Fonts family: Explora"
+arch=('any')
+url="https://fonts.google.com/specimen/Explora"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/explora/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/explora/Explora-Regular.ttf"
+)
+sha256sums=(
+  "b8ed61f16fe601a8d20fa9c8ea979f4a7424c324596ce3cacdebb19353e1d808"
+  "a29a1b2f59eaceab955f6667e125dfcd41406a41ebc2cce3d837c45d0405b129"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

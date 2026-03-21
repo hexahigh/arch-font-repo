@@ -1,0 +1,32 @@
+pkgname=ttf-google-galindo
+pkgver=1.000
+pkgrel=1
+_commit="f00b789c095f41238091517c73e770b16a927c5d"  # Latest commit touching ofl/galindo
+pkgdesc="Google Fonts family: Galindo"
+arch=('any')
+url="https://fonts.google.com/specimen/Galindo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/galindo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/galindo/Galindo-Regular.ttf"
+)
+sha256sums=(
+  "117fa195cff980e3b10fd8e8e21658c6ec954b0886647970a03c9694d3553b69"
+  "335a73def6a890d38e8793a81077a8e15987b1a4e5366847e138b5beb13bf0fe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

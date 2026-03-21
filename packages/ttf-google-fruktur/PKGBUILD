@@ -1,0 +1,34 @@
+pkgname=ttf-google-fruktur
+pkgver=1.008
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fruktur
+pkgdesc="Google Fonts family: Fruktur"
+arch=('any')
+url="https://fonts.google.com/specimen/Fruktur"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fruktur/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fruktur/Fruktur-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fruktur/Fruktur-Regular.ttf"
+)
+sha256sums=(
+  "c0cd6d3807663a19c2d4a96f17b90a71a06e78bb329d45ad77c6798c89f761d9"
+  "2fc0cb26f0d1945202b6022ea68ac566826d19e64b461b640e9a1056f1f40218"
+  "dcba901b5fe11c0b6c3e8d5eb1003339b2dd020e2fc3949014ed0d8ff87715e7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

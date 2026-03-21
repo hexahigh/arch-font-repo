@@ -1,0 +1,32 @@
+pkgname=ttf-google-playball
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playball
+pkgdesc="Google Fonts family: Playball"
+arch=('any')
+url="https://fonts.google.com/specimen/Playball"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playball/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playball/Playball-Regular.ttf"
+)
+sha256sums=(
+  "271ad2688ff6199bc86135839c27a980d4cb3d2fae3a68ec01e98cb8b529d953"
+  "130654dd192f4ccd1c4fa2dc516d03cca93dc8ecdaf30d458283e54dcaef8f40"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-librebaskerville
+pkgver=2.005
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librebaskerville
+pkgdesc="Google Fonts family: Libre Baskerville"
+arch=('any')
+url="https://fonts.google.com/specimen/Libre+Baskerville"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebaskerville/LibreBaskerville[wght].ttf"
+)
+sha256sums=(
+  "3624eddd4c8f8a908130a417ae7cd089c9da69899c4e0ca1a5217d0a6fae16fd"
+  "223959683dc73ec4437bd61fabaa4b3f22209e22855ffd3aee36ba61a5116e97"
+  "05a95421961341c5b2556285e8415df9db27dab4f4abe22b446b3c6a8b916c5d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

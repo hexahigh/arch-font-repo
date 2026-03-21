@@ -1,0 +1,32 @@
+pkgname=ttf-google-workbench
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/workbench
+pkgdesc="Google Fonts family: Workbench"
+arch=('any')
+url="https://fonts.google.com/specimen/Workbench"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/workbench/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/workbench/Workbench[BLED,SCAN].ttf"
+)
+sha256sums=(
+  "c46bda9181c8f01cf430e8b4d769a2fa8b19369f9f01b947c0d400939147e700"
+  "027940fb7aea63f260fb367957e419c08f904f357b384c819f99eb06e7af17d6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

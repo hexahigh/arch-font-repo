@@ -1,0 +1,32 @@
+pkgname=ttf-google-manufacturingconsent
+pkgver=3.000
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/manufacturingconsent
+pkgdesc="Google Fonts family: Manufacturing Consent"
+arch=('any')
+url="https://fonts.google.com/specimen/Manufacturing+Consent"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/manufacturingconsent/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manufacturingconsent/ManufacturingConsent-Regular.ttf"
+)
+sha256sums=(
+  "31393d59b62390cf4660fdeaff749e375d21e0135fd7ddfe55307de7d5d59ac1"
+  "5a965329cc99d7b8b22ddbdbf98ee3dfef111c68b5e7aba80128dbefb5427db3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

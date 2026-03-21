@@ -1,0 +1,32 @@
+pkgname=ttf-google-kronaone
+pkgver=1.003
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kronaone
+pkgdesc="Google Fonts family: Krona One"
+arch=('any')
+url="https://fonts.google.com/specimen/Krona+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kronaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kronaone/KronaOne-Regular.ttf"
+)
+sha256sums=(
+  "6c181f5a0045e8f414e1c232c35972ab83ea084ac44825f517ba001628d97b21"
+  "273463916f96a4707e697e3013d955cde8154b4e6d635a55132e7a12f276534c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

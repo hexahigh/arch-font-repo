@@ -1,0 +1,32 @@
+pkgname=ttf-google-ruslandisplay
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ruslandisplay
+pkgdesc="Google Fonts family: Ruslan Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Ruslan+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruslandisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruslandisplay/RuslanDisplay-Regular.ttf"
+)
+sha256sums=(
+  "0dd28b488490429f3037082a331fca8a07d19f2218272f6c4260b196fbffdee1"
+  "6fb5f4db06869e886ca5da3760c547c6d3ebec82aebd3678f314e99ae3347b09"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

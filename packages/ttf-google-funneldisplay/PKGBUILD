@@ -1,0 +1,32 @@
+pkgname=ttf-google-funneldisplay
+pkgver=1.000
+pkgrel=1
+_commit="5e42225ce2f492759c5a53d44e5fb5bd7fec6721"  # Latest commit touching ofl/funneldisplay
+pkgdesc="Google Fonts family: Funnel Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Funnel+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/funneldisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/funneldisplay/FunnelDisplay[wght].ttf"
+)
+sha256sums=(
+  "a32303f6ea3542927121212a9e4f3fe3548741e6d448d9dc6f29e97cf50102e6"
+  "b4151c9c4b7b07eb74320096b4ff4156cca8821f5adfab34af9fd9a2d6c1179d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

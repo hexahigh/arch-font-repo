@@ -1,0 +1,38 @@
+pkgname=ttf-google-vesperlibre
+pkgver=1.058
+pkgrel=1
+_commit="f9ad5d57c6bf1b24bbbf7006a258c047d859d414"  # Latest commit touching ofl/vesperlibre
+pkgdesc="Google Fonts family: Vesper Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Vesper+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vesperlibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vesperlibre/VesperLibre-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vesperlibre/VesperLibre-Heavy.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vesperlibre/VesperLibre-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vesperlibre/VesperLibre-Regular.ttf"
+)
+sha256sums=(
+  "f3758ee70600ecd5450f01ea373204b202e048d0454c9db2d1175c5a5dd1e92f"
+  "11e59ae4fd3d5276573f95cea3e7e2361756817b5029b49f43c66701f81d96f8"
+  "007fb773ea25fe9a62238860ed35797b6bb6f934cb6e1b4ae4a0abf5b8172ffd"
+  "46fb5e6b5600f635cbcf279cdc0129980abfc2a769712b1bde716724a200f40a"
+  "2be8f243d90685e53bb6d6435985cf4d145d42bf70e3f964026a62c7cd96de1c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-miriamlibre
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miriamlibre
+pkgdesc="Google Fonts family: Miriam Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Miriam+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/miriamlibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/miriamlibre/MiriamLibre[wght].ttf"
+)
+sha256sums=(
+  "0cd2b9542857599d480b54cf372a86b523bc5ff683307029f129e1c161360d52"
+  "9ea850118d552d25e1fb8242cbd429a5801c691b6ce218458e1a039045114bb8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-slacksideone
+pkgver=1.000
+pkgrel=1
+_commit="a0efa67490ec427452a28e39267e2e9cb1dc4198"  # Latest commit touching ofl/slacksideone
+pkgdesc="Google Fonts family: Slackside One"
+arch=('any')
+url="https://fonts.google.com/specimen/Slackside+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/slacksideone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/slacksideone/SlacksideOne-Regular.ttf"
+)
+sha256sums=(
+  "7d4c49f4c5e195125c1bbec7b8c6b884b616555cdf7c7101b98b39a766f88945"
+  "c32d67d921cfde2f89d2fe12b6e78a58618a41774a7cb1b0e321d5d1ae9a324a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

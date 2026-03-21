@@ -1,0 +1,42 @@
+pkgname=ttf-google-comicneue
+pkgver=2.003
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/comicneue
+pkgdesc="Google Fonts family: Comic Neue"
+arch=('any')
+url="https://fonts.google.com/specimen/Comic+Neue"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicneue/ComicNeue-Regular.ttf"
+)
+sha256sums=(
+  "7c38a22e5878e60fe423360553e63dd7be23d29f1f60336034935dbfc96e8320"
+  "3e7e5fccfd7e0788f317b43312151c1bd5cf058c9697a8d83eac3939050bd61e"
+  "5c312c2a2fa64eee82f3b87fcfab8f3b12a5e59b043124401d322eb323cfbf16"
+  "e06bfd1552f5c9464c5665733ffd69239b0593885dbb9e059688a5900f78cf98"
+  "efb91c06dccc264f07f800c0691d40c94e8cfce6183daade0709268bec178f76"
+  "a6d36baee09c7025916ddb517835458d15ef890291507197a54875ccc096b927"
+  "a0ee5a37c8b27c4db0700137d928598b1e23b0089e1546a8961909176b779360"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-timmana
+pkgver=1.0.4
+pkgrel=1
+_commit="1e42c1bd963b7b83e3982b0d033a65cf97237c76"  # Latest commit touching ofl/timmana
+pkgdesc="Google Fonts family: Timmana"
+arch=('any')
+url="https://fonts.google.com/specimen/Timmana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/timmana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/timmana/Timmana-Regular.ttf"
+)
+sha256sums=(
+  "f2fcbde4b8968400d661e7dcc23052b1885815c8e3b45323b26cbb833352f5de"
+  "5882968b061fc3f45c0ff2868bc4becd16b1d5f385eca1a63e487af86b6d63c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

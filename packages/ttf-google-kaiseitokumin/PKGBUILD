@@ -1,0 +1,38 @@
+pkgname=ttf-google-kaiseitokumin
+pkgver=5.003
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kaiseitokumin
+pkgdesc="Google Fonts family: Kaisei Tokumin"
+arch=('any')
+url="https://fonts.google.com/specimen/Kaisei+Tokumin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseitokumin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseitokumin/KaiseiTokumin-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseitokumin/KaiseiTokumin-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseitokumin/KaiseiTokumin-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseitokumin/KaiseiTokumin-Regular.ttf"
+)
+sha256sums=(
+  "6c5445d4febbf6d84025b874a85c51e7e4bfa7495279eccdb4c317a6de857b46"
+  "4540f6b5c32724acc9c4ba77692195078de43a4ee762d436e39d32fa8d1a73c9"
+  "bf44bb3e23cc703bfb19111833f78e651998d0a2b1863eff9e88cecb38a8bc53"
+  "fc58ac081468ca3a06c9f8b89077fbbf01c57729c1d5787cc7f33adb3e40d6f3"
+  "3fbdbec539369aed11bb1fa0cdda1d19ea246e795107357383dfa561848a427d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

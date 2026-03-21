@@ -1,0 +1,32 @@
+pkgname=ttf-google-wixmadefordisplay
+pkgver=3.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/wixmadefordisplay
+pkgdesc="Google Fonts family: Wix Madefor Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Wix+Madefor+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefordisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefordisplay/WixMadeforDisplay[wght].ttf"
+)
+sha256sums=(
+  "6ea47aed4703a072a5011bf429f998c718ff7c3ae57598f7e78c2d3fa1e25c33"
+  "5cab84cd1f7231a866e59ee34245c9ca95cf23984d6b7d79132b3ffac2ef821f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

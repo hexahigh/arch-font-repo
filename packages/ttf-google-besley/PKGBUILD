@@ -1,0 +1,34 @@
+pkgname=ttf-google-besley
+pkgver=2.001
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/besley
+pkgdesc="Google Fonts family: Besley"
+arch=('any')
+url="https://fonts.google.com/specimen/Besley"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/besley/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/besley/Besley[wght].ttf"
+)
+sha256sums=(
+  "e8d81ba3b06080b764626d4385f319344e102ddf2c08bb4209412ac22d695f69"
+  "de502a1ab6b06a63982dce8c9e58b3eee8aada175e78d5a4dc0a7b3721f26562"
+  "71f352d8859c787631a0978161d48497a72caa69dcae6996d6712a564df86c1e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

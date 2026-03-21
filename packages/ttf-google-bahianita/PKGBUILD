@@ -1,0 +1,32 @@
+pkgname=ttf-google-bahianita
+pkgver=1.008
+pkgrel=1
+_commit="02f8589047ee36cda6276509c7bc94a04bc49f16"  # Latest commit touching ofl/bahianita
+pkgdesc="Google Fonts family: Bahianita"
+arch=('any')
+url="https://fonts.google.com/specimen/Bahianita"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bahianita/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bahianita/Bahianita-Regular.ttf"
+)
+sha256sums=(
+  "d33d42f346e4c706291b3373b8120bfe5fa74377c6c858b0626e5dc4f5c29245"
+  "325f21fc723c962e58f895961c77ed151520baaa56e366c4dcaf7c8fcb75130a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

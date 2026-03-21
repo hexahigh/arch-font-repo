@@ -1,0 +1,32 @@
+pkgname=ttf-google-frijole
+pkgver=1.000
+pkgrel=1
+_commit="6d842ca0a31e5f0a9f189ae46841564b63339d73"  # Latest commit touching ofl/frijole
+pkgdesc="Google Fonts family: Frijole"
+arch=('any')
+url="https://fonts.google.com/specimen/Frijole"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/frijole/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/frijole/Frijole-Regular.ttf"
+)
+sha256sums=(
+  "c2368518f12463a93cfed44e1460f36085dc60df06f415ee9b0319809987ccce"
+  "e182bbad0e1ba7eb06d93edb1c97a71f5b7d56e27433fb375f5f7138399ab72c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

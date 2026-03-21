@@ -1,0 +1,32 @@
+pkgname=ttf-google-anticslab
+pkgver=001.002
+pkgrel=1
+_commit="977487790f6ec8d7ee61097602429edb63b71e65"  # Latest commit touching ofl/anticslab
+pkgdesc="Google Fonts family: Antic Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Antic+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anticslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anticslab/AnticSlab-Regular.ttf"
+)
+sha256sums=(
+  "22d1914919d3fe08b179dc31169fc743ca7eede7827b91a5d48c23c8cdc7cb81"
+  "bea5831a412ccf18bf34612a575d908b7892c4669fa91b80405cba508fc32a56"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

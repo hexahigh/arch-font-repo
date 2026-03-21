@@ -1,0 +1,32 @@
+pkgname=ttf-google-yomogi
+pkgver=3.100
+pkgrel=1
+_commit="2dcc1a21e9ee7cb66606d0be9099752504efe559"  # Latest commit touching ofl/yomogi
+pkgdesc="Google Fonts family: Yomogi"
+arch=('any')
+url="https://fonts.google.com/specimen/Yomogi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yomogi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yomogi/Yomogi-Regular.ttf"
+)
+sha256sums=(
+  "de2f50189ab7b6a3ff3563ce680d0984b16942a21a5cef051dd9e7701ea035e1"
+  "3424e34bb951e89bf5dd2554a65d8964335ea3c0560f8d1ea9aa3591ef73cba9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

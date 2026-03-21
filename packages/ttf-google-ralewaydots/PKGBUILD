@@ -1,0 +1,32 @@
+pkgname=ttf-google-ralewaydots
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ralewaydots
+pkgdesc="Google Fonts family: Raleway Dots"
+arch=('any')
+url="https://fonts.google.com/specimen/Raleway+Dots"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ralewaydots/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ralewaydots/RalewayDots-Regular.ttf"
+)
+sha256sums=(
+  "e31de7000a2a13b2e54ad01e788fd29e979fe05ea1fded44d6e71cc06e33bb2b"
+  "a35582c11e29d5d40bf5ed263f4be18c42264376b51b6b8a7a1b79252b853e09"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

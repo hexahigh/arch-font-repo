@@ -1,0 +1,34 @@
+pkgname=ttf-google-dhyana
+pkgver=1.002
+pkgrel=1
+_commit="e6903e6e38fa1950a3a19478bc84f8597a31d5b8"  # Latest commit touching ofl/dhyana
+pkgdesc="Google Fonts family: Dhyana"
+arch=('any')
+url="https://fonts.google.com/specimen/Dhyana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dhyana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dhyana/Dhyana-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dhyana/Dhyana-Regular.ttf"
+)
+sha256sums=(
+  "00a6fe8dfdc48d6206bcc4f10a765515a73433dfba7255eff966963beb26facb"
+  "e2092d37b02d81c24471b8714b3eefb1098e96f80fa658f11284bc0c18b11e8f"
+  "a7b241c509c6f39eebefe649d2e014d2519cd715a12026bb90afb0c3b97c6266"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

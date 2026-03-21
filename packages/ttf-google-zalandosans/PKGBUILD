@@ -1,0 +1,34 @@
+pkgname=ttf-google-zalandosans
+pkgver=1.700
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zalandosans
+pkgdesc="Google Fonts family: Zalando Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Zalando+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosans/ZalandoSans-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosans/ZalandoSans[wdth,wght].ttf"
+)
+sha256sums=(
+  "411a22de2734b25584e4764f7212b004f241181ac04944a3bcee0e0371afe547"
+  "a52200aa7b8c049f7263012091b9a073c365e6882a2dcd973bcb97a633c5c495"
+  "caa069204e67208a03444e82fa5f51a8f9c1149c96df9390e0ef2da007b57da6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

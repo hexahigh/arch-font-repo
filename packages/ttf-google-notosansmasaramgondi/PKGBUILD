@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmasaramgondi
+pkgver=1.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmasaramgondi
+pkgdesc="Google Fonts family: Noto Sans Masaram Gondi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Masaram+Gondi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmasaramgondi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmasaramgondi/NotoSansMasaramGondi-Regular.ttf"
+)
+sha256sums=(
+  "5d2288d3bd6fd0b8bb76548bfa8a00c390f25092a6a24831288bd2f40bf89931"
+  "e1caa285f93023d2cdf8e9594310062b8310a3d6addf6b56103a9f828198c98f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

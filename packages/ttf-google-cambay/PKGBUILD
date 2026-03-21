@@ -1,0 +1,38 @@
+pkgname=ttf-google-cambay
+pkgver=1.181
+pkgrel=1
+_commit="8cd06664ae01a8a46dab0f84480c0f48082f65da"  # Latest commit touching ofl/cambay
+pkgdesc="Google Fonts family: Cambay"
+arch=('any')
+url="https://fonts.google.com/specimen/Cambay"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambay/Cambay-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambay/Cambay-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambay/Cambay-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cambay/Cambay-Regular.ttf"
+)
+sha256sums=(
+  "846e8cc6dc69bf685d2db14cfa758ff3d9d771d54c9e0d3b511f0ecb97ac0e8a"
+  "75b8835327db778da23a029ad0782bde9f82567f902f9cf0cd1e18efa0fa96bc"
+  "4a5310a8d87f7909fa465794fab60dc37aab5ede8214ff7eea95f36c7a2b8974"
+  "e2946874481bf5e3f28c6ec65a92bc529ad9ca27876fe7bcca8b0f04b5410bb3"
+  "473faf71630aa1b411fa9887951d1b7b2674efa137e6697cd71afc2bf17d4d55"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

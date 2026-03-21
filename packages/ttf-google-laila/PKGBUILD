@@ -1,0 +1,40 @@
+pkgname=ttf-google-laila
+pkgver=1.302
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/laila
+pkgdesc="Google Fonts family: Laila"
+arch=('any')
+url="https://fonts.google.com/specimen/Laila"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/Laila-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/Laila-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/Laila-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/Laila-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/laila/Laila-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "3b50aae09041e0941e4309ba1cbc4bacd858f8852b5e76e240157ae6e7da87b3"
+  "53e37dfb3b1d5a979a8506264df6c6ef3538fe9cf25035d1705f71053b27e863"
+  "ceab0829c5281aa7f6e8196ee6b8052c7cd6227dd36e5e41336e4c7dd61b5f33"
+  "f2a4a3f9ac8d8d5e340050fa3f42618e2e6da0adebcf8389a8fa6febbced31f2"
+  "df916fbc664bbf3e25702b30fe0d94712217e09468ef875e43e4e183e719ab66"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

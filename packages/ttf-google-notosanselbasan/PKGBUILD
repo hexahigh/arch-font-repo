@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanselbasan
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanselbasan
+pkgdesc="Google Fonts family: Noto Sans Elbasan"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Elbasan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanselbasan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanselbasan/NotoSansElbasan-Regular.ttf"
+)
+sha256sums=(
+  "6abb98eea47fde30d4d334fc50f1ee26048e77f1e7f66172c682df8f8fd52a94"
+  "fce315f8ec66dd6f627cd8e2d076d622ebb244ef609def9621f820f209eaf576"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-brawler
+pkgver=1.101
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/brawler
+pkgdesc="Google Fonts family: Brawler"
+arch=('any')
+url="https://fonts.google.com/specimen/Brawler"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/brawler/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brawler/Brawler-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brawler/Brawler-Regular.ttf"
+)
+sha256sums=(
+  "6bb89ebc3087ca384513615bd4faee0a636fde0934718263257a13b7eabf83ea"
+  "860d9f5094c46bd508bc0477da733461bf5eb8f466080909a3d42ffcb67923ae"
+  "5f7fcee66ef84c8b27f92b7cdb973039a6194ab3efcce4b328e4755ccb676831"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

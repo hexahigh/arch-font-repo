@@ -1,0 +1,32 @@
+pkgname=ttf-google-allison
+pkgver=1.010
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/allison
+pkgdesc="Google Fonts family: Allison"
+arch=('any')
+url="https://fonts.google.com/specimen/Allison"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allison/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allison/Allison-Regular.ttf"
+)
+sha256sums=(
+  "75db6ecda0911c52cc92b7aca4b7eb33120333e664851ec2b57fc6330f9fd84e"
+  "990750bc970472808cef2fceaed3424c922e781aee99e57907a68a9932d3a066"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

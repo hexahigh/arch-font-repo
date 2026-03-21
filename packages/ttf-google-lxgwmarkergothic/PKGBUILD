@@ -1,0 +1,32 @@
+pkgname=ttf-google-lxgwmarkergothic
+pkgver=1.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lxgwmarkergothic
+pkgdesc="Google Fonts family: LXGW Marker Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/LXGW+Marker+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwmarkergothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwmarkergothic/LXGWMarkerGothic-Regular.ttf"
+)
+sha256sums=(
+  "58e494ff4a5177d593a97ffc482f4069f59f54a0d4049fd29e531d3b1009e8b4"
+  "e6a55cfd5f18dc393f92670a164397a69242cb4eabe1d3feb5dc22fc4947a8ba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

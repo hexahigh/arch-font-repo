@@ -1,0 +1,34 @@
+pkgname=ttf-google-plusjakartasans
+pkgver=2.071
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/plusjakartasans
+pkgdesc="Google Fonts family: Plus Jakarta Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Plus+Jakarta+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/plusjakartasans/PlusJakartaSans[wght].ttf"
+)
+sha256sums=(
+  "995c7199cab65954f545996326755daee7b63cc6b42b06c13da1f9502ab08a99"
+  "9529eb888668b6a3c6dd75b6341a2fc5263fb6c9e788822e6117c29dd9e8b115"
+  "89b3fb38aa0d275d7a731d0d817a4f1622b316b4d7fbdedcf02ee9099ff68bc8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

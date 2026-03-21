@@ -1,0 +1,32 @@
+pkgname=ttf-google-belgrano
+pkgver=1.003
+pkgrel=1
+_commit="690d4f9373fe3fe82c6b7edf6aa3c6a2000bd2d7"  # Latest commit touching ofl/belgrano
+pkgdesc="Google Fonts family: Belgrano"
+arch=('any')
+url="https://fonts.google.com/specimen/Belgrano"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/belgrano/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/belgrano/Belgrano-Regular.ttf"
+)
+sha256sums=(
+  "284a5a26e6db9a04259a5690ad57d52c56a4c515ca2ece1943d950f99e709dcd"
+  "5bf095dfbc56718bea7d74c0b30c36413714aaf8833d2cb012b604b64fd383d9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

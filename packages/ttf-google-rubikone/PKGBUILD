@@ -1,0 +1,32 @@
+pkgname=ttf-google-rubikone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rubikone
+pkgdesc="Google Fonts family: Rubik One"
+arch=('any')
+url="https://fonts.google.com/specimen/Rubik+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikone/RubikOne-Regular.ttf"
+)
+sha256sums=(
+  "9788e3b3e67f22ab5846a0bb867a230e7df2468c3cd20f730a5d9c34e673d090"
+  "fced18ce7220d7504aba15adebd58f63d29eca554180aa74ea7545c9e07e6548"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

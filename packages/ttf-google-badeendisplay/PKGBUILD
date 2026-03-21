@@ -1,0 +1,32 @@
+pkgname=ttf-google-badeendisplay
+pkgver=1.000
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/badeendisplay
+pkgdesc="Google Fonts family: Badeen Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Badeen+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/badeendisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/badeendisplay/BadeenDisplay-Regular.ttf"
+)
+sha256sums=(
+  "22951d88e181c46e5f365191c3ffbabed1fd44483a7be71e416903e8b7c20563"
+  "274805b3ee44f9b45a99bdcecf25cd44944c0a81f6cf8086b5cf30d00e860537"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

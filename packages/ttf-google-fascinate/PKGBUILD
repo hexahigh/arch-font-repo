@@ -1,0 +1,32 @@
+pkgname=ttf-google-fascinate
+pkgver=1.000
+pkgrel=1
+_commit="1b1a49eecc0278ed56635f76a506395da21608a8"  # Latest commit touching ofl/fascinate
+pkgdesc="Google Fonts family: Fascinate"
+arch=('any')
+url="https://fonts.google.com/specimen/Fascinate"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fascinate/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fascinate/Fascinate-Regular.ttf"
+)
+sha256sums=(
+  "a7fe1f3d23034092b015aaeb53d2ecbc9e592be96b10bdfbcf8700ec6a6ffc97"
+  "2f3d4e1d3b1f58ba4700eba078c07d9f05d9f39513f6d29b0306ddc007bd7fec"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

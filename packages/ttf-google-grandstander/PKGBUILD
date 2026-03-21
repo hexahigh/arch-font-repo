@@ -1,0 +1,34 @@
+pkgname=ttf-google-grandstander
+pkgver=1.200
+pkgrel=1
+_commit="994ed1962d837865fe1da21f7b1ed12378a75758"  # Latest commit touching ofl/grandstander
+pkgdesc="Google Fonts family: Grandstander"
+arch=('any')
+url="https://fonts.google.com/specimen/Grandstander"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grandstander/Grandstander[wght].ttf"
+)
+sha256sums=(
+  "c98642ce049ee94f1868c47db44dbdc69e1800e2cf3edb539f030ac4abc22ceb"
+  "22ba556757942fd2b3d87aa087ce88d7222492c5440c4f009144770dcb68bd0d"
+  "fbc7d1d934e6aa7842f7e8420cd833eca9eb123d61880075eec68751369e2f13"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

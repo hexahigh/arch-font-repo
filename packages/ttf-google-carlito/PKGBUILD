@@ -1,0 +1,38 @@
+pkgname=ttf-google-carlito
+pkgver=1.104
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/carlito
+pkgdesc="Google Fonts family: Carlito"
+arch=('any')
+url="https://fonts.google.com/specimen/Carlito"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/carlito/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carlito/Carlito-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carlito/Carlito-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carlito/Carlito-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carlito/Carlito-Regular.ttf"
+)
+sha256sums=(
+  "58402f82a7c332a700294988fe7554fbb0a63a8d27ccc1ee3bbc640311990a00"
+  "bb5d20f79b82599ec72983597437373a80f2d2085fa91fc144fd74e876a594db"
+  "b32928186c119599e03ca6a1ffc680fdcb7fac95772f4b95d989cf6cd3861517"
+  "0b019225e58d702bfedcbd35c21696769f8ee115cb6343f84c2f240312450d1c"
+  "f6418f708baede9789daef5d458c0f53d2a888af9820e8062934e504fedc6595"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

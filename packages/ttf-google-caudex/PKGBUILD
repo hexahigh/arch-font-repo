@@ -1,0 +1,38 @@
+pkgname=ttf-google-caudex
+pkgver=1.01
+pkgrel=1
+_commit="6b3e0391ca05bb2a03a64c565d78e150321425bc"  # Latest commit touching ofl/caudex
+pkgdesc="Google Fonts family: Caudex"
+arch=('any')
+url="https://fonts.google.com/specimen/Caudex"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/caudex/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caudex/Caudex-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caudex/Caudex-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caudex/Caudex-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caudex/Caudex-Regular.ttf"
+)
+sha256sums=(
+  "1e5bf8207a40678bc401e2e5456d0db1f2a183b550a30976b48dcdd6a4e4c46c"
+  "880fb67901ce94573ed0262d152b87115a08f928c72fc6c1101375a1223d390a"
+  "78440e8ab6730581ac71fe780ad2fa15ba15d240313028678e404ace4e70eb20"
+  "ffa47f625d746e7b75c2306b7572f22561e1d73312a375772325c98213e0a4f9"
+  "dbb493e1adc50aaec52071535e6fccf4176793c79545f54d95a812cbfb85169b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

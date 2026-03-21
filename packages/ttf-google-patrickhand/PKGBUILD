@@ -1,0 +1,32 @@
+pkgname=ttf-google-patrickhand
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/patrickhand
+pkgdesc="Google Fonts family: Patrick Hand"
+arch=('any')
+url="https://fonts.google.com/specimen/Patrick+Hand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/patrickhand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/patrickhand/PatrickHand-Regular.ttf"
+)
+sha256sums=(
+  "377f4f9c19e935228552478eb68cc2ed82910988a60ba60e2ac73b09f32d02d1"
+  "0f173b3e6cb6d1af25babf7f0057c5ac4ee11f9992b0469bb817e967ef4ad0fc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

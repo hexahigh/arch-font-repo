@@ -1,0 +1,32 @@
+pkgname=ttf-google-aksarabaligalang
+pkgver=1.001
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/aksarabaligalang
+pkgdesc="Google Fonts family: Aksarabaligalang"
+arch=('any')
+url="https://fonts.google.com/specimen/Aksarabaligalang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aksarabaligalang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aksarabaligalang/AksaraBaliGalang-Regular.ttf"
+)
+sha256sums=(
+  "c39e284759a441660d4c4d852c537e271d0fd5c301fe46d065a972b6ee144ba8"
+  "2449bb9cff9e60508c5b0346ab30e70e84f959643f81442adb3534baf7e25537"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

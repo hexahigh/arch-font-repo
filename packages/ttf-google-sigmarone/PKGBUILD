@@ -1,0 +1,32 @@
+pkgname=ttf-google-sigmarone
+pkgver=2.000
+pkgrel=1
+_commit="6f26a427c656c37b398c035e96b13079d1e61a17"  # Latest commit touching ofl/sigmarone
+pkgdesc="Google Fonts family: Sigmar One"
+arch=('any')
+url="https://fonts.google.com/specimen/Sigmar+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sigmarone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sigmarone/SigmarOne-Regular.ttf"
+)
+sha256sums=(
+  "2db02cb5d05d5f8a003ffefce36a32a16520ad4cab9ed90635ff953b583e4e82"
+  "0817eb698a5c4aac2c07bb84be1ead806494c489da468db23f5ffd9bcf3f0970"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

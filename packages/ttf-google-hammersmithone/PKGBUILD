@@ -1,0 +1,32 @@
+pkgname=ttf-google-hammersmithone
+pkgver=1.003
+pkgrel=1
+_commit="025db615a0c9eb757b25250c5b4f377fb4fa9044"  # Latest commit touching ofl/hammersmithone
+pkgdesc="Google Fonts family: Hammersmith One"
+arch=('any')
+url="https://fonts.google.com/specimen/Hammersmith+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hammersmithone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hammersmithone/HammersmithOne-Regular.ttf"
+)
+sha256sums=(
+  "b43e2530c7af69fe1800f180d210b6d2745915ed4e0e404495038c861bb6dbf7"
+  "6faf4e9a59a2b25e1016c4e47cf4da4a494d07aee15dc2f708a88caae015ff8a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

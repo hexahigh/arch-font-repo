@@ -1,0 +1,32 @@
+pkgname=ttf-google-macondo
+pkgver=2.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/macondo
+pkgdesc="Google Fonts family: Macondo"
+arch=('any')
+url="https://fonts.google.com/specimen/Macondo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/macondo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/macondo/Macondo-Regular.ttf"
+)
+sha256sums=(
+  "0d75673e4c98de3e11337dbd90b05d0232edfcade5c1c02fbc0118c85aea25da"
+  "1910fe29b60588799474ea6281b59e131e33e96c77bfb80722a4c7f8133db4aa"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

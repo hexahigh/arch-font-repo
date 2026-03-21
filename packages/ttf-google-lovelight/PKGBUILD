@@ -1,0 +1,32 @@
+pkgname=ttf-google-lovelight
+pkgver=1.010
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lovelight
+pkgdesc="Google Fonts family: Love Light"
+arch=('any')
+url="https://fonts.google.com/specimen/Love+Light"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lovelight/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lovelight/LoveLight-Regular.ttf"
+)
+sha256sums=(
+  "aa90c61f2e9a4e55cc6fba56a8c37dc97921010bb4d6d1cf0377fd8f8982fe59"
+  "2036790ee211f84616197d5bdb90cd519d51a20013df2ffb8c9f3df996f1e016"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

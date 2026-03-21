@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansgurmukhiui
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansgurmukhiui
+pkgdesc="Google Fonts family: Noto Sans Gurmukhi UI"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Gurmukhi+UI"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgurmukhiui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgurmukhiui/NotoSansGurmukhiUI[wdth,wght].ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "3615afc43386f768ac15335349e8bf810bb811614f6b42252eca1fc34849692b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

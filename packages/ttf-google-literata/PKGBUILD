@@ -1,0 +1,34 @@
+pkgname=ttf-google-literata
+pkgver=3.103
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/literata
+pkgdesc="Google Fonts family: Literata"
+arch=('any')
+url="https://fonts.google.com/specimen/Literata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/literata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata-Italic[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/literata/Literata[opsz,wght].ttf"
+)
+sha256sums=(
+  "8742963604cd89dc81437811a850018fc03b2bfad686d7422c8235967c87614e"
+  "d483dfaeba9cbf4ce71d32a52ee65df82f7e35b15fff8d1011cdb242d1fcd465"
+  "b41138c9373112f32abb589cc22e8674b06ed4048b0c513be922bdd26f274440"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

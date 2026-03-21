@@ -1,0 +1,32 @@
+pkgname=ttf-google-castorotitling
+pkgver=2.04
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/castorotitling
+pkgdesc="Google Fonts family: Castoro Titling"
+arch=('any')
+url="https://fonts.google.com/specimen/Castoro+Titling"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/castorotitling/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/castorotitling/CastoroTitling-Regular.ttf"
+)
+sha256sums=(
+  "336c6a25afd535f9019824e419f5b507d31360a2fb1c87c6e1a663dc74c3b248"
+  "64360ca1f8d8da1a983cbda6bac74c1bd47aeda41e116d9377e0ec629b029f44"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

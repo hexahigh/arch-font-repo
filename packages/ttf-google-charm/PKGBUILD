@@ -1,0 +1,34 @@
+pkgname=ttf-google-charm
+pkgver=1.001
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/charm
+pkgdesc="Google Fonts family: Charm"
+arch=('any')
+url="https://fonts.google.com/specimen/Charm"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/charm/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charm/Charm-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charm/Charm-Regular.ttf"
+)
+sha256sums=(
+  "41423e9e1d0ea79d0e78bd5fe9e0b27f4c23140706f5dfbfe116839c83aae91c"
+  "6e1fa92fda7ab74fcce8ed5d7a9de10a0fb43d777590e8ef9f6931da6e932481"
+  "daae102e411243377016dbeb8cb9d53087d13074064fe79658afa966a9ac330e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

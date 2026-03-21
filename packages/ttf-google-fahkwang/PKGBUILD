@@ -1,0 +1,54 @@
+pkgname=ttf-google-fahkwang
+pkgver=1.000
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fahkwang
+pkgdesc="Google Fonts family: Fahkwang"
+arch=('any')
+url="https://fonts.google.com/specimen/Fahkwang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fahkwang/Fahkwang-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "f2c0dfa02d6f5c444b4babd7bc0b43be77ea85706e8524342516bc41e43c2f01"
+  "f44512b78dae665290e0bcbc0b5198462694c894d3300019b69a30d87341f042"
+  "607383c7dece1337b2bb573a09136223addc8a54d5e0a34dcd146280052c4805"
+  "abf6583c1f8f05e9a053e2cf3832e4a2859d28777da0d45232fcec519055d0ca"
+  "c03eba5baf576d98216027a1b0eedc4035dc13ce7af1d44316d80538bca50c1a"
+  "7455131628894aba848b3fe9ba8c2fa99f6cbc41f52391934e630a4aa8860fab"
+  "2ac5586f842987801e5f4a391e6cf0c9d2f26e53b8a3bc2442a7640127fda02b"
+  "eff441c47bdef712477f4ecc9fbe8c9663551bccca1f158b1674dc7df668544a"
+  "050aba7762b61b85f3392423adbe221b71c854312ccb548709c4bc61e4518741"
+  "0404d0e69c5f21f8be5b65fc2c215ee08c7de9ee89473801c17fb1a5e95a5da6"
+  "ce596ef9da1e40d894a1f6dbaca54aab3c699763e2715a649a8146e6ef32fb2b"
+  "3c8eaee7f138efe3b2925571f8d9af9275af25662a2a8baddf0dc3af2790fde3"
+  "6662235fa26919dccdb65697cc4a664814e1dca57498c168b9e24a0948a8a497"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-meowscript
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/meowscript
+pkgdesc="Google Fonts family: Meow Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Meow+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/meowscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/meowscript/MeowScript-Regular.ttf"
+)
+sha256sums=(
+  "712916eb364418dc1d6f916bc504ac80be4e16d5e7126822fcf483f82f9ae6f6"
+  "20e58b8455a19f18c687d67e2edfa0b62bd7b66d18ae68f5f47e0b603c197776"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

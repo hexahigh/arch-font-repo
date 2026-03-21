@@ -1,0 +1,32 @@
+pkgname=ttf-google-gluten
+pkgver=1.300
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gluten
+pkgdesc="Google Fonts family: Gluten"
+arch=('any')
+url="https://fonts.google.com/specimen/Gluten"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gluten/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gluten/Gluten[slnt,wght].ttf"
+)
+sha256sums=(
+  "9bf9f51b4e1279bc28c6cf78b4d3d0a07b254435a79e6597ad244defa6df1882"
+  "cb4b01e4754e36615125e7cb16fe1ec8255d1db02d0b236d7c992438dc1a83e4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansoldsogdian
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansoldsogdian
+pkgdesc="Google Fonts family: Noto Sans Old Sogdian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Old+Sogdian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldsogdian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldsogdian/NotoSansOldSogdian-Regular.ttf"
+)
+sha256sums=(
+  "585875e6ce2a9ce9c80314fb83c11bf48ff55b5910552987312c783bfcc5c9b6"
+  "3686573e4175d14e8681cdd7bdf10b57762ded8bc3e5a5fa0083e4e14f4f2613"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

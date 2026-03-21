@@ -1,0 +1,40 @@
+pkgname=ttf-google-atma
+pkgver=1.102
+pkgrel=1
+_commit="fa3e737fde14b025c4b2b6aaf47de0d4a8697a40"  # Latest commit touching ofl/atma
+pkgdesc="Google Fonts family: Atma"
+arch=('any')
+url="https://fonts.google.com/specimen/Atma"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/Atma-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/Atma-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/Atma-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/Atma-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atma/Atma-SemiBold.ttf"
+)
+sha256sums=(
+  "b33974ab59e6a711a6e88ceea258abb628146064a1302ab35b87a60689637e17"
+  "d55399f5bcdb78f60da7dbd6c5abfdc92510154361586ad1b07bca7ee739dba6"
+  "44d29f1887173928289709a47ef6b6b5259209ac2349a8622922316a697f497c"
+  "369d9788c926ea6f3650999617beb348238f370d65b3d5d180d638c82ea3d82a"
+  "3ddd9e02b4b6077b25c07f5d1f4411c9071e5030a4124d77dcd5a04fa292b921"
+  "15b935a57290a675391c6ca6bac4bd7fc746ead44e35495d6dc2562b2265a28f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

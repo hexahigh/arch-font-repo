@@ -1,0 +1,32 @@
+pkgname=ttf-google-habibi
+pkgver=1.001
+pkgrel=1
+_commit="709a455e50ebaec8d0ca75f8a48103a652c0fb03"  # Latest commit touching ofl/habibi
+pkgdesc="Google Fonts family: Habibi"
+arch=('any')
+url="https://fonts.google.com/specimen/Habibi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/habibi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/habibi/Habibi-Regular.ttf"
+)
+sha256sums=(
+  "2a7b0a41ef401e4e0e955280b07c0a2698932d56aad3181089bdbbaad5760491"
+  "65ae905bf98ae8ca0ec67786d01cdc1add55759dbb8b99e7da0d368f9ea74671"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

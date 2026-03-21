@@ -1,0 +1,34 @@
+pkgname=ttf-google-arefruqaaink
+pkgver=1.005
+pkgrel=1
+_commit="a180296c8b227a4e9e51ccb5814d0867ba8f692f"  # Latest commit touching ofl/arefruqaaink
+pkgdesc="Google Fonts family: Aref Ruqaa Ink"
+arch=('any')
+url="https://fonts.google.com/specimen/Aref+Ruqaa+Ink"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arefruqaaink/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arefruqaaink/ArefRuqaaInk-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arefruqaaink/ArefRuqaaInk-Regular.ttf"
+)
+sha256sums=(
+  "c5211cc6a0eb32a23608076d74585942dc4d9a738357cfe40b7dddcee1442f33"
+  "601b5c607e7e20e7957673b92947d35eb87620cd406214037a140695221c31b4"
+  "0415c2410b1e453f5d0ea0db114fb95d01f65ba2e9e2dc4ae67c5fb73c33e863"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

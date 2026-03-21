@@ -1,0 +1,32 @@
+pkgname=ttf-google-eastseadokdo
+pkgver=1.00
+pkgrel=1
+_commit="779e849d12db887542e15c40d92256f843e32490"  # Latest commit touching ofl/eastseadokdo
+pkgdesc="Google Fonts family: East Sea Dokdo"
+arch=('any')
+url="https://fonts.google.com/specimen/East+Sea+Dokdo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/eastseadokdo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eastseadokdo/EastSeaDokdo-Regular.ttf"
+)
+sha256sums=(
+  "39de3de5f1873f89bca4af37823ab22e28e88d0d8f7fe2f07e82e9e6e9bf7b70"
+  "8cebb39d375134fdbcedef9bf4ec4f6c3f02c39ed0aacd6e83f7a0f435e593b2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

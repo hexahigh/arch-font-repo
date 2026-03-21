@@ -1,0 +1,32 @@
+pkgname=ttf-google-deliusswashcaps
+pkgver=1.002
+pkgrel=1
+_commit="bf2809c5b73cb6ed3f064fab24c3b20be0c5d8b6"  # Latest commit touching ofl/deliusswashcaps
+pkgdesc="Google Fonts family: Delius Swash Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Delius+Swash+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/deliusswashcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/deliusswashcaps/DeliusSwashCaps-Regular.ttf"
+)
+sha256sums=(
+  "d8eb8611f8c98d20cbf18a28425652d6022dc2a5cca15026b920f1f2bc92a612"
+  "04c102448007265b8a0672590900919d35dfd26c624e543c8c3bfbab9535b642"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

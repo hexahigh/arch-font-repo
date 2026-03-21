@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwritear
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwritear
+pkgdesc="Google Fonts family: Playwrite AR"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+AR"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwritear/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwritear/PlaywriteAR[wght].ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "4b419fee311f18e3cd5d3f4aac838d9e80b5dc2cbb97dd4ee9d79171716d619a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,66 @@
+pkgname=ttf-google-montserratalternates
+pkgver=7.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montserratalternates
+pkgdesc="Google Fonts family: Montserrat Alternates"
+arch=('any')
+url="https://fonts.google.com/specimen/Montserrat+Alternates"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratalternates/MontserratAlternates-ThinItalic.ttf"
+)
+sha256sums=(
+  "41f82bb4d24b304f30f7136bc47abdd083782e4265c984160f5649d1e78ea49c"
+  "6fa4bf87ef8927790cc11cc87b8bcadefe2d8a1326664b6d750f5b4e5e2cf943"
+  "fe505e4ec2d6a5863ab1bb42e3e721d95a987dd93abd10d3cdfd4c53594e3d31"
+  "98f35386bc203067407b20ff1f22eefd750c9ff3e637a6bfb36b2a2ef3b8fbb0"
+  "11004d3d235bda580fe5ed7e70d6c617919ce91e5521f6734929a8844a65a1b4"
+  "66dcd7efa7e568113a958864e68f45ed18bc96eacc16b5d2c1a85ffeedb9dfc6"
+  "0cacbf2c2fbaaff1b6a86db6c9554f0d0bb5460b2e8e23758fa5d859df854fc1"
+  "61a5008e6564e427593d35e1799d9f230c33f502f9632e75f45935f8eb345e02"
+  "bbf6a02448865d2085601ef2b9de2571e4c77fbb9a2bd3cffffc35981e6a11a5"
+  "eda385390e3149fb3138f250a949bcec412793484aa99508148322eefdb825d6"
+  "70288e0bda9b8680c2b2fae4c3c6690bb97cb2196a6335ff626b2fe32d5070e9"
+  "df4174a4836a8f7131f9b2a46f4a7a111a405a28a8a3819da524c96093216d21"
+  "acd0b8e8ca755b4304caccf9d2c8432c2b60e8a4f292415e8c468ed12c974779"
+  "1e2e65e29ce84de715fe4aca89b5b6ef0cba823c4c7e68f559ef85f648135186"
+  "3b7c563f2087888279fdb7c21cc57b073ba1931dbe413e1202485b46ebfb7ead"
+  "8596df6b4c8c51d227ad7bed7a69d6d7bbd4fcb388a318e0afd8e29135c7d909"
+  "8b2f9a4a694fd9fa487ad387d8f96e3e74d5e462a930af7eaa0a22c843e148e0"
+  "51c6e65e305eab5e9ae47ee6334c6cf615e66418dfdb168128a700cd65a6ba97"
+  "66f562ad5ff8be653ddf8e194db669b9a8e56571c24d6539fe92d178b1d7e07a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

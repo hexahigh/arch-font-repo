@@ -1,0 +1,32 @@
+pkgname=ttf-google-vibes
+pkgver=1.100
+pkgrel=1
+_commit="0e57afeb9ea7ae2dfa1643891096fb78e7a6e479"  # Latest commit touching ofl/vibes
+pkgdesc="Google Fonts family: Vibes"
+arch=('any')
+url="https://fonts.google.com/specimen/Vibes"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vibes/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vibes/Vibes-Regular.ttf"
+)
+sha256sums=(
+  "34ef6e0045e0798577c79d0ff774efa624e362e7154faa3a5f8ebc93299fd0ab"
+  "297d9c8499e7383ac7675932741625ab12d9bb3abd1c31d2659b385d965a7ab7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

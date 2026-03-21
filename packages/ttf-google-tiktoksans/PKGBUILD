@@ -1,0 +1,32 @@
+pkgname=ttf-google-tiktoksans
+pkgver=4.000
+pkgrel=1
+_commit="1e1dba1da2af16f4d6e912e0750856ae980b097f"  # Latest commit touching ofl/tiktoksans
+pkgdesc="Google Fonts family: TikTok Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/TikTok+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiktoksans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiktoksans/TikTokSans[opsz,slnt,wdth,wght].ttf"
+)
+sha256sums=(
+  "99e743f68f5eac487004c73aaca69c5d80d91ddb7b75c04bdf5f39331d9b7158"
+  "0e7f0a3e924c9a86478fc6fc2946de2e4ab8fc704ed72ee40434ade94bb9b0c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

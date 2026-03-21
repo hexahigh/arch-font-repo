@@ -1,0 +1,42 @@
+pkgname=ttf-google-neuton
+pkgver=1.560
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/neuton
+pkgdesc="Google Fonts family: Neuton"
+arch=('any')
+url="https://fonts.google.com/specimen/Neuton"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neuton/Neuton-Regular.ttf"
+)
+sha256sums=(
+  "636d62f04d7bda9fcf9354f258f6244e7e18288cae036b95122e204f1acbec80"
+  "6e9594b4efae7508d434acd863e0c5fd22502ee76798e72a2e79a94a4255fa74"
+  "5b590903d739180edbca3c20363466358824e7ce34895829a53495ed91122a65"
+  "0dde410696b33f5546bf3975cecce5d00810dc367fb9d62c4e8c4deda6c84eb6"
+  "b5c66a502ed69b489300887b7019923e79925f90f1bed92cebbc398ec54b5199"
+  "055582e4bafdb13759e9f9bfc0b88d64c57c395c414b2c1e452866ccd1f5ef9d"
+  "28ae41fd0ff18925c1a829358b7bd334e27994da23d6abdd72eaff646cacadb6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

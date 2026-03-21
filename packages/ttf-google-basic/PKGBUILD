@@ -1,0 +1,32 @@
+pkgname=ttf-google-basic
+pkgver=1.003
+pkgrel=1
+_commit="6de4316d76b211a02f02a44f6b0835c65d5ff777"  # Latest commit touching ofl/basic
+pkgdesc="Google Fonts family: Basic"
+arch=('any')
+url="https://fonts.google.com/specimen/Basic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/basic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/basic/Basic-Regular.ttf"
+)
+sha256sums=(
+  "9a51726e5f247cb1f07bb8f49c163bc3e9ddee5f367bb5a1871d09b854ed1b7c"
+  "077f7245f6459045495b1ca0493f2b426c421d2112d10b48a38ff8858a07397a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

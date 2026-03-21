@@ -1,0 +1,38 @@
+pkgname=ttf-google-atkinsonhyperlegible
+pkgver=1.006
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/atkinsonhyperlegible
+pkgdesc="Google Fonts family: Atkinson Hyperlegible"
+arch=('any')
+url="https://fonts.google.com/specimen/Atkinson+Hyperlegible"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegible/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegible/AtkinsonHyperlegible-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegible/AtkinsonHyperlegible-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegible/AtkinsonHyperlegible-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegible/AtkinsonHyperlegible-Regular.ttf"
+)
+sha256sums=(
+  "f32d22b3908fcad2c86a74000614ec22e6a7f66ea7e867e616026a27aebdc143"
+  "5a3b0c8cc8ca545155150b4512a1fa248298df121c50d6557e651e61fbdab92f"
+  "7a46f1b0ef2f64b61065c1a6b5a11fcb9b019b44062d88ba121a083cc39e86bf"
+  "021beda4d3c6edfc78872e436d74009f9a1bcb294331908fe5747c61d3dcc514"
+  "7fb917c89019896d0b52ee84b7cbb3304c18cb90b19a62f5e32712bd23e97669"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

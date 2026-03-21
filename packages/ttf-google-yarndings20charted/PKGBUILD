@@ -1,0 +1,32 @@
+pkgname=ttf-google-yarndings20charted
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/yarndings20charted
+pkgdesc="Google Fonts family: Yarndings 20 Charted"
+arch=('any')
+url="https://fonts.google.com/specimen/Yarndings+20+Charted"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yarndings20charted/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yarndings20charted/Yarndings20Charted-Regular.ttf"
+)
+sha256sums=(
+  "111fd2463b6d65d75431bcdee7b54e0a0b88d5d7deca2ca562ba54f45f9128ba"
+  "06130542e36f1cce66ae8b5b7c2585f6a478aadfa6caf1634dd39c3a4fc0590c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

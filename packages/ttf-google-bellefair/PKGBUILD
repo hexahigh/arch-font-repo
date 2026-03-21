@@ -1,0 +1,32 @@
+pkgname=ttf-google-bellefair
+pkgver=1.003
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bellefair
+pkgdesc="Google Fonts family: Bellefair"
+arch=('any')
+url="https://fonts.google.com/specimen/Bellefair"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellefair/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellefair/Bellefair-Regular.ttf"
+)
+sha256sums=(
+  "2348c4852e6322105d130aa2addbe24c962e330094ad6dfbfd9fbd2281d76b0b"
+  "5c0cd4d526e6dfcb189106af6b5e6ec99a54efb6d458dfd61626ce6dc0f03026"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

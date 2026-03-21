@@ -1,0 +1,32 @@
+pkgname=ttf-google-zcoolxiaowei
+pkgver=1.000
+pkgrel=1
+_commit="d427686494a89f0b7ecb9833273b6aabb83a6350"  # Latest commit touching ofl/zcoolxiaowei
+pkgdesc="Google Fonts family: ZCOOL XiaoWei"
+arch=('any')
+url="https://fonts.google.com/specimen/ZCOOL+XiaoWei"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolxiaowei/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolxiaowei/ZCOOLXiaoWei-Regular.ttf"
+)
+sha256sums=(
+  "a094514ca57cf8f9c5e8d8d1adab5d8cd3a377297ff016f9df2c05b3ecd77f0a"
+  "a42b620140f493db42f741351dfbf343c0936d58588ee8004b8b2a218d997ff1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

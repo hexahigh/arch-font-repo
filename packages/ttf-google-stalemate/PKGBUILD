@@ -1,0 +1,32 @@
+pkgname=ttf-google-stalemate
+pkgver=001.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stalemate
+pkgdesc="Google Fonts family: Stalemate"
+arch=('any')
+url="https://fonts.google.com/specimen/Stalemate"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stalemate/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stalemate/Stalemate-Regular.ttf"
+)
+sha256sums=(
+  "d7577acbab1d70f2e6bd1b21d8f61db189d6aabe6375bc2d96564b8d94031664"
+  "36b8c2f2777cfcca17815e63636f749b398062310c089e6c9fe2a65290c7e579"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

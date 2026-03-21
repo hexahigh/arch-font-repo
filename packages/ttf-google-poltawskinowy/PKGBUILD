@@ -1,0 +1,34 @@
+pkgname=ttf-google-poltawskinowy
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poltawskinowy
+pkgdesc="Google Fonts family: Poltawski Nowy"
+arch=('any')
+url="https://fonts.google.com/specimen/Poltawski+Nowy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poltawskinowy/PoltawskiNowy[wght].ttf"
+)
+sha256sums=(
+  "21f7082f0893d6029ff6a2240e047b0f6ed8e8d54d7d1ff5dd947c9f469fbb07"
+  "4524bbb5fe26f853a90994994a0dca8af13da334899389800a5fc80f3482ed4a"
+  "7fd9a33287fa563c2c6d2c2ffb8d9750b453f301c07c9f5077dbf3567aaf024e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

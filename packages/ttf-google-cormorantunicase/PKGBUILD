@@ -1,0 +1,40 @@
+pkgname=ttf-google-cormorantunicase
+pkgver=4.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cormorantunicase
+pkgdesc="Google Fonts family: Cormorant Unicase"
+arch=('any')
+url="https://fonts.google.com/specimen/Cormorant+Unicase"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/CormorantUnicase-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/CormorantUnicase-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/CormorantUnicase-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/CormorantUnicase-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantunicase/CormorantUnicase-SemiBold.ttf"
+)
+sha256sums=(
+  "60700d351cac4650c51f3f9db318d2a420f8b45052dba2715eb5fec41f0f6956"
+  "b934e5e865cd0301e0be8ef15f85006d5479fbb2faf875093ddc36493b8ea845"
+  "3cf4f15203a8d6ed559c7a3a1ea10910ef049a3b4863b09bda92d955614dc9b5"
+  "057870894f166505a6587135e7a2586253a0ee96a35332507e2730ae36dca33f"
+  "8fadf0a9ddf4b7d20fbc7c330a740378469fe4f4422c225dd23e6fc5dc028921"
+  "8e74b41f55bc7e0f199b91086916ad64ed83b7284352d5f4bd39d18ef279238b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

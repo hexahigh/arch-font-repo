@@ -1,0 +1,32 @@
+pkgname=ttf-google-gruppo
+pkgver=1.001
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gruppo
+pkgdesc="Google Fonts family: Gruppo"
+arch=('any')
+url="https://fonts.google.com/specimen/Gruppo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gruppo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gruppo/Gruppo-Regular.ttf"
+)
+sha256sums=(
+  "513de41f10e2a9e374fc23ac57dd0bcea4070ad7aaeaeec2e16656e025a2e19a"
+  "b14da5eb049a6dd097c79b0a7d55450542ad0ff213cdfea492815a79c58244a7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

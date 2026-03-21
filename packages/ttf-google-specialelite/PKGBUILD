@@ -1,0 +1,32 @@
+pkgname=ttf-google-specialelite
+pkgver=1.001
+pkgrel=1
+_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/specialelite
+pkgdesc="Google Fonts family: Special Elite"
+arch=('any')
+url="https://fonts.google.com/specimen/Special+Elite"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/specialelite/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/specialelite/SpecialElite-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "a776fcb4ceb8bdf03e2967688ebdad42680de5b91a7e62c17e718ae212d14bc4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,42 @@
+pkgname=ttf-google-turretroad
+pkgver=1.001
+pkgrel=1
+_commit="44a8d54490d35fcf3f05ae2471b9fd921f0d4548"  # Latest commit touching ofl/turretroad
+pkgdesc="Google Fonts family: Turret Road"
+arch=('any')
+url="https://fonts.google.com/specimen/Turret+Road"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/turretroad/TurretRoad-Regular.ttf"
+)
+sha256sums=(
+  "b479f3aee0d64914d4d8575bb8d7b901ffbcf9badf0c4ae0cef89ff2df394115"
+  "e2d41e87abbaa1b53984df19938f81fd8b6715886d82bdf3af25497755eec4da"
+  "566338de973b47357317a9af96fe5e99c0fefe3d4e7707780bd78e8090c652b8"
+  "9f2fa201b4d7a717ca5cae486f083fe1aae4b0c35b98311c2a0eb5c9f2fac4f9"
+  "8610f6b0b7eb0bea030f66eafcc9ebee1948f3fe18fdeac862677ed5c0e6ecfb"
+  "a36a45d322f18ff5050b36a7a82e17a5c69685b2ef4b75508698bc8e06d80099"
+  "cce8cfb3cddbef28083bcb1513ec58f4a5c4764d3ec20c6bf49e5e3ecc89ddf9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

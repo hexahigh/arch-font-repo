@@ -1,0 +1,32 @@
+pkgname=ttf-google-meaculpa
+pkgver=1.010
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/meaculpa
+pkgdesc="Google Fonts family: Mea Culpa"
+arch=('any')
+url="https://fonts.google.com/specimen/Mea+Culpa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/meaculpa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/meaculpa/MeaCulpa-Regular.ttf"
+)
+sha256sums=(
+  "bcc0945e23c5ea0269327a87b443443a15d2867f4bf6791f3c01c32245880849"
+  "c5a293151793820d25ff10844f1418170ae755fa61d0a126cefa1e9b82f21ce5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

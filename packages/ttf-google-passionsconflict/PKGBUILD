@@ -1,0 +1,32 @@
+pkgname=ttf-google-passionsconflict
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/passionsconflict
+pkgdesc="Google Fonts family: Passions Conflict"
+arch=('any')
+url="https://fonts.google.com/specimen/Passions+Conflict"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionsconflict/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionsconflict/PassionsConflict-Regular.ttf"
+)
+sha256sums=(
+  "06d7dd50c2cc2a10cf2b690511b139266051c5cc96548e9c32b4ca5eab3c0e7a"
+  "6fa9080c8a5577803c3e6073e92a54758930e8cc31112f6500901be34d5fc55a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

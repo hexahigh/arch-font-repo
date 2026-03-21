@@ -1,0 +1,32 @@
+pkgname=ttf-google-unifrakturcook
+pkgver=2011-09-01
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unifrakturcook
+pkgdesc="Google Fonts family: UnifrakturCook"
+arch=('any')
+url="https://fonts.google.com/specimen/UnifrakturCook"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unifrakturcook/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unifrakturcook/UnifrakturCook-Bold.ttf"
+)
+sha256sums=(
+  "99d2f30e282d6174af8ff68597f58bb53c0dcb2b104a4c1b8d19da49021d00d3"
+  "ea002fa9c65f1a612af100e00d87ab65f16381f450020ec3d021f3dbf79a6dcd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

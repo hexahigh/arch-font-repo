@@ -1,0 +1,32 @@
+pkgname=ttf-google-42dotsans
+pkgver=1.000
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/42dotsans
+pkgdesc="Google Fonts family: 42dot Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/42dot+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/42dotsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/42dotsans/42dotSans[wght].ttf"
+)
+sha256sums=(
+  "1e25d65ef980a81f53feb4fcded827df7edb116f32ffd40b8f4e7250d4d8976b"
+  "cf9ec2f79b6d13384eef338477a223800a547fbb21665eb0ea1330a513805b6a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

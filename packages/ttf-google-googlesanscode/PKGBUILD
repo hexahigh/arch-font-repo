@@ -1,0 +1,34 @@
+pkgname=ttf-google-googlesanscode
+pkgver=6.001
+pkgrel=1
+_commit="c8e45997f999c1b23a812d4706df464c13ee8861"  # Latest commit touching ofl/googlesanscode
+pkgdesc="Google Fonts family: Google Sans Code"
+arch=('any')
+url="https://fonts.google.com/specimen/Google+Sans+Code"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/googlesanscode/GoogleSansCode[wght].ttf"
+)
+sha256sums=(
+  "ff8f4fbc4f1a71c7d4c6481c48dc2b21c43f8dc15872536667fee45c15d20928"
+  "bdf116292f27aca16e2aefb5534042a25f244d3a9187a521ce97fc2117a4a844"
+  "c9649573afcd966f61096b1e9c3c3115e7b54315ca2adf9839c6f8b17d5f8e1f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

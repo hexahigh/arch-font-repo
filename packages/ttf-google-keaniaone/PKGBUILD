@@ -1,0 +1,32 @@
+pkgname=ttf-google-keaniaone
+pkgver=1.003
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/keaniaone
+pkgdesc="Google Fonts family: Keania One"
+arch=('any')
+url="https://fonts.google.com/specimen/Keania+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/keaniaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/keaniaone/KeaniaOne-Regular.ttf"
+)
+sha256sums=(
+  "ca13e9cd1faaa6afb9e43dcb534a8984cec3218993fb4b436468a79a1657ee19"
+  "55c6be3d0cdc816c462bccbcc935ef20f560bd7aecbf1b38caed4752b52c14c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

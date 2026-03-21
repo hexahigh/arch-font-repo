@@ -1,0 +1,32 @@
+pkgname=ttf-google-siemreap
+pkgver=6.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/siemreap
+pkgdesc="Google Fonts family: Siemreap"
+arch=('any')
+url="https://fonts.google.com/specimen/Siemreap"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/siemreap/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/siemreap/Siemreap.ttf"
+)
+sha256sums=(
+  "85814924eca98e1fa530901cc5167d0012aaf31122f9570d7e9755443dd9335b"
+  "464760c6d06fc3f153f2e005eb1b0d33d5bd67e75f2d1c633f584c24ac006588"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

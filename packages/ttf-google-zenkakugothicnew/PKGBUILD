@@ -1,0 +1,40 @@
+pkgname=ttf-google-zenkakugothicnew
+pkgver=1.002
+pkgrel=1
+_commit="ba225958c40ae6268a256861d80355a84b26e535"  # Latest commit touching ofl/zenkakugothicnew
+pkgdesc="Google Fonts family: Zen Kaku Gothic New"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Kaku+Gothic+New"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/ZenKakuGothicNew-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/ZenKakuGothicNew-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/ZenKakuGothicNew-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/ZenKakuGothicNew-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicnew/ZenKakuGothicNew-Regular.ttf"
+)
+sha256sums=(
+  "0fac78a235c98d640cb06332eb5362c211d86fa03c011df438c35005d22ad2c7"
+  "795819a979184981842994d8f4eb9e14ce443d687bd5e731d6ca67ded8f92261"
+  "0081cedabc4921982fcd061f845a005664ac7fb642af2dd34b4007bc63ccd235"
+  "ad4e9733f96397ed0c99c295d9b3b56e39a0e0bc02b0ac56ce3ade7793a1eef1"
+  "651a3f7280b7f36262601ee76d8388a8dc4372dcc67aff025a608939a562b525"
+  "b840cd07a67d89cacca44249ae49aa99ee7640eb5ce623be8d8983d6aabac801"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

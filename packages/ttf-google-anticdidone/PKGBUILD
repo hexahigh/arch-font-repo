@@ -1,0 +1,32 @@
+pkgname=ttf-google-anticdidone
+pkgver=2.001
+pkgrel=1
+_commit="99a0668f137265278a03c677b323464dedfe310b"  # Latest commit touching ofl/anticdidone
+pkgdesc="Google Fonts family: Antic Didone"
+arch=('any')
+url="https://fonts.google.com/specimen/Antic+Didone"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anticdidone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anticdidone/AnticDidone-Regular.ttf"
+)
+sha256sums=(
+  "60ddc0ee6e443b78940b5f92bcbab76c98ec6965e0da9fbdaf267383ab72bba8"
+  "63a560792f0cb5342c0da7759c9df2e1ce0324a8af46ae976d9458fbcccbb440"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

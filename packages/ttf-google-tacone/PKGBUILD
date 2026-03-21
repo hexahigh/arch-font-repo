@@ -1,0 +1,32 @@
+pkgname=ttf-google-tacone
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tacone
+pkgdesc="Google Fonts family: Tac One"
+arch=('any')
+url="https://fonts.google.com/specimen/Tac+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tacone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tacone/TacOne-Regular.ttf"
+)
+sha256sums=(
+  "834b4eb01504f6dde1a3c3f9dfafaec172ad51255c08050abf14b701a829bfff"
+  "0b52bc2a0d4bb3ba187d1da157d18e50fafa7a3158563293445f809c3c515d77"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

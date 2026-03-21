@@ -1,0 +1,32 @@
+pkgname=ttf-google-ole
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ole
+pkgdesc="Google Fonts family: Ole"
+arch=('any')
+url="https://fonts.google.com/specimen/Ole"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ole/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ole/Ole-Regular.ttf"
+)
+sha256sums=(
+  "1e535087b6db508ffce476d197d5198deede7a5e5eb5f3ada8c68f864e98c7f5"
+  "6071527486096be714c64a8b04181f78556cba14a95f596323c0d3560e406e73"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

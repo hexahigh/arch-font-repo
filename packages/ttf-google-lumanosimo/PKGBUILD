@@ -1,0 +1,32 @@
+pkgname=ttf-google-lumanosimo
+pkgver=1.010
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lumanosimo
+pkgdesc="Google Fonts family: Lumanosimo"
+arch=('any')
+url="https://fonts.google.com/specimen/Lumanosimo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lumanosimo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lumanosimo/Lumanosimo-Regular.ttf"
+)
+sha256sums=(
+  "a2c9113a30ba080cec4de37032f54c5fb761c0c73c7ecba96f38555b4e1037d4"
+  "768d2bbe3b9dcfe5cdd89a01cf4f90b9729b58ae565233a2fab0f7f48b42f662"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

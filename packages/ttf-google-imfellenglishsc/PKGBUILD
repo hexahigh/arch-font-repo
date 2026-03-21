@@ -1,0 +1,32 @@
+pkgname=ttf-google-imfellenglishsc
+pkgver=3.00
+pkgrel=1
+_commit="b00f3ca7e4454ea4305198b93f8aab4962b2ee66"  # Latest commit touching ofl/imfellenglishsc
+pkgdesc="Google Fonts family: IM Fell English SC"
+arch=('any')
+url="https://fonts.google.com/specimen/IM+Fell+English+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellenglishsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellenglishsc/IMFeENsc28P.ttf"
+)
+sha256sums=(
+  "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+  "102324fb5434bb5da7963533426b0ad44c85bbc9e7755067535c9d11464a176b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

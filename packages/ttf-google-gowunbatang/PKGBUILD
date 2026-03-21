@@ -1,0 +1,34 @@
+pkgname=ttf-google-gowunbatang
+pkgver=2.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gowunbatang
+pkgdesc="Google Fonts family: Gowun Batang"
+arch=('any')
+url="https://fonts.google.com/specimen/Gowun+Batang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gowunbatang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gowunbatang/GowunBatang-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gowunbatang/GowunBatang-Regular.ttf"
+)
+sha256sums=(
+  "49a57cc769fa9affd6eefb9070a61e3d3f6b757c97cafb15848bc6d1c81acc78"
+  "dbfcaa646e5831e7478524924f02906f550285a5050699b4e38c9950b3ec4b94"
+  "466c593e7147412e748af4856d5ad14709b5a860bdf62b9c2546f2c5874e9849"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

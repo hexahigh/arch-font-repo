@@ -1,0 +1,32 @@
+pkgname=ttf-google-secularone
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/secularone
+pkgdesc="Google Fonts family: Secular One"
+arch=('any')
+url="https://fonts.google.com/specimen/Secular+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/secularone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/secularone/SecularOne-Regular.ttf"
+)
+sha256sums=(
+  "0b27313ffedb61d9941c5ba17c8b9ef5d2724c6e9aff41cd1ece24baed059eae"
+  "2f45092a521db5042887941edfef73178ed7c5ba7fdfc5b6f581d44aab7b0234"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

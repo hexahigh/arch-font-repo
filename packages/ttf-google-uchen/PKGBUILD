@@ -1,0 +1,32 @@
+pkgname=ttf-google-uchen
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/uchen
+pkgdesc="Google Fonts family: Uchen"
+arch=('any')
+url="https://fonts.google.com/specimen/Uchen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/uchen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/uchen/Uchen-Regular.ttf"
+)
+sha256sums=(
+  "44a89ff5fd62cee611cf9c6134ce7db219aeb90703b19db2361dcde648d73918"
+  "d466b41c9d11beea843ea16b13de220da2026836b88f3b7d30665215fc0c5d2f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

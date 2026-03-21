@@ -1,0 +1,32 @@
+pkgname=ttf-google-jotione
+pkgver=1.002
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jotione
+pkgdesc="Google Fonts family: Joti One"
+arch=('any')
+url="https://fonts.google.com/specimen/Joti+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jotione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jotione/JotiOne-Regular.ttf"
+)
+sha256sums=(
+  "9ec5fb9facd0c46e43b4d6a309c4bc7aa6c8423c898ed9543b3c9c4133b9e01e"
+  "16d31b49095da1a5c2d3ba5479cd966cff05d3db1d3e235532cb9aef607ef0a9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

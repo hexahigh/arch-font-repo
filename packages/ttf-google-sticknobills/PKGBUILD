@@ -1,0 +1,32 @@
+pkgname=ttf-google-sticknobills
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sticknobills
+pkgdesc="Google Fonts family: Stick No Bills"
+arch=('any')
+url="https://fonts.google.com/specimen/Stick+No+Bills"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sticknobills/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sticknobills/StickNoBills[wght].ttf"
+)
+sha256sums=(
+  "3800c4515b765a7a1baadb91335aa56ed58d58c86e09ff27a1186902d520b964"
+  "4754d337fbf0cffac744b58316c3d091b7abc668d7b9fb5df082e1905b27c027"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

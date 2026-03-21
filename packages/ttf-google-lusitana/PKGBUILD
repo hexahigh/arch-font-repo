@@ -1,0 +1,34 @@
+pkgname=ttf-google-lusitana
+pkgver=1.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lusitana
+pkgdesc="Google Fonts family: Lusitana"
+arch=('any')
+url="https://fonts.google.com/specimen/Lusitana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lusitana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lusitana/Lusitana-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lusitana/Lusitana-Regular.ttf"
+)
+sha256sums=(
+  "65f43260cf7e66b57ddca8d148384a6602e2c06edd389a8b3cf388045127b47d"
+  "7ce8affe6a9cf98304d33443f26b172f24230dc2b96d880f98679780e2e181ad"
+  "582ef819effed258c236f4924e2799323f3d474472d50939b817f91022ed1e60"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-gowundodum
+pkgver=2.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gowundodum
+pkgdesc="Google Fonts family: Gowun Dodum"
+arch=('any')
+url="https://fonts.google.com/specimen/Gowun+Dodum"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gowundodum/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gowundodum/GowunDodum-Regular.ttf"
+)
+sha256sums=(
+  "a7c73f9521cd646bbdfb6684c99a62311bbd7bce11898dc11ef0b3c69eda1aca"
+  "a6e457933227483a11758fd0947bc74422a106d46f0bf057fdaa5af94a30067d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

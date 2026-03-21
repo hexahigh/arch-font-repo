@@ -1,0 +1,32 @@
+pkgname=ttf-google-gemunulibre
+pkgver=1.100
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gemunulibre
+pkgdesc="Google Fonts family: Gemunu Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Gemunu+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gemunulibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gemunulibre/GemunuLibre[wght].ttf"
+)
+sha256sums=(
+  "9f1dccdd6211e2bbb679318dba3717d9eb1e3edc6fcab54beed05679d83a72b5"
+  "e723b7f44b06b2443b44eb734f32794eae64915029842d2b2187eadd74b377a6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-eaglelake
+pkgver=1.000
+pkgrel=1
+_commit="1a603d7c60331e3e0b54cbf4466f2622491ad4ca"  # Latest commit touching ofl/eaglelake
+pkgdesc="Google Fonts family: Eagle Lake"
+arch=('any')
+url="https://fonts.google.com/specimen/Eagle+Lake"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/eaglelake/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eaglelake/EagleLake-Regular.ttf"
+)
+sha256sums=(
+  "3184f6a99f589c78740fbff6ddaaabb43b8cc2f3852da36e60aeb024ea8d6f00"
+  "53a4e929c9ea3584f2432157fd549c7604e6be7e6c4b39873f34fae7f6823928"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

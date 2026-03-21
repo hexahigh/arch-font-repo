@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmiao
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmiao
+pkgdesc="Google Fonts family: Noto Sans Miao"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Miao"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmiao/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmiao/NotoSansMiao-Regular.ttf"
+)
+sha256sums=(
+  "8d8b751f6af44eae099f1debc858a93646e88d9d6a0a43573e9785383fcb3bdb"
+  "aeb7a17dd44e8e2027d717cec2b14629f82cb741a7d1a6e4b325e99cb69073ab"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

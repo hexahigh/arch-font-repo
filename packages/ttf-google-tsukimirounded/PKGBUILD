@@ -1,0 +1,40 @@
+pkgname=ttf-google-tsukimirounded
+pkgver=1.032
+pkgrel=1
+_commit="3f594588069963399f6d2cff1f9e0b93175bad03"  # Latest commit touching ofl/tsukimirounded
+pkgdesc="Google Fonts family: Tsukimi Rounded"
+arch=('any')
+url="https://fonts.google.com/specimen/Tsukimi+Rounded"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/TsukimiRounded-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/TsukimiRounded-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/TsukimiRounded-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/TsukimiRounded-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tsukimirounded/TsukimiRounded-SemiBold.ttf"
+)
+sha256sums=(
+  "0d268d55bd00b6518d3f136afb63e7f01f49c922b06c4e55dd4a2841d3bd66e6"
+  "377e031bc1990911d0553619e8761b71014ed9074f322dcdb907d03c26a3b8b5"
+  "6ba9e7893d81b29feb106b85c561c387d80d2c67a0347ffbc3c7a764719e42ab"
+  "4e7ca0c575bc8efd1bd027ed7b07666d7d59da2a98611b129d647da75eca3dd2"
+  "15f8a35fba85cda8513f99b3cb334fcaa4762833c7dae65500bed281bb8d9c74"
+  "e0a3c0c7d618938def53931b1482e7a2f93fcb31ad1421b2f797e2f1ffdad543"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-funnelsans
+pkgver=1.000
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/funnelsans
+pkgdesc="Google Fonts family: Funnel Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Funnel+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/funnelsans/FunnelSans[wght].ttf"
+)
+sha256sums=(
+  "a32303f6ea3542927121212a9e4f3fe3548741e6d448d9dc6f29e97cf50102e6"
+  "bc8670ca582ceb02139c7d301b7bf0d87bccc56f16173583d8aa89829c98af0e"
+  "652c9834434bc01835c4e75a73d3c7e42ff2e4beb261cc851cb911e889af6a77"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

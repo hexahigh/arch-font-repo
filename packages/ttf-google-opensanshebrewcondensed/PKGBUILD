@@ -1,0 +1,46 @@
+pkgname=ttf-google-opensanshebrewcondensed
+pkgver=2.001
+pkgrel=1
+_commit="49fbebd3dc75d42fe72c4a3eef6524f8fcc335fd"  # Latest commit touching apache/opensanshebrewcondensed
+pkgdesc="Google Fonts family: Opensanshebrewcondensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Opensanshebrewcondensed"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrewcondensed/OpenSansHebrewCondensed-Regular.ttf"
+)
+sha256sums=(
+  "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5"
+  "afa2294662204209e3da53d7617d4d5f68393ef4ab9e2c295cb29f67175c173a"
+  "90437fd92d32d4884391d7a477f61d59e9bd1f7b6d0134739143f56ab2002aaf"
+  "ab016b92924565b353dc1e020395ab7f2bfb9d5b8b67478c9bd07fdd34b80cb9"
+  "fcca260ad2fecf78ce51e53e3a27101e0f10ad3245b49313ddf96ecd30564fb0"
+  "d0835b78f8e9df904c3dd78e249b5fa19d7a3b0bca7ddbaa2d1e479e23509ee5"
+  "08bb0621bff55fc6038ca9facd6169a44683f10697250bb15d4a50392e3e6f28"
+  "a0adbc391d84f5e21abc5322a51b38703980c482a433d464c4a4f3fa103a2fd2"
+  "d123e83cbf90671d90ec1531bbc73715b53188510454d2961322f48ca05b35a1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

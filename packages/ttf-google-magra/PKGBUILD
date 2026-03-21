@@ -1,0 +1,34 @@
+pkgname=ttf-google-magra
+pkgver=1.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/magra
+pkgdesc="Google Fonts family: Magra"
+arch=('any')
+url="https://fonts.google.com/specimen/Magra"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/magra/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/magra/Magra-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/magra/Magra-Regular.ttf"
+)
+sha256sums=(
+  "746b384383888d9325ed2fa9c40d2456b458aa190dd2b8c515ed4f02a1075bb7"
+  "3e991012c290becfeb29943f86391a435b8bbf1fc853dc8399ccbfcce6b56a81"
+  "d4d0fe421d324b3a7886cac4c6c2069f4e671ae1859463f14af1488ad27f215e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

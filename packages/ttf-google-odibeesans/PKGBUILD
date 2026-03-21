@@ -1,0 +1,32 @@
+pkgname=ttf-google-odibeesans
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/odibeesans
+pkgdesc="Google Fonts family: Odibee Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Odibee+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/odibeesans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/odibeesans/OdibeeSans-Regular.ttf"
+)
+sha256sums=(
+  "c8f4a6ae0810a3ad10e484b29b6a6d4bb6c6e60d900266970789c54227713fe2"
+  "4e4006c713f5509f772f64e16c8a0821ad26411a69f688c71b127568355520e8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

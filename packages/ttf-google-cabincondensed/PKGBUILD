@@ -1,0 +1,38 @@
+pkgname=ttf-google-cabincondensed
+pkgver=2.200
+pkgrel=1
+_commit="be8dcf4843c1ac6cb6c88ec16c9326729844ccb9"  # Latest commit touching ofl/cabincondensed
+pkgdesc="Google Fonts family: Cabin Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Cabin+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabincondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabincondensed/CabinCondensed-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabincondensed/CabinCondensed-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabincondensed/CabinCondensed-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabincondensed/CabinCondensed-SemiBold.ttf"
+)
+sha256sums=(
+  "a20db45220b6c4dc9776f24c77dc9ec7a98977d8b3c65b03aabe66b2d08e0791"
+  "55c7759cde62445fe60d36df812f83ad2f720929628040f2a036e1e8c6e48671"
+  "08475cc737055f1c08eb1fbcad084abd9d4d0342cb55b3a76e9114cab99ad9e2"
+  "d3ad2ca1872bc3a8664ba913314b2f85fef015d0a7cb3007a7ca6420b84e574d"
+  "a73b89d750f03af8a6cd8783678cd163ec78f9e2c603d2389548fbb8dfc5d62b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

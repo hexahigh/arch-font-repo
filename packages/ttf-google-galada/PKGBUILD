@@ -1,0 +1,32 @@
+pkgname=ttf-google-galada
+pkgver=1.261
+pkgrel=1
+_commit="8d688a5ee4b997b5e31a9242eb7a670890d506fa"  # Latest commit touching ofl/galada
+pkgdesc="Google Fonts family: Galada"
+arch=('any')
+url="https://fonts.google.com/specimen/Galada"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/galada/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/galada/Galada-Regular.ttf"
+)
+sha256sums=(
+  "6a809aeba8af2115ca4b4c3597b1fbeb836a45f0489070f330f9c2dff870da8d"
+  "acc22b41ee470dc542e15b5f8907c7fbebef1b9c01eb20e4127bdbf052b006ee"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-jimnightshade
+pkgver=1.000
+pkgrel=1
+_commit="52283b6467a89cfe102343f6653b459e0dc84282"  # Latest commit touching ofl/jimnightshade
+pkgdesc="Google Fonts family: Jim Nightshade"
+arch=('any')
+url="https://fonts.google.com/specimen/Jim+Nightshade"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jimnightshade/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jimnightshade/JimNightshade-Regular.ttf"
+)
+sha256sums=(
+  "fca01a37b10879d7685c7d03fc5a04086b15cdb2cb4f870cb687aa5a9a0a1361"
+  "ad49a9f652cb1d7ce711d7ccdfb5922e3961f871705e88fb0e5d033e0e707103"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

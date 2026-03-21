@@ -1,0 +1,32 @@
+pkgname=ttf-google-inspiration
+pkgver=2.010
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inspiration
+pkgdesc="Google Fonts family: Inspiration"
+arch=('any')
+url="https://fonts.google.com/specimen/Inspiration"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/inspiration/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inspiration/Inspiration-Regular.ttf"
+)
+sha256sums=(
+  "ce7d437b6ae0e923abd1947c7a5f4d2171f60d932ec525a37c5daaa521e59683"
+  "4308040c6993a16772fb6a09d8b38e0ae0222c81c60615cf4d80aad0e3dfabf6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

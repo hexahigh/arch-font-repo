@@ -1,0 +1,32 @@
+pkgname=ttf-google-menbere
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/menbere
+pkgdesc="Google Fonts family: Menbere"
+arch=('any')
+url="https://fonts.google.com/specimen/Menbere"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/menbere/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/menbere/Menbere[wght].ttf"
+)
+sha256sums=(
+  "bf00a7b7796926a41b5daea8cfa849ef2157a8d2e4e5696fe34d298a468028ec"
+  "4705b09c466787f6a69d0203cf98fee7eab7a023517c43350543b6d7dbed2654"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

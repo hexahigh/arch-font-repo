@@ -1,0 +1,34 @@
+pkgname=ttf-google-montserratsubrayada
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montserratsubrayada
+pkgdesc="Google Fonts family: Montserrat Subrayada"
+arch=('any')
+url="https://fonts.google.com/specimen/Montserrat+Subrayada"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratsubrayada/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratsubrayada/MontserratSubrayada-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratsubrayada/MontserratSubrayada-Regular.ttf"
+)
+sha256sums=(
+  "c54957d55e7c9e66c28e474cd39de75dc044e8f69056788cae44eb78841ceef1"
+  "e2f82ad20176aabece01751b84f5a857b46a6cc4cab917830fd1cb6e141ff7b3"
+  "37a5e64e0c0fbb4148c37f731c52c63c1efc71f36564a27570d5222e5995a5f1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

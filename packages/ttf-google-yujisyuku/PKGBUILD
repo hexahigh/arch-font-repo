@@ -1,0 +1,32 @@
+pkgname=ttf-google-yujisyuku
+pkgver=3.002
+pkgrel=1
+_commit="f6a4e8a8247cd8382551b8c2926fae6b650df6f0"  # Latest commit touching ofl/yujisyuku
+pkgdesc="Google Fonts family: Yuji Syuku"
+arch=('any')
+url="https://fonts.google.com/specimen/Yuji+Syuku"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yujisyuku/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yujisyuku/YujiSyuku-Regular.ttf"
+)
+sha256sums=(
+  "ef7c85c72ae94381c8bc4832ae4e6fbabdeafa2bb8a31313cd75dce95a690256"
+  "82728ebafc8c97391e2dab633414a806f344b8e4e2227d307179f07b548fca61"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

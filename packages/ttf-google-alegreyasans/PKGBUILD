@@ -1,0 +1,58 @@
+pkgname=ttf-google-alegreyasans
+pkgver=2.004
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alegreyasans
+pkgdesc="Google Fonts family: Alegreya Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Alegreya+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alegreyasans/AlegreyaSans-ThinItalic.ttf"
+)
+sha256sums=(
+  "0677891e6a143f297350d260ad766ad33bfc18ed5fa4f213acf648d6b597ec1a"
+  "95f06dd3f6e4529f176b371e89be1d5894c3ed0606c31b1d76b092a1308c1fc0"
+  "b95a8679d329ec79b5eec84e0de00f3d88ff79c4a1deaebdad77cf4ccb851282"
+  "a3055a1893759bdbd7504bb22abc583769e7974c49353176eac0b03792c9fb8e"
+  "6a5550f0e4c3021e7e2e83ac4814e8c649a0fe20385489ce7609f00802097b4d"
+  "3861f08a77d5c1b3b311055913443b07337a4b7abaff21a8cdb51fc0ae980b9e"
+  "3ed9e028241a8c111982006fa5e9c2ccb1f7d4683789d219cb30e8010746c37e"
+  "f49f6f2bdd84df850b25b0f8185d8a051e1d1eb2dd08e2f91b8c7b86d9a9e1a6"
+  "4c60a844c618502e95117426127746378bf5ac3776e04b7ab65ed3d5dc3ae081"
+  "4b52d6e2d85f4e6310bc50d45a6acea83077ec8cd87f63b74e853314bcaab128"
+  "4b89fe7804fd1485ec2757795a53ffdb66e1206dd56f844c2d72b3c944815b43"
+  "0c79da462ae637d7f95f428c935cac7a9c22cb99655c5cd37b87080861dd73ec"
+  "8fab634196007afca839f1e5a6fb300976daff55d8528b590ef032f01b14ea10"
+  "10a9d38eac06bf5d46930529b254a1bcf235c2ced7ca8fa48437fb7ddf45b674"
+  "becc50470e3c6b29842da369485cf47523269bb2458820dc8ce7817fa4754041"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

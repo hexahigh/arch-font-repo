@@ -1,0 +1,32 @@
+pkgname=ttf-google-aneklatin
+pkgver=1.003
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/aneklatin
+pkgdesc="Google Fonts family: Anek Latin"
+arch=('any')
+url="https://fonts.google.com/specimen/Anek+Latin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aneklatin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aneklatin/AnekLatin[wdth,wght].ttf"
+)
+sha256sums=(
+  "de62be758bba267e653a5f457dfebb4680957e2c343eb3e7de15aff4746bed05"
+  "ef7077abf2166add6ab6a64b4a4a4407859bf4f9e5b9058b51ac01ada136b295"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

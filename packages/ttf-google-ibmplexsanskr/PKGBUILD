@@ -1,0 +1,44 @@
+pkgname=ttf-google-ibmplexsanskr
+pkgver=1.001
+pkgrel=1
+_commit="2aa273e00174c62d5de0a8c4365299e26d0ecff2"  # Latest commit touching ofl/ibmplexsanskr
+pkgdesc="Google Fonts family: IBM Plex Sans KR"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans+KR"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanskr/IBMPlexSansKR-Thin.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "9d82a8be5330f6d7b53121262867b402baca672eb69b852928f06d185d357f7d"
+  "202d1aa692a8d222026f981725477df7ea963246c3c6080cc3b55669414fc861"
+  "a44ebb467261e0bb02f5d5ce375ca5d675a70f8047fd8d4e8dc56add4be50c7b"
+  "4a7130f56ce50bf10f9d383f624e50bad2c80bebc63e51f4269ece2c7d919166"
+  "53750379270312368cf7641901f43a98dd892e3d9d5798cf25cdc245c85c71c0"
+  "823c1956adf56c27c06b062725dfce23f266e4fd1366290f2957c8407482a817"
+  "80fe4c5dc2fce17a7115a84966da6f5e443e21f332db2e1de53339f7f92357c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

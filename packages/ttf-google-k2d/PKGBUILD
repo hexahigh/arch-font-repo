@@ -1,0 +1,62 @@
+pkgname=ttf-google-k2d
+pkgver=1.000
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/k2d
+pkgdesc="Google Fonts family: K2D"
+arch=('any')
+url="https://fonts.google.com/specimen/K2D"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/k2d/K2D-ThinItalic.ttf"
+)
+sha256sums=(
+  "869e4c29978c318b33c2e5c7c8f24d2e947f249071bb1471620036a9d1ba87ad"
+  "0876882908abb4ee3bcf9f73007128dddd52b77fe36414101fb12da0a67edb3d"
+  "6128b62d3da6a8dfdbba554a74538afce7bbe08e9881108596f8efa8485e7d78"
+  "46aa84ed5ffa8f7c1e156ddff85441ebbc1913b8aa3349bf3cd722e7b97df761"
+  "fb0c965d96921d852426426709344dacdd8107d2f405513a092601b0077b4e89"
+  "3b3c724b0ae259e1b163e9f4451f6c25903b13f3a2049ea73bea7f635d171dc4"
+  "ce3a2cb01a913733de2d85159cd1b757c766fa79a0266363f1c60b489e3fb2e9"
+  "e423a6554e790cefa6841af2ee34837465f9313fd5e6a1074f9b795d7073b504"
+  "f69664fb42121ad85555822d821bfd6ccde64f201984d5b688c22f300a1efb3d"
+  "56d2f1171dc62770c3668964f231562fae0d882914609133fca914cd82bea203"
+  "0ea9a92a4d005f69a6cf53b1eaed244f70817a477dcd66bc06fef1f4d9821795"
+  "29cda60bfda134132fdc72cb02a74604ffe9120cba1f038ed2522edfe210bc5c"
+  "bfab1193b93b9200455119c968f0ccac24b68d2408d26a8123a4c3c01fb11821"
+  "7d6225a49110e9981d24bbccaf06ae5774b641297edef16ffa2b372497840d07"
+  "57d890588743f161b1644ffffc18907c49115b64cd32d2e9bcc5f6f0c99326ea"
+  "33ca61459477f91ac726e551eb9ecb4d470af41afc33ddcb5cc1a985e4869adb"
+  "c1813a64b87902729d730f57a3bb920727abf8b1e25a35610f9e213b237b5791"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

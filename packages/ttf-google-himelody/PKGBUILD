@@ -1,0 +1,32 @@
+pkgname=ttf-google-himelody
+pkgver=3.00
+pkgrel=1
+_commit="d321138d17fb013551ebf22119cf1bcada1cfd0e"  # Latest commit touching ofl/himelody
+pkgdesc="Google Fonts family: Hi Melody"
+arch=('any')
+url="https://fonts.google.com/specimen/Hi+Melody"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/himelody/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/himelody/HiMelody-Regular.ttf"
+)
+sha256sums=(
+  "39de3de5f1873f89bca4af37823ab22e28e88d0d8f7fe2f07e82e9e6e9bf7b70"
+  "360d2c0a880918aa48328d1d9219f5390788d09a1c9353e12b471de018673ae6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

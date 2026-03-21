@@ -1,0 +1,32 @@
+pkgname=ttf-google-indieflower
+pkgver=2.000
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/indieflower
+pkgdesc="Google Fonts family: Indie Flower"
+arch=('any')
+url="https://fonts.google.com/specimen/Indie+Flower"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/indieflower/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/indieflower/IndieFlower-Regular.ttf"
+)
+sha256sums=(
+  "d9cdb075679d15a99bab2a8541b9c4fdc71347502111fbe9affd1d462219d96b"
+  "ccc94b22b156e9c5dfe50fd051f01b097600b252c24473e624bb43a143140a94"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

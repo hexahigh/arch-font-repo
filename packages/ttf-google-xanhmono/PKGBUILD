@@ -1,0 +1,34 @@
+pkgname=ttf-google-xanhmono
+pkgver=3.101
+pkgrel=1
+_commit="eb246f7b6c1eb5975b9ba51f2926df0a2d3bc5c1"  # Latest commit touching ofl/xanhmono
+pkgdesc="Google Fonts family: Xanh Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Xanh+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/xanhmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/xanhmono/XanhMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/xanhmono/XanhMono-Regular.ttf"
+)
+sha256sums=(
+  "ca75fb29ae8e2aa30b8d0a0de74842769cd204634059629521134e2baf791fab"
+  "e74ed4105efc797c05ec0631182e0a76bb5ecbf1b6adedb9e0170c79964b2f6f"
+  "33e64b43fdcb40bd0141853601c7aaffd5be15ebd3cf56340d2473ff8be8e69c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

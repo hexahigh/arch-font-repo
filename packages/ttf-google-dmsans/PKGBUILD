@@ -1,0 +1,34 @@
+pkgname=ttf-google-dmsans
+pkgver=4.004
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dmsans
+pkgdesc="Google Fonts family: DM Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/DM+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans-Italic[opsz,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmsans/DMSans[opsz,wght].ttf"
+)
+sha256sums=(
+  "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"
+  "22259c0cc8237221b80f44c76ba8d36e6bce3cda72779f5b2773643d499720ae"
+  "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

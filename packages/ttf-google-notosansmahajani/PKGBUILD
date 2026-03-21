@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmahajani
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmahajani
+pkgdesc="Google Fonts family: Noto Sans Mahajani"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Mahajani"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmahajani/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmahajani/NotoSansMahajani-Regular.ttf"
+)
+sha256sums=(
+  "3c695b36fef73588d0a192dad666b2956d15582f66289a85a3d55705e4cd454a"
+  "a48694e1ea0178e11df1b9a760d7ad53b6aa3a7b86e5d8c18dfb37e144ae69c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

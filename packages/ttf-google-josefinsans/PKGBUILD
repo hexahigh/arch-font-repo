@@ -1,0 +1,34 @@
+pkgname=ttf-google-josefinsans
+pkgver=2.001
+pkgrel=1
+_commit="0fd277cf519ed2c02e63e4e19220f4cf6103df51"  # Latest commit touching ofl/josefinsans
+pkgdesc="Google Fonts family: Josefin Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Josefin+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/josefinsans/JosefinSans[wght].ttf"
+)
+sha256sums=(
+  "aee5a4081e8a52f80428b30f178b719d115f18dad3e1fa15a986163e1078a85b"
+  "c22b42ca690be7ea07d04415ac70b48603dff88e854738cba4bd87027b905ef1"
+  "9255abdb5f393bc51e101abbd07a716a977fd3e15472b1b84b260f426a342bfd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

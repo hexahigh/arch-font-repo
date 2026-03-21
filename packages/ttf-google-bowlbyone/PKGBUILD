@@ -1,0 +1,32 @@
+pkgname=ttf-google-bowlbyone
+pkgver=1.001
+pkgrel=1
+_commit="6e2cc4405437586e3da130e5979a07e65dbd2389"  # Latest commit touching ofl/bowlbyone
+pkgdesc="Google Fonts family: Bowlby One"
+arch=('any')
+url="https://fonts.google.com/specimen/Bowlby+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bowlbyone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bowlbyone/BowlbyOne-Regular.ttf"
+)
+sha256sums=(
+  "f3ee3eb20a9d565bee2bbc0d616de382a113327d7506565b2f3d3bee5f489375"
+  "c46a806d7b51fd4987e5f0be449fe40a944cb407e43290ce1cdeed029a8cdc1d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

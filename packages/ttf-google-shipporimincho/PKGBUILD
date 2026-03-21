@@ -1,0 +1,40 @@
+pkgname=ttf-google-shipporimincho
+pkgver=3.110
+pkgrel=1
+_commit="d0b2d1307ad5d6b579d627a6e5abd25952484b96"  # Latest commit touching ofl/shipporimincho
+pkgdesc="Google Fonts family: Shippori Mincho"
+arch=('any')
+url="https://fonts.google.com/specimen/Shippori+Mincho"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/ShipporiMincho-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/ShipporiMincho-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/ShipporiMincho-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/ShipporiMincho-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporimincho/ShipporiMincho-SemiBold.ttf"
+)
+sha256sums=(
+  "41fba056279be5f45ff9a99e44b7b53897b42732f5806d8e666e0ab49ac6bd38"
+  "63bc4eddc74793f671c3ab827c5175e773ffbe569d0bf50ee65375ea9e3bc286"
+  "bdb787644b4b347e9a7efdd576f0d16ee4528cc9b5c86d23e06fa1a14ae0444c"
+  "700e505afc4cded2338eba29478a041e04c1c2ea5114fbb3e0b04e76c302c5d8"
+  "769b5269f0f9bc6534b352c0e6bd856a566e03ff788f107191c2d835863570b2"
+  "bc7925544894a91466449adb73c6d943f50c3e53eb1c74d0673fe2dbafcd4d2d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

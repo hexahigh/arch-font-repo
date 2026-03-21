@@ -1,0 +1,38 @@
+pkgname=ttf-google-thabit
+pkgver=0.01
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/thabit
+pkgdesc="Google Fonts family: Thabit"
+arch=('any')
+url="https://fonts.google.com/specimen/Thabit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/thabit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thabit/Thabit-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thabit/Thabit-BoldOblique.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thabit/Thabit-Oblique.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thabit/Thabit.ttf"
+)
+sha256sums=(
+  "9b8405bf5f503f92401fc990f372b34d469670ab60041d5298d1015d3d0b45f8"
+  "8dded564a1f6dc6a223112b66f20d12a221ad76a7f688dd570cef794940dd124"
+  "5375ed9d0d5ea6e9e9806bbddd1dc860b1857018d3229d10f944ca39e04318ff"
+  "dc8ca2cbcdd9d1925394b2261bb46897752b20a190ce7d108e20b56b465ce686"
+  "3fe6f423d751919d6411b38d6de2ff823252292eef9e860c4a532faf779b674a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-lexendtera
+pkgver=1.007
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lexendtera
+pkgdesc="Google Fonts family: Lexend Tera"
+arch=('any')
+url="https://fonts.google.com/specimen/Lexend+Tera"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendtera/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendtera/LexendTera[wght].ttf"
+)
+sha256sums=(
+  "5da8505887d0fa7fe963445fd58852707fda34adfeb65af25c99d152bab285bd"
+  "153c623deb39a4a79f26972e1a7b61651c16f9d567d4af83be2942303307dfac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

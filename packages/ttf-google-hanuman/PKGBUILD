@@ -1,0 +1,32 @@
+pkgname=ttf-google-hanuman
+pkgver=9.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hanuman
+pkgdesc="Google Fonts family: Hanuman"
+arch=('any')
+url="https://fonts.google.com/specimen/Hanuman"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hanuman/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hanuman/Hanuman[wght].ttf"
+)
+sha256sums=(
+  "a25f2b569874c06136214f53bcf419fc4c942a4da8257dfe189b2728bec0d15e"
+  "0cb2c9dd733d7357d5b673f55d756ff9ef50dd68af9dc217c0d5a71719665536"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

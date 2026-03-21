@@ -1,0 +1,32 @@
+pkgname=ttf-google-yarndings12
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/yarndings12
+pkgdesc="Google Fonts family: Yarndings 12"
+arch=('any')
+url="https://fonts.google.com/specimen/Yarndings+12"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yarndings12/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yarndings12/Yarndings12-Regular.ttf"
+)
+sha256sums=(
+  "111fd2463b6d65d75431bcdee7b54e0a0b88d5d7deca2ca562ba54f45f9128ba"
+  "f7774d76e873c3bafefc3feb334816a15d86684f151b5e85bea7eb98650a981d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

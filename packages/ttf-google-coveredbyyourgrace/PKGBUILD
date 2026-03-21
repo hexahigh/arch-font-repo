@@ -1,0 +1,32 @@
+pkgname=ttf-google-coveredbyyourgrace
+pkgver=20260226
+pkgrel=1
+_commit="bb62b65f68d2af7f69411cee34872d4fa99c37c1"  # Latest commit touching ofl/coveredbyyourgrace
+pkgdesc="Google Fonts family: Covered By Your Grace"
+arch=('any')
+url="https://fonts.google.com/specimen/Covered+By+Your+Grace"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/coveredbyyourgrace/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coveredbyyourgrace/CoveredByYourGrace.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "8a7e5687a4f9aad95243eb28cdc624009a335e0de5175113bc5f1348a4d67fd7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

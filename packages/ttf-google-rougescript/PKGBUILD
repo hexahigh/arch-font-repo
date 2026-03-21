@@ -1,0 +1,32 @@
+pkgname=ttf-google-rougescript
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rougescript
+pkgdesc="Google Fonts family: Rouge Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Rouge+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rougescript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rougescript/RougeScript-Regular.ttf"
+)
+sha256sums=(
+  "08fdc7cbd92b9bbc4d41d0945ae7f25450d91c5fc8c66c68df331af3505e4ec3"
+  "99de0ca969d9898687305a36f7e6dde6d30806ab7a463ebb4068dd9dd2a54fd6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

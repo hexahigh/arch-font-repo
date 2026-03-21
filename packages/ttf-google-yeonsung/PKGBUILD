@@ -1,0 +1,32 @@
+pkgname=ttf-google-yeonsung
+pkgver=1.001
+pkgrel=1
+_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yeonsung
+pkgdesc="Google Fonts family: Yeon Sung"
+arch=('any')
+url="https://fonts.google.com/specimen/Yeon+Sung"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yeonsung/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yeonsung/YeonSung-Regular.ttf"
+)
+sha256sums=(
+  "d7d8074c2dd46804990c184e25849947ab76c5ac7607fbf3966543455769bb73"
+  "49ac2a11009f5f58307d377911eb45d210cf4c1d379d9eca38fb4cdad5491ef6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

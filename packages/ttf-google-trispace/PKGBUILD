@@ -1,0 +1,32 @@
+pkgname=ttf-google-trispace
+pkgver=1.210
+pkgrel=1
+_commit="9debe5cbe13c75c55d6c079d6261ea53437c24b3"  # Latest commit touching ofl/trispace
+pkgdesc="Google Fonts family: Trispace"
+arch=('any')
+url="https://fonts.google.com/specimen/Trispace"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/trispace/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trispace/Trispace[wdth,wght].ttf"
+)
+sha256sums=(
+  "50fc74eff3191af1c918c047600d1e7f15324eb13f7c7c1cbbe43949bb261536"
+  "4021d8d7abd42907c64f0bf192446ad9f869320563f8c71a526993830e405464"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

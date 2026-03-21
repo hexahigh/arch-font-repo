@@ -1,0 +1,34 @@
+pkgname=ttf-google-savate
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/savate
+pkgdesc="Google Fonts family: Savate"
+arch=('any')
+url="https://fonts.google.com/specimen/Savate"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/savate/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/savate/Savate[wght].ttf"
+)
+sha256sums=(
+  "0c757edca5c56afa280139563437e84da51a4b98d387b039ac467fc8ea509c45"
+  "c30e3f15cdf19846727bc5ed88eb96ed007d36b717cb867e1aa74acd0aadcc22"
+  "b46894768402bd53cbc160ea888149c63c6d134a3e5650889e5154f49b479e80"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

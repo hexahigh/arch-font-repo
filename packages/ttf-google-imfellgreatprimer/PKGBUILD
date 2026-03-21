@@ -1,0 +1,34 @@
+pkgname=ttf-google-imfellgreatprimer
+pkgver=3.00
+pkgrel=1
+_commit="f11b1c43e1eb0286c93cee9c970524987bd1a793"  # Latest commit touching ofl/imfellgreatprimer
+pkgdesc="Google Fonts family: IM Fell Great Primer"
+arch=('any')
+url="https://fonts.google.com/specimen/IM+Fell+Great+Primer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellgreatprimer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellgreatprimer/IMFeGPit28P.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellgreatprimer/IMFeGPrm28P.ttf"
+)
+sha256sums=(
+  "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+  "a3c1cd9fc694e6f090923423ed8e4dc203c6ccc74ea246ee86279068302fe23d"
+  "5c6de386acb87550ded558f701d288ec1ce7ffa9ec4b160ae06ee3728a1784b2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

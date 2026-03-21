@@ -1,0 +1,46 @@
+pkgname=ttf-google-zain
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zain
+pkgdesc="Google Fonts family: Zain"
+arch=('any')
+url="https://fonts.google.com/specimen/Zain"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zain/Zain-Regular.ttf"
+)
+sha256sums=(
+  "ccbcfbce2bc74fe58aa2d4fa0cf32c8f7facd95decc2a8f72cd49653a0d039da"
+  "fb9146db13654b0e75003e8db55508167782d70bb64d85c0b4a0e689f016939f"
+  "4dc98e7b1a9cac93bde1907271472ba9cf43ae5212e942cafe59a6d341f052e3"
+  "1f28878c4fd73456c1b2fc0fe334767f397c51cd227376b30dc9412732e74abf"
+  "0fed2aeaa4a13676ee9a8b518804d4ce904a0b812a85bcbf35ea657cd2d308ac"
+  "ed2fd21e100b067530478c2c71229cca9e7213f905c6f8736deadc999bd2a9bb"
+  "21ac8d8c63f1d037d7922a7e1343ad07d9fc60cc922f5c267d12cd75d93f1037"
+  "0681b370f399f997f62e0ed782e41fe80ef224afeb995e27f43e440b691b878e"
+  "2a2b8af3804039c7f500c43f581a4145012728bc3109ef15d48371700f5e1f63"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

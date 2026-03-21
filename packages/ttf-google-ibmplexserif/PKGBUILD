@@ -1,0 +1,58 @@
+pkgname=ttf-google-ibmplexserif
+pkgver=2.6
+pkgrel=1
+_commit="08420a23d7997d820b65a8aed9a19f04b3538623"  # Latest commit touching ofl/ibmplexserif
+pkgdesc="Google Fonts family: IBM Plex Serif"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Serif"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexserif/IBMPlexSerif-ThinItalic.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "534c02c295999dd86e770457ece1d43db0de9256dd98bf741426f63ae904209e"
+  "2a32b76ac19c1942bf5942dbbd2a1566e5f1ae9833e421ebcf36d3522715e153"
+  "e70801926e16dd77c41f4a7c1099f6bab7140f489f03fb80856ec678820be60d"
+  "f45aca4b4a1402c0c07c4a4665b278eb01aced90b6b719af29e8ae1a2a8bdc43"
+  "4b75b38be4673527231f49c48818d090c913d5042dd5c747b525bf6185d29ecb"
+  "698bad1d5e52004cb1d504249bd704cf0aed03740d7ef22d7a533db2bc020f69"
+  "f4e4364e8fb60d9a0a4ed41e5bbe757672b042cdf2a963215035951782de8060"
+  "32925e73e5b4a441df9d23e847f2b8c4046c1fc3db094e90bad8883157811509"
+  "a3b5c5b291db0b88abf833bd02864adcaa4ba994d9f7d9b790f552e2fd0cbabd"
+  "e882efa9c41949a528ac2369079ec5ef050c1c996bbd0bacce3c3326d44cf80d"
+  "27ce4d105591b48f666b228e1e399838a704594efea22b730000951bea700a60"
+  "15f4e3974b83b2459a6a1b252caa356a9a11316deeba45adbc89b46fb4aab820"
+  "1b4df73116dad2432f2d13337ae347fff71a03b8c1ba2b3e1c06cc98aadba72b"
+  "772397765d3842e375712a277609783dc1c753653157de3c807c5390d6a1513d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

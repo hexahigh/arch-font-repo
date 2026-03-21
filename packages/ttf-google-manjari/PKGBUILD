@@ -1,0 +1,36 @@
+pkgname=ttf-google-manjari
+pkgver=2.000
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/manjari
+pkgdesc="Google Fonts family: Manjari"
+arch=('any')
+url="https://fonts.google.com/specimen/Manjari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/manjari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manjari/Manjari-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manjari/Manjari-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manjari/Manjari-Thin.ttf"
+)
+sha256sums=(
+  "2e144823e28b854ff5e1d41db9a2180fdb1d8e44a71c2ae4fca5c4b2a5adde4c"
+  "f19fef695b28e5448ae87451dfbab426676cadf4b59340558a157c0071b69d26"
+  "16460924696bfea2a2f71b4201d8786867c6413b548ecbd22bc6bfe55be90f95"
+  "0eab2fd482b2b0e6cd469c53d09513a2303ff91c86dc8c1ba42acfc73242bd72"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

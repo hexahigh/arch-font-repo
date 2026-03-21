@@ -1,0 +1,32 @@
+pkgname=ttf-google-imprima
+pkgver=1.002
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/imprima
+pkgdesc="Google Fonts family: Imprima"
+arch=('any')
+url="https://fonts.google.com/specimen/Imprima"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imprima/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imprima/Imprima-Regular.ttf"
+)
+sha256sums=(
+  "6afcd25837be87e7c564f594d20ee009b4bfa540c4eb2d274992e2b1483fa3c9"
+  "c563e40bc5609b8c7bcc39f93cba05455c0d0b8c43460ff991d2834301609c08"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

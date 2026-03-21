@@ -1,0 +1,34 @@
+pkgname=ttf-google-exo2
+pkgver=2.010
+pkgrel=1
+_commit="1796e34455b893092713d206e7f23e3e07699f00"  # Latest commit touching ofl/exo2
+pkgdesc="Google Fonts family: Exo 2"
+arch=('any')
+url="https://fonts.google.com/specimen/Exo+2"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/exo2/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/exo2/Exo2-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/exo2/Exo2[wght].ttf"
+)
+sha256sums=(
+  "7f95a8eeecc6904ffc81cd10cc8ebc7fcee72a67922924bf45f02dff03b88127"
+  "bad568cea9ed23d6ae4aea41ad3f7747752952aabdd85d7f01474af392a21b32"
+  "205a448676a2586f9c57c25f3d5c58ca8db7e6cf5edf7506783a010c6fe2bfb5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

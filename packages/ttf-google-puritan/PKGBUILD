@@ -1,0 +1,38 @@
+pkgname=ttf-google-puritan
+pkgver=2.1
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/puritan
+pkgdesc="Google Fonts family: Puritan"
+arch=('any')
+url="https://fonts.google.com/specimen/Puritan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/puritan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/puritan/Puritan-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/puritan/Puritan-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/puritan/Puritan-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/puritan/Puritan-Regular.ttf"
+)
+sha256sums=(
+  "5f5dbf452c1657370d9280b50d647212a53c80acae6d78e0b5e8c2b26dc62b09"
+  "64e6d13582c1bc2dcab45f2f7be46362a11d108da84b4480e0339ef9c93486d1"
+  "121700e1a92a307b4aaf1e908bd713cc9afe9500d33b5db4f81d0d13df1f64b4"
+  "2cb8e3d29b08f21a693ace2ba43deaf030f9191205e067a9f82535d742c18f9e"
+  "c1bb23393a4b47cee290d4b371dc2ad812e2c806767bad7d2dd2f08c6d9f75ed"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

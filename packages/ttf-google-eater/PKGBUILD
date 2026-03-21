@@ -1,0 +1,32 @@
+pkgname=ttf-google-eater
+pkgver=001.002
+pkgrel=1
+_commit="6b9a5fdb7ad2366a357ec7f2ffc3dab98fbaeef8"  # Latest commit touching ofl/eater
+pkgdesc="Google Fonts family: Eater"
+arch=('any')
+url="https://fonts.google.com/specimen/Eater"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/eater/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eater/Eater-Regular.ttf"
+)
+sha256sums=(
+  "5946eec3a7d3bda02825930156e4716198e7753641dd3303a3e8c386c8011909"
+  "df2744af0f58592c4ff13e8205e62a56f7bdf915b3e31c9def075668c42a2b3f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

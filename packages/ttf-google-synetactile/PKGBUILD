@@ -1,0 +1,32 @@
+pkgname=ttf-google-synetactile
+pkgver=2.100
+pkgrel=1
+_commit="6973827ce1339f7f32adc4a7c41d5f607a0ffb48"  # Latest commit touching ofl/synetactile
+pkgdesc="Google Fonts family: Syne Tactile"
+arch=('any')
+url="https://fonts.google.com/specimen/Syne+Tactile"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/synetactile/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/synetactile/SyneTactile-Regular.ttf"
+)
+sha256sums=(
+  "c80622543840e2bc72670a00daef3a6cb1af6fad522d15b9a5d9410733c878b5"
+  "d47ec3693a8f7a7fdf72cdee0e45c8fa0e08bc0b41ba41b8cf31509065ff0620"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

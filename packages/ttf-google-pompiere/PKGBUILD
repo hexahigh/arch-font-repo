@@ -1,0 +1,32 @@
+pkgname=ttf-google-pompiere
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pompiere
+pkgdesc="Google Fonts family: Pompiere"
+arch=('any')
+url="https://fonts.google.com/specimen/Pompiere"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pompiere/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pompiere/Pompiere-Regular.ttf"
+)
+sha256sums=(
+  "bdce62dd98db969b73f93f8e8e2151004c20ad871ceb15ad9bfcbdf2cf939dba"
+  "11610bde374970a6ca01136fdbea820f795fceae8c399c664e69f1277c1bc523"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

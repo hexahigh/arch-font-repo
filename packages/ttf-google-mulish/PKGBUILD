@@ -1,0 +1,34 @@
+pkgname=ttf-google-mulish
+pkgver=3.603
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mulish
+pkgdesc="Google Fonts family: Mulish"
+arch=('any')
+url="https://fonts.google.com/specimen/Mulish"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mulish/Mulish[wght].ttf"
+)
+sha256sums=(
+  "097e9ac414d9251c8580c073a13f8899798c66db746de60662148789ca693f19"
+  "4f4d5f97b530500232d9d487101b8283840168dcfe7b8b9a285af65f0fa8aaab"
+  "00f1105796291a2fdda117a0fc7f25d8e68f8010cdbb34a411f60b3bd57717ac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

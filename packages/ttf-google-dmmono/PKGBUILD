@@ -1,0 +1,42 @@
+pkgname=ttf-google-dmmono
+pkgver=1.000
+pkgrel=1
+_commit="bfb7c046dea572dca9fdd435481ba2f36b0a1ebc"  # Latest commit touching ofl/dmmono
+pkgdesc="Google Fonts family: DM Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/DM+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmmono/DMMono-Regular.ttf"
+)
+sha256sums=(
+  "2bada5ea45c3c63b7f1ea1f88ce9672c9e4f0c42b2c3b7378949084fe55a3066"
+  "32b5bad9cbce64eac6d05c8abbeb619317f7e4cb354e1c33db761adbfaae1b16"
+  "c7b3645dc8d28237317b4d017bc47b9ff09a7660758122dacb694a5a82552c24"
+  "90216192555d56cd40857250bbd6d0e8130ddbd015992d584225d7f390849544"
+  "fd327daf461db87b44a87def475d251bf03b997f7c07d9680592d75dbbfaad0b"
+  "a3b2211bb9cf5c4fc1a0b487553e673a737c2270c59b86bf1e0b48c77e587aa2"
+  "55b4c98f123daebb3ed27947ba47b2af00554fc6284d639a540bcef5e6258ad2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

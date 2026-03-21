@@ -1,0 +1,32 @@
+pkgname=ttf-google-londrinaoutline
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/londrinaoutline
+pkgdesc="Google Fonts family: Londrina Outline"
+arch=('any')
+url="https://fonts.google.com/specimen/Londrina+Outline"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinaoutline/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinaoutline/LondrinaOutline-Regular.ttf"
+)
+sha256sums=(
+  "9551ade371e7bcb1f6d9959273bbf1fed3bdf398efb5c57cc1fd85d6a13e9e5e"
+  "773c655bc6a2e9b699cfa8c4a5f615c6348686d018281bb8e6cdc470b2f05f4d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

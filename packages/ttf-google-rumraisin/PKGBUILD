@@ -1,0 +1,32 @@
+pkgname=ttf-google-rumraisin
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rumraisin
+pkgdesc="Google Fonts family: Rum Raisin"
+arch=('any')
+url="https://fonts.google.com/specimen/Rum+Raisin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rumraisin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rumraisin/RumRaisin-Regular.ttf"
+)
+sha256sums=(
+  "b598b7fddfd578950aa1fe6e0e2607b779abfaa686b83af8ec65c860f646b2cd"
+  "1fb741013c05995ea48aab1c16bcd141c004ea5c8f9466df9a0e1317d057412e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

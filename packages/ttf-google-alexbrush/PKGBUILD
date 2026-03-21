@@ -1,0 +1,32 @@
+pkgname=ttf-google-alexbrush
+pkgver=1.111
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alexbrush
+pkgdesc="Google Fonts family: Alex Brush"
+arch=('any')
+url="https://fonts.google.com/specimen/Alex+Brush"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alexbrush/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alexbrush/AlexBrush-Regular.ttf"
+)
+sha256sums=(
+  "0ee34ce7c99b0deb7f7332bca0a4950d3796c23c00de77ada8aa29a4b55ff2c2"
+  "df702038d8e27797230c77959c139eeea38cac0caf53e19ea5b513d3b0d3362d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

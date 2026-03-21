@@ -1,0 +1,32 @@
+pkgname=ttf-google-candal
+pkgver=1.000
+pkgrel=1
+_commit="39f612d21cbe0252c3da77c79bf5bc90a305dd48"  # Latest commit touching ofl/candal
+pkgdesc="Google Fonts family: Candal"
+arch=('any')
+url="https://fonts.google.com/specimen/Candal"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/candal/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/candal/Candal.ttf"
+)
+sha256sums=(
+  "f0be7437bbb8b91ad4a4f7a5f3d0020368e494a803d892df03e8886d51f2db3a"
+  "cf4ff425c49ab2e167fb7d166ba57f2925b6df6161a228786b291ea3875f1eb5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

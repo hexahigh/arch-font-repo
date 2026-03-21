@@ -1,0 +1,32 @@
+pkgname=ttf-google-aubrey
+pkgver=1.102
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/aubrey
+pkgdesc="Google Fonts family: Aubrey"
+arch=('any')
+url="https://fonts.google.com/specimen/Aubrey"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aubrey/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aubrey/Aubrey-Regular.ttf"
+)
+sha256sums=(
+  "071a0917e2aca3f11ebb24ec0a01b85315d3d07787b1e273033708f5faa67fd2"
+  "0e5d5bcacda38d60d25b2c61a2b7130a91d20f0cab28072fccf29185fc2c3176"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

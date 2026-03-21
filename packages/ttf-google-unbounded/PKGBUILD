@@ -1,0 +1,32 @@
+pkgname=ttf-google-unbounded
+pkgver=1.701
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unbounded
+pkgdesc="Google Fonts family: Unbounded"
+arch=('any')
+url="https://fonts.google.com/specimen/Unbounded"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unbounded/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unbounded/Unbounded[wght].ttf"
+)
+sha256sums=(
+  "31e5d4e83955e7103c34570dd49b0570ef490800bd65b42923c0dd02445263b3"
+  "323b511be380c8d474ef030686b71aedde501f8d9cd46da558b7c40454372c3f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

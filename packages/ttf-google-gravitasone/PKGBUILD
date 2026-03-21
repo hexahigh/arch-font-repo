@@ -1,0 +1,32 @@
+pkgname=ttf-google-gravitasone
+pkgver=1.001
+pkgrel=1
+_commit="36ee60d49fa3beeb6c6734a0142bffe7c07ebdcc"  # Latest commit touching ofl/gravitasone
+pkgdesc="Google Fonts family: Gravitas One"
+arch=('any')
+url="https://fonts.google.com/specimen/Gravitas+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gravitasone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gravitasone/GravitasOne.ttf"
+)
+sha256sums=(
+  "9860b97028024085855e503e32c1971bfd603374641cd018c136433ebcf5a338"
+  "b40dc45f3354f282107286acf1542072d258c717c8edf1d118ef0105f25e627b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

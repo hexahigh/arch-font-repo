@@ -1,0 +1,40 @@
+pkgname=ttf-google-cormorantsc
+pkgver=4.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cormorantsc
+pkgdesc="Google Fonts family: Cormorant SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Cormorant+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/CormorantSC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/CormorantSC-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/CormorantSC-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/CormorantSC-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantsc/CormorantSC-SemiBold.ttf"
+)
+sha256sums=(
+  "60700d351cac4650c51f3f9db318d2a420f8b45052dba2715eb5fec41f0f6956"
+  "78f70c79b5c0a1e66641d4b4a2e2ed32e1a45774b3de94e56f8de68510219177"
+  "d3dfcbf1aa9281743cb123292851862b4419602efbf29c4867e680d53774a2ae"
+  "7ec02e6b6c20697fd8d5038349452b6f3c628c16440a04156650d42e3fef89bf"
+  "a51985a075f3884d8dc9b2d20367c51b6b05e53fdb912959acb785084579aeaa"
+  "648cd1c932871e4e8e1d147b593315409e8ea82282f88e9397e2cceae83d065b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

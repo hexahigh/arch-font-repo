@@ -1,0 +1,32 @@
+pkgname=ttf-google-martianmono
+pkgver=1.000
+pkgrel=1
+_commit="c8bba5c4a69195e4fabc69d75136814c65fe0cf5"  # Latest commit touching ofl/martianmono
+pkgdesc="Google Fonts family: Martian Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Martian+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/martianmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/martianmono/MartianMono[wdth,wght].ttf"
+)
+sha256sums=(
+  "ddafd2c3f37ef1d83ef284ca63e159befd3820850c5e9eded14ca52eee92c256"
+  "c3467843ec1c2574b05fbcfd7147c7bfbcf63ddca8fc2bcb9d117f1bfb1b22e7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-aoboshione
+pkgver=1.000
+pkgrel=1
+_commit="a41f240bf4404f1da7926b4f0b1ee65a8cc449fb"  # Latest commit touching ofl/aoboshione
+pkgdesc="Google Fonts family: Aoboshi One"
+arch=('any')
+url="https://fonts.google.com/specimen/Aoboshi+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aoboshione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aoboshione/AoboshiOne-Regular.ttf"
+)
+sha256sums=(
+  "c0093b62824cfa8786df613c00a316fa483bdcb7ccd11ba5faca006bb692f68d"
+  "3d197454026eeb34ee409d0d7eda75a8c7ee654a8dfa9c1a73ada2d9e525b7b1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

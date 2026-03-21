@@ -1,0 +1,34 @@
+pkgname=ttf-google-oleoscriptswashcaps
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oleoscriptswashcaps
+pkgdesc="Google Fonts family: Oleo Script Swash Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Oleo+Script+Swash+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oleoscriptswashcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oleoscriptswashcaps/OleoScriptSwashCaps-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oleoscriptswashcaps/OleoScriptSwashCaps-Regular.ttf"
+)
+sha256sums=(
+  "8fbe530adcbe30c658393c3f2b5a4785d6765afcefdfe47f594730131f3a0abd"
+  "0d622c6a5db8507ecbaaa844672e8553f26249c6a1566b098f54295a77eb42a2"
+  "b8811c803202bbc80e6124200666080a62b63df3b52e1833456189ec1f798c31"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

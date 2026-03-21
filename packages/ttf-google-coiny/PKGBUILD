@@ -1,0 +1,32 @@
+pkgname=ttf-google-coiny
+pkgver=001.001
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/coiny
+pkgdesc="Google Fonts family: Coiny"
+arch=('any')
+url="https://fonts.google.com/specimen/Coiny"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/coiny/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coiny/Coiny-Regular.ttf"
+)
+sha256sums=(
+  "5c289da4a19f054ace8e31a144a6a254601898cd7faf9eaa301141afda0adbbe"
+  "ef02d723a54abe4819bea54ea8b2ecf72d77d258010bb336cd4862a37705eac7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

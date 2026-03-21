@@ -1,0 +1,32 @@
+pkgname=ttf-google-cherrycreamsoda
+pkgver=1.001
+pkgrel=1
+_commit="043d09f76a7f7e2d7fb98b0114c37d9a1550aa02"  # Latest commit touching apache/cherrycreamsoda
+pkgdesc="Google Fonts family: Cherry Cream Soda"
+arch=('any')
+url="https://fonts.google.com/specimen/Cherry+Cream+Soda"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/cherrycreamsoda/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/cherrycreamsoda/CherryCreamSoda-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "158577b383ce9798384580bd41c35cd0fb4ed550a32fe4a2e41f4f2594337385"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

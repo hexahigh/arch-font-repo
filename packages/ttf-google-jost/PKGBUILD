@@ -1,0 +1,34 @@
+pkgname=ttf-google-jost
+pkgver=3.710
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jost
+pkgdesc="Google Fonts family: Jost"
+arch=('any')
+url="https://fonts.google.com/specimen/Jost"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jost/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jost/Jost[wght].ttf"
+)
+sha256sums=(
+  "1af3438a4d5f0ed2bdbc5751a5a67ebf6d537334161184b7fbb68503ef0ea0c5"
+  "15a6f7e3e11f9e8e338a583a6fe03e8f6b1d9ce877efa3fe579282b6c1cb15fe"
+  "6343b70971000b04c5d401c96ae08ce371086135e999d5e1e1413039c0213076"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

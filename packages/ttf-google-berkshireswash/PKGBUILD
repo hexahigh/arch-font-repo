@@ -1,0 +1,32 @@
+pkgname=ttf-google-berkshireswash
+pkgver=1.001
+pkgrel=1
+_commit="db548d2df61806b37598a2d6839040866c2d6ae2"  # Latest commit touching ofl/berkshireswash
+pkgdesc="Google Fonts family: Berkshire Swash"
+arch=('any')
+url="https://fonts.google.com/specimen/Berkshire+Swash"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/berkshireswash/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/berkshireswash/BerkshireSwash-Regular.ttf"
+)
+sha256sums=(
+  "d941aa56e280b4f204272c4b1add01a8ebc7af3e8e69ba8ba9118aa2a5306dde"
+  "f0c80837dc6f32b89b10894a7e39295db4a00ab697cada682a3f5942c342fe00"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

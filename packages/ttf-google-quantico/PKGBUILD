@@ -1,0 +1,38 @@
+pkgname=ttf-google-quantico
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quantico
+pkgdesc="Google Fonts family: Quantico"
+arch=('any')
+url="https://fonts.google.com/specimen/Quantico"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/quantico/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quantico/Quantico-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quantico/Quantico-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quantico/Quantico-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quantico/Quantico-Regular.ttf"
+)
+sha256sums=(
+  "25995bcf8e8ddea1aafa5449870567cbbeae7e26b27ba30aca5642f2c02e9757"
+  "e3a88a18c85bfa8c08577abb07e3d490e9264fc09c3c690c6de382c8628901ff"
+  "88a44cbc5bd640f4940a3c42b12d42c6020ebcf71197875b8f553894ca4e209c"
+  "e4761fc04d45ac81cb17cc12cc231af666d39b739dba1c1cbceada3ade8be001"
+  "7f27dfb0658914ac570bf1da36a2527f10eefd41d25a8f9603d52957d61c075d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

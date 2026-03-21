@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmalayalamui
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmalayalamui
+pkgdesc="Google Fonts family: Noto Sans Malayalam UI"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Malayalam+UI"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmalayalamui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmalayalamui/NotoSansMalayalamUI[wdth,wght].ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "6980d9e69af585a3346e21cdaf2e20fcbd292e24db043da679ddf2bf2acb884c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

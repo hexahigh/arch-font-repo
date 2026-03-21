@@ -1,0 +1,54 @@
+pkgname=ttf-google-wixmadefortext
+pkgver=3.100
+pkgrel=1
+_commit="21dd9e5394aedc96ee608d4467c60d7b01542dc0"  # Latest commit touching ofl/wixmadefortext
+pkgdesc="Google Fonts family: Wix Madefor Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Wix+Madefor+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wixmadefortext/WixMadeforText[wght].ttf"
+)
+sha256sums=(
+  "6ea47aed4703a072a5011bf429f998c718ff7c3ae57598f7e78c2d3fa1e25c33"
+  "37c179b4fefb63ea9637322b84583a2df53aa226c150294eea1675c14b1b8e29"
+  "81a32794a42384039d6a8ef05871700d2f1e41f31c4be25f1e226535c419e514"
+  "62e2fe4718129f36ecdb0ae4de385bd6b81ecc876146447167c6c140fad699a9"
+  "d8d2b7db3762ff85b89cee1427d57e95ff91659bc5b8b63c1fca8aefaee44057"
+  "947fa931d687c9dc698f01851a847f061726183812ac32518642cd97805e9f05"
+  "8c4383ad0ffc560016ad2ecfe16cbf8051e464fbfc4ecbba41d787c551875f97"
+  "4ecf270136af928612c76fe4ebade91d8156975e5ea4c0cf9225501dd1788e02"
+  "d0470c2e7e7a39b94c55834caf2d258f3cc07f66c721f11cadc00c58b6a10982"
+  "dee56f09fd3efc127c1ea95557edc74110c1460a46287da36e0af25efd341ef5"
+  "dced97a77624bc5f8b1ae65850360908297f4588e09feb6f22792d29dc7e765b"
+  "603527f1cc2c871a9c8ec273bf32d364a8a8ac2839296aa7b70b1cd8c77d61c0"
+  "7660fbcd33f643a011283d9e96b3ad571a942d25d1a9603e69e9e1b6976fa4e1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-asar
+pkgver=1.003
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/asar
+pkgdesc="Google Fonts family: Asar"
+arch=('any')
+url="https://fonts.google.com/specimen/Asar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/asar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asar/Asar-Regular.ttf"
+)
+sha256sums=(
+  "223fa23e8419ee762c662e0faf912dfcf386fa7093ac9ff690e380ce1993ba55"
+  "8b4147354af009836d031f50af3e0450768d78b1e0e0281c7df17cd26440cc2e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

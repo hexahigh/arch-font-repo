@@ -1,0 +1,62 @@
+pkgname=ttf-google-lisubosa
+pkgver=2.000
+pkgrel=1
+_commit="d9c714992c7d908c9093c37c1e945a1be7848791"  # Latest commit touching ofl/lisubosa
+pkgdesc="Google Fonts family: Lisu Bosa"
+arch=('any')
+url="https://fonts.google.com/specimen/Lisu+Bosa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lisubosa/LisuBosa-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "bfa22e938e1c9844e5126461e9fcd12315007cae3d9442e940e4ab322403ce9f"
+  "0098f180285dd4bc649e4806fc1c6d4ac8289fee83ca28e81939c3558501135d"
+  "ec30db42a6c9aa0f1e37797efccf80f23684d502d8cb78c794f851575412002e"
+  "f37c2557ea5be20c02f2ca1edd2bf509801f5287e5e1f139bd56716afe77b576"
+  "1e78cb42e80ff80f88ed0c09a6b908336d30c1f67c5274e6b5bb3a3f1625a4db"
+  "80b38481eef0901c16deb6b1aa6a5b91220f56ddf0f60498237d6df761b5386a"
+  "79394df5682593ddbdfbbf02843cbd239674961d73455976f3af8d69028ce360"
+  "5ec9be841408c31ceeac98c616efda0052c7b6483ac210d7eea272a8984bc448"
+  "fe1c6824bbe9d5166b7f6333d46a4fe0db2f682a1aa0255b9a212cec660ecdc5"
+  "266bfc2b8d2157bf6591d8620e04ef79d634a5bb47171152c9fd27d203e73586"
+  "e14e61301c02466818684c07bb494941b6faf4b3c9dbdbdc6eb1f5bf298a60d2"
+  "e3ce4065109f02b13e8dfc533e8d465faf5523825cb3aa26109afc6ad50e0374"
+  "f3b0510d65b01621a4bbc02ada39adff9687a515e386c4f77c64130f3afbe1ba"
+  "c6ffe490d9dc41df608c41596fe1809fd535c19b5c9f926eef67a5e78a214d87"
+  "d1516e8eacbc05b95b032bff3a5c4ed0cb726ceb3db14a19085bc0c4cc2c64a4"
+  "1c0a31ccc975e64ad42e73116ee0691d535ab124f3f83fad9289c1ff35b9593b"
+  "542b2300fe9519ce804b6e98d8bb4354dc4871e6f18011c39104e1754179ded5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

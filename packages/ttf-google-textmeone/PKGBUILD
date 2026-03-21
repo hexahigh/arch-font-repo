@@ -1,0 +1,32 @@
+pkgname=ttf-google-textmeone
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/textmeone
+pkgdesc="Google Fonts family: Text Me One"
+arch=('any')
+url="https://fonts.google.com/specimen/Text+Me+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/textmeone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/textmeone/TextMeOne-Regular.ttf"
+)
+sha256sums=(
+  "75798d56e448ba4d2aec3ef5f3c2d805d9c6fe2ba688cd3d7162b2dd31e9cf48"
+  "9fe85023985715c05af121a2a76431ca651ab77e25e32d8fb3079c5f23818849"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

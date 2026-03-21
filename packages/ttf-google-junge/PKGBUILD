@@ -1,0 +1,32 @@
+pkgname=ttf-google-junge
+pkgver=1.002
+pkgrel=1
+_commit="c9551847e6a770df4a97a01dfc2b6634dddb26f8"  # Latest commit touching ofl/junge
+pkgdesc="Google Fonts family: Junge"
+arch=('any')
+url="https://fonts.google.com/specimen/Junge"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/junge/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/junge/Junge-Regular.ttf"
+)
+sha256sums=(
+  "a1077580b649c7b0e05ea0e9369d48687b4ab1c585573bf86b0dcce7dde177c0"
+  "4671c65a0e6c02c866362938e968e083d171744e4c90fa2cfa8b809cc9f7207e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

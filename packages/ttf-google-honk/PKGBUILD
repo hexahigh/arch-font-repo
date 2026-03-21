@@ -1,0 +1,32 @@
+pkgname=ttf-google-honk
+pkgver=1.000
+pkgrel=1
+_commit="dee2f12eed6aaf3c44eb1030d960c7bb037b650a"  # Latest commit touching ofl/honk
+pkgdesc="Google Fonts family: Honk"
+arch=('any')
+url="https://fonts.google.com/specimen/Honk"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/honk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/honk/Honk[MORF,SHLN].ttf"
+)
+sha256sums=(
+  "0bc7e93bd50c78f58e981cab4d452566f70a425815b7a3a7331f8d9c85ff0e26"
+  "7a6c743bb5a8164424d23024efb280bab930abb2bca0f2e9ca2facf6b11d212b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

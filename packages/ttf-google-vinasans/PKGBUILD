@@ -1,0 +1,32 @@
+pkgname=ttf-google-vinasans
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vinasans
+pkgdesc="Google Fonts family: Vina Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Vina+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vinasans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vinasans/VinaSans-Regular.ttf"
+)
+sha256sums=(
+  "dc64ddaa4fd815621dc18f538446e7a234e611817f48064dc5f6bfafefc3ed6d"
+  "aaab4634a39d8a9f51d97844822ae4cba4a64e0d24b26e88f7b5d401e954fe13"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

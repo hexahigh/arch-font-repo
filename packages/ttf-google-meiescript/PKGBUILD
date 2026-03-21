@@ -1,0 +1,32 @@
+pkgname=ttf-google-meiescript
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/meiescript
+pkgdesc="Google Fonts family: Meie Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Meie+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/meiescript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/meiescript/MeieScript-Regular.ttf"
+)
+sha256sums=(
+  "e12a3e737fa75c0ee072d965b6185710f35e38a4f7a0793ebc66ba14a216109b"
+  "006c66ba5d8de0b824821d9444ba97b149e26715944c1a8ab427bbb35704e6c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

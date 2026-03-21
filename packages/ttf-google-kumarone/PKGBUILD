@@ -1,0 +1,32 @@
+pkgname=ttf-google-kumarone
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kumarone
+pkgdesc="Google Fonts family: Kumar One"
+arch=('any')
+url="https://fonts.google.com/specimen/Kumar+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumarone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumarone/KumarOne-Regular.ttf"
+)
+sha256sums=(
+  "ff72e4d89860e64ee38ccf8a5a7e9dc085d5e36115b096a6c7f8bc988e9bec61"
+  "04d6479721639f0d00aa34cfaa18d940eacf84060b427433edb70100b6d01100"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

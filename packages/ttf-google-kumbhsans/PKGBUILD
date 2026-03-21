@@ -1,0 +1,32 @@
+pkgname=ttf-google-kumbhsans
+pkgver=1.005
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kumbhsans
+pkgdesc="Google Fonts family: Kumbh Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Kumbh+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumbhsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kumbhsans/KumbhSans[YOPQ,wght].ttf"
+)
+sha256sums=(
+  "b7057fc68425720a92830bbd18b39f070d784a4551de7b0b7e1ad3cc6747d3fc"
+  "f29b8814e682a1524c1b6cad866700c844c287c2df1f6d362dcaec4cc75dadf9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

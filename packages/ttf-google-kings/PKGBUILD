@@ -1,0 +1,32 @@
+pkgname=ttf-google-kings
+pkgver=1.010
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kings
+pkgdesc="Google Fonts family: Kings"
+arch=('any')
+url="https://fonts.google.com/specimen/Kings"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kings/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kings/Kings-Regular.ttf"
+)
+sha256sums=(
+  "72fe43ef3efbc44903674b7b21a19c6e14ef5e4217bc922662320554ffcfb77a"
+  "80dda73b13254d50173af1dbad3f7321b99ca61d791ebb8cd5fb8be0846c39bb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

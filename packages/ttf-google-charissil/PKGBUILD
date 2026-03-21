@@ -1,0 +1,38 @@
+pkgname=ttf-google-charissil
+pkgver=6.101
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/charissil
+pkgdesc="Google Fonts family: Charis SIL"
+arch=('any')
+url="https://fonts.google.com/specimen/Charis+SIL"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/charissil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charissil/CharisSIL-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charissil/CharisSIL-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charissil/CharisSIL-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/charissil/CharisSIL-Regular.ttf"
+)
+sha256sums=(
+  "0acda775b4dedaf980821f590206a692779ee495170018ee2b9caf1c50fc136a"
+  "68460d2b76c8f781b49f9168f2c7dc3c9f7b788a3a1b8f267c5fa6bb47d5c64d"
+  "acdf6dc54c0ee5e03cae3398f64133c335084cd1ecab655f2a8636c5d56acedb"
+  "e776e2961117b39cf924c0139de01748a77b2fcb99c437b2c77bdd9401606c13"
+  "346337374aa347d64ee015b26d441f1970d8631914e2f3941b00e1c4761e28c5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

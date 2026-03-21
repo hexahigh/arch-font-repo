@@ -1,0 +1,32 @@
+pkgname=ttf-google-alkalami
+pkgver=3.000
+pkgrel=1
+_commit="0a732c0180b94fc1a6fc0c73c49a3dc03b44a2f1"  # Latest commit touching ofl/alkalami
+pkgdesc="Google Fonts family: Alkalami"
+arch=('any')
+url="https://fonts.google.com/specimen/Alkalami"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alkalami/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alkalami/Alkalami-Regular.ttf"
+)
+sha256sums=(
+  "ff805fd2cff5f5f7e8890323702f4cd461c179a76bb6016c93031338f49af3d4"
+  "4410dfc591b918dd4360b0252b079855a8a00250de363c8c0163b29ddfc56434"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

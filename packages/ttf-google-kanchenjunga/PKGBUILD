@@ -1,0 +1,38 @@
+pkgname=ttf-google-kanchenjunga
+pkgver=2.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kanchenjunga
+pkgdesc="Google Fonts family: Kanchenjunga"
+arch=('any')
+url="https://fonts.google.com/specimen/Kanchenjunga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanchenjunga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanchenjunga/Kanchenjunga-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanchenjunga/Kanchenjunga-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanchenjunga/Kanchenjunga-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kanchenjunga/Kanchenjunga-SemiBold.ttf"
+)
+sha256sums=(
+  "b6d9eb7d23db4cb33585dc14ae4cd4c4d4f90f0d20e1673197d92cb9af76283f"
+  "67a9a29cd49a17832a5eee8d2747fb9a66ee32e49dc52f5dd43887ff24eb0935"
+  "cba5d8031cdbfd8d0eee90f11453a39f6f72cd6a9062636bedf4ebf7b72a27d5"
+  "45609f8cc90d4733d3d1665346d359afc1a659def340d0f369121af034322ef9"
+  "126e137cb641813aa6f0a3688ea5d0c3b5b0a2121cd64237d39e0b3bafae9895"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

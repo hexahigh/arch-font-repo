@@ -1,0 +1,32 @@
+pkgname=ttf-google-seaweedscript
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/seaweedscript
+pkgdesc="Google Fonts family: Seaweed Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Seaweed+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/seaweedscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/seaweedscript/SeaweedScript-Regular.ttf"
+)
+sha256sums=(
+  "3d08baba63f1f2427fd96dee8da30b1ef6c1421b3be0e1f07cc2a78abb27c91d"
+  "48a7f01ce3f307b532c9c5f8582a8ed87883389933b311b8e3704e8798ba4bc7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

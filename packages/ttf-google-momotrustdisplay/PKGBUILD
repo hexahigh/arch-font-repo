@@ -1,0 +1,32 @@
+pkgname=ttf-google-momotrustdisplay
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/momotrustdisplay
+pkgdesc="Google Fonts family: Momo Trust Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Momo+Trust+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/momotrustdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/momotrustdisplay/MomoTrustDisplay-Regular.ttf"
+)
+sha256sums=(
+  "5577b4c6b56894d65fac7b923a16b5999d6bf2b2020e7bcc03f6b6b53dd8ca6f"
+  "f10dcc94ccc58c6a1c538d18f53008ac7d02a9e1e54b6b7cfd219a01d56ec0d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

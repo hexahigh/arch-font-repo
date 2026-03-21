@@ -1,0 +1,32 @@
+pkgname=ttf-google-darkergrotesque
+pkgver=1.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/darkergrotesque
+pkgdesc="Google Fonts family: Darker Grotesque"
+arch=('any')
+url="https://fonts.google.com/specimen/Darker+Grotesque"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/darkergrotesque/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/darkergrotesque/DarkerGrotesque[wght].ttf"
+)
+sha256sums=(
+  "60eab011e210601f85e18474c5a191838c95a9acce0cc6da1c646ac9e3683cd9"
+  "ed61c00a14f571096a8c03d00f91d37907df9d55da7cd7444914353ca224cb86"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

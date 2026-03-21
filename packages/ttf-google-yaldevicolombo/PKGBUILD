@@ -1,0 +1,42 @@
+pkgname=ttf-google-yaldevicolombo
+pkgver=1.020
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/yaldevicolombo
+pkgdesc="Google Fonts family: Yaldevi Colombo"
+arch=('any')
+url="https://fonts.google.com/specimen/Yaldevi+Colombo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yaldevicolombo/YaldeviColombo-SemiBold.ttf"
+)
+sha256sums=(
+  "f016385cb4b360e7698d22a48c6b58c0634b1ed5c9c17df78515d43887511df6"
+  "71df5bd96f75e17a78fb818b7fc7157cf70831c6764023611a146480a33a7305"
+  "f20e9ebeb4d2b675de55723341ffecb39ab978f52a8e13dfa81eb152709b3919"
+  "32a7effe1259d7b678b2eb0f2549cddf95fa20c75f573f8c06bdc220f7b4e7b1"
+  "0f9f4595dda66c8daa56f61689c62f897b21a4801b90dbe65b9803aef7c20eef"
+  "5577ba8af289a7c6bf2fa9d6afa653435a382c4cb41323adb7fa530db5440214"
+  "35e399999d7f8d84d28d21359d743ef8ad7c1f46a96b0096b2b0b9d684583414"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

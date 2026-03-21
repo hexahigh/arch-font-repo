@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifhebrew
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifhebrew
+pkgdesc="Google Fonts family: Noto Serif Hebrew"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Hebrew"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhebrew/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhebrew/NotoSerifHebrew[wdth,wght].ttf"
+)
+sha256sums=(
+  "9b9fe028b5ba74d231659a1bbaf0ed09b11e759d1ca6a070999e16d151616b47"
+  "93caef921360788dc3b0e32136bb26f16bc57717ec482d48fc7fd43820617165"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

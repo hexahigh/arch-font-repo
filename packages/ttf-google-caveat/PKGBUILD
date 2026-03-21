@@ -1,0 +1,32 @@
+pkgname=ttf-google-caveat
+pkgver=2.000
+pkgrel=1
+_commit="5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643"  # Latest commit touching ofl/caveat
+pkgdesc="Google Fonts family: Caveat"
+arch=('any')
+url="https://fonts.google.com/specimen/Caveat"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/caveat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caveat/Caveat[wght].ttf"
+)
+sha256sums=(
+  "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b"
+  "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

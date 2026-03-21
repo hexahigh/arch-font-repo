@@ -1,0 +1,32 @@
+pkgname=ttf-google-msmadi
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/msmadi
+pkgdesc="Google Fonts family: Ms Madi"
+arch=('any')
+url="https://fonts.google.com/specimen/Ms+Madi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/msmadi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/msmadi/MsMadi-Regular.ttf"
+)
+sha256sums=(
+  "1f3ddf9e7c9ac7445b046a89d9b420fb4a3861f1d62091a85357179db73ebd12"
+  "08dfe959077490d11a4dd0d3097b48daafdecef821e290c973cd1893595cc208"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

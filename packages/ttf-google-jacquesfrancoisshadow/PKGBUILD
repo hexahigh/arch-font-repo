@@ -1,0 +1,32 @@
+pkgname=ttf-google-jacquesfrancoisshadow
+pkgver=1.003
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jacquesfrancoisshadow
+pkgdesc="Google Fonts family: Jacques Francois Shadow"
+arch=('any')
+url="https://fonts.google.com/specimen/Jacques+Francois+Shadow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquesfrancoisshadow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquesfrancoisshadow/JacquesFrancoisShadow-Regular.ttf"
+)
+sha256sums=(
+  "2887c5bb38abbde9ccc608c4dcc4b0dba0fefc0c74eec011033bcfbd3ffcb235"
+  "3947827a196a3c12ceb471ed589168a9b57285db7258eb468a83f4c17945784c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

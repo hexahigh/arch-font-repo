@@ -1,0 +1,34 @@
+pkgname=ttf-google-tirogurmukhi
+pkgver=1.52
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tirogurmukhi
+pkgdesc="Google Fonts family: Tiro Gurmukhi"
+arch=('any')
+url="https://fonts.google.com/specimen/Tiro+Gurmukhi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirogurmukhi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirogurmukhi/TiroGurmukhi-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirogurmukhi/TiroGurmukhi-Regular.ttf"
+)
+sha256sums=(
+  "2ed6051706542c5d6d96480318152b17900bb6d4dbadb11d7d5d6464d8b3e0dd"
+  "01d2b2b13d1859005c87bf29c86389f2c7cabcb5672e54d03447990bd3ba7b71"
+  "49d6959474d232763ed5b16c786c9e7ff0587c70c141efe78c070e709014a57d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

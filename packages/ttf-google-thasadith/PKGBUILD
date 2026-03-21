@@ -1,0 +1,38 @@
+pkgname=ttf-google-thasadith
+pkgver=1.000
+pkgrel=1
+_commit="5e7dbcc51e50746eafddcfef3ddf3766178d2e64"  # Latest commit touching ofl/thasadith
+pkgdesc="Google Fonts family: Thasadith"
+arch=('any')
+url="https://fonts.google.com/specimen/Thasadith"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/thasadith/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thasadith/Thasadith-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thasadith/Thasadith-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thasadith/Thasadith-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thasadith/Thasadith-Regular.ttf"
+)
+sha256sums=(
+  "31eb7046f4c80e0f96944c4b40b0772de68b34783b794fc13aab3f54c2ef6d9b"
+  "110accc7df90be398eafe46918bc7b563a34e11ebbaa4fe4047e070a1e14974f"
+  "563858a700b4cbfd3348749e1c9a8e00e030157fdfd538acb6257702303e148b"
+  "0bf85061df17f275d10dbf600fc98b3c3a7c333927e4c43683eb50a36f063754"
+  "82f16de51287233efb2711386542105e4b7d5dbf1d7f460fefa8700b3fcef5eb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

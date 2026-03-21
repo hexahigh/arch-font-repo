@@ -1,0 +1,34 @@
+pkgname=ttf-google-gantari
+pkgver=1.000
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gantari
+pkgdesc="Google Fonts family: Gantari"
+arch=('any')
+url="https://fonts.google.com/specimen/Gantari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gantari/Gantari[wght].ttf"
+)
+sha256sums=(
+  "4d95bf0e5a54632046323a75fb31f8e2af4071119482c02978746ddcd3866248"
+  "968f9aa4c6a6f7ef4f6995533c9492367b4c7b5e8b4912db555473ecfda24e0f"
+  "16b83edd620efd401c7855ebb96694718c29f55f4198913dfad4791591796e71"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

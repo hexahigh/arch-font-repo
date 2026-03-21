@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansinscriptionalparthian
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansinscriptionalparthian
+pkgdesc="Google Fonts family: Noto Sans Inscriptional Parthian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Inscriptional+Parthian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansinscriptionalparthian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansinscriptionalparthian/NotoSansInscriptionalParthian-Regular.ttf"
+)
+sha256sums=(
+  "34db797c6a8f7bba182a70971aa9191af6265864ec804339f7a4d2a05afed33e"
+  "a3b80af8a1927189a353b03075cbebd454291519dfc60a325070d6f405f5ba50"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

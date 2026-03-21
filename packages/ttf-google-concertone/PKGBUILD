@@ -1,0 +1,32 @@
+pkgname=ttf-google-concertone
+pkgver=1.004
+pkgrel=1
+_commit="56d250fda8cc74f5d9a3eb76791fc02f6756e849"  # Latest commit touching ofl/concertone
+pkgdesc="Google Fonts family: Concert One"
+arch=('any')
+url="https://fonts.google.com/specimen/Concert+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/concertone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/concertone/ConcertOne-Regular.ttf"
+)
+sha256sums=(
+  "162a3b5c72cba845280a6f887c11d02984540b924510138c8b1eb473bcdafb6a"
+  "54e934724b90a9c20d53b25a8d17574a7631f8461e29c8462bd7b36d49fc1e78"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

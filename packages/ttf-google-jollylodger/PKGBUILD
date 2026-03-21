@@ -1,0 +1,32 @@
+pkgname=ttf-google-jollylodger
+pkgver=1.000
+pkgrel=1
+_commit="912fda551f122da01d7ca9ad24e824459c4516ad"  # Latest commit touching ofl/jollylodger
+pkgdesc="Google Fonts family: Jolly Lodger"
+arch=('any')
+url="https://fonts.google.com/specimen/Jolly+Lodger"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jollylodger/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jollylodger/JollyLodger-Regular.ttf"
+)
+sha256sums=(
+  "28c6d2887c3dfa42488c5418c6c16ead580d33ff0afe60c05159689201f9ec63"
+  "64d3e628ae2f3ebcb34eed029e90cb6674e9e74ed4e76e72effbf53b93b2dbf9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

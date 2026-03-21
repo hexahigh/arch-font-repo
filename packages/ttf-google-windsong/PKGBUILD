@@ -1,0 +1,34 @@
+pkgname=ttf-google-windsong
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/windsong
+pkgdesc="Google Fonts family: WindSong"
+arch=('any')
+url="https://fonts.google.com/specimen/WindSong"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/windsong/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/windsong/WindSong-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/windsong/WindSong-Regular.ttf"
+)
+sha256sums=(
+  "6f375e7f24ae282137aff041b3aa4b8efd8234187f9448b91f436b958cd8edc7"
+  "df3525097cb0273f610b87da52399879f87dcce0cbddee08c3e52395108079aa"
+  "44bea4f8cdb818e9df6eef5334c63915acb7f1877b239debb373277d16b0aac2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

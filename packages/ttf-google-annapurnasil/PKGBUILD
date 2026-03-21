@@ -1,0 +1,34 @@
+pkgname=ttf-google-annapurnasil
+pkgver=2.000
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/annapurnasil
+pkgdesc="Google Fonts family: Annapurna SIL"
+arch=('any')
+url="https://fonts.google.com/specimen/Annapurna+SIL"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/annapurnasil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/annapurnasil/AnnapurnaSIL-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/annapurnasil/AnnapurnaSIL-Regular.ttf"
+)
+sha256sums=(
+  "375c30ade2053858aebba9fbcb38bd642475d538b7758ad18a44cc0436aef3f5"
+  "c73a534c69802dfb8b8da42e9544ae479edd6bcfec51f42c9aa5c46310a7cecf"
+  "f5f80335993c983ebf811b27fe07604b01d207f7c3b66c8798c3d721d164088c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

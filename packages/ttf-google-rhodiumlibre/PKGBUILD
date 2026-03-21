@@ -1,0 +1,32 @@
+pkgname=ttf-google-rhodiumlibre
+pkgver=1.001
+pkgrel=1
+_commit="181d5c7bc3a83625138a2a33c6032c072cbdd537"  # Latest commit touching ofl/rhodiumlibre
+pkgdesc="Google Fonts family: Rhodium Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Rhodium+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rhodiumlibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rhodiumlibre/RhodiumLibre-Regular.ttf"
+)
+sha256sums=(
+  "0886960207bb5bcf81a46ce663bab6c52a742dad80ee2cff5cbcda6f1df88568"
+  "d068be8060fd77135bd7c94ee36822d6902aed3bf0d382d8bcdfcbb5ad1b8283"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

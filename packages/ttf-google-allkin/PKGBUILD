@@ -1,0 +1,32 @@
+pkgname=ttf-google-allkin
+pkgver=1.010
+pkgrel=1
+_commit="0c66c77d66a0b4a007686799ab1e76bbc5499129"  # Latest commit touching ofl/allkin
+pkgdesc="Google Fonts family: Allkin"
+arch=('any')
+url="https://fonts.google.com/specimen/Allkin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allkin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allkin/Allkin-Regular.ttf"
+)
+sha256sums=(
+  "80a1ac99055e7922021cb353e9e8b9763c9ecd4769c1e75432e316e48ad2fa8d"
+  "5699f97288b8d583082ba190312fff7e48c096bd54cfff6344b15c3dbec9a75d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

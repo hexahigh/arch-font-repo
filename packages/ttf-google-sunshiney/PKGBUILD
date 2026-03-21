@@ -1,0 +1,32 @@
+pkgname=ttf-google-sunshiney
+pkgver=1.001
+pkgrel=1
+_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/sunshiney
+pkgdesc="Google Fonts family: Sunshiney"
+arch=('any')
+url="https://fonts.google.com/specimen/Sunshiney"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/sunshiney/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/sunshiney/Sunshiney-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "2f41cbc6263c033c18f1db7ae6523a89eb50cd5665b0b7635cc3a4c9c9a0fe4d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

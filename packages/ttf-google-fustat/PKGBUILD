@@ -1,0 +1,32 @@
+pkgname=ttf-google-fustat
+pkgver=1.010
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fustat
+pkgdesc="Google Fonts family: Fustat"
+arch=('any')
+url="https://fonts.google.com/specimen/Fustat"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fustat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fustat/Fustat[wght].ttf"
+)
+sha256sums=(
+  "197945947b2b8a0b9fc5622d9136d5f83c423f7f2e900c10bfb8b8cde8a45c47"
+  "ba09d90e6180e79334aadd42ea1ed0e97a405fadcd34412c1d02a6b8f679d402"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

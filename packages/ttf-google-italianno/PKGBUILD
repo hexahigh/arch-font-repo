@@ -1,0 +1,32 @@
+pkgname=ttf-google-italianno
+pkgver=1.100
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/italianno
+pkgdesc="Google Fonts family: Italianno"
+arch=('any')
+url="https://fonts.google.com/specimen/Italianno"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/italianno/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/italianno/Italianno-Regular.ttf"
+)
+sha256sums=(
+  "bce79721f0203586872bbd7016922baf449980bdd1c44550a821112a3b547185"
+  "f6ae96dea0da46c73370eb0575848ab0eda190315bdfda3f5b252bba3dc9173c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

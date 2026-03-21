@@ -1,0 +1,34 @@
+pkgname=ttf-google-epundaslab
+pkgver=1.103
+pkgrel=1
+_commit="1796e34455b893092713d206e7f23e3e07699f00"  # Latest commit touching ofl/epundaslab
+pkgdesc="Google Fonts family: Epunda Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Epunda+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/epundaslab/EpundaSlab[wght].ttf"
+)
+sha256sums=(
+  "f30f6baa9bff013d6d75446aa847bc59cd3a57ec6517568e525b0a662f3d95ff"
+  "5beac9eb7128c086c7bab740503ce83ae260318e4e65a2d52330a1c31dd110df"
+  "a0e338c2514c6f6511466131b1dfb2cc20d03dfd408bbcd759fbca8ad3b1210c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-medievalsharp
+pkgver=1.0
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/medievalsharp
+pkgdesc="Google Fonts family: MedievalSharp"
+arch=('any')
+url="https://fonts.google.com/specimen/MedievalSharp"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/medievalsharp/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/medievalsharp/MedievalSharp.ttf"
+)
+sha256sums=(
+  "45b1f44d2cb859ea4b7be2f322c57b8ff7be55075c336744e62b5550cd0a97eb"
+  "74cb2e6738bd7703adf120802f68fba0c9ddb9147a08e6847f1005b1e55df5a5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

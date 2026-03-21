@@ -1,0 +1,32 @@
+pkgname=ttf-google-atomicage
+pkgver=1.008
+pkgrel=1
+_commit="862210c9f745075a9fd876412ee13398da47e5eb"  # Latest commit touching ofl/atomicage
+pkgdesc="Google Fonts family: Atomic Age"
+arch=('any')
+url="https://fonts.google.com/specimen/Atomic+Age"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/atomicage/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atomicage/AtomicAge-Regular.ttf"
+)
+sha256sums=(
+  "96d82a96abc02fb457ddde0227833dbde9d1d02876c91f0a4e27845ca0d692fa"
+  "5ea6111180af882b0799a1e1c04b7acc557807ff76e0cc24258b259a06f67ed2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

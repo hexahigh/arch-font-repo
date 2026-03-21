@@ -1,0 +1,32 @@
+pkgname=ttf-google-caramel
+pkgver=1.010
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/caramel
+pkgdesc="Google Fonts family: Caramel"
+arch=('any')
+url="https://fonts.google.com/specimen/Caramel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/caramel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caramel/Caramel-Regular.ttf"
+)
+sha256sums=(
+  "3acada615ba300875cf2b4fada3873b8fc93ee099682059782ab25a08e29a6b3"
+  "36a460f8418d5f9710da43404776fc914fe11ff5ec649e9c8bcb670c602b92be"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,38 @@
+pkgname=ttf-google-amaranth
+pkgver=1.001
+pkgrel=1
+_commit="8a0ccff43f9b32acc26ff54867934b3774c1823a"  # Latest commit touching ofl/amaranth
+pkgdesc="Google Fonts family: Amaranth"
+arch=('any')
+url="https://fonts.google.com/specimen/Amaranth"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amaranth/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amaranth/Amaranth-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amaranth/Amaranth-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amaranth/Amaranth-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amaranth/Amaranth-Regular.ttf"
+)
+sha256sums=(
+  "5eca89cdd576df5e4b7c694e0425b126a9ca839aa067df85fab33904a8187076"
+  "2ca9f93499ad3af5679afe2930170fd00c50c2fdaf0240c7de976e23be5791dc"
+  "e8fc151453806c6aaed72a40bacaf3fcf380ccd5d852de08bd686e55ae70464b"
+  "6c96bda248c8ed3ebda63382cfcc233a26213d87d457a5224b79a0452aff27ea"
+  "49d60587db044af5158afe373bfa6204d8dcce647ccd4f1f1c61f560980554ec"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

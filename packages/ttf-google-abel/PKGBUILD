@@ -1,0 +1,32 @@
+pkgname=ttf-google-abel
+pkgver=1.003
+pkgrel=1
+_commit="cd97bb096c0367af04c26d62734b39b9c7fd4cf4"  # Latest commit touching ofl/abel
+pkgdesc="Google Fonts family: Abel"
+arch=('any')
+url="https://fonts.google.com/specimen/Abel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/abel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abel/Abel-Regular.ttf"
+)
+sha256sums=(
+  "4f4bc3806a1e55789c6ef75ca5fc628297b05292f74966474dc0d40324abc609"
+  "8809dcad25318225052f88333e208c5aad4adcb7b2c934c135735ec19aa410b4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

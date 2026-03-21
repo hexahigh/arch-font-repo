@@ -1,0 +1,32 @@
+pkgname=ttf-google-mochiypoppone
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mochiypoppone
+pkgdesc="Google Fonts family: Mochiy Pop P One"
+arch=('any')
+url="https://fonts.google.com/specimen/Mochiy+Pop+P+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mochiypoppone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mochiypoppone/MochiyPopPOne-Regular.ttf"
+)
+sha256sums=(
+  "76be26178f13ef82866cf6a5c54272191bb583c203ad7035021c7681c9043558"
+  "0031243aa1290c63c7551f8cdf06b1631a5c72033d12b2b7c595e60660007252"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

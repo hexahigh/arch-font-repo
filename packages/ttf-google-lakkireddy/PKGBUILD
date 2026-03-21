@@ -1,0 +1,32 @@
+pkgname=ttf-google-lakkireddy
+pkgver=1.0.4
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lakkireddy
+pkgdesc="Google Fonts family: Lakki Reddy"
+arch=('any')
+url="https://fonts.google.com/specimen/Lakki+Reddy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lakkireddy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lakkireddy/LakkiReddy-Regular.ttf"
+)
+sha256sums=(
+  "b5c3d12a3085b96011fee65555234bb9d31fa7444cf6f8d5ae6b1f5771394399"
+  "f01c5abe775243fd2a7548c2c50178f87b926ffc4c7c6b675775a40931f80a0b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-abeezee
+pkgver=1.003
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/abeezee
+pkgdesc="Google Fonts family: ABeeZee"
+arch=('any')
+url="https://fonts.google.com/specimen/ABeeZee"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/abeezee/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abeezee/ABeeZee-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abeezee/ABeeZee-Regular.ttf"
+)
+sha256sums=(
+  "f0376d04eb58fb19e9f1690a99a1eb37380ad0246f7d503f2abd8e8a74ed12be"
+  "3892bb74578207ed6edae040a0869e54dcae13a466d005460570947062137dd8"
+  "2901c8df256648cc2bb2e3afb381cb8d28e65ed3dbe11de20695ae4d5ffdeda9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

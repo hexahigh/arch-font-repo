@@ -1,0 +1,34 @@
+pkgname=ttf-google-karla
+pkgver=2.004
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karla
+pkgdesc="Google Fonts family: Karla"
+arch=('any')
+url="https://fonts.google.com/specimen/Karla"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/karla/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karla/Karla[wght].ttf"
+)
+sha256sums=(
+  "edf2c840acb9570fe02f40721126aa0da4e4011a0030cc6dce30780569f609b6"
+  "98c02551288197a43d9c7e62c105f4b6f283a57f0f06d623313ea32d5c701977"
+  "ed3ca4cd9bdd899c543927c30bf5ff50706b24b3f2b7328e64b25f7d2a9d23dc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

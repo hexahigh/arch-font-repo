@@ -1,0 +1,32 @@
+pkgname=ttf-google-preahvihear
+pkgver=8.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/preahvihear
+pkgdesc="Google Fonts family: Preahvihear"
+arch=('any')
+url="https://fonts.google.com/specimen/Preahvihear"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/preahvihear/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/preahvihear/Preahvihear-Regular.ttf"
+)
+sha256sums=(
+  "d10e72fe42afb7abab9185139f761074897e5cfe8d1e1d503ac6cd8dc02fbddf"
+  "ea306be8e286bc3bd75b9cb497caa38bdcd06e8d6541a53e2e1a77f16d7ed522"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

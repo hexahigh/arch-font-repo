@@ -1,0 +1,32 @@
+pkgname=ttf-google-dotum
+pkgver=2.21
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dotum
+pkgdesc="Google Fonts family: Dotum"
+arch=('any')
+url="https://fonts.google.com/specimen/Dotum"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dotum/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dotum/Dotum-Regular.ttf"
+)
+sha256sums=(
+  "59fc225e9c23417ad83070289cd77814937c72fe7c65e72aaff13e5114957988"
+  "12f749ac462e547e3f4073227bb3b2b4c116062fc7546fbdadaa04e5e9f88b12"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

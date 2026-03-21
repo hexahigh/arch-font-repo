@@ -1,0 +1,32 @@
+pkgname=ttf-google-lilitaone
+pkgver=1.002
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lilitaone
+pkgdesc="Google Fonts family: Lilita One"
+arch=('any')
+url="https://fonts.google.com/specimen/Lilita+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilitaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lilitaone/LilitaOne-Regular.ttf"
+)
+sha256sums=(
+  "255d5debbb80eb2ea762644311f266a279e8778f00156655a516e2b7781a63e1"
+  "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

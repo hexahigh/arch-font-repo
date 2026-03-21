@@ -1,0 +1,34 @@
+pkgname=ttf-google-sumana
+pkgver=1.015
+pkgrel=1
+_commit="c9eda29b29c62424e6aed760a1bb77b1d30ded0b"  # Latest commit touching ofl/sumana
+pkgdesc="Google Fonts family: Sumana"
+arch=('any')
+url="https://fonts.google.com/specimen/Sumana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sumana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sumana/Sumana-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sumana/Sumana-Regular.ttf"
+)
+sha256sums=(
+  "c8155eb9337078a9ea9f1e576ac813a03030ca43e2694593e90cd4fee6fce937"
+  "e32150c36ced10804d077dc41714df7e5c8471408bccc7036fba30314a914e79"
+  "e71be1be55f8970ef24ee3aaf790c34cad3f5b6c5d518e41c8651c596e102ec4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-sedan
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sedan
+pkgdesc="Google Fonts family: Sedan"
+arch=('any')
+url="https://fonts.google.com/specimen/Sedan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sedan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sedan/Sedan-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sedan/Sedan-Regular.ttf"
+)
+sha256sums=(
+  "ab9b88d7e03c04feede45c8ee1b569ab3f26874d86b474a3b219ed3e3b59e5a4"
+  "d76f24f467075ba42c7483cde7ab8f785bd10a74e6e7eb967ab10c876bac1051"
+  "ad6ea5b34a1e5508bc35ac01c9aa23367c9aace7e1cd42d54bcb517ec788e0e8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

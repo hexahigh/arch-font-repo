@@ -1,0 +1,32 @@
+pkgname=ttf-google-iceberg
+pkgver=1.002
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/iceberg
+pkgdesc="Google Fonts family: Iceberg"
+arch=('any')
+url="https://fonts.google.com/specimen/Iceberg"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/iceberg/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iceberg/Iceberg-Regular.ttf"
+)
+sha256sums=(
+  "2d62278530348951887211d79d1dba04acebd6ed3b1c413f6154702efea3ea62"
+  "dbbe0c4fceebe2e1c966362e9d647104c74796e52d494554eeabf4d6104fb2ff"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-mingzat
+pkgver=1.100
+pkgrel=1
+_commit="02879d44512dca624dc031a9e4313f71927eb798"  # Latest commit touching ofl/mingzat
+pkgdesc="Google Fonts family: Mingzat"
+arch=('any')
+url="https://fonts.google.com/specimen/Mingzat"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mingzat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mingzat/Mingzat-Regular.ttf"
+)
+sha256sums=(
+  "b632b20bfdec8a8b1247cc8624c4954641db3f1def485b91c91ec1590478e693"
+  "63b8c9ea9ceb9953a6aeaf94e70be3d534c93070247c945512c1e782dace961a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-vibur
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vibur
+pkgdesc="Google Fonts family: Vibur"
+arch=('any')
+url="https://fonts.google.com/specimen/Vibur"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vibur/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vibur/Vibur-Regular.ttf"
+)
+sha256sums=(
+  "26e4c39c4905bd7f1068b0bab008f5a4a9b945e2d7fda31e52719fc5aa9655bf"
+  "3e23653e2f0abfa88ae499d1265f1b80055b6caf52fe32b1586eb7d294227bb1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

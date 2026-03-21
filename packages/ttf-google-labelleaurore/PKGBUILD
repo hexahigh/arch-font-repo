@@ -1,0 +1,32 @@
+pkgname=ttf-google-labelleaurore
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/labelleaurore
+pkgdesc="Google Fonts family: La Belle Aurore"
+arch=('any')
+url="https://fonts.google.com/specimen/La+Belle+Aurore"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/labelleaurore/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/labelleaurore/LaBelleAurore.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "ed67462999e05f0cdac92f686374661e4d68c56fdcd7d05725c6df7b41eabd2a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

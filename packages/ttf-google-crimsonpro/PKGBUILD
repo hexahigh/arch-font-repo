@@ -1,0 +1,34 @@
+pkgname=ttf-google-crimsonpro
+pkgver=1.003
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/crimsonpro
+pkgdesc="Google Fonts family: Crimson Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Crimson+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsonpro/CrimsonPro[wght].ttf"
+)
+sha256sums=(
+  "1820869bd5baa1c2d88fa87c89eea532cf9442d841008acab720654b7f82823d"
+  "a74dc11dcf2fbb1452064e42395a40a907ca630b49cff86012223785e52b2559"
+  "16aa9fb7300a93637da51fac03a071b2ff08b6bbf65f99c794c25f040b58af6a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-ubuntusansmono
+pkgver=1.006
+pkgrel=1
+_commit="5636bf92e3be4fbfdf7c5e4091c44a4f9adfdb5c"  # Latest commit touching ufl/ubuntusansmono
+pkgdesc="Google Fonts family: Ubuntu Sans Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Ubuntu+Sans+Mono"
+license=('UFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/LICENCE.txt"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntusansmono/UbuntuSansMono[wght].ttf"
+)
+sha256sums=(
+  "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"
+  "55c3678f40cafe4ac39f0071151626693ea7fa70f421408015cc5fcd858afd71"
+  "0954a9a2b1be5062592aad7ff42c8ad094de641abeb2043d9b21d137844a0dba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENCE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-butcherman
+pkgver=001.004
+pkgrel=1
+_commit="3026f60a34ebea4045fd86f73d91216488b5389c"  # Latest commit touching ofl/butcherman
+pkgdesc="Google Fonts family: Butcherman"
+arch=('any')
+url="https://fonts.google.com/specimen/Butcherman"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/butcherman/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/butcherman/Butcherman-Regular.ttf"
+)
+sha256sums=(
+  "a0369b1d5f654110f2fe101db56a02d02806f1e609ab233368bc573ec45050e5"
+  "b8cee5e2cdc71f44e6806dc0db1090a3ce2e48ca727072073700bf646b0ce6b5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

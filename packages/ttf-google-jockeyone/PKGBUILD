@@ -1,0 +1,32 @@
+pkgname=ttf-google-jockeyone
+pkgver=1.002
+pkgrel=1
+_commit="3cd17b8816bdbe85f28b66bd50b29b5f66588050"  # Latest commit touching ofl/jockeyone
+pkgdesc="Google Fonts family: Jockey One"
+arch=('any')
+url="https://fonts.google.com/specimen/Jockey+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jockeyone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jockeyone/JockeyOne-Regular.ttf"
+)
+sha256sums=(
+  "c4cd9f38c3246ee6a68c264f017320dc1af09677d386166d8cda806d9a12e0d2"
+  "6331a3e99e240c45e4b5eb99845f5724932157d6a4766f2b4836f7582891ac4a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

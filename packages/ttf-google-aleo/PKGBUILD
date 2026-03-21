@@ -1,0 +1,34 @@
+pkgname=ttf-google-aleo
+pkgver=2.001
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/aleo
+pkgdesc="Google Fonts family: Aleo"
+arch=('any')
+url="https://fonts.google.com/specimen/Aleo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aleo/Aleo[wght].ttf"
+)
+sha256sums=(
+  "f13013bb1f4887b67240ec2ec5754ef968a3753ada1e538b598eae375cf74273"
+  "9b4c074d9f3e662ef57bbef82efb7b1bb5f757d579c91c4c0b831319221d6f8c"
+  "62b6cb49b7b087b341f0307ea3bc871a9690d8947691206ab025d149b8f6ed6f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

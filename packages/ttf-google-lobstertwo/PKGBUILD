@@ -1,0 +1,38 @@
+pkgname=ttf-google-lobstertwo
+pkgver=1.006
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lobstertwo
+pkgdesc="Google Fonts family: Lobster Two"
+arch=('any')
+url="https://fonts.google.com/specimen/Lobster+Two"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobstertwo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobstertwo/LobsterTwo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobstertwo/LobsterTwo-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobstertwo/LobsterTwo-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lobstertwo/LobsterTwo-Regular.ttf"
+)
+sha256sums=(
+  "f46c3ea04f38ea73c0731d73dfba3d7361d4b38970feb31a3558bd1b75e0656a"
+  "5255b383fc8aa432e4e7e5f8005210477c0983370adc6ad6205c9bd2cd1ceb76"
+  "980ee087455f1f0a96fb2ea74bef441a2bf29048e2c739d11683d330cfc19329"
+  "c727ae1d9e1e166a7c0679fcf79c2ff0c21bc5483ee253fdfee2f5792c0bebd9"
+  "be3d8ce18188bc559de37e4355f5f902b4960a7b65a99efb78c03bb65bb782e6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

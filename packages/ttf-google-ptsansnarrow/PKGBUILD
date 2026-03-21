@@ -1,0 +1,34 @@
+pkgname=ttf-google-ptsansnarrow
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ptsansnarrow
+pkgdesc="Google Fonts family: PT Sans Narrow"
+arch=('any')
+url="https://fonts.google.com/specimen/PT+Sans+Narrow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsansnarrow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsansnarrow/PT_Sans-Narrow-Web-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsansnarrow/PT_Sans-Narrow-Web-Regular.ttf"
+)
+sha256sums=(
+  "2758cf7a872827f39661cf8cc24188113c030447aefb5ca7145993650076ca8c"
+  "e69d83bcf5bd647892b4e2b22f5098dabd55c989413513197722fc156fb9f00e"
+  "4102edda03059163771869d258df54ac8563c408fa6e9ef75b2ddc85eabea6f4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

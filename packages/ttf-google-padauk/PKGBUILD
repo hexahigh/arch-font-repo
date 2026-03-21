@@ -1,0 +1,34 @@
+pkgname=ttf-google-padauk
+pkgver=5.001
+pkgrel=1
+_commit="7d614598c342c9c0449a541136a6c4ecdbf9e42a"  # Latest commit touching ofl/padauk
+pkgdesc="Google Fonts family: Padauk"
+arch=('any')
+url="https://fonts.google.com/specimen/Padauk"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/padauk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/padauk/Padauk-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/padauk/Padauk-Regular.ttf"
+)
+sha256sums=(
+  "95449a2d36ed919703ee09d3d802e8321b489f20efa1bb375d140f0bb45c98aa"
+  "9dbb46745ae4ed42d9030210e63f7aa53281861c7fa0be072980161f94927115"
+  "c89cf56e572abda9652d9e54203bd729b0c59541c4b569046b9b61acd0b532f3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

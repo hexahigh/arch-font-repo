@@ -1,0 +1,32 @@
+pkgname=ttf-google-zenkurenaido
+pkgver=1.001
+pkgrel=1
+_commit="2edac135aa83e34640ec569d1d27520c3400e9b7"  # Latest commit touching ofl/zenkurenaido
+pkgdesc="Google Fonts family: Zen Kurenaido"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Kurenaido"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkurenaido/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkurenaido/ZenKurenaido-Regular.ttf"
+)
+sha256sums=(
+  "fdfcb596ac910b447e482f42d4d1e5df3cfcb71c681a9f10e7f2d0126b274111"
+  "58b8d930d9fc10c8a5810c085bae378dacb98d0779073ee6d53d919f19ee6a4f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

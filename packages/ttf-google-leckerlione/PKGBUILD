@@ -1,0 +1,32 @@
+pkgname=ttf-google-leckerlione
+pkgver=1.001
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/leckerlione
+pkgdesc="Google Fonts family: Leckerli One"
+arch=('any')
+url="https://fonts.google.com/specimen/Leckerli+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/leckerlione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leckerlione/LeckerliOne-Regular.ttf"
+)
+sha256sums=(
+  "2937c7789b0e4fdeda6eafe93164a2ab36e20386704c4cb6f87b1deb620ec0da"
+  "3f38ed99a07ab426eaa64c7d5773850a5dc8e6719b03125efce2cfbc82b083d7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

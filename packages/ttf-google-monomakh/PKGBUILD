@@ -1,0 +1,32 @@
+pkgname=ttf-google-monomakh
+pkgver=1.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/monomakh
+pkgdesc="Google Fonts family: Monomakh"
+arch=('any')
+url="https://fonts.google.com/specimen/Monomakh"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/monomakh/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monomakh/Monomakh-Regular.ttf"
+)
+sha256sums=(
+  "0d9772ec97faa4f7d638f5e948d73122a1dccfc5fe6a1f5b930a4f4f74001baa"
+  "c0d38d79252b758a61adb31101f202450ff11305a675481525ecdcc294b800bf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

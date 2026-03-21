@@ -1,0 +1,34 @@
+pkgname=ttf-google-fragmentmono
+pkgver=1.011
+pkgrel=1
+_commit="2cf28283c5812c96a5db94a43cfbf9b37d79844c"  # Latest commit touching ofl/fragmentmono
+pkgdesc="Google Fonts family: Fragment Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Fragment+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fragmentmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fragmentmono/FragmentMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fragmentmono/FragmentMono-Regular.ttf"
+)
+sha256sums=(
+  "ef14426248ca0404eae1ae65e61802b1627b5ec33aab117fb36edf401a81636e"
+  "c9dd3c7b24c11ba05ab1a6ec3a659c823f0e14fb26c14df0e93e82ebb60f3a25"
+  "0fe011f425873c2e0fc73a189e394e340ad48d2b9a99a576bdeec75cee000460"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

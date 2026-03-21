@@ -1,0 +1,32 @@
+pkgname=ttf-google-facultyglyphic
+pkgver=1.004
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/facultyglyphic
+pkgdesc="Google Fonts family: Faculty Glyphic"
+arch=('any')
+url="https://fonts.google.com/specimen/Faculty+Glyphic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/facultyglyphic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/facultyglyphic/FacultyGlyphic-Regular.ttf"
+)
+sha256sums=(
+  "5a6185c9e0232792afbef890406b569471ceda95e59d1999b602a8047d54be64"
+  "27010aebf4430da073b75b8877bc3d3e35bd24d2e4f9403d34418abe94c3d31f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

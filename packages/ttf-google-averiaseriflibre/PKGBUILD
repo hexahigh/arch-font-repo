@@ -1,0 +1,42 @@
+pkgname=ttf-google-averiaseriflibre
+pkgver=1.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/averiaseriflibre
+pkgdesc="Google Fonts family: Averia Serif Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Averia+Serif+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averiaseriflibre/AveriaSerifLibre-Regular.ttf"
+)
+sha256sums=(
+  "46239ba6485d28553fd944da4ad32a00d9c403aa1c3e111676b0b96fe458d1d4"
+  "a4f49c9df1351b6151969737493446fa1add16ed1a22fa8b9a4aecbdffeb1b3b"
+  "3f6d6fe8403f2080c63a48db0bf862243c6c28785a133da2a9273906eb064cd6"
+  "c532f0f6ab4e98054942f56de25361505c7c7032c393f2b5ce2d8c82c22b2499"
+  "974986d0a74bb2a888e7fd13e5556388add3ccceeba77c699e43bb3121facf18"
+  "cfd452ad90bddf59b5e20d9e6b623fce176bd7fa4bf53180e95c6ad9d5cb41bc"
+  "c64545bce66be1d737832337c1188015f9acacc5230ccbeb4ce646a0eaa252da"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

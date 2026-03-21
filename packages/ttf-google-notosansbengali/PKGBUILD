@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansbengali
+pkgver=3.011
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansbengali
+pkgdesc="Google Fonts family: Noto Sans Bengali"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Bengali"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbengali/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbengali/NotoSansBengali[wdth,wght].ttf"
+)
+sha256sums=(
+  "754f0e221aa7d5a915489f3bf1f20fe53ddc35ab2834a4d91656d78f9622de70"
+  "dcd42978094e584a849c84a51450eeac40c8826057d566ea6d4b9627a403a05a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

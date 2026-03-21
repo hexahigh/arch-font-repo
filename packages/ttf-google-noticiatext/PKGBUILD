@@ -1,0 +1,38 @@
+pkgname=ttf-google-noticiatext
+pkgver=1.003
+pkgrel=1
+_commit="a50b9c8e289d3e15afbe15c87ce7e36d82ea177a"  # Latest commit touching ofl/noticiatext
+pkgdesc="Google Fonts family: Noticia Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Noticia+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/noticiatext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/noticiatext/NoticiaText-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/noticiatext/NoticiaText-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/noticiatext/NoticiaText-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/noticiatext/NoticiaText-Regular.ttf"
+)
+sha256sums=(
+  "f2ab7e5c5c750fa03a8d8f64c72a089ed86fbd3dc172440fcc704b27816d5957"
+  "a9b1c97d67f93d7ad523656b5343a5a806e4b15501a305326770003cd5548b5d"
+  "284e39cd922072e3c40f78340dde2fa26942a873f1e41c14259f635b320f962a"
+  "29e6acd83e8b24cfdc0d305e0637c96665c7a75985059d70615c65d63c4ff253"
+  "3eb11339e5a6acd7ad8c6d0753b175be2b12f6c5105562d5c43b2dc800d688f8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-ntr
+pkgver=1.0.5
+pkgrel=1
+_commit="a18cac70f39cbb405bf05a559b64bef0e32d9e91"  # Latest commit touching ofl/ntr
+pkgdesc="Google Fonts family: NTR"
+arch=('any')
+url="https://fonts.google.com/specimen/NTR"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ntr/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ntr/NTR-Regular.ttf"
+)
+sha256sums=(
+  "455755e2e7ce9dbac6beb3729c97c57d6f74a638dcb5be548ec953021fbdbfb3"
+  "c59000b9a002c2935b19afdceaa3aac9b0edefcfd213e3f64de0b172fda50b1d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

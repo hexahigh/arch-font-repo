@@ -1,0 +1,38 @@
+pkgname=ttf-google-ubuntumono
+pkgver=0.80
+pkgrel=1
+_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching ufl/ubuntumono
+pkgdesc="Google Fonts family: Ubuntu Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Ubuntu+Mono"
+license=('UFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntumono/UFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntumono/UbuntuMono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntumono/UbuntuMono-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntumono/UbuntuMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ufl/ubuntumono/UbuntuMono-Regular.ttf"
+)
+sha256sums=(
+  "2f0015108d68627bd788d313f529c21ff4da2c2c42a5e1f3883acc83480f9002"
+  "11f15c3a6bbd998a8695fdefb3475931c3789aa035d7546f2efe78e83b352f6b"
+  "bd255784bb87b5c41513a12a86f0f9cf061bce4e8256d3bfe7234611002e8f48"
+  "960b2bc286c2ff7d49073303858c65e1fc9013c17a971b61123b02c39454ef75"
+  "b35dd9d2131d5d83a9b87fe9ad22c6288fa3d17688d43302c14da29812417d63"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/UFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-squadaone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/squadaone
+pkgdesc="Google Fonts family: Squada One"
+arch=('any')
+url="https://fonts.google.com/specimen/Squada+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/squadaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/squadaone/SquadaOne-Regular.ttf"
+)
+sha256sums=(
+  "d2f9c74aba2716333b0a3d283083f9fdc93b2e060c5ae094c79e97e8cba9d7e6"
+  "5b34a1633dbc48db3835d8a847bc475e6e0267121d3435854729ba4b407a05df"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

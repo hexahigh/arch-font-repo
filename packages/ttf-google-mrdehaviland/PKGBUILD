@@ -1,0 +1,32 @@
+pkgname=ttf-google-mrdehaviland
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mrdehaviland
+pkgdesc="Google Fonts family: Mr De Haviland"
+arch=('any')
+url="https://fonts.google.com/specimen/Mr+De+Haviland"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrdehaviland/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrdehaviland/MrDeHaviland-Regular.ttf"
+)
+sha256sums=(
+  "c3bfad2900a83f571d5c984d490d51c56aef14806c28dde38125593e1e71daca"
+  "10cd8e34b17a42722dc49d2d62b7fe774595abe34cc89ee1d79663df68ea6089"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

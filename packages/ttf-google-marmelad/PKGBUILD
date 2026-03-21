@@ -1,0 +1,32 @@
+pkgname=ttf-google-marmelad
+pkgver=1.110
+pkgrel=1
+_commit="01eede51e41c08e1d335a538ee0cf00badfbf28e"  # Latest commit touching ofl/marmelad
+pkgdesc="Google Fonts family: Marmelad"
+arch=('any')
+url="https://fonts.google.com/specimen/Marmelad"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/marmelad/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marmelad/Marmelad-Regular.ttf"
+)
+sha256sums=(
+  "b0a0977df31de3ec1e62bb819c410feda2944bcdab999a9aac2468e715cc99e1"
+  "aadcea7a972d84294ab5399b99654506559d328e03169a2351854c7046b77fc6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

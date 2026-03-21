@@ -1,0 +1,32 @@
+pkgname=ttf-google-monsieurladoulaise
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/monsieurladoulaise
+pkgdesc="Google Fonts family: Monsieur La Doulaise"
+arch=('any')
+url="https://fonts.google.com/specimen/Monsieur+La+Doulaise"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/monsieurladoulaise/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/monsieurladoulaise/MonsieurLaDoulaise-Regular.ttf"
+)
+sha256sums=(
+  "a5fc033225d145b43fd7391482ae7689825414ce29a01614d651a3012b57c81e"
+  "dd3e04fbe661a7a70ff87b56b446e57a2605de5659c84d35ef58f4606ee68fad"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

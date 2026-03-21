@@ -1,0 +1,32 @@
+pkgname=ttf-google-otomanopeeone
+pkgver=3.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/otomanopeeone
+pkgdesc="Google Fonts family: Otomanopee One"
+arch=('any')
+url="https://fonts.google.com/specimen/Otomanopee+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/otomanopeeone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/otomanopeeone/OtomanopeeOne-Regular.ttf"
+)
+sha256sums=(
+  "906375346809a46416faa9de00683ddf70dca62d2a9798acf9f75b2578898ae2"
+  "1c10207fafb5eae7c7b85554724653e3c3718a453db31d9fa55dfb1872ccc523"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

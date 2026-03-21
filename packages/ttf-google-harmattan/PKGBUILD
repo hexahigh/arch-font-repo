@@ -1,0 +1,38 @@
+pkgname=ttf-google-harmattan
+pkgver=4.400
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/harmattan
+pkgdesc="Google Fonts family: Harmattan"
+arch=('any')
+url="https://fonts.google.com/specimen/Harmattan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/harmattan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/harmattan/Harmattan-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/harmattan/Harmattan-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/harmattan/Harmattan-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/harmattan/Harmattan-SemiBold.ttf"
+)
+sha256sums=(
+  "8625c5d464ebfe457d071266178fc8b699ccdb7bd58051d53046b3e06806f4e1"
+  "eb9de49ecb72d34e14c768bea6f9a7831f6bd2c15b062fcc2bb17b0ac967bc67"
+  "e83a209c87145152dcc4df18ffdd50aad8407fb563135392e168c896e932d2d5"
+  "5fbaafc51ad21663729b168afaff5f28d3e3087f1fc736ada32d7cd99674c0e0"
+  "83479450450a50da78412f2f48b274883095a23a01d6bf36db54e769cb09b11d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

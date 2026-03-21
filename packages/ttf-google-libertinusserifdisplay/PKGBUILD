@@ -1,0 +1,32 @@
+pkgname=ttf-google-libertinusserifdisplay
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinusserifdisplay
+pkgdesc="Google Fonts family: Libertinus Serif Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Serif+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserifdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserifdisplay/LibertinusSerifDisplay-Regular.ttf"
+)
+sha256sums=(
+  "3015cc23074c8f6e3fa8b3a09a9c4707bb6ba481e1f21138cb06e5ef539840a0"
+  "5d2b119fe718b6420953a8ca747cc2d83f42e8b5739798d3d6d27430dde75486"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-carme
+pkgver=1.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/carme
+pkgdesc="Google Fonts family: Carme"
+arch=('any')
+url="https://fonts.google.com/specimen/Carme"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/carme/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carme/Carme-Regular.ttf"
+)
+sha256sums=(
+  "806cb93632b8091cd36554642a96b2752bab50015da6a2b456d786c1f9aef5a5"
+  "2be32ebe8f62944b1df0f1bf0c76957bda369567b99454d749e51192a393db90"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

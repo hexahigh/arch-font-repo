@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansphagspa
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansphagspa
+pkgdesc="Google Fonts family: Noto Sans PhagsPa"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+PhagsPa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansphagspa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansphagspa/NotoSansPhagsPa-Regular.ttf"
+)
+sha256sums=(
+  "36c78621f9338739cd29fc770253fbb867be8934d36d6a172afc6bd56da4c138"
+  "1f90e0a9e6b83c903e4ed9470261ba4e61b7068de2063516665b62c1bf389dab"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

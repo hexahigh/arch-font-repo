@@ -1,0 +1,32 @@
+pkgname=ttf-google-orbit
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/orbit
+pkgdesc="Google Fonts family: Orbit"
+arch=('any')
+url="https://fonts.google.com/specimen/Orbit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/orbit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/orbit/Orbit-Regular.ttf"
+)
+sha256sums=(
+  "00f1783a4e7a52d945c0c4de689571b2db896493362651db2706b40c6fc1c330"
+  "5d0206fb0a9e3eeac51aff8d4a6dbb7613d63fc435f1a51f96dc35cefb5f9f87"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

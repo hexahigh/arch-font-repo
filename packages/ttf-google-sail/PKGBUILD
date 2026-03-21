@@ -1,0 +1,32 @@
+pkgname=ttf-google-sail
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sail
+pkgdesc="Google Fonts family: Sail"
+arch=('any')
+url="https://fonts.google.com/specimen/Sail"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sail/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sail/Sail-Regular.ttf"
+)
+sha256sums=(
+  "55e13d77a4457aa9c60f10c5b97baea3343d3bac30960d49554a033cb9eaff7c"
+  "0ec9a9e84f5570258d319a26bce92adadc4998ceacc4d95b63687c9da4164f65"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

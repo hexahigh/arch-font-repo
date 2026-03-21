@@ -1,0 +1,32 @@
+pkgname=ttf-google-anta
+pkgver=1.000
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/anta
+pkgdesc="Google Fonts family: Anta"
+arch=('any')
+url="https://fonts.google.com/specimen/Anta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anta/Anta-Regular.ttf"
+)
+sha256sums=(
+  "b9ced72fbc4812b7dd2a67fe4df3ecbc0a75a7f43c0ffc4f0873a198d8b8431d"
+  "9f3b9723a50c1244d49906b1892b3aad43876ab9a2de80288db47821b0c7b298"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

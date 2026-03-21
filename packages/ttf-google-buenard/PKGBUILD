@@ -1,0 +1,32 @@
+pkgname=ttf-google-buenard
+pkgver=2.000
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/buenard
+pkgdesc="Google Fonts family: Buenard"
+arch=('any')
+url="https://fonts.google.com/specimen/Buenard"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/buenard/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/buenard/Buenard[wght].ttf"
+)
+sha256sums=(
+  "6d23bd7e9bf8c35c58504f42c0fe2d55cb1295d6cc49fdb942c3a5bab6ebaca6"
+  "275f9307353c7502ce7553cbd09ab7c80c73dd2da854728df18d796f9455beb9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

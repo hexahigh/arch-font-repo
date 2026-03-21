@@ -1,0 +1,32 @@
+pkgname=ttf-google-sansitaswashed
+pkgver=1.003
+pkgrel=1
+_commit="334b845b197ab85ac3da50f11d1b12156fa30244"  # Latest commit touching ofl/sansitaswashed
+pkgdesc="Google Fonts family: Sansita Swashed"
+arch=('any')
+url="https://fonts.google.com/specimen/Sansita+Swashed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaswashed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaswashed/SansitaSwashed[wght].ttf"
+)
+sha256sums=(
+  "e0513f56a7710b94b459ccb7ef77bb7a464e24c777fb2f7023b78af8915dbb86"
+  "a6ff6619f22d01eb9582fb00a38052d7afba404ff5868be9bddf37e2888a1c6a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

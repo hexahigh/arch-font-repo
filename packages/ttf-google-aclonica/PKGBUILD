@@ -1,0 +1,32 @@
+pkgname=ttf-google-aclonica
+pkgver=1.001
+pkgrel=1
+_commit="64d5302d5cdc27eeeb8913d99b0e1dda8a2e7953"  # Latest commit touching apache/aclonica
+pkgdesc="Google Fonts family: Aclonica"
+arch=('any')
+url="https://fonts.google.com/specimen/Aclonica"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/aclonica/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/aclonica/Aclonica-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "774a49351cc62a469b56972e9769679ce818a3de15b409ad5f1b6244ee84d85b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

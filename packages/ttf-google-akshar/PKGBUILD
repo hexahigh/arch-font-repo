@@ -1,0 +1,32 @@
+pkgname=ttf-google-akshar
+pkgver=1.100
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/akshar
+pkgdesc="Google Fonts family: Akshar"
+arch=('any')
+url="https://fonts.google.com/specimen/Akshar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/akshar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/akshar/Akshar[wght].ttf"
+)
+sha256sums=(
+  "f177d40332e5a3f1b76d1d19821102173f30aab9dc58329db20ed1ab42ac7ec1"
+  "5288f970076f57f158dba767f44aec8f8e852920f1a3cc20a3268420ad9ec251"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

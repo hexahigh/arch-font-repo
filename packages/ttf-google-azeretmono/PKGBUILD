@@ -1,0 +1,34 @@
+pkgname=ttf-google-azeretmono
+pkgver=1.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/azeretmono
+pkgdesc="Google Fonts family: Azeret Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Azeret+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/azeretmono/AzeretMono[wght].ttf"
+)
+sha256sums=(
+  "2a0fd31798d131b38a9fe730a260bc9a1d85452e36cdf79e5fcaf937bf4d9f86"
+  "d8fef266d11964b6420c89ebb76706a00afa31c80e58d0510db928a65a05de45"
+  "f13962c26c1baa864aff7768364001f9bca6e506f41b9a3037c0d6a31e2ca736"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

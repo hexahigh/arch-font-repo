@@ -1,0 +1,32 @@
+pkgname=ttf-google-lacquer
+pkgver=1.100
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lacquer
+pkgdesc="Google Fonts family: Lacquer"
+arch=('any')
+url="https://fonts.google.com/specimen/Lacquer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lacquer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lacquer/Lacquer-Regular.ttf"
+)
+sha256sums=(
+  "7dcb8031db2b0f39d41c3ec93a3cd77ccc53fb4ab3f691095ca6c51a06a52cb6"
+  "140c21f71907a16952926ee354c81081092c90d599c89fe8b4557baeaebbbe83"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

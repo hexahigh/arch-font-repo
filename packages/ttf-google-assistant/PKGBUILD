@@ -1,0 +1,32 @@
+pkgname=ttf-google-assistant
+pkgver=3.000
+pkgrel=1
+_commit="e9991033b10f4e4b11918224dccd62a7791328bd"  # Latest commit touching ofl/assistant
+pkgdesc="Google Fonts family: Assistant"
+arch=('any')
+url="https://fonts.google.com/specimen/Assistant"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/assistant/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/assistant/Assistant[wght].ttf"
+)
+sha256sums=(
+  "7eaf6282cfab122b99ffd62a122fc27b6c3c8f2c65b56ff9b3a25badbc64887d"
+  "1c3b393884f8fb133a1b17f41d26178adae1050a4f86d7a429d1b5658c314fa3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

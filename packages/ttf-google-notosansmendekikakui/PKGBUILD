@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmendekikakui
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmendekikakui
+pkgdesc="Google Fonts family: Noto Sans Mende Kikakui"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Mende+Kikakui"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmendekikakui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmendekikakui/NotoSansMendeKikakui-Regular.ttf"
+)
+sha256sums=(
+  "e87457c702ba140cd0c6b319e75eac02c1e74c80c2f522cbc7b9ea5315b98ecd"
+  "1f0d4e5957f2d74ffd2ef4850b512e512066c58365308e433985c3842f2d779f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

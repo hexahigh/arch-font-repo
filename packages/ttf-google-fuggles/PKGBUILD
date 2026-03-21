@@ -1,0 +1,32 @@
+pkgname=ttf-google-fuggles
+pkgver=1.100
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fuggles
+pkgdesc="Google Fonts family: Fuggles"
+arch=('any')
+url="https://fonts.google.com/specimen/Fuggles"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fuggles/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fuggles/Fuggles-Regular.ttf"
+)
+sha256sums=(
+  "22e37052104e101981fa0ea905457948f4f01bd31c7fde0502ff25c586801fa1"
+  "2e738fa143601d4415c858d8c844f12333b49c47ba5c12c787a0f6fa150e152a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

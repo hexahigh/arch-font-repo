@@ -1,0 +1,32 @@
+pkgname=ttf-google-homenaje
+pkgver=1.100
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/homenaje
+pkgdesc="Google Fonts family: Homenaje"
+arch=('any')
+url="https://fonts.google.com/specimen/Homenaje"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/homenaje/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/homenaje/Homenaje-Regular.ttf"
+)
+sha256sums=(
+  "6b6c6721a30480a323cf33acf6a7703dfce46b846827a65f8ee96230060e3c3e"
+  "0bf7bae4aa3e7c2c674785325d20f4405a53f25ace4ceb4752cf75e27172be4a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

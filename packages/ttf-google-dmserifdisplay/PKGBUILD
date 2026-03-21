@@ -1,0 +1,34 @@
+pkgname=ttf-google-dmserifdisplay
+pkgver=5.200
+pkgrel=1
+_commit="933dbb8b0b1fb90d391566893bd9f2c15c7025e5"  # Latest commit touching ofl/dmserifdisplay
+pkgdesc="Google Fonts family: DM Serif Display"
+arch=('any')
+url="https://fonts.google.com/specimen/DM+Serif+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmserifdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmserifdisplay/DMSerifDisplay-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dmserifdisplay/DMSerifDisplay-Regular.ttf"
+)
+sha256sums=(
+  "a3e5cdd67d4571dd0a24fcc968de0efde7ae97ef752daf0906e4767619dd7231"
+  "df74c0ac387baeaeb0fe4f2324e1668e6a3ed8c09cd9796fe162c71753e19e45"
+  "8cc3643535edf039aa5d95440a8542735e9197e4f4b8d9303e980fefbf5ab616"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

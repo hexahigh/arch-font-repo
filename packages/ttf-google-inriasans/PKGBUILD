@@ -1,0 +1,42 @@
+pkgname=ttf-google-inriasans
+pkgver=1.2
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inriasans
+pkgdesc="Google Fonts family: Inria Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Inria+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inriasans/InriaSans-Regular.ttf"
+)
+sha256sums=(
+  "2609587542b75aef638a6bcf9bb1d528595fa093f1a8b905e85f9dd77b6f3487"
+  "bb4158187c943e565f20fc1b81d88335ba847dc318b1e12c5d8a24fb0e461bfa"
+  "1097884c009cfc6f183a4ede46d6b8661c34a3e121b3f7ffd01e1fd17d0f222a"
+  "482c649c1f6a0e9e6a1f54d5603f89e254c8cd8b20af9edce8db8199bdfa9bc9"
+  "3fa3c428c58feb7a173eb6b0c36d4b68d8ca6cb8c246e5e24dd3e6baf933864e"
+  "c025a4fc153031f1b0737c3411215902d9bee6e2a00843f66343483df8e06ec8"
+  "e213607deb9cf56875540839a1d97944b2bf9ba49f0a510ef368f1d87848d327"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

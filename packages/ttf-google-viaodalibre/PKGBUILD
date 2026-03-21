@@ -1,0 +1,32 @@
+pkgname=ttf-google-viaodalibre
+pkgver=2.000
+pkgrel=1
+_commit="7048826f842a378812c450daa8c001b26dd2f115"  # Latest commit touching ofl/viaodalibre
+pkgdesc="Google Fonts family: Viaoda Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Viaoda+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/viaodalibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/viaodalibre/ViaodaLibre-Regular.ttf"
+)
+sha256sums=(
+  "1cd4dc67e3c5a349d0121e0d91837cec083559fb94ebf70a8a31601a787f42e3"
+  "adb53ede25107c5ed4c45f993fd014a21ef82ac82b2327a564fe8e994e228942"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

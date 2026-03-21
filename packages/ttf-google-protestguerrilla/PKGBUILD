@@ -1,0 +1,32 @@
+pkgname=ttf-google-protestguerrilla
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/protestguerrilla
+pkgdesc="Google Fonts family: Protest Guerrilla"
+arch=('any')
+url="https://fonts.google.com/specimen/Protest+Guerrilla"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/protestguerrilla/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/protestguerrilla/ProtestGuerrilla-Regular.ttf"
+)
+sha256sums=(
+  "6828e2435964f939c9276ba052ff55b4ccd155b5fbbae9a16c53b1691531fccf"
+  "f163ab212c3310173fc3807a7ec309b188c3f9a845b543af8c80d6fceb8b1df6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

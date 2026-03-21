@@ -1,0 +1,34 @@
+pkgname=ttf-google-wittgenstein
+pkgver=1.500
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/wittgenstein
+pkgdesc="Google Fonts family: Wittgenstein"
+arch=('any')
+url="https://fonts.google.com/specimen/Wittgenstein"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wittgenstein/Wittgenstein[wght].ttf"
+)
+sha256sums=(
+  "ceaa4ae98243879fda69a6a0a86fea1816cc52ee25a026d9054b603dabd0f63b"
+  "f046ab65c2acc48869301db17a97cf73174ba9748af8ca10f574af0d8f3cb5b3"
+  "773d52be838aabb9a1912909a9c2af5ac6c54939443433b648c51b039e987e3a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

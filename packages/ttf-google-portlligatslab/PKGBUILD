@@ -1,0 +1,32 @@
+pkgname=ttf-google-portlligatslab
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/portlligatslab
+pkgdesc="Google Fonts family: Port Lligat Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Port+Lligat+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/portlligatslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/portlligatslab/PortLligatSlab-Regular.ttf"
+)
+sha256sums=(
+  "e37fcc467040ecd81bf4cf59c99ef56b20f57918995e82b3de1d5b4e931bc2e6"
+  "70edb02d7c38cde09b379f9101322fb93189a35276e79eb15c240780bd3b4af7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

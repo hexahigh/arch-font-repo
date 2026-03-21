@@ -1,0 +1,34 @@
+pkgname=ttf-google-alumnisansinlineone
+pkgver=1.100
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alumnisansinlineone
+pkgdesc="Google Fonts family: Alumni Sans Inline One"
+arch=('any')
+url="https://fonts.google.com/specimen/Alumni+Sans+Inline+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alumnisansinlineone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alumnisansinlineone/AlumniSansInlineOne-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alumnisansinlineone/AlumniSansInlineOne-Regular.ttf"
+)
+sha256sums=(
+  "e7ae596600908a4ba9634d03b8096fe3a5445fe692b3f420d7490512ca0e8521"
+  "ba98fe1a9aa70f60417851b357882e0275a3f586ff4039c8f258b4af638171ff"
+  "e77a9db5e63f9316840cab59d1364cd40334d6cd441c0b43fe2a18b2521e0e7e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

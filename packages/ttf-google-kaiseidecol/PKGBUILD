@@ -1,0 +1,36 @@
+pkgname=ttf-google-kaiseidecol
+pkgver=5.003
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kaiseidecol
+pkgdesc="Google Fonts family: Kaisei Decol"
+arch=('any')
+url="https://fonts.google.com/specimen/Kaisei+Decol"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseidecol/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseidecol/KaiseiDecol-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseidecol/KaiseiDecol-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseidecol/KaiseiDecol-Regular.ttf"
+)
+sha256sums=(
+  "6c5445d4febbf6d84025b874a85c51e7e4bfa7495279eccdb4c317a6de857b46"
+  "0e3a6da5145fdbba32cfb1c806812d95457506e1698f5d61e8f834fb847f0d6f"
+  "6db5273d6807f4f575222a70ebf3bb548173dcdda2f22d9bf272d6d0e7161aa1"
+  "fb9202b97944fa00b5f145ad4701def5c306bcd0d26407917baef9e01b042056"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-germaniaone
+pkgver=1.001
+pkgrel=1
+_commit="38cdf9c2c6c38392224fd60779142649a14b6d6c"  # Latest commit touching ofl/germaniaone
+pkgdesc="Google Fonts family: Germania One"
+arch=('any')
+url="https://fonts.google.com/specimen/Germania+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/germaniaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/germaniaone/GermaniaOne-Regular.ttf"
+)
+sha256sums=(
+  "b7574cd4c76770e5e3915d16bd93f09663bd77cb041a4ec09d824c52b540529a"
+  "3ee3d56584bab8c9e3f59cc3360aa8a36e219dcf0a9f3c8928e3da5a19277e3f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

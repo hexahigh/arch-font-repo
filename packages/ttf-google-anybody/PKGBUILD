@@ -1,0 +1,34 @@
+pkgname=ttf-google-anybody
+pkgver=1.114
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/anybody
+pkgdesc="Google Fonts family: Anybody"
+arch=('any')
+url="https://fonts.google.com/specimen/Anybody"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anybody/Anybody[wdth,wght].ttf"
+)
+sha256sums=(
+  "7f0313b042b462fcae1934436cc747f9fd4433e3b08fd6459a4a5104b0bbd5db"
+  "f9a465a1e5af36e30c37ba11812e4763e3c37febda2c2244acbcec8092063fd7"
+  "b184bd7e6ca8348bbaecec98951565729d7e89b7872d4898a1f9981342b5b64c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

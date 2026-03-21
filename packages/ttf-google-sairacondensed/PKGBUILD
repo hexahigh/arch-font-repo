@@ -1,0 +1,48 @@
+pkgname=ttf-google-sairacondensed
+pkgver=0.072
+pkgrel=1
+_commit="f2480dad6f8e7b1f42c023d3542e55eb8c3a2822"  # Latest commit touching ofl/sairacondensed
+pkgdesc="Google Fonts family: Saira Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Saira+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairacondensed/SairaCondensed-Thin.ttf"
+)
+sha256sums=(
+  "0e2ccc5da1dd979f08ba82bca2fb61592506a1e58d3cbfc26d904f0db71bd812"
+  "3edf5f2f027e2d5203218f5b56cda652b2af9258c0c08be7fb874f3f8cf266ae"
+  "560297e4bccfb8c6e643095e716b5ea2ea9d7289801ddd79ab901698ffb0dee6"
+  "8821cabbc8bb3b0727be0a82d192c96baadbaf608012aff557eaaced1897ae84"
+  "9aef2e4f62025e9da75bdcb5b865bf6bb4d58157dba610d32c15ba88812e20f9"
+  "1685e52befb3fcc694335352443f417a51a2d90537775b1a735391638e62736a"
+  "a02d8fe45b8b7d952cb0dd341683b02ddc1b55dbd0ed89d9d438868be614b66f"
+  "8f26edd9f227794818b66f936037dc35bd22674b287087d5d19a93d554d9a6f6"
+  "30f8ed4d078211003a9715c80c51ce031bab5c9a17e8771182e4c4599205634b"
+  "fbc271bbbc10e447c53f43696bf28e82003c7ff4e2ae4e4693626fdfae21f121"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

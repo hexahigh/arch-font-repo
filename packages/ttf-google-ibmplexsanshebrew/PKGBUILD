@@ -1,0 +1,44 @@
+pkgname=ttf-google-ibmplexsanshebrew
+pkgver=1.2
+pkgrel=1
+_commit="dcb0b312027ab420c08b662812b622f8a9590674"  # Latest commit touching ofl/ibmplexsanshebrew
+pkgdesc="Google Fonts family: IBM Plex Sans Hebrew"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans+Hebrew"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsanshebrew/IBMPlexSansHebrew-Thin.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "4468a526f606ac74e8db9125b785a932cf55a265f8e358855371bed6126a1637"
+  "2b8d281f63cc7b7deafe7b8370529f321861338516becd2b823f6532d8f4d275"
+  "0d7f6392a7f3e1422aacf56e435b030f9691b4c87f4dabe73cf261e77ffef7bc"
+  "15b5d6b20f5b4007f2d709ff786266ff62ba9b13ba4e5ac4d23f37d554d68534"
+  "c11df42adf5e2c6e77e623dbedbe8cc23ba72196ac9ad8beb02754eebd9c400a"
+  "3ca3829acbeb58f0832f3320a54bab233904c07d0d1dc79b7f1ff3f36ba68b2d"
+  "cb05cd9206a980572a86d585e3a4378d19c2213bec95b28b8f00852422aaffac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

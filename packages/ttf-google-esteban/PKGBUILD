@@ -1,0 +1,32 @@
+pkgname=ttf-google-esteban
+pkgver=1.002
+pkgrel=1
+_commit="a3ab1c9dc5896451b37e65bbeae4c8285d8ba2e7"  # Latest commit touching ofl/esteban
+pkgdesc="Google Fonts family: Esteban"
+arch=('any')
+url="https://fonts.google.com/specimen/Esteban"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/esteban/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/esteban/Esteban-Regular.ttf"
+)
+sha256sums=(
+  "5bbeae56b9db61a9bf85b64d5ed9a74cfcf9ee3e9b005bc2906859ddecd5eaa1"
+  "117f80a823d1899df85708a59e39ef0f0d974a7407a845543288612f8214e68f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

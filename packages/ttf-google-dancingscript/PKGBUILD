@@ -1,0 +1,32 @@
+pkgname=ttf-google-dancingscript
+pkgver=2.001
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dancingscript
+pkgdesc="Google Fonts family: Dancing Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Dancing+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dancingscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dancingscript/DancingScript[wght].ttf"
+)
+sha256sums=(
+  "6f090277c00af96651ce6dbcc38ff1591047a3bffef486e80b6a32e8276a8201"
+  "21808625578fe8d8cd10cb684be546dca077b27cd03a53a2f1ec11dc743c924c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

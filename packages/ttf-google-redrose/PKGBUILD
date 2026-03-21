@@ -1,0 +1,32 @@
+pkgname=ttf-google-redrose
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/redrose
+pkgdesc="Google Fonts family: Red Rose"
+arch=('any')
+url="https://fonts.google.com/specimen/Red+Rose"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/redrose/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redrose/RedRose[wght].ttf"
+)
+sha256sums=(
+  "bb33f381066f9c041fa2266fb634a00b64caedd8301ce80926ba361d9a481464"
+  "e2811a5215647a881cf9e84c030cd81c7b452a99e567652f8531e877d7ae86da"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

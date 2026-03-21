@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanslinearb
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanslinearb
+pkgdesc="Google Fonts family: Noto Sans Linear B"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Linear+B"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanslinearb/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanslinearb/NotoSansLinearB-Regular.ttf"
+)
+sha256sums=(
+  "bc7112fdaa4a03fd869deca0d0454cd34fa575663a194cec9578da5489f713b3"
+  "c69e7a80ad643b7f05fea03bf4102a659489b045533f6ac5539c3600c98fdb06"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

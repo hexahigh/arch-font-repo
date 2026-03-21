@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssyriac
+pkgver=3.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssyriac
+pkgdesc="Google Fonts family: Noto Sans Syriac"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Syriac"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssyriac/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssyriac/NotoSansSyriac[wght].ttf"
+)
+sha256sums=(
+  "6442860dad2700aabece2ac7252680b1a5bfc0987cec1ca0c3d605ab8f0b7975"
+  "775585cc3c12877115d588f70af3aa140c78cb440f9d42c98273bf05bed3f6b1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

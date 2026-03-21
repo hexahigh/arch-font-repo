@@ -1,0 +1,34 @@
+pkgname=ttf-google-winkysans
+pkgver=1.205
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/winkysans
+pkgdesc="Google Fonts family: Winky Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Winky+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/winkysans/WinkySans[wght].ttf"
+)
+sha256sums=(
+  "5f1811749ad7b006e3e98735553e144249e31f1265cb53a5107a9069af78f63f"
+  "ead375573ecc189ac280037c75bb96466ca08177af2e648afa7fdd0d9f48a039"
+  "0df4bec6a75fc35f363d0163edd0e660365301dbc0d4bcd71cd916d38ea96135"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

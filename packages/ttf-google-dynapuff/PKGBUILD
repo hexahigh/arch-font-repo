@@ -1,0 +1,32 @@
+pkgname=ttf-google-dynapuff
+pkgver=2.000
+pkgrel=1
+_commit="d4cc17c373d3c60e98e332099c1462b98305101e"  # Latest commit touching ofl/dynapuff
+pkgdesc="Google Fonts family: DynaPuff"
+arch=('any')
+url="https://fonts.google.com/specimen/DynaPuff"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dynapuff/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dynapuff/DynaPuff[wdth,wght].ttf"
+)
+sha256sums=(
+  "ad0bc2ae83f6dbf6f3edde26752324260c2fbaf9cc021748d363a879dd5b749c"
+  "c3752fc6dd8aaa46a88637f061a9a4e6ab44c02c5f0afd65528b91ae8ff6f948"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

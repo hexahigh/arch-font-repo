@@ -1,0 +1,38 @@
+pkgname=ttf-google-balsamiqsans
+pkgver=1.020
+pkgrel=1
+_commit="f31a1ea94a6c989faf4da315639ac2bcb07d7c58"  # Latest commit touching ofl/balsamiqsans
+pkgdesc="Google Fonts family: Balsamiq Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Balsamiq+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/balsamiqsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/balsamiqsans/BalsamiqSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/balsamiqsans/BalsamiqSans-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/balsamiqsans/BalsamiqSans-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/balsamiqsans/BalsamiqSans-Regular.ttf"
+)
+sha256sums=(
+  "0e82859672e549fd39554e2bfa97b5511e81f4f89394f2e696666d36b5d52144"
+  "a3302bd8424e6a37704eb5e20d5c5a3a2fd80feaf57e48a19d261f8e0c583621"
+  "4999588a66defbf39e718b3edb0b965b932157bd8d1321130de06bec0cdccc75"
+  "0a287472035409f556acd66c1c926047ee9829a62f88b0fa273591332a8606df"
+  "fcc9c00a9ad6e78673fa84653745569097241d99b5d1387a23f395858ed46b7e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

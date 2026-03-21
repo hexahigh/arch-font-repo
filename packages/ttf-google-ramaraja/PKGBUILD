@@ -1,0 +1,32 @@
+pkgname=ttf-google-ramaraja
+pkgver=1.0.4
+pkgrel=1
+_commit="c9df5d583a464d65defd98385629383529cb5de0"  # Latest commit touching ofl/ramaraja
+pkgdesc="Google Fonts family: Ramaraja"
+arch=('any')
+url="https://fonts.google.com/specimen/Ramaraja"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramaraja/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramaraja/Ramaraja-Regular.ttf"
+)
+sha256sums=(
+  "525411e604e7a1d85a4cd42641869f94388f04a6ed77829d6c4edd7fd740ceab"
+  "9540e2a6d611b0f7e0852d64212091cad7a8f0af2128cbf391ee668c5699148f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

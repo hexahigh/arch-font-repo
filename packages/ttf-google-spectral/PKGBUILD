@@ -1,0 +1,58 @@
+pkgname=ttf-google-spectral
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/spectral
+pkgdesc="Google Fonts family: Spectral"
+arch=('any')
+url="https://fonts.google.com/specimen/Spectral"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spectral/Spectral-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "501d6ceca8e552630fe3aa9442b9a818565680a1a2f79f3fb8c13d6f309a9e98"
+  "70ddb1ec6ae3b0b8d0c79231f670de786978f19baeba2130757526e407aebf9b"
+  "709fa4f2da9be216fd52125db2d6caa4f90150f48de1a453c9ecf91117ab49b6"
+  "af3f8513db8d047ebecb1682b5e04dfc12ec7e6b51b71654d4d348f12a5e6b5a"
+  "680ba360e376759b54f33154a89e3c75842d4cf8faa498a717c3e1a65a93305a"
+  "5d852db897fd7ad5ce640a6e88f1cd70eac75777c541d02d86749af8d4797ff1"
+  "492e823b5d8d67d2f18fe06938d84e8decee24b1790d4c6ebdade3cbd1b83b44"
+  "7ec97244259db4008c4b1224c7914e5371c797c0044af9d85c2d761ba0e5f787"
+  "a2a530303d326473b69ab7863b879e9203ec747e51d5fa7c7b19e0e975e00740"
+  "4cb424aeb1d6b822e9ce6213789afeabd403c6765fc7339e184c27ae4d6a6b01"
+  "f385bc588599c879112272711d4acecc126674009d747a27284f59e93a240e83"
+  "82388c41e76d6417ce9947418fa2cda1ed99f24d4ff295b2f05572178127663f"
+  "c89021dc20720c8d0dcf40b0b2f6e00c13665fa8041717f581396f51b8c78f5d"
+  "5f86915a744832ecf6e4a17ab04bea091b9fa992ef5164ff65ae34c1da2fe94b"
+  "46ad3a9f93b98dc2dbdeee265e76eb846c5be912aa8f09f42e3692706c6f563b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

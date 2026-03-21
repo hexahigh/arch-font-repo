@@ -1,0 +1,32 @@
+pkgname=ttf-google-shizuru
+pkgver=1.000
+pkgrel=1
+_commit="e6a6bad8b35fd840fc011cff1557c357adb7824c"  # Latest commit touching ofl/shizuru
+pkgdesc="Google Fonts family: Shizuru"
+arch=('any')
+url="https://fonts.google.com/specimen/Shizuru"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shizuru/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shizuru/Shizuru-Regular.ttf"
+)
+sha256sums=(
+  "82e1f1ecc4c04924c6490b5a3f03c39feacb81337a45911daa30b758c69df788"
+  "5954562e5fbb40fffe6361cbbcac0d4a4c9c5e2897d7b20876f294fbcc243f7f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

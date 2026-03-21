@@ -1,0 +1,32 @@
+pkgname=ttf-google-ericaone
+pkgver=1.003
+pkgrel=1
+_commit="d84ed1af7dc76b13e8b8e83c3e9946f93aaa0095"  # Latest commit touching ofl/ericaone
+pkgdesc="Google Fonts family: Erica One"
+arch=('any')
+url="https://fonts.google.com/specimen/Erica+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ericaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ericaone/EricaOne-Regular.ttf"
+)
+sha256sums=(
+  "d484e0dce424a9e360adabb568b6773db5f1566df71ce3e9dcd66a6cc2c38d33"
+  "4b135f75996959d65d425b7175f0944243fabe8e9d62238555ad9c9b19a17d93"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

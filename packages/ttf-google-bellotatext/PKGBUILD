@@ -1,0 +1,42 @@
+pkgname=ttf-google-bellotatext
+pkgver=4.001
+pkgrel=1
+_commit="56b0bc214ba74afd04f9f6233630f5b2973a40ed"  # Latest commit touching ofl/bellotatext
+pkgdesc="Google Fonts family: Bellota Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Bellota+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bellotatext/BellotaText-Regular.ttf"
+)
+sha256sums=(
+  "92938e2734b9280a9d4428c0fe4421b3e501641f78dafc7438fc19c0fc625c07"
+  "31c41c17d571900437b194300b5a9da384e366e22459d698fabe9f0be4355ef5"
+  "2af54d05da4a9512e3a50f9280d5aaf1c9d50f668658d1b2e820682cc53605c8"
+  "4e04943e63ab256026cf2d0e506d16cc6aa7d5d891e63582acc250fc40992bdc"
+  "fdf27404f3b665aa0bdf8b19c7fd425d94ce013ef413945ebbd66b72442575cd"
+  "7b52095b638459458bd7285f5e55651f301511e1a5136db92cb1ed915f8c61a4"
+  "b10a58605747b85f738e3bbf9a5571101ecff0a398ef6620df9e9b4ee1f33f83"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

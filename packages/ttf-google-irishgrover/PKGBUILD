@@ -1,0 +1,32 @@
+pkgname=ttf-google-irishgrover
+pkgver=1.001
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching apache/irishgrover
+pkgdesc="Google Fonts family: Irish Grover"
+arch=('any')
+url="https://fonts.google.com/specimen/Irish+Grover"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/irishgrover/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/irishgrover/IrishGrover-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "d894be4e904bbd08a9d46670b4f631e84b7de5d70ede2c89e8217958ca32eec4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

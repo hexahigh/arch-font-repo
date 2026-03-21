@@ -1,0 +1,34 @@
+pkgname=ttf-google-gwendolyn
+pkgver=1.010
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gwendolyn
+pkgdesc="Google Fonts family: Gwendolyn"
+arch=('any')
+url="https://fonts.google.com/specimen/Gwendolyn"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gwendolyn/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gwendolyn/Gwendolyn-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gwendolyn/Gwendolyn-Regular.ttf"
+)
+sha256sums=(
+  "469761758d333ff4ab9f69759dbb8576d23077097862654c2e4d1fc6f19d090d"
+  "de7cd081e615049aa4b8b4cf2b6fc70ab70e6a7ba7b2c49853a7f296de141c40"
+  "81f114a0ffa9ae461fa84edc90f0ff502b4c7c0aefe6d4e842fff478214a62fc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

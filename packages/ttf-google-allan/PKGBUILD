@@ -1,0 +1,34 @@
+pkgname=ttf-google-allan
+pkgver=1.005
+pkgrel=1
+_commit="0ec110b0b81271649c3595b3f1b9db557a5e45ed"  # Latest commit touching ofl/allan
+pkgdesc="Google Fonts family: Allan"
+arch=('any')
+url="https://fonts.google.com/specimen/Allan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allan/Allan-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allan/Allan-Regular.ttf"
+)
+sha256sums=(
+  "ab721b35816e470fb11619ad3705f75d08dccd0864505e3d782e94fd937f6620"
+  "c4d3781233b873ded3965200d4ea3b978ede2d7300d02c528da7a9ad9e7946ca"
+  "1216633f30f55dcfbe27f1f3a882a742ada9484a26ed26cbcf208f88e315b896"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

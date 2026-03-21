@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssamaritan
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssamaritan
+pkgdesc="Google Fonts family: Noto Sans Samaritan"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Samaritan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssamaritan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssamaritan/NotoSansSamaritan-Regular.ttf"
+)
+sha256sums=(
+  "b5077d717d6cd64f06e8e4500eb103b0cb51dd95965d562e2ba3a0684e6c966f"
+  "b2e86cdcac51ecae8948cac8a6925bb1c2e98f8a64e5cf83bb05f1294cd79810"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

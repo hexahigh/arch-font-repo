@@ -1,0 +1,32 @@
+pkgname=ttf-google-vazirmatn
+pkgver=33.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vazirmatn
+pkgdesc="Google Fonts family: Vazirmatn"
+arch=('any')
+url="https://fonts.google.com/specimen/Vazirmatn"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vazirmatn/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vazirmatn/Vazirmatn[wght].ttf"
+)
+sha256sums=(
+  "17e355067c8284f47743a1ee3b1ef7ff684ff0601eda357f9353b10b3016ab31"
+  "696249a2c74b39ffdef55de4df2809c5b639d3ff80d618d8160a095d2fd49dca"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

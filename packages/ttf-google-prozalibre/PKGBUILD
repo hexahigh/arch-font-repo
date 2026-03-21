@@ -1,0 +1,50 @@
+pkgname=ttf-google-prozalibre
+pkgver=1.001
+pkgrel=1
+_commit="29b31c8ec653b25c6e1f8f3d5a84061609ea570b"  # Latest commit touching ofl/prozalibre
+pkgdesc="Google Fonts family: Proza Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Proza+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prozalibre/ProzaLibre-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "a68d8ec6bea7f277053ae93bf563d4b97c233f09f8e79f86ffe5db66f31fdddf"
+  "155f135da4859922f840620c299837d88acd6c6273202b1b08e0dbba3a8838d1"
+  "a508154c1aa22dfffc51b21a8568a8509eddb532368da9e7dfae2a85d41f8ecb"
+  "7b88432fceff3c94831fc62054bbc42f4ae64de0d96dd8eb9c022975f175b58c"
+  "0d40c91a1cb50e6eda8850225d688d178409a5e7bfaf64cffeb76738c34a68ca"
+  "b21d2f756992d6e3e049fb79c9d889ac670e975ad1613fe1cea2ad91d856558d"
+  "3d93e4b2ba6cc5fbef8bed3d7865b42153494710debb0598244eeffb98265484"
+  "511a83c00b05714b3f693a79d2097158bd75234bbaf74b488bbd910a5aa1ba72"
+  "0a8508f0bd14dc0d5accd3f06873560fbbefc16956c135520952de1af0dfe162"
+  "2e50bc0e72d8b5f6517f11b3bcd35a03f4e1c8b452b3bb6497ebc98f2d6bb4dd"
+  "452c5bf342f972cc31ed97856cd1d6de7926af7c8dc00a47bd16a4b850fa6079"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

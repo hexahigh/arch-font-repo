@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindvadodara
+pkgver=1.001
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindvadodara
+pkgdesc="Google Fonts family: Hind Vadodara"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Vadodara"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/HindVadodara-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/HindVadodara-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/HindVadodara-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/HindVadodara-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindvadodara/HindVadodara-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "756fbdd4d4cbed464b148eda63b7008e4f2e06d8aa140d2b594402ee70aeba8c"
+  "4f2854bb53222eb53574711eaa675b55b513fdf68ee938dbe6b80389a1632e36"
+  "56da99a97ead900a1c4e260724637fcd8b20e8d7acfeb7045a246c8217f34bc1"
+  "064d35104e20e5508f2ed40d0634e30fb5f990aa011d884e0b4541c0fb9d881d"
+  "f7c4250f6721f57ecc465ae4f0271518dd6e2fab01d673ece7acef8fd4a71fff"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

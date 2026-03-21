@@ -1,0 +1,40 @@
+pkgname=ttf-google-karma
+pkgver=1.202
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karma
+pkgdesc="Google Fonts family: Karma"
+arch=('any')
+url="https://fonts.google.com/specimen/Karma"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/Karma-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/Karma-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/Karma-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/Karma-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karma/Karma-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "3819cedaa8ef7247aaae77113cbb9b22b207f5fe6c045ae0e1442a7b6b69328e"
+  "8a6174244c519f4190f7995ae64e52b4203b01156327d02ca07c5445ad2eda3d"
+  "28ef21834a486aafee86cbdfad1b89d7ebd175c0d58bcf07099f7cabc3bc9406"
+  "cc3457d2867b67ee956d95206dbc831e57b26975219d3d4e68d60f51f67b4b55"
+  "e4189f11c7794358e14d66e3661c585ce1b550403b327abc4ea4d240dcdc5116"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

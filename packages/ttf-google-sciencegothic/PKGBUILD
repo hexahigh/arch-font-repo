@@ -1,0 +1,32 @@
+pkgname=ttf-google-sciencegothic
+pkgver=1.035
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sciencegothic
+pkgdesc="Google Fonts family: Science Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Science+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sciencegothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sciencegothic/ScienceGothic[CTRS,slnt,wdth,wght].ttf"
+)
+sha256sums=(
+  "458d52d8460dc5cb0f6b84cdd7285ef84dbded64183516d156e9bc15cb6c1349"
+  "246e4d33a6fcb3846094e5c4c034616f83e9ae10100316df32e2436362deab3d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

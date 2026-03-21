@@ -1,0 +1,32 @@
+pkgname=ttf-google-plaster
+pkgver=1.007
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/plaster
+pkgdesc="Google Fonts family: Plaster"
+arch=('any')
+url="https://fonts.google.com/specimen/Plaster"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/plaster/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/plaster/Plaster-Regular.ttf"
+)
+sha256sums=(
+  "2400b30a72d2b1555255b81625576dfb552584a19a9c85ad8d43ff77bceab13b"
+  "f8b2d7d1d56abd4f20ae962b9f0559e9072a0926b5963d9eed040929ca07dc2d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

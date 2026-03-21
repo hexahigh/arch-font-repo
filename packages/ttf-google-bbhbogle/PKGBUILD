@@ -1,0 +1,32 @@
+pkgname=ttf-google-bbhbogle
+pkgver=1.000
+pkgrel=1
+_commit="451e5f33a3434eb0a34cd2c012516b1cf1876644"  # Latest commit touching ofl/bbhbogle
+pkgdesc="Google Fonts family: BBH Bogle"
+arch=('any')
+url="https://fonts.google.com/specimen/BBH+Bogle"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bbhbogle/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bbhbogle/BBHBogle-Regular.ttf"
+)
+sha256sums=(
+  "f9e9e63de5a83078dd630aff864065ca9fa8706d416e9e66bbe4574dcddfed2b"
+  "e70fc533bc3c89d2742d60f1772bd0c933305f4a41ae4e9996d2799d37104376"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

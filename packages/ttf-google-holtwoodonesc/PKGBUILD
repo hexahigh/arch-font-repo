@@ -1,0 +1,32 @@
+pkgname=ttf-google-holtwoodonesc
+pkgver=1.100
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/holtwoodonesc
+pkgdesc="Google Fonts family: Holtwood One SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Holtwood+One+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/holtwoodonesc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/holtwoodonesc/HoltwoodOneSC-Regular.ttf"
+)
+sha256sums=(
+  "5908f18552502712eec2363a96d1ac001748d649e6526fd28a84748588b81283"
+  "17c8ed01cc4557554749f9435798a7d18afbc97fd0c866405edd38a40470d96c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

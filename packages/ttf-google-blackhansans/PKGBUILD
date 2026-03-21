@@ -1,0 +1,32 @@
+pkgname=ttf-google-blackhansans
+pkgver=1.001
+pkgrel=1
+_commit="c200187d394c634da4dbeba74d59522ce0875401"  # Latest commit touching ofl/blackhansans
+pkgdesc="Google Fonts family: Black Han Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Black+Han+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/blackhansans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blackhansans/BlackHanSans-Regular.ttf"
+)
+sha256sums=(
+  "c324192c8b3a988bae45a9a7e4ac1258b684739003bda114e0523423440457c9"
+  "31960809284026681774a8e52dc19ebcad26cf69b0ad9d560f288296fbb52739"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

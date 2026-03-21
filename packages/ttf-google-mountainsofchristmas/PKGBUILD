@@ -1,0 +1,34 @@
+pkgname=ttf-google-mountainsofchristmas
+pkgver=1.003
+pkgrel=1
+_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/mountainsofchristmas
+pkgdesc="Google Fonts family: Mountains of Christmas"
+arch=('any')
+url="https://fonts.google.com/specimen/Mountains+of+Christmas"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/mountainsofchristmas/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/mountainsofchristmas/MountainsofChristmas-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/mountainsofchristmas/MountainsofChristmas-Regular.ttf"
+)
+sha256sums=(
+  "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5"
+  "4c6126f43c650c81d236fd04ffc2fccbc3f37438c304cafad6894a835c2250ef"
+  "3855303be6b88707c00bb271f9c95e996605e9a8e656b3a30686862352b1052e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

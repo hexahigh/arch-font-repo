@@ -1,0 +1,32 @@
+pkgname=ttf-google-majormonodisplay
+pkgver=2.000
+pkgrel=1
+_commit="d32d5cfe1a9ad18bdf282f1a69af7d7a546ec5fd"  # Latest commit touching ofl/majormonodisplay
+pkgdesc="Google Fonts family: Major Mono Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Major+Mono+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/majormonodisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/majormonodisplay/MajorMonoDisplay-Regular.ttf"
+)
+sha256sums=(
+  "616e75d879831bedfa7725c078e09bb56f8a17f40b194e16691b12251bb42b3e"
+  "3f2ee71c2b8464f065bf960a148be81d68fcc13385df87737928f948208dffc6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

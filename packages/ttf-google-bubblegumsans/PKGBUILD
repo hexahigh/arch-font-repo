@@ -1,0 +1,32 @@
+pkgname=ttf-google-bubblegumsans
+pkgver=1.001
+pkgrel=1
+_commit="abf3821d98138a9452c194065666f13d35688e1b"  # Latest commit touching ofl/bubblegumsans
+pkgdesc="Google Fonts family: Bubblegum Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Bubblegum+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bubblegumsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bubblegumsans/BubblegumSans-Regular.ttf"
+)
+sha256sums=(
+  "26daffa24723bb188643085cfc5423f9d78d22a395df4a7928380e430545a201"
+  "db8d1c71c398266ecabe9ae4923c4feb1323441a4f056a9339e41d8f847bd0c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

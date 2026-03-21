@@ -1,0 +1,36 @@
+pkgname=ttf-google-sunflower
+pkgver=1.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sunflower
+pkgdesc="Google Fonts family: Sunflower"
+arch=('any')
+url="https://fonts.google.com/specimen/Sunflower"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sunflower/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sunflower/Sunflower-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sunflower/Sunflower-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sunflower/Sunflower-Medium.ttf"
+)
+sha256sums=(
+  "a9b40759b5821a0c2ad07cbd2c2a61dca4b3e222e6370a7d5bfb6b373bf4fb10"
+  "6b033627817f6619433afe82028013dc45a78ff82406b1dbe5b16e1bbc370e0a"
+  "dd9fb97aa9ec1fdb65e0328513d9c54c114fba41decca1d32a1e1ed992e255c5"
+  "6e216d6b2f77a850f6b73be25633d09e03385dfa63a3a632f9e7d83a90ea7f79"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

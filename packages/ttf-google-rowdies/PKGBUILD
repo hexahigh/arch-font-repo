@@ -1,0 +1,36 @@
+pkgname=ttf-google-rowdies
+pkgver=1.000
+pkgrel=1
+_commit="5be6da8d93d89527dc0ddaba7f901e1c5e0c172a"  # Latest commit touching ofl/rowdies
+pkgdesc="Google Fonts family: Rowdies"
+arch=('any')
+url="https://fonts.google.com/specimen/Rowdies"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rowdies/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rowdies/Rowdies-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rowdies/Rowdies-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rowdies/Rowdies-Regular.ttf"
+)
+sha256sums=(
+  "c585309492415154b9ad6401a9e0c5d9e3f9b2e92b71146d968e5bd4305ac74b"
+  "e56ac3fe30e56243483083a6ba271387e332f77920e850ce7dc1baead4fbede2"
+  "fa368ef5ab634438738b930dcd24842d6726cb203339fa1e54fcc52cfd081b65"
+  "29c98412d1a6e1991ea6cbd36b5fd7cf579d69c1ba14ba857a16c7e8dd9d00a4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

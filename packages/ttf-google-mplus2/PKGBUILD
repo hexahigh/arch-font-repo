@@ -1,0 +1,32 @@
+pkgname=ttf-google-mplus2
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mplus2
+pkgdesc="Google Fonts family: M PLUS 2"
+arch=('any')
+url="https://fonts.google.com/specimen/M+PLUS+2"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mplus2/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mplus2/MPLUS2[wght].ttf"
+)
+sha256sums=(
+  "04971e3fcee60b247395150d93b3616f6a0b092572332c96187b472976553abc"
+  "837dd9cc8ee812e541025f602362ae17d57a5942ab81bea5cc60242e8f6d3f66"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

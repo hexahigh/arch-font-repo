@@ -1,0 +1,32 @@
+pkgname=ttf-google-moolahlah
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/moolahlah
+pkgdesc="Google Fonts family: Moo Lah Lah"
+arch=('any')
+url="https://fonts.google.com/specimen/Moo+Lah+Lah"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/moolahlah/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/moolahlah/MooLahLah-Regular.ttf"
+)
+sha256sums=(
+  "3cd47b38fdc04ceae502892dfa59788e57a27b73a4cd2d521d660c76298b5853"
+  "127fe2e6787812cffd617ea3a114f945e912d550aba5492cf0f3b800d0a1902f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-fontdinerswanky
+pkgver=1.001
+pkgrel=1
+_commit="72f340f6cd06360b19d0baebc87e5c1e61ae91bb"  # Latest commit touching apache/fontdinerswanky
+pkgdesc="Google Fonts family: Fontdiner Swanky"
+arch=('any')
+url="https://fonts.google.com/specimen/Fontdiner+Swanky"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/fontdinerswanky/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/fontdinerswanky/FontdinerSwanky-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "847229fbf58c7f7479f93fd7cf9fc269b54c0c9f6465abcb65a206fb261be41b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

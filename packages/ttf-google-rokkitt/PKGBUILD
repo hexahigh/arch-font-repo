@@ -1,0 +1,34 @@
+pkgname=ttf-google-rokkitt
+pkgver=3.103
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rokkitt
+pkgdesc="Google Fonts family: Rokkitt"
+arch=('any')
+url="https://fonts.google.com/specimen/Rokkitt"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rokkitt/Rokkitt[wght].ttf"
+)
+sha256sums=(
+  "31501a9490dce395cdb40015237d3684186b79f81dd6a31442d669eb7da81066"
+  "acd236589a7fb42b60735c37a4d0d6dcd22bdad364e9503be428f5dd9e8615d5"
+  "737b2881d2e98f85424b473ab049da3216289a1f84266becb972c87664de2b40"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-decovaralpha
+pkgver=0.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/decovaralpha
+pkgdesc="Google Fonts family: Decovaralpha"
+arch=('any')
+url="https://fonts.google.com/specimen/Decovaralpha"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/decovaralpha/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/decovaralpha/DecovarAlpha-VF.ttf"
+)
+sha256sums=(
+  "64ecb0c6bf5cd80c3da76035c00671272966afbd32ffbdbcad95a8b56501fb08"
+  "3af14df9a04eabd18ddd142e846a773a114c87b5b3ee588c1e9ef396a0f22f0e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

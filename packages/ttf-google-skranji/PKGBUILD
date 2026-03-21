@@ -1,0 +1,34 @@
+pkgname=ttf-google-skranji
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/skranji
+pkgdesc="Google Fonts family: Skranji"
+arch=('any')
+url="https://fonts.google.com/specimen/Skranji"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/skranji/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/skranji/Skranji-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/skranji/Skranji-Regular.ttf"
+)
+sha256sums=(
+  "593f0bc55c75b673772b378eaee314f128283745c4bb1cfdb9b8012a3b6c46fe"
+  "cfe2e3847d4c4d63efb207533539933b1acaaa7ea71e8df86758c01b7de6e9ab"
+  "75a25bc56f04606dd4e050686831a6587d69a5365e7001bc862b08cf86dd4ea1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

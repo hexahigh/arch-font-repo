@@ -1,0 +1,32 @@
+pkgname=ttf-google-frederickathegreat
+pkgver=1.001
+pkgrel=1
+_commit="f4e5d4d69ca9ea6a906345b45a04292315168f48"  # Latest commit touching ofl/frederickathegreat
+pkgdesc="Google Fonts family: Fredericka the Great"
+arch=('any')
+url="https://fonts.google.com/specimen/Fredericka+the+Great"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/frederickathegreat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/frederickathegreat/FrederickatheGreat-Regular.ttf"
+)
+sha256sums=(
+  "f8e2b58dd7a8c8e21e5d744b45876bce7e010a647c071c1ed42ff0e618d4ea59"
+  "33dc0832b5e934f3db79dc683dea5029c22eb418183b69669b047355c0c245a2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

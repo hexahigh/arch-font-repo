@@ -1,0 +1,66 @@
+pkgname=ttf-google-trirong
+pkgver=1.003
+pkgrel=1
+_commit="666bd7d43cd391b096f396dbed8ddb18686c7e3c"  # Latest commit touching ofl/trirong
+pkgdesc="Google Fonts family: Trirong"
+arch=('any')
+url="https://fonts.google.com/specimen/Trirong"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trirong/Trirong-ThinItalic.ttf"
+)
+sha256sums=(
+  "1d08c63944e639bbfe8a1b81e3c6a63836806c126b3573b9cda0db83fd27ffe9"
+  "56bead49f2bb6975660de599a4a4920a26cd2a3272c52004fa63145eea7e9210"
+  "be60e1e694cd13b196e603a793e2c95e3dfb6741ec1767fcaa99d5222c93d23a"
+  "5f763f2ab302d0d81f8e0435db073bfb50a447d52dc1a060594f3dc3420ba8ae"
+  "42ee8cb33788730a02e0168f159b372e5f07513829bfa5415f7998932ca37676"
+  "f63665b55d81823643de251a242f296c3165de839ae377eaf7b5d1849808fa48"
+  "042c70fcc2c30f7f9292390d145102b5dbe58bab2cdecbe6bb2e718a66d0e2ad"
+  "b8795c42c38837fcb9b265ea467cc49974c113f64933f34c092e3e19a56ac947"
+  "67c0c3d74a01d2586f680aeacc528a5e0620fb244832ee32ec767c13a00fea99"
+  "c705d591725d650ad241c4bed032e553c13756849f4c68aa2a5426a006eb67a6"
+  "4302056ccc54744ae2d9b80f34b6377c6858cb95cd534ce2531fb13a4a780793"
+  "001e8ad176b4e565573d6bf6a354a1875ecc89b7dd442fe38119dca4952b9216"
+  "7d9baefbf837849e8767f8649f19dd6eb9ef83d5f63baca0268efdc566e2fe03"
+  "5f7b430504320c4a7d3f9079f1f863d7bc195d60b918ba5dd41860036c377d6a"
+  "3cd19b35a24df5fcf12c1f917324cf821d5aa582f7ea36fb0d2a91ba5e8ccd05"
+  "4e8cb898fb7992db7ec9d5bc2c46f265d76dd61938ecdbcdcddd937384f501b2"
+  "f6380bdd5a89d62d45cb2fee8b7c3cc922acbfc673b3d12a982253c43e20f353"
+  "c45158916cd678d789f27bf956b04aa8f7d185bfcb0e2c644d3efd0bc1bea613"
+  "64124db72dc25a153c096b0fc03810a976b2918681674fa604dc9bb5583c2c14"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

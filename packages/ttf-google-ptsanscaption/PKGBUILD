@@ -1,0 +1,34 @@
+pkgname=ttf-google-ptsanscaption
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ptsanscaption
+pkgdesc="Google Fonts family: PT Sans Caption"
+arch=('any')
+url="https://fonts.google.com/specimen/PT+Sans+Caption"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsanscaption/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsanscaption/PT_Sans-Caption-Web-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsanscaption/PT_Sans-Caption-Web-Regular.ttf"
+)
+sha256sums=(
+  "2758cf7a872827f39661cf8cc24188113c030447aefb5ca7145993650076ca8c"
+  "f49309c204cc6282831b545d68fb8c58c5e9889e93dd2fc45fc5fbdde1648bd5"
+  "91d763dd9e8284938be814b76919b0bd97510ec342434e7ec7a56f9fc58b36c4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

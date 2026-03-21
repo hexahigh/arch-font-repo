@@ -1,0 +1,32 @@
+pkgname=ttf-google-originalsurfer
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/originalsurfer
+pkgdesc="Google Fonts family: Original Surfer"
+arch=('any')
+url="https://fonts.google.com/specimen/Original+Surfer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/originalsurfer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/originalsurfer/OriginalSurfer-Regular.ttf"
+)
+sha256sums=(
+  "173ea2d0bdda981829719623c35699e8c0e4aa508e0af12817ad7ccbfa4c6137"
+  "ee4a42820b224a1934f2ba0997958d7965ad34762d88244fbffddb0b0ae488e4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

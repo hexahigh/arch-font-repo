@@ -1,0 +1,32 @@
+pkgname=ttf-google-dotgothic16
+pkgver=1.100
+pkgrel=1
+_commit="9a6cc6b8ce992aff77b69c857c46af0b42cdff76"  # Latest commit touching ofl/dotgothic16
+pkgdesc="Google Fonts family: DotGothic16"
+arch=('any')
+url="https://fonts.google.com/specimen/DotGothic16"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dotgothic16/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dotgothic16/DotGothic16-Regular.ttf"
+)
+sha256sums=(
+  "b6630c61ea078cacd7fabe37d14ffe557a0b45b06683374a9aa9e24262993e33"
+  "3ad9af88726d42b40f7f365f0dcac785af73cf20ea6f1d5b44e57cc21150b8f1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

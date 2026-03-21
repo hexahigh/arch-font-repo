@@ -1,0 +1,32 @@
+pkgname=ttf-google-bacasimeantique
+pkgver=2.000
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bacasimeantique
+pkgdesc="Google Fonts family: Bacasime Antique"
+arch=('any')
+url="https://fonts.google.com/specimen/Bacasime+Antique"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bacasimeantique/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bacasimeantique/BacasimeAntique-Regular.ttf"
+)
+sha256sums=(
+  "9c44c9cf5f348a3069f350ed032a55069532d66fb0d7cf958d09012667a88fbe"
+  "7dac1e5f979df3deb933453ed8584a39099a38889d109c1384db1b8bab5f7d28"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

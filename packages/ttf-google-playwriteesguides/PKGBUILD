@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwriteesguides
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwriteesguides
+pkgdesc="Google Fonts family: Playwrite ES Guides"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+ES+Guides"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteesguides/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteesguides/PlaywriteESGuides-Regular.ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "0db6b9df15dbe108020dbeb33324cb8cc8dbdbc6f3fb44e404fc256739b90603"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,54 @@
+pkgname=ttf-google-niramit
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/niramit
+pkgdesc="Google Fonts family: Niramit"
+arch=('any')
+url="https://fonts.google.com/specimen/Niramit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niramit/Niramit-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "513346ac60af1dde9d4a7bcfad3f39909d5697373a8aa1a6ee4376e6d22d3cdf"
+  "2ec7ae17137a0ba06017675e38280289a6716a6f6dc6ac210f0b54b2563eac64"
+  "58cb12e37eecdd59076b5fff00fd70f22347e3bbd5088f5a7d0b8f7e2a83d5f9"
+  "3e3000d2c03a0922282785b16b2fe747bb3599d37281ef3ae3bc500de722f8f3"
+  "bf8df5b484521f573ddf745345ed038dcf7bc40a021177d0d11d04c98a4cdf96"
+  "f452832218722dc74160b6b17822b26029dbb1f9d388ceaf2a758581a51373e8"
+  "8377d35d330aa20db2f60c96c7c190215bbf543fa2755a2a3ac9ef34dff0ff9e"
+  "a94c0512966e89ca2d4efe596d504389bfab862d018ca9a230fc29dcad2b5791"
+  "3d081b3dd75de218493d2d7b8aa2079beaaa841ecf92015b870519e1f239fa56"
+  "dac47a23ba915b18661510c0a17fed53544cf1beeef6b7bf8d6992ea2055449d"
+  "04148fad64b055f6a062604c983be26409bfd3e4e1390279288a4eb839909ce0"
+  "b37c5e9d01592e3c1d8e381917fe6e2e96aabfa1064cd05e4f1b3ad349ee8e7c"
+  "ba4009ff541aec471256e2a8e8f4933525d520dc98df05fe6fc832eff84a686f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

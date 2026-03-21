@@ -1,0 +1,32 @@
+pkgname=ttf-google-suranna
+pkgver=1.0.5
+pkgrel=1
+_commit="5b7a59e8470a5fd173c4dc8b4fbdfd7df5b96090"  # Latest commit touching ofl/suranna
+pkgdesc="Google Fonts family: Suranna"
+arch=('any')
+url="https://fonts.google.com/specimen/Suranna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/suranna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/suranna/Suranna-Regular.ttf"
+)
+sha256sums=(
+  "c5a77946a56488790364d060628385d51226da62a18f30d2be0181d82ee62b00"
+  "66ad4194f922e0b230e12d35070c852d38573ad40ad4e993cbe7d69df344b177"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

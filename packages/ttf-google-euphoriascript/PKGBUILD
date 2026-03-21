@@ -1,0 +1,32 @@
+pkgname=ttf-google-euphoriascript
+pkgver=1.002
+pkgrel=1
+_commit="27eb2b0de2b92c3eefba0b91d354c5d08d26819c"  # Latest commit touching ofl/euphoriascript
+pkgdesc="Google Fonts family: Euphoria Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Euphoria+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/euphoriascript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/euphoriascript/EuphoriaScript-Regular.ttf"
+)
+sha256sums=(
+  "58bbdbe5c48dd1d7cfd658425a455c29811181873d3a46a4932c29e5b0ec16e6"
+  "1ca81517a450506290e2be25648e153ee4c9cf6acc44c1d610b1e6d7e0e67484"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

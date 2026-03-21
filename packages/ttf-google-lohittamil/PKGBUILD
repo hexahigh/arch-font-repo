@@ -1,0 +1,32 @@
+pkgname=ttf-google-lohittamil
+pkgver=2.5.0
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lohittamil
+pkgdesc="Google Fonts family: Lohit Tamil"
+arch=('any')
+url="https://fonts.google.com/specimen/Lohit+Tamil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohittamil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lohittamil/Lohit-Tamil.ttf"
+)
+sha256sums=(
+  "c87702d8b70f714fbefb554660e8ca57a43ef62a59089d11cbf0c6bd51d56928"
+  "320d0959c0650998cd2e589b3368ad3319a0d106becb81b80c272a01dc48fe14"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

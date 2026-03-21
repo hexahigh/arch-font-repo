@@ -1,0 +1,32 @@
+pkgname=ttf-google-justmeagaindownhere
+pkgver=1.002
+pkgrel=1
+_commit="a8968c643431bf6588193896c057ddc223401205"  # Latest commit touching ofl/justmeagaindownhere
+pkgdesc="Google Fonts family: Just Me Again Down Here"
+arch=('any')
+url="https://fonts.google.com/specimen/Just+Me+Again+Down+Here"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/justmeagaindownhere/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/justmeagaindownhere/JustMeAgainDownHere.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "0412aa1e460666d339738991b48e9f4bd51e10b6f04e2e1341fce4d2b3244c31"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-newamsterdam
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/newamsterdam
+pkgdesc="Google Fonts family: New Amsterdam"
+arch=('any')
+url="https://fonts.google.com/specimen/New+Amsterdam"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/newamsterdam/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newamsterdam/NewAmsterdam-Regular.ttf"
+)
+sha256sums=(
+  "f071a1570bee0486df8203bad0c46260b34df17d21d2e30a5024aafd1a215d46"
+  "f52d8430042c0c09fe3080eb9a7d8d3f8f5f7f18879474d3837ff7a43c07e219"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

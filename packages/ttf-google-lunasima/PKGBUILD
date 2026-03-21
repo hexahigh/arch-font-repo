@@ -1,0 +1,34 @@
+pkgname=ttf-google-lunasima
+pkgver=2.009
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lunasima
+pkgdesc="Google Fonts family: Lunasima"
+arch=('any')
+url="https://fonts.google.com/specimen/Lunasima"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lunasima/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lunasima/Lunasima-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lunasima/Lunasima-Regular.ttf"
+)
+sha256sums=(
+  "07384f69fe8c6045a0e9f05a689a966a4e086e604987d902d5647a0802996f54"
+  "6e5b8c0227c163d22de73ae127cf99f65b33bfd767aa294989f514dd294fe0bf"
+  "833ded9502e6553eece11f587f27640cab1ef44900785abe8c3b09ba11690b62"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

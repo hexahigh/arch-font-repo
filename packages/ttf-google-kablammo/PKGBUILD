@@ -1,0 +1,32 @@
+pkgname=ttf-google-kablammo
+pkgver=1.002
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kablammo
+pkgdesc="Google Fonts family: Kablammo"
+arch=('any')
+url="https://fonts.google.com/specimen/Kablammo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kablammo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kablammo/Kablammo[MORF].ttf"
+)
+sha256sums=(
+  "f993b906272c2c0f13f12bc8fef1367a39164853dc69fc808fd26ec343fe58e8"
+  "900c8c183efc8d913da30dceb9e4e9886888bbd48847455343f12ce85a334925"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

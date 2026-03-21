@@ -1,0 +1,44 @@
+pkgname=ttf-google-palanquin
+pkgver=1.001
+pkgrel=1
+_commit="73ee3f9b49876616b4524aa56c5223832dd2a4d6"  # Latest commit touching ofl/palanquin
+pkgdesc="Google Fonts family: Palanquin"
+arch=('any')
+url="https://fonts.google.com/specimen/Palanquin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquin/Palanquin-Thin.ttf"
+)
+sha256sums=(
+  "548890e4083028f04e5feba04b6e00554654d840aab81c8664eb66c2216a571b"
+  "b9ff87d5743c179d1300ecbbdb97c53e7a1adb2f54c446c21acec50e2bc77acf"
+  "1e92eeaf00081e9320bbcbda4e1c54cbaa4c8148dc6a6a25c1ad0b3f1474f198"
+  "33c40ff07f925a26240a76de1ac3a57c086a388138c44966f0ea2f56522893d0"
+  "9afdd20558ad624c4a45ec9d4450980320c49093be397c83d33033e413dcc4c4"
+  "f4f9cf415279b466b1c4df6168283f95fa88440b27bb34e884aeb03a432b02f0"
+  "08cf0011bc5ab632e75ca79f2df1f37956fc3b93d1305b46117df17fb58cb414"
+  "387c32989030704407c8b6e711b05268b67dd93e0f033f8eebdd300a9c4f0809"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

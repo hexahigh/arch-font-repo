@@ -1,0 +1,32 @@
+pkgname=ttf-google-hennypenny
+pkgver=1.001
+pkgrel=1
+_commit="2ba3ff5b0d0a26a9c8deee1bf728692bfeb24d70"  # Latest commit touching ofl/hennypenny
+pkgdesc="Google Fonts family: Henny Penny"
+arch=('any')
+url="https://fonts.google.com/specimen/Henny+Penny"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hennypenny/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hennypenny/HennyPenny-Regular.ttf"
+)
+sha256sums=(
+  "2d83a49d05906b5e23285168e72c0d019fc15e3ad110376f640feeeda34c27d1"
+  "9c8550665827dbd341e5d54ea2e686fa4f4a9de3f8b2ed202b96a41e27ab4e19"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

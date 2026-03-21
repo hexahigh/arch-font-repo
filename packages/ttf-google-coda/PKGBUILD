@@ -1,0 +1,34 @@
+pkgname=ttf-google-coda
+pkgver=2.001
+pkgrel=1
+_commit="7430a1c935a2bef25ecca6ad3b65464c3b4c375a"  # Latest commit touching ofl/coda
+pkgdesc="Google Fonts family: Coda"
+arch=('any')
+url="https://fonts.google.com/specimen/Coda"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/coda/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coda/Coda-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coda/Coda-Regular.ttf"
+)
+sha256sums=(
+  "0b1bada9befa95a40d55830fe83fc7f8064e245fea33bdf0f96f57848f3866fa"
+  "35909e4c6907e1391d09baa934c5e7a4abb232dedea58e47acaa4aecd165c65c"
+  "f5d32ae9d5c78cdab7e75a52bd1da07ae22644597232d085a5ce7cd1af341e17"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

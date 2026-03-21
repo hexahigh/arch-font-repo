@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanspsalterpahlavi
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanspsalterpahlavi
+pkgdesc="Google Fonts family: Noto Sans Psalter Pahlavi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Psalter+Pahlavi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspsalterpahlavi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanspsalterpahlavi/NotoSansPsalterPahlavi-Regular.ttf"
+)
+sha256sums=(
+  "39b0604a413ed27060e627e666cd9a8a7693f6d5b54c8348b3d2ccce28d5b71e"
+  "1df586f1f62820f7c71c2d6cf9e2c006673a028ec515b0656fb617b0859e4c14"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-handlee
+pkgver=1.001
+pkgrel=1
+_commit="d356ad3b6b89e945757800cb46ae635c49fb6adf"  # Latest commit touching ofl/handlee
+pkgdesc="Google Fonts family: Handlee"
+arch=('any')
+url="https://fonts.google.com/specimen/Handlee"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/handlee/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/handlee/Handlee-Regular.ttf"
+)
+sha256sums=(
+  "5f1f5510eff7922864bf326ffa1d4a62f01add5193e9367b542378e5a808b500"
+  "7b99c0f291b5d52e06c66498a1d0dd6dff45a32e32d13be089c60d2d8dc00445"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

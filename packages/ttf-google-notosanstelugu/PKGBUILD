@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstelugu
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstelugu
+pkgdesc="Google Fonts family: Noto Sans Telugu"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Telugu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstelugu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstelugu/NotoSansTelugu[wdth,wght].ttf"
+)
+sha256sums=(
+  "481c72a8f1b4f645a7e6b10326be41b2da2c15cb470ff48a07fab773eed00102"
+  "e618af7bf999df192ed4f388eba2e563f2b5015034e9cbb317b5bd793bd7334d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,40 @@
+pkgname=ttf-google-narnoor
+pkgver=3.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/narnoor
+pkgdesc="Google Fonts family: Narnoor"
+arch=('any')
+url="https://fonts.google.com/specimen/Narnoor"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/Narnoor-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/Narnoor-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/Narnoor-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/Narnoor-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/narnoor/Narnoor-SemiBold.ttf"
+)
+sha256sums=(
+  "1bd2ca2cf8853076508e6cd1bb187541b52fc24f80fceab5074b32229dd394db"
+  "25217d506f2aa15cd55ee64d3463a85a9767d6bebfd38ac2d08eab6636838a11"
+  "8a160ae753c3becc1f5ecd36a025f3d415e94505ccbbb080732e15597c1fd3c6"
+  "ebe19c61409fa6b751a8b9d54282d3927478715b21feae6e2b4ef1deaf0ea729"
+  "6681a857f121a01544c1c0d7a77513b9af0031e92a5087332e9fc924e013acc4"
+  "0ed1c48efff373273f6c857868cb605e10405c13f97f45945d5a4008b78c3d73"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

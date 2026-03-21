@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmeeteimayek
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmeeteimayek
+pkgdesc="Google Fonts family: Noto Sans Meetei Mayek"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Meetei+Mayek"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmeeteimayek/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmeeteimayek/NotoSansMeeteiMayek[wght].ttf"
+)
+sha256sums=(
+  "5dbbaac416c9c5021f3409d1157419c0bfe5089ef39a373c49a632eefdc639d8"
+  "d56eb6d54ad8aad3570b7ee07f64866832a04f29bce6e5f183918c9eaf008fac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,66 @@
+pkgname=ttf-google-firasanscondensed
+pkgver=4.203
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firasanscondensed
+pkgdesc="Google Fonts family: Fira Sans Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Fira+Sans+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firasanscondensed/FiraSansCondensed-ThinItalic.ttf"
+)
+sha256sums=(
+  "8f24842e9174beda18a556c2ae7d54f5dc444340c19a3a9ef77e23bca366adbd"
+  "44a13b01570201ef0ba67a603f227166485ef93d2e1bd5d6e1b60d0be14d0975"
+  "8ab2cfe67370b7cc37e8ad24619a6b0510e2467a07d6bc41c6b20da4ca2bf963"
+  "b9371052e58ec5b709153dd0fffc60b5205b4d3435cf957c2522705b31b0dbcc"
+  "aebe32d2d821890e0d66443ca2dc59b237ff34a575048696a96516d857ae0da6"
+  "d1e5181a65e04970ef17b83fa518277658217081a032c7f60b7ac0f101347cf2"
+  "071e6c37e90a3ba2fb53ede9f88fd77d024770503665697187013397002b0c66"
+  "accb6e5b63bcb4abb117f430d516ffb67e3edc164f4119f8a926703e08f2e9d0"
+  "43402ba23f72d0bc54b1583eddbdd23b54d367abe979858db8f9398e385dd923"
+  "57f3b2cfbb07698b9699e613369d33e06b61b827586b63341deaa6c573d264e2"
+  "1fdefd76fb773e95d1120db6bc20c576feac1e964da28e28eb4342c8e7730cda"
+  "602d1e0b961b2efc0da84d00ea334c0f6fe501912e7965b6ed482c62a6406d3f"
+  "6385967fe921a6ee837221cde461e695e77f8931a3ca4bc82c7c1c1a5fe47f86"
+  "d7de5f62e405f9587f614fde8fb5ae8dfb0511f37b27bec3f8067e9adbc665cd"
+  "c67609f14fc9d328442bfffcc31988b0f76e5575cf460fcc1f3dd8e4912fe257"
+  "5a9586bc549d557c415a6a3dc88658b1453d1df661edf811954ebd55776c01cd"
+  "c4f1d1373f1ce1f5219bdc6ff9bf964698ce0bdc9d2f66e0df53741f3f4c0be9"
+  "0b43c691f9a89fe8d06c34584ff9ee697530084403b8590d34594d8a36644fd1"
+  "507b859151c70c7a0383c535b6bfd3649720823f4aa9c9c0718a175a75567025"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

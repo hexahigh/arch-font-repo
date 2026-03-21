@@ -1,0 +1,38 @@
+pkgname=ttf-google-notosansoriyaui
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansoriyaui
+pkgdesc="Google Fonts family: Noto Sans Oriya UI"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Oriya+UI"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoriyaui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoriyaui/NotoSansOriyaUI-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoriyaui/NotoSansOriyaUI-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoriyaui/NotoSansOriyaUI-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoriyaui/NotoSansOriyaUI-Thin.ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "ba5174bfd33278d3d28cf092ae64e3bdedeba0ad8cf8cfa6b4338b3556712b8b"
+  "0083e64c0b67116b8ecc920c0284301971c9099bf33a383eb38fd42e29476fa4"
+  "2d151a5c2c9fb01a6cbe767f200b263d090d88bf6a74880f43ed81c211e51fb2"
+  "7fea1870b88536a0e6efb66dc862993629036334b425e8966c1b3cee21d9f887"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

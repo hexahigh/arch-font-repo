@@ -1,0 +1,40 @@
+pkgname=ttf-google-abhayalibre
+pkgver=1.050
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/abhayalibre
+pkgdesc="Google Fonts family: Abhaya Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Abhaya+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/AbhayaLibre-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/AbhayaLibre-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/AbhayaLibre-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/AbhayaLibre-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/abhayalibre/AbhayaLibre-SemiBold.ttf"
+)
+sha256sums=(
+  "fe9183a0b7c1ae626b14004cd533c89ec7c192aba017f81ab71ede910256abb2"
+  "01fb4cd74841c5f108372737a74cfedeaf0a722ca23e2275dc69f411dc0ad5a6"
+  "a8d05da8766a9bc540e0ea5b63f36a141d629907e8f06c4c2b23bb0bd741b2e1"
+  "d3d4051877dc9538a71720d5fdba4118cdcd467096972c524a9fff9c45269f4b"
+  "d4279d38a0012fa54d340979694e70e3235266220dedc0d7000131345fb33bd4"
+  "254d773d80ecd382f5e4d818418ad521aa5a8d69cc996d0ac0a1c3f0417fabc0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

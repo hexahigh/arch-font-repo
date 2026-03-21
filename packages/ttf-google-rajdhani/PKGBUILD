@@ -1,0 +1,40 @@
+pkgname=ttf-google-rajdhani
+pkgver=1.201
+pkgrel=1
+_commit="3ef2764aa71de32f00853d4efe6cd8ba3494a01d"  # Latest commit touching ofl/rajdhani
+pkgdesc="Google Fonts family: Rajdhani"
+arch=('any')
+url="https://fonts.google.com/specimen/Rajdhani"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/Rajdhani-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/Rajdhani-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/Rajdhani-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/Rajdhani-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rajdhani/Rajdhani-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+  "140e9f13af69538161c5780fcf7f81594c069aea887e7bffd417ae1c641213c3"
+  "12ff7dcfe4c206e3875ac53b1762eab57de6a2fa7f5a86c26b97b88d6591eac2"
+  "6e1fc228a8318251a6e569502ec57bac1e4656c582f92f59ccecc4688e039b98"
+  "94bbd25a18ca665999feb05a537de9fd2b860dcfb78bbe9ca00270825bf235da"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

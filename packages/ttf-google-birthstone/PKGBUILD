@@ -1,0 +1,32 @@
+pkgname=ttf-google-birthstone
+pkgver=1.013
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/birthstone
+pkgdesc="Google Fonts family: Birthstone"
+arch=('any')
+url="https://fonts.google.com/specimen/Birthstone"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/birthstone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/birthstone/Birthstone-Regular.ttf"
+)
+sha256sums=(
+  "ae70628cbdffc3f7178e05a6c5ef0f94253e72eaa9c4bf109d50187151d16b12"
+  "cd04bb37f03d2e8caebaee2f26b09d3244bab7810fa348d8acb2e6a5228d8783"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

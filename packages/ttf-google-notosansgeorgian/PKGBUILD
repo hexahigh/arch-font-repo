@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansgeorgian
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansgeorgian
+pkgdesc="Google Fonts family: Noto Sans Georgian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Georgian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgeorgian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgeorgian/NotoSansGeorgian[wdth,wght].ttf"
+)
+sha256sums=(
+  "8c02263c5d73d40544f9ed91e30c4e947407057a3cc430d7b786189aeceff6df"
+  "dc591156f36842d38996c4a7a17fee9bb58e45da3e2cac7a31b7d33de700adb9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

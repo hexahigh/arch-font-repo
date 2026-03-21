@@ -1,0 +1,32 @@
+pkgname=ttf-google-allerta
+pkgver=1.0
+pkgrel=1
+_commit="6ffac14985e1077cb1ae7f05bc9fc25efeda1f92"  # Latest commit touching ofl/allerta
+pkgdesc="Google Fonts family: Allerta"
+arch=('any')
+url="https://fonts.google.com/specimen/Allerta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/allerta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/allerta/Allerta-Regular.ttf"
+)
+sha256sums=(
+  "08fba9df5c9890f3ab00ee63f63e005ad93a23746f7484f5fe9501a1ad32730e"
+  "9c7a63f78f944353b422abbb641c479503f5292a39d1ea932dc4186fd82b974f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

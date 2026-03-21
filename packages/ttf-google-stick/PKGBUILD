@@ -1,0 +1,32 @@
+pkgname=ttf-google-stick
+pkgver=1.100
+pkgrel=1
+_commit="a2c54f3df7a86550b54f9d8b70f0009b3707dac0"  # Latest commit touching ofl/stick
+pkgdesc="Google Fonts family: Stick"
+arch=('any')
+url="https://fonts.google.com/specimen/Stick"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stick/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stick/Stick-Regular.ttf"
+)
+sha256sums=(
+  "35187dd015d0c0006d57f99815fb3f81304c4445f04c3fa35bc533a7a4b00676"
+  "0e582d72b5125c7847d1c46b658333194f7a3f70bfa210d2f8cae1a596a17857"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

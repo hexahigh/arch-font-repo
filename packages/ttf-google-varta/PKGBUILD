@@ -1,0 +1,32 @@
+pkgname=ttf-google-varta
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/varta
+pkgdesc="Google Fonts family: Varta"
+arch=('any')
+url="https://fonts.google.com/specimen/Varta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/varta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/varta/Varta[wght].ttf"
+)
+sha256sums=(
+  "291cdb55bc64894f58739446a46e19687574662722ab110c1a2b7e5d435171e0"
+  "45933f4041ba1df953c13bdab388bf3127c7081b2e7dfbe71e36f9214d05760f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

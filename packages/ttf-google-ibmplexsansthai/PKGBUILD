@@ -1,0 +1,44 @@
+pkgname=ttf-google-ibmplexsansthai
+pkgver=1.1
+pkgrel=1
+_commit="d935ac9235ee2071604dd67866959dc7528585d9"  # Latest commit touching ofl/ibmplexsansthai
+pkgdesc="Google Fonts family: IBM Plex Sans Thai"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans+Thai"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthai/IBMPlexSansThai-Thin.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "f88fbe0a3717c93deddf4b13e50a05c9adcd38f58d675d9d5d0b869961851667"
+  "b1ba0c97d959657832c1a0929c274e4d4d8128ca2c52d24c6835cf87fb4a5a04"
+  "b8e2da56ec11f1965af59a7119ee0b9b78773a9c9a89ae049b4975c9197b5c8d"
+  "46ba1b7365cc2c583914f23914cce46e836a72662e34f6e3029b15aaa10b792e"
+  "eee061d1bac39be40f9bb94498898cd1894f5d3d9a2f0ee6cbd48a6bd03d052b"
+  "9d7526a0c8dfad63c49815d0cce9eea1026f018468b81c579997e953620a67d3"
+  "65f2cd4ed6f23048622bba1a1062c05c2ff80e603d202fdccf303cf3d5d085e5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

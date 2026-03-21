@@ -1,0 +1,32 @@
+pkgname=ttf-google-zendots
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zendots
+pkgdesc="Google Fonts family: Zen Dots"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Dots"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zendots/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zendots/ZenDots-Regular.ttf"
+)
+sha256sums=(
+  "31b461a9de7f5b4ceb988b01d6ce4d9318180394cb5dacff5bf08c557f3cb7a0"
+  "2f81a9f4c26f302d87a40792e048cd7193c886aa50fa6792a4b4fb6266c25609"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

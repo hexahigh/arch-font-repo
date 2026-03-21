@@ -1,0 +1,38 @@
+pkgname=ttf-google-ptsans
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ptsans
+pkgdesc="Google Fonts family: PT Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/PT+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsans/PT_Sans-Web-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsans/PT_Sans-Web-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsans/PT_Sans-Web-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ptsans/PT_Sans-Web-Regular.ttf"
+)
+sha256sums=(
+  "2758cf7a872827f39661cf8cc24188113c030447aefb5ca7145993650076ca8c"
+  "3128bd5ecf01816e59a23d54c57a7a6b14615b07db53ff277c77376010265b05"
+  "81ac221cdd02bccfa679c74adb122478e9d092e65a722e31ca11469961483785"
+  "5a90fe2d0cd798700935240580bdcc12c0ffc9102c0c7163b3418e13bc21debd"
+  "9cc831490532009bae2b3ce0d39c62adfc889060beb421593bfd9d2396d0f10a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

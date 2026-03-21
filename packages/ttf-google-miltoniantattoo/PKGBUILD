@@ -1,0 +1,32 @@
+pkgname=ttf-google-miltoniantattoo
+pkgver=1.008
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miltoniantattoo
+pkgdesc="Google Fonts family: Miltonian Tattoo"
+arch=('any')
+url="https://fonts.google.com/specimen/Miltonian+Tattoo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/miltoniantattoo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/miltoniantattoo/MiltonianTattoo-Regular.ttf"
+)
+sha256sums=(
+  "aa5d677391db4e54ad324b6888792e533c5d800de7ab713302a2fc8bff2f4f6e"
+  "b4e9f4c263fc1e7beb14b09572ecb21ba893ce8d5e5cec1e5727c79d5c8583dc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

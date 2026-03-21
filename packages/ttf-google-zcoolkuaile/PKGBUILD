@@ -1,0 +1,32 @@
+pkgname=ttf-google-zcoolkuaile
+pkgver=2.001
+pkgrel=1
+_commit="281b27c6bb0ff07c8a5f636ce5943605ef6a39dc"  # Latest commit touching ofl/zcoolkuaile
+pkgdesc="Google Fonts family: ZCOOL KuaiLe"
+arch=('any')
+url="https://fonts.google.com/specimen/ZCOOL+KuaiLe"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolkuaile/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zcoolkuaile/ZCOOLKuaiLe-Regular.ttf"
+)
+sha256sums=(
+  "538078469839b4a2e7ad22bef4ebe41681a4e53749bb2a072144024f1d6d703d"
+  "812a6fc1fe54b6d73a419245c32dfeba8aa33104d5be90d1cf6af082007cb71d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

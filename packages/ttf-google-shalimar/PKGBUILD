@@ -1,0 +1,32 @@
+pkgname=ttf-google-shalimar
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shalimar
+pkgdesc="Google Fonts family: Shalimar"
+arch=('any')
+url="https://fonts.google.com/specimen/Shalimar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shalimar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shalimar/Shalimar-Regular.ttf"
+)
+sha256sums=(
+  "5f23f1b25bbc73e5886ee2c0863dfc4f3ecb18cb65092bab8e4e8403e3e679e5"
+  "00b0a11c7ba12d8f1437db6a95977ecd5453749f119b93cf2502d0a41e05961c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

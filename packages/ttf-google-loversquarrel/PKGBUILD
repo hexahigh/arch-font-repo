@@ -1,0 +1,32 @@
+pkgname=ttf-google-loversquarrel
+pkgver=1.010
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/loversquarrel
+pkgdesc="Google Fonts family: Lovers Quarrel"
+arch=('any')
+url="https://fonts.google.com/specimen/Lovers+Quarrel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/loversquarrel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/loversquarrel/LoversQuarrel-Regular.ttf"
+)
+sha256sums=(
+  "9686eb9a16c2f004dab33197b49645d96bad806621659819e36ad6924d405568"
+  "a856cd5a36d050a6e7fb4b976143e6ddad8271bdeebfb2c2efec78ab0f8569b6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

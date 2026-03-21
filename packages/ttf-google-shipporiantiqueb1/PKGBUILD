@@ -1,0 +1,32 @@
+pkgname=ttf-google-shipporiantiqueb1
+pkgver=2.001
+pkgrel=1
+_commit="41ec566b323f1f856c4123e3da61ca08dcaac004"  # Latest commit touching ofl/shipporiantiqueb1
+pkgdesc="Google Fonts family: Shippori Antique B1"
+arch=('any')
+url="https://fonts.google.com/specimen/Shippori+Antique+B1"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporiantiqueb1/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shipporiantiqueb1/ShipporiAntiqueB1-Regular.ttf"
+)
+sha256sums=(
+  "9ad629515fb62dfc2a831187b260bb53b4fcae1494dd4cb94c2b30da2466da51"
+  "0b55142100b58f6bd221b2229132cc2e344d1d3c803adafeb376624c6e3819c4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

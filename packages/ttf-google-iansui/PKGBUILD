@@ -1,0 +1,32 @@
+pkgname=ttf-google-iansui
+pkgver=1.012
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/iansui
+pkgdesc="Google Fonts family: Iansui"
+arch=('any')
+url="https://fonts.google.com/specimen/Iansui"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/iansui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iansui/Iansui-Regular.ttf"
+)
+sha256sums=(
+  "ba756a625db54032da8e4c8e58a19519964b93fac04267ec15e14ee8c5cc82a5"
+  "6e6340d80d618a42b48ade9370c34fa37a8210750c6fbc8efe65f23716538a2b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

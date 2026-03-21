@@ -1,0 +1,32 @@
+pkgname=ttf-google-rugeboogie
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rugeboogie
+pkgdesc="Google Fonts family: Ruge Boogie"
+arch=('any')
+url="https://fonts.google.com/specimen/Ruge+Boogie"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rugeboogie/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rugeboogie/RugeBoogie-Regular.ttf"
+)
+sha256sums=(
+  "028e6aff42d008b81b231919bd68a5508b4b5ba53cab9344ec6eb2cbffc1721c"
+  "affe25b2431ecd42cb8c6eeb2de56bb264d666e6a4b2b27b6ac3e2257436eed0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

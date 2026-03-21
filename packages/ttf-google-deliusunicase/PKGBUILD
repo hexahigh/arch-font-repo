@@ -1,0 +1,34 @@
+pkgname=ttf-google-deliusunicase
+pkgver=1.002
+pkgrel=1
+_commit="a96435464c7fd2235adf2f2fa5319716097dd029"  # Latest commit touching ofl/deliusunicase
+pkgdesc="Google Fonts family: Delius Unicase"
+arch=('any')
+url="https://fonts.google.com/specimen/Delius+Unicase"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/deliusunicase/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/deliusunicase/DeliusUnicase-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/deliusunicase/DeliusUnicase-Regular.ttf"
+)
+sha256sums=(
+  "d8eb8611f8c98d20cbf18a28425652d6022dc2a5cca15026b920f1f2bc92a612"
+  "2fc8f72a7257d837a5b710a8f6ca9e6b7a179f809243eef9380ba2185b8c2a67"
+  "26fb53b7297281e4907dfe254cc23c206f28510f683eb726e5c5024ca36dc95d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

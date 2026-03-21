@@ -1,0 +1,32 @@
+pkgname=ttf-google-flavors
+pkgver=1.001
+pkgrel=1
+_commit="3576c6827b88022211dbf5fa7ea645dcd818d4a1"  # Latest commit touching ofl/flavors
+pkgdesc="Google Fonts family: Flavors"
+arch=('any')
+url="https://fonts.google.com/specimen/Flavors"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/flavors/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/flavors/Flavors-Regular.ttf"
+)
+sha256sums=(
+  "4febcc8d6e539db3e0c652da87bc8704f6d48e71e07f8ddb0974094a3de8da81"
+  "4e651bcdabe9753092ab8b1a85487c934d93650401853a591bbdb4658bf502d8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

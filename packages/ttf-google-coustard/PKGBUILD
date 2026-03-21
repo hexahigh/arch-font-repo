@@ -1,0 +1,34 @@
+pkgname=ttf-google-coustard
+pkgver=1.001
+pkgrel=1
+_commit="e633cb6725e4a20c2aeb7b15b05b01be5e86198d"  # Latest commit touching ofl/coustard
+pkgdesc="Google Fonts family: Coustard"
+arch=('any')
+url="https://fonts.google.com/specimen/Coustard"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/coustard/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coustard/Coustard-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/coustard/Coustard-Regular.ttf"
+)
+sha256sums=(
+  "c972795e48b096b6d4e3a947b0bb21c1baf1922a6e07ff9ada587c058f228740"
+  "d8e3e046d7177b62d91a08723122c7ca0c22ce9577261aa09e7605c47962be3d"
+  "90a2e3ae98d5402102375d88819b83976a0155330bd4d19824d40471dd4c3f47"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

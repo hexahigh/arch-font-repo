@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindkochi
+pkgver=0.702
+pkgrel=1
+_commit="0d55225271d5b60207731930741233a9df5c5164"  # Latest commit touching ofl/hindkochi
+pkgdesc="Google Fonts family: Hind Kochi"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Kochi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/HindKochi-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/HindKochi-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/HindKochi-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/HindKochi-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindkochi/HindKochi-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "0015eaed80482e33b9cf4c18941e3250915ca5b8bed428b8b0f9d952496f3726"
+  "ab814d88fc60652e9675d92358d64c12ef5216032009b38d4b66ae4aba33b801"
+  "3c59b6ec6023c9e4b4e3473a0b006ce32cc1521ca38e35c618e1231eafcd4de5"
+  "be4ef5af5157c64ab86a758580f9cc41ade446c256fd15070800eb8fcfcdc639"
+  "58e6cbe26b7082018c55bc728c4056913d23cfbd7dd9d9147ba8ae219ac424bf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

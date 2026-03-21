@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansphoenician
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansphoenician
+pkgdesc="Google Fonts family: Noto Sans Phoenician"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Phoenician"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansphoenician/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansphoenician/NotoSansPhoenician-Regular.ttf"
+)
+sha256sums=(
+  "ff3760ba038fb0498a3cbfd3454fc983babefe2a0318a660cd7e70c9bcc3eece"
+  "9c248001ff674977172c89fb7686faf22b827b63641d0122352523f31780d1f4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

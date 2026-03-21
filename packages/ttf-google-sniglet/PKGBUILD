@@ -1,0 +1,34 @@
+pkgname=ttf-google-sniglet
+pkgver=2.000
+pkgrel=1
+_commit="c434044e4344d0261a20fbfd61d9a55fc7d711f0"  # Latest commit touching ofl/sniglet
+pkgdesc="Google Fonts family: Sniglet"
+arch=('any')
+url="https://fonts.google.com/specimen/Sniglet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sniglet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sniglet/Sniglet-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sniglet/Sniglet-Regular.ttf"
+)
+sha256sums=(
+  "89418a3c7b5726c3f8828a7b7c3f1cad661cf5b7a1be3d2bd9ea243f8d9890c8"
+  "fb92a118e14b4bde101a0143895f570a54b070a307b359510b7703b5a94bb18c"
+  "2856a975b9c0ac0402e8402ac4bd126cd97d6c90490435b6198d77e6384ae4f0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-telex
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/telex
+pkgdesc="Google Fonts family: Telex"
+arch=('any')
+url="https://fonts.google.com/specimen/Telex"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/telex/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/telex/Telex-Regular.ttf"
+)
+sha256sums=(
+  "5a5cf278190adf8be3e9905c2b21460241cb376c600bdfd6eb7aceb66036c4bf"
+  "eeaa2d17d105b6b46e5368ecd990f5b19c50131ff922dbf79bfb9bb45c249871"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

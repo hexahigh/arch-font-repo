@@ -1,0 +1,32 @@
+pkgname=ttf-google-cantataone
+pkgver=1.002
+pkgrel=1
+_commit="a850a31e30f319aead763b753a9b984f9c43dbc8"  # Latest commit touching ofl/cantataone
+pkgdesc="Google Fonts family: Cantata One"
+arch=('any')
+url="https://fonts.google.com/specimen/Cantata+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cantataone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cantataone/CantataOne-Regular.ttf"
+)
+sha256sums=(
+  "f8fbefb5b1004615e6d1e84b1c75e68520d91196f600cb1b07620dd2748eff64"
+  "e12df35ae88a3e0898422110301e0b7ff4c54a4c129b92077ae7f456f45ba3db"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

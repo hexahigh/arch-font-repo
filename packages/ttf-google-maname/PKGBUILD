@@ -1,0 +1,32 @@
+pkgname=ttf-google-maname
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/maname
+pkgdesc="Google Fonts family: Maname"
+arch=('any')
+url="https://fonts.google.com/specimen/Maname"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/maname/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/maname/Maname-Regular.ttf"
+)
+sha256sums=(
+  "c8d9b4f23a17ad18ae0810d586d4e37613cbf657f46af8fd4fc6fc368bce2fff"
+  "db07b4953f547081186104ab8e626bf405616b033598ee82eae90166e0c84e14"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskaithi
+pkgver=2.006
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskaithi
+pkgdesc="Google Fonts family: Noto Sans Kaithi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Kaithi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskaithi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskaithi/NotoSansKaithi-Regular.ttf"
+)
+sha256sums=(
+  "5f4eef8d6ea9e1b6d08376007ea9ff1763bda32f5bb58c53042b061cdfcc026f"
+  "e33f6b7e0c9d3c4edfb3f9bf9c00b0814bef14f25fef9d2c6a8d1451520ffe43"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

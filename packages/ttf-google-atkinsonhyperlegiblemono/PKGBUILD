@@ -1,0 +1,34 @@
+pkgname=ttf-google-atkinsonhyperlegiblemono
+pkgver=2.001
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/atkinsonhyperlegiblemono
+pkgdesc="Google Fonts family: Atkinson Hyperlegible Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Atkinson+Hyperlegible+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/atkinsonhyperlegiblemono/AtkinsonHyperlegibleMono[wght].ttf"
+)
+sha256sums=(
+  "1ebb31cf7393164f20d10c1d48406cddb5314feff8465531cf1e4ba37e9dd740"
+  "e18f523877530e4abe229df6a36d394326254da488a7f5abb9b7b5ea8f780cd4"
+  "5ce8b1698d1ded7dff2178c1a3ad159470085a58ea239e8b2cb88f4fb4a6f646"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

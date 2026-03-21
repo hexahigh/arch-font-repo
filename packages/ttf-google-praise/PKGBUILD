@@ -1,0 +1,32 @@
+pkgname=ttf-google-praise
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/praise
+pkgdesc="Google Fonts family: Praise"
+arch=('any')
+url="https://fonts.google.com/specimen/Praise"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/praise/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/praise/Praise-Regular.ttf"
+)
+sha256sums=(
+  "2988632106d61639fba8e4a6310da2c4c9376795c9c2e84ad24e23031bf40ecf"
+  "1f9e88031638c7f3c238f5b44a9d745041b1620208a77ecbefb62b10b0ffb214"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

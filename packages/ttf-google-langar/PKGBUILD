@@ -1,0 +1,32 @@
+pkgname=ttf-google-langar
+pkgver=1.001
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/langar
+pkgdesc="Google Fonts family: Langar"
+arch=('any')
+url="https://fonts.google.com/specimen/Langar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/langar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/langar/Langar-Regular.ttf"
+)
+sha256sums=(
+  "ade15f17ac8ff3a726d08ef8708242c78312d946dcb834a8811706d281e45cad"
+  "b3c5559480f2c8587bdc24816f92ed3ad906d1d2ccc2294d2e051dc4ea0fe806"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

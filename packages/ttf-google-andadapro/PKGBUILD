@@ -1,0 +1,34 @@
+pkgname=ttf-google-andadapro
+pkgver=3.003
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/andadapro
+pkgdesc="Google Fonts family: Andada Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/Andada+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/andadapro/AndadaPro[wght].ttf"
+)
+sha256sums=(
+  "34f84fc4cafb1090f253e429fcdd72e9adb059864edd5ba3ba19ff4f0586769e"
+  "8544abeadeeda80d70201f444621678ede1aeb140a96d26cd7113bda771ef831"
+  "4f378349c5e7a6c0e6d93ff3cba92a2ecf2217407a0b633ab6ac807c80ab20a3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

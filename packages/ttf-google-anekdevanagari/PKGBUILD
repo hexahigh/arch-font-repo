@@ -1,0 +1,32 @@
+pkgname=ttf-google-anekdevanagari
+pkgver=1.003
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/anekdevanagari
+pkgdesc="Google Fonts family: Anek Devanagari"
+arch=('any')
+url="https://fonts.google.com/specimen/Anek+Devanagari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anekdevanagari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anekdevanagari/AnekDevanagari[wdth,wght].ttf"
+)
+sha256sums=(
+  "de62be758bba267e653a5f457dfebb4680957e2c343eb3e7de15aff4746bed05"
+  "b88cf0ff5705599b2f16fce4ba9ce2029f76106dd24f0419976c417d89f20888"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

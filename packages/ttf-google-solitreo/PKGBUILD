@@ -1,0 +1,32 @@
+pkgname=ttf-google-solitreo
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/solitreo
+pkgdesc="Google Fonts family: Solitreo"
+arch=('any')
+url="https://fonts.google.com/specimen/Solitreo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/solitreo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/solitreo/Solitreo-Regular.ttf"
+)
+sha256sums=(
+  "5c1dd86fa761f43e8337de5ebe63ad75504423635de752c63a2f1fa93fcfc80c"
+  "0b6df66f2145e8fd013d7324b6a55c6bc0c83c4786a6c7dce7505fdbeb65295b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

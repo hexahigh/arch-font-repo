@@ -1,0 +1,40 @@
+pkgname=ttf-google-halant
+pkgver=1.101
+pkgrel=1
+_commit="62e57274d440ab613444892732e6e3acec92dadb"  # Latest commit touching ofl/halant
+pkgdesc="Google Fonts family: Halant"
+arch=('any')
+url="https://fonts.google.com/specimen/Halant"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/Halant-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/Halant-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/Halant-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/Halant-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/halant/Halant-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "ee33e5ad2f8b8ff03ef91b286ea3bf93583cc162b614790e2ddcfd5772939daf"
+  "9a802f6ec93f2db8d1482df9612d83960592a9fe92ccb813c242aa8a72601434"
+  "1a9bec7ff2433d3af45afff681fb6c3c679e77ab44dbb4db2cbb9cb55e9b7a23"
+  "f646ffa1cdf2d4ab36326943d3494c98416264f4df40f8e7bf86211de571df07"
+  "1ef45ef6113e69e98eddd809a4eefc18f6005743ce7718ef6fd691db43029b82"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

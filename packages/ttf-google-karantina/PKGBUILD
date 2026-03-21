@@ -1,0 +1,36 @@
+pkgname=ttf-google-karantina
+pkgver=1.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karantina
+pkgdesc="Google Fonts family: Karantina"
+arch=('any')
+url="https://fonts.google.com/specimen/Karantina"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/karantina/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karantina/Karantina-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karantina/Karantina-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/karantina/Karantina-Regular.ttf"
+)
+sha256sums=(
+  "d2dcb5c24a68a08bc55e2416d13cd32b077c9637044dd40f3863a0aa90aa228b"
+  "fc099ee72a843fb5b4d574abd099e047eec4cf476a1a2c65fe520e1cdcc897be"
+  "3286ffc39003621874ad2ac2d6ca9374d2728443465c4df6222dff425814560d"
+  "a1ef8ee51724f0182f07d060b63047540a0bca96db10d33fa6a0b539f99019bf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

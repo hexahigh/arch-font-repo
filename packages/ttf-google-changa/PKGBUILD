@@ -1,0 +1,32 @@
+pkgname=ttf-google-changa
+pkgver=3.003
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/changa
+pkgdesc="Google Fonts family: Changa"
+arch=('any')
+url="https://fonts.google.com/specimen/Changa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/changa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/changa/Changa[wght].ttf"
+)
+sha256sums=(
+  "6b12c8d417bb766fa017d1161c7ca050392817a7eecbf3110fc2a8616564b956"
+  "7c4f7a14d4b70ac8816ea8df3a0b127aee4c5f5af7239aca2afecc84ddc7f4d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

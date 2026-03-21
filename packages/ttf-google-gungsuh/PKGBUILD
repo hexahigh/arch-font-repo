@@ -1,0 +1,32 @@
+pkgname=ttf-google-gungsuh
+pkgver=2.21
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gungsuh
+pkgdesc="Google Fonts family: Gungsuh"
+arch=('any')
+url="https://fonts.google.com/specimen/Gungsuh"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gungsuh/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gungsuh/Gungsuh-Regular.ttf"
+)
+sha256sums=(
+  "cc115f501827fffddcbf1ef86e5248ee55e40f0c3fb9725173b248ccc2d5df51"
+  "e0887c3b3a92f0ebc604cbd5e94ad6d0dad4ed3ffa624f6bae9a95f2d4d06735"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

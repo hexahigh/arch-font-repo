@@ -1,0 +1,32 @@
+pkgname=ttf-google-batang
+pkgver=2.21
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/batang
+pkgdesc="Google Fonts family: Batang"
+arch=('any')
+url="https://fonts.google.com/specimen/Batang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/batang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/batang/Batang-Regular.ttf"
+)
+sha256sums=(
+  "cc115f501827fffddcbf1ef86e5248ee55e40f0c3fb9725173b248ccc2d5df51"
+  "0929031e799b2feadda22208c58f503515e6f8fa2eaba75acd2e6847d73fc54b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

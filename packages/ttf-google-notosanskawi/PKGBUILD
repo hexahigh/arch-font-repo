@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskawi
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskawi
+pkgdesc="Google Fonts family: Noto Sans Kawi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Kawi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskawi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskawi/NotoSansKawi[wght].ttf"
+)
+sha256sums=(
+  "13a37d6fb70d8c4c04f2b8452731029208427934ba4151dd1e8221f006950e3d"
+  "8261be9862d01826ad75af8596129eff72ab4ce098d72b42a4549e4a6292c518"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

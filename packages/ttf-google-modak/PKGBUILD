@@ -1,0 +1,32 @@
+pkgname=ttf-google-modak
+pkgver=1.036
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/modak
+pkgdesc="Google Fonts family: Modak"
+arch=('any')
+url="https://fonts.google.com/specimen/Modak"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/modak/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/modak/Modak-Regular.ttf"
+)
+sha256sums=(
+  "5fb0694694dc307d1eb0121689395e634b6329ff545acc53f55ad66a716b3cf1"
+  "9a96ba056ddcbb7d0c937c52f744ff5d71004a97689b1fd2cdbd678f314db245"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

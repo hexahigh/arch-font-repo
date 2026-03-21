@@ -1,0 +1,34 @@
+pkgname=ttf-google-zalandosansexpanded
+pkgver=1.700
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zalandosansexpanded
+pkgdesc="Google Fonts family: Zalando Sans Expanded"
+arch=('any')
+url="https://fonts.google.com/specimen/Zalando+Sans+Expanded"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zalandosansexpanded/ZalandoSansExpanded[wght].ttf"
+)
+sha256sums=(
+  "411a22de2734b25584e4764f7212b004f241181ac04944a3bcee0e0371afe547"
+  "fcab991f0ae457e33580802f5bfd9d404d8f5921b92feb7870c2b9301e8af3f3"
+  "18549d6a7d2644a15ca3cc5f1dd38f0b054edc0688140dfbe3a8d1706a589b44"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

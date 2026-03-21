@@ -1,0 +1,32 @@
+pkgname=ttf-google-libertinuskeyboard
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinuskeyboard
+pkgdesc="Google Fonts family: Libertinus Keyboard"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Keyboard"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinuskeyboard/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinuskeyboard/LibertinusKeyboard-Regular.ttf"
+)
+sha256sums=(
+  "7083067602dd4356316ca27817cc965098456f1d11704993c5b9e158baf94f93"
+  "0650795374a0987df42181958ba3d924effd8641a1d0c173c855f1f326551e0a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

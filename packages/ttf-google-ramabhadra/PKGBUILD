@@ -1,0 +1,32 @@
+pkgname=ttf-google-ramabhadra
+pkgver=1.0.5
+pkgrel=1
+_commit="b38540a51251aa5aa1f48db97b54674aeae3eb0c"  # Latest commit touching ofl/ramabhadra
+pkgdesc="Google Fonts family: Ramabhadra"
+arch=('any')
+url="https://fonts.google.com/specimen/Ramabhadra"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramabhadra/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ramabhadra/Ramabhadra-Regular.ttf"
+)
+sha256sums=(
+  "0c922e2d65050677c26ae8dc501bc9ad3e0059c4b10df2fc9717d7bdacdfeb6d"
+  "68c57789cdf358d70fa7f1fba7f9b93a09541018278dc2fdd98ab82d14a8ffad"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

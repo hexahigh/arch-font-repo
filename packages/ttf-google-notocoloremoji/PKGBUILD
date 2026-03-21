@@ -1,0 +1,32 @@
+pkgname=ttf-google-notocoloremoji
+pkgver=2.048
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notocoloremoji
+pkgdesc="Google Fonts family: Noto Color Emoji"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Color+Emoji"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notocoloremoji/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notocoloremoji/NotoColorEmoji-Regular.ttf"
+)
+sha256sums=(
+  "ac564676d10054a8445923dfc2dfb13c042d97888bd27c1b6ec6dfe89a9d8d62"
+  "be73479ba4fa277c89b85cd6c71717df30d9d0eff6da8c1e1a201e5b95459299"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

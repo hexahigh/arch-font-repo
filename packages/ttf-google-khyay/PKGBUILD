@@ -1,0 +1,32 @@
+pkgname=ttf-google-khyay
+pkgver=1.10
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/khyay
+pkgdesc="Google Fonts family: Khyay"
+arch=('any')
+url="https://fonts.google.com/specimen/Khyay"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/khyay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khyay/Khyay-Regular.ttf"
+)
+sha256sums=(
+  "38a83f1f8b6efc3ab354b8b6eed22e8524dc71280844dc24811d95ae27b34952"
+  "fe0dd2727f9889ae310b1b1e8565a9078f185bcb65d3e05417948667a8426f98"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-mavenprovfbeta
+pkgver=2.002
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/mavenprovfbeta
+pkgdesc="Google Fonts family: Mavenprovfbeta"
+arch=('any')
+url="https://fonts.google.com/specimen/Mavenprovfbeta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mavenprovfbeta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mavenprovfbeta/MavenProVFBeta.ttf"
+)
+sha256sums=(
+  "e0cde1a4993ed689d463d5e2401f4a60c54cc48a14253ab0f8012d722c417038"
+  "e85fb39f6e817f58352205995a2bd5eb2aa7f7b1db6c5f7c3f09dc7bb3f7d26a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

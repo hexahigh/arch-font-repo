@@ -1,0 +1,32 @@
+pkgname=ttf-google-nikukyu
+pkgver=1.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nikukyu
+pkgdesc="Google Fonts family: Nikukyu"
+arch=('any')
+url="https://fonts.google.com/specimen/Nikukyu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nikukyu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nikukyu/Nikukyu-Regular.ttf"
+)
+sha256sums=(
+  "f9f28345ffcd6cea6e3c6699e4579cd1948053d80fe89a6a5a2ecb269afc95f8"
+  "e210213b34a9cc9b86a7434d492da8895a79559988d4b29d28747c6a2f030566"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

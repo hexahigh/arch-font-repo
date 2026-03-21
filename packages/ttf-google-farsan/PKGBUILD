@@ -1,0 +1,32 @@
+pkgname=ttf-google-farsan
+pkgver=1.001
+pkgrel=1
+_commit="b9b981ba9f472ff815b45eecea7f6f00bf0c8852"  # Latest commit touching ofl/farsan
+pkgdesc="Google Fonts family: Farsan"
+arch=('any')
+url="https://fonts.google.com/specimen/Farsan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/farsan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/farsan/Farsan-Regular.ttf"
+)
+sha256sums=(
+  "afc1cda4eedcfe27c8cf30fe3e9879587cb43cc2882d4cb91dd3e3fc9eecd0bf"
+  "7bb968454a2dde084c9fb0f99a9921e9a8f96b0cd28dedf8f545ec23d52c3550"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

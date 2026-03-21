@@ -1,0 +1,32 @@
+pkgname=ttf-google-mozillatext
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mozillatext
+pkgdesc="Google Fonts family: Mozilla Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Mozilla+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mozillatext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mozillatext/MozillaText[wght].ttf"
+)
+sha256sums=(
+  "7796681a32b924d2dc5186e514bd53848dd72359f8f3f413797107a478ef1940"
+  "a74b1a5c77811bab140c8c30b02adea4f6a90fe8811c669c52541dd78f5c5e87"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

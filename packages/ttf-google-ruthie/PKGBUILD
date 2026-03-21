@@ -1,0 +1,32 @@
+pkgname=ttf-google-ruthie
+pkgver=1.012
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ruthie
+pkgdesc="Google Fonts family: Ruthie"
+arch=('any')
+url="https://fonts.google.com/specimen/Ruthie"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruthie/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruthie/Ruthie-Regular.ttf"
+)
+sha256sums=(
+  "b044afdd80638da6bb25da192efe7e72e5d2c0944862d2ecd19f21fc95371199"
+  "f97e99910e79a6caebcc18dcca305969a0ab42595fce6767139f260c193da302"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

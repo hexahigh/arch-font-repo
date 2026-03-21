@@ -1,0 +1,34 @@
+pkgname=ttf-google-redhatmono
+pkgver=1.030
+pkgrel=1
+_commit="7d1a39d2f2eb234f00131c825df52a57491097a3"  # Latest commit touching ofl/redhatmono
+pkgdesc="Google Fonts family: Red Hat Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Red+Hat+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatmono/RedHatMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redhatmono/RedHatMono[wght].ttf"
+)
+sha256sums=(
+  "435fbfb7e66988b2a06686a4cb966faec733f35d8fe100a1601573c27f3e0bb8"
+  "bdb184e308ec6dfb2790a5ec6a0b1aceb2aca32b95db447873451934eb3517b7"
+  "253377ac29ccce89cb1b5fb297c69812ffe993b0c436322b3656323ff30fd14f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

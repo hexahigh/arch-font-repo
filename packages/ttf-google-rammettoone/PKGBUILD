@@ -1,0 +1,32 @@
+pkgname=ttf-google-rammettoone
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rammettoone
+pkgdesc="Google Fonts family: Rammetto One"
+arch=('any')
+url="https://fonts.google.com/specimen/Rammetto+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rammettoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rammettoone/RammettoOne-Regular.ttf"
+)
+sha256sums=(
+  "88ae96c3cfcaea1d7d573675d7513c25716a048fdfa21f16768142ef235f9136"
+  "0063c5480f7868be5dd95dd668575643ff953199541dce65fe5a88310bd7733f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-radley
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/radley
+pkgdesc="Google Fonts family: Radley"
+arch=('any')
+url="https://fonts.google.com/specimen/Radley"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/radley/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/radley/Radley-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/radley/Radley-Regular.ttf"
+)
+sha256sums=(
+  "a3b0977c5c25101d45054cf9199b9127b05fddc79d4da7dcf400821824e5a6d0"
+  "31be2a0bbae272eae2ae125e059c67e113990620da4190cf966d7e2182152bcf"
+  "22012c9224fd2e6fe87bbea65648063a5a56dfca17282d65a4c1db4fd863dba7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-racingsansone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/racingsansone
+pkgdesc="Google Fonts family: Racing Sans One"
+arch=('any')
+url="https://fonts.google.com/specimen/Racing+Sans+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/racingsansone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/racingsansone/RacingSansOne-Regular.ttf"
+)
+sha256sums=(
+  "cdcc959c42ab255b4cea4bd82f2db5c24a2da7ecabe615d02d5a5dba3716e446"
+  "8b5cada83e3e4692f624f1b583a069b34e457e07a4210ceddbb1133b3383673e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

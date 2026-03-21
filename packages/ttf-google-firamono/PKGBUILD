@@ -1,0 +1,36 @@
+pkgname=ttf-google-firamono
+pkgver=3.206
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firamono
+pkgdesc="Google Fonts family: Fira Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Fira+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/firamono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firamono/FiraMono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firamono/FiraMono-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firamono/FiraMono-Regular.ttf"
+)
+sha256sums=(
+  "d1829ff3455bbf3b9d13dfb0a57758a863107c9108aab48558f26f37f1094180"
+  "61f0ca3ae72a83deb807040f314e1b8b4e40b08213df243db9fd430095cab305"
+  "a5bc1a2db2f65946049de615ecc08603d788eb0c02b520f4ed95f05a5cc58532"
+  "2e00b0cf3106a3d792f35711b7722740b76c02ee7300ea8c60f940584b7a8ac9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

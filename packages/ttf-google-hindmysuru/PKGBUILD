@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindmysuru
+pkgver=0.703
+pkgrel=1
+_commit="1f44736150c9736126f9e073d18e40049835bd1a"  # Latest commit touching ofl/hindmysuru
+pkgdesc="Google Fonts family: Hind Mysuru"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Mysuru"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/HindMysuru-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/HindMysuru-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/HindMysuru-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/HindMysuru-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmysuru/HindMysuru-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "37e0493369db44f74d42ef36c2dda9a1977f9a724e5ac51a2ca7edd38189aa28"
+  "40634c5beb3700c0f1b556c8ddf4dda27e6a20fb1b90da7a5cae85c536284887"
+  "cef72258d349131d78ca9d5de286d4d54199d27e506287ad08345b01626c3240"
+  "a38a33806d9f008fbdf204d2f684e80b23cecfc42ee0c2aed81c7b3a8333e7f2"
+  "7a9eed3f486affb0e469acf75e60562743a1993737f79635bed740aaa8c82a84"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

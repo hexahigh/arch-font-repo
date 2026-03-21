@@ -1,0 +1,32 @@
+pkgname=ttf-google-climatecrisis
+pkgver=1.007
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/climatecrisis
+pkgdesc="Google Fonts family: Climate Crisis"
+arch=('any')
+url="https://fonts.google.com/specimen/Climate+Crisis"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/climatecrisis/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/climatecrisis/ClimateCrisis[YEAR].ttf"
+)
+sha256sums=(
+  "ff2b5b1644c4fcdf1d5bea41205b694e0d865f3170301e4143a8b6f43ac72ebe"
+  "4b25279f80e420f9f09dbba13eb14d0beabfa013d17f74bad19cc9fdf4d55523"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

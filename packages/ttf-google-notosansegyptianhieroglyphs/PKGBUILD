@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansegyptianhieroglyphs
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansegyptianhieroglyphs
+pkgdesc="Google Fonts family: Noto Sans Egyptian Hieroglyphs"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Egyptian+Hieroglyphs"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansegyptianhieroglyphs/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansegyptianhieroglyphs/NotoSansEgyptianHieroglyphs-Regular.ttf"
+)
+sha256sums=(
+  "dc8114a49f5bb53bad3d99ee52cbb245e98076438d59428a258720258494de68"
+  "b792accc6207ca9caa59fc67f53926b6985a99d255dd432d7c68b68a6dfd62f8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

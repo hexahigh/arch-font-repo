@@ -1,0 +1,32 @@
+pkgname=ttf-google-outfit
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/outfit
+pkgdesc="Google Fonts family: Outfit"
+arch=('any')
+url="https://fonts.google.com/specimen/Outfit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/outfit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/outfit/Outfit[wght].ttf"
+)
+sha256sums=(
+  "c676351bf8576b9aba743cd5eaa8c0e7ee0d51f805d720447b4df4ddb6a2e416"
+  "fc7287273e66929776e2ba54f144fe699080bec29f61bf649d70d871468aeade"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

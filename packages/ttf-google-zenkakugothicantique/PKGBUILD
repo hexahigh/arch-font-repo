@@ -1,0 +1,40 @@
+pkgname=ttf-google-zenkakugothicantique
+pkgver=1.002
+pkgrel=1
+_commit="ba225958c40ae6268a256861d80355a84b26e535"  # Latest commit touching ofl/zenkakugothicantique
+pkgdesc="Google Fonts family: Zen Kaku Gothic Antique"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Kaku+Gothic+Antique"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/ZenKakuGothicAntique-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/ZenKakuGothicAntique-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/ZenKakuGothicAntique-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/ZenKakuGothicAntique-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenkakugothicantique/ZenKakuGothicAntique-Regular.ttf"
+)
+sha256sums=(
+  "0fac78a235c98d640cb06332eb5362c211d86fa03c011df438c35005d22ad2c7"
+  "a7283b2e53d78ed1368f3b73c54410d3fbeb9f0e2e9da93b6c2c67a1e7c2900a"
+  "c0c631a6a4e51d4c29c8c84c40fca30b820e966d9a521c039029a19b4e438c29"
+  "1f4fd2ad3f837f4b14cda167da22aee86ad3ade20a6ff8aa931360d4676b7b66"
+  "02bdc45744fd357b04c1a8fb0f2392a8c31b3a9250acb9899252a933ec66f4b6"
+  "e79b874ef1ae0cfe5b9d750f5990d408874300b17c7a02cb6e86e73a14a33005"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

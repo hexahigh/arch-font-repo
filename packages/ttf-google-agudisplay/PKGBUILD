@@ -1,0 +1,32 @@
+pkgname=ttf-google-agudisplay
+pkgver=1.103
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/agudisplay
+pkgdesc="Google Fonts family: Agu Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Agu+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/agudisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/agudisplay/AguDisplay[MORF].ttf"
+)
+sha256sums=(
+  "06d81dbbfab7578a8e9ec6692235c0f4e2503e62ce46c6854ae5ba28ddb72709"
+  "27ed259a81a476a354abc4cf5b31717241a57db1e6bce24453729214930c96ee"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

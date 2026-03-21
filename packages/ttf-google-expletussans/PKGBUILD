@@ -1,0 +1,34 @@
+pkgname=ttf-google-expletussans
+pkgver=7.500
+pkgrel=1
+_commit="1796e34455b893092713d206e7f23e3e07699f00"  # Latest commit touching ofl/expletussans
+pkgdesc="Google Fonts family: Expletus Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Expletus+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/expletussans/ExpletusSans[wght].ttf"
+)
+sha256sums=(
+  "6cc3a1a3e60a0db4f824c16d42e7db461a939abb0759a740a4135074001eaba5"
+  "5e69f9842ef3bddf9db581642306216f9d25649b9f9de2e80944e694ac189799"
+  "33508b3b477c548ac00179d97c6deaca1e98dab4cc1d869dec5815931e7540f8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

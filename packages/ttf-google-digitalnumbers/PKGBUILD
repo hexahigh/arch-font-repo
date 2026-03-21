@@ -1,0 +1,32 @@
+pkgname=ttf-google-digitalnumbers
+pkgver=001.102
+pkgrel=1
+_commit="2701058bea5e3d33a01b44fb02fd8d188c34ab48"  # Latest commit touching ofl/digitalnumbers
+pkgdesc="Google Fonts family: Digital Numbers"
+arch=('any')
+url="https://fonts.google.com/specimen/Digital+Numbers"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/digitalnumbers/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/digitalnumbers/DigitalNumbers-Regular.ttf"
+)
+sha256sums=(
+  "cdf5fc4014abe91588666a9592ec86200e5a4d743b4b6e05d28d47e850bbe5fa"
+  "de9e0cfb83bc10ac6fad876f35d8f381a3ff07f5ca9925919e9d32f980bc9d49"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-petitformalscript
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/petitformalscript
+pkgdesc="Google Fonts family: Petit Formal Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Petit+Formal+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/petitformalscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/petitformalscript/PetitFormalScript-Regular.ttf"
+)
+sha256sums=(
+  "cf5c4103b0ecf3c38e7c26768b5caf05e1b3e16d4d87b32d859b3c19ce7c216c"
+  "9b80a05170bac7f372b7e00bc762fe14bafd4abdeb013747b189f66525cffe89"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

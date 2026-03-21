@@ -1,0 +1,32 @@
+pkgname=ttf-google-libertinusmono
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinusmono
+pkgdesc="Google Fonts family: Libertinus Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusmono/LibertinusMono-Regular.ttf"
+)
+sha256sums=(
+  "543bbe3d066d7ee6b062b6911220355c72720dc16003e5086885d6f543a6f376"
+  "98e3326985108f7d427d1f447d4fa00c93f6787bc53b5c15150c115c5b9d9b9a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

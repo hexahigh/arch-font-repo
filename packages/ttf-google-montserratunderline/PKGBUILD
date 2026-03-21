@@ -1,0 +1,34 @@
+pkgname=ttf-google-montserratunderline
+pkgver=9.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montserratunderline
+pkgdesc="Google Fonts family: Montserrat Underline"
+arch=('any')
+url="https://fonts.google.com/specimen/Montserrat+Underline"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratunderline/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratunderline/MontserratUnderline-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montserratunderline/MontserratUnderline[wght].ttf"
+)
+sha256sums=(
+  "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e"
+  "774bbfa2403188cbec3884c8a349f2700d6d2cd1fe81d91751d71bf252026a87"
+  "b77c3c339f0a793692f32d53b0cf631a426f6deec94e53e013cb612f87370fcc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

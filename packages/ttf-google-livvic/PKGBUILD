@@ -1,0 +1,62 @@
+pkgname=ttf-google-livvic
+pkgver=1.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/livvic
+pkgdesc="Google Fonts family: Livvic"
+arch=('any')
+url="https://fonts.google.com/specimen/Livvic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/livvic/Livvic-ThinItalic.ttf"
+)
+sha256sums=(
+  "0d0630b8fb51f80905ba9298e69ce7f3f0c080e019158b6aca469dded731ee1e"
+  "69522e784a487191945fa9f9d92d67e64cd5a4bc6e849ae42d5f4a799a8d9b60"
+  "83e66c050786059aeabeb5fb69defab2593df93caedde11746dc6277fbf8e523"
+  "f2e3a5952c0fe465778a2eb93a8a4fd1f27fb6a9f8080f9aa2c7f085212dcf3f"
+  "b0fdf70102675ee1ac81cc38a0f0e40694a6403a8ba326cc62e99be0bad4cedd"
+  "7a69d3faedade4b4ee238069fe703163842f2230b505057563882cec659c59c6"
+  "a4b62b2c66972bc3faf72a7f635085d69eb0e73fe6c595a2574a2ac8b8d2fd67"
+  "a252ed6488d89f4200b54174c002846424aa5bab454220e6c68f6ab4ad03bbce"
+  "f3baaa33ac50be741765cf91e70d84835ede9a68dc95a35740de9affde113461"
+  "cb15d9db1b29cd88277ecbdc77761730e3922e2e7c23b5dae04e00ab0c3b64c4"
+  "78f9277de8b8734cf172288fb44f359c85f3a38a6f98f2333f8e103ce1acdcf4"
+  "2293e97ef4e012dc74a7a453d3261112de4b50b8b6507f8587ebc95e489490b9"
+  "778e7577cf8ed8f0a97eb657bbf4d4f05bc0c6e8eb0ac8458f25a0eaa6ca16e8"
+  "93cf062cf28cfff0359f38dd93a75f46dcf5ba514483bb557069a89b7b3c4e0c"
+  "84a8af5c40ee96f0e9873b8e33a9d65c3a08cc3bdb5b0cd4e83e8174d12bade0"
+  "17e22e7713967bebd783b1b8745649a2fc54e9ee096d8ad38129f53b47c94aef"
+  "4ecbdca3573200a38f92b3964f9f5159660969100e2e07b0b96f4414288c462c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

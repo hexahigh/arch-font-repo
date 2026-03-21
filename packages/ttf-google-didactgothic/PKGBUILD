@@ -1,0 +1,32 @@
+pkgname=ttf-google-didactgothic
+pkgver=2.101
+pkgrel=1
+_commit="c741144416d5635d5de832dff8ba09292c112036"  # Latest commit touching ofl/didactgothic
+pkgdesc="Google Fonts family: Didact Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Didact+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/didactgothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/didactgothic/DidactGothic-Regular.ttf"
+)
+sha256sums=(
+  "36e2f1debc9778bac79fac1a0cb5a5ef51c102f00b58ef7d8a05324144b68166"
+  "b98f9e091b6337a86f4e0f69c94c31905e1e287782853f472e176b4e28d3f81f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

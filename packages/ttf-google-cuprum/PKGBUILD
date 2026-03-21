@@ -1,0 +1,34 @@
+pkgname=ttf-google-cuprum
+pkgver=3.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/cuprum
+pkgdesc="Google Fonts family: Cuprum"
+arch=('any')
+url="https://fonts.google.com/specimen/Cuprum"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cuprum/Cuprum[wght].ttf"
+)
+sha256sums=(
+  "af74fe3bf28777e8b7df9f7ed718b15f92e14d60448f36d7dd21ada6caeca33a"
+  "1b2fa2441b421e16176ed3b0356949f406ef44497df17b2ee7977aa7f838312a"
+  "be75585aa57a5f1c1d10de61305bb4266effa1b9083722d20c26adf97e911534"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

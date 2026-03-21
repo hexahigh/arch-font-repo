@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstaile
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstaile
+pkgdesc="Google Fonts family: Noto Sans Tai Le"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Tai+Le"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaile/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaile/NotoSansTaiLe-Regular.ttf"
+)
+sha256sums=(
+  "01950566b02c4f25f237a1619129650852da6f664110f7bdaccdc60ba51b1b06"
+  "eeb4c41d8e1a6075f7e580cc159dff424e2f61e64f5edcd57b5e8ca57d58a2ea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

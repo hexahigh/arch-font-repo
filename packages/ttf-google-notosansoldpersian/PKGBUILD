@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansoldpersian
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansoldpersian
+pkgdesc="Google Fonts family: Noto Sans Old Persian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Old+Persian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldpersian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldpersian/NotoSansOldPersian-Regular.ttf"
+)
+sha256sums=(
+  "002443fcdf6acb8cf7467b678bfba924396bbd47c64522500a48ba86fdc295d3"
+  "fa2d24830f472b8c0974079be5150caffd4fd0b9d6daf431453f277720895fdb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanslydian
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanslydian
+pkgdesc="Google Fonts family: Noto Sans Lydian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Lydian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanslydian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanslydian/NotoSansLydian-Regular.ttf"
+)
+sha256sums=(
+  "3a4d46fda7223bbdc698882822b43b3650432f8895b9b62c7f01bbf889990aa0"
+  "25466c3aa089d25abf5829a29c6a72738e006a21865a48e03c58411b0227920a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

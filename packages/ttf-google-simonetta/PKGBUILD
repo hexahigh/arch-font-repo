@@ -1,0 +1,38 @@
+pkgname=ttf-google-simonetta
+pkgver=1.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/simonetta
+pkgdesc="Google Fonts family: Simonetta"
+arch=('any')
+url="https://fonts.google.com/specimen/Simonetta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/simonetta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/simonetta/Simonetta-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/simonetta/Simonetta-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/simonetta/Simonetta-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/simonetta/Simonetta-Regular.ttf"
+)
+sha256sums=(
+  "61056041809e0ba18bf8b9d637a375ab1c725025428533d74d668d88b2cb8b89"
+  "c5912a33c419048c6fe0bc44303bba3a987a122bfb4c733750d71dafd0841b1b"
+  "924b6b7f82552c11579037bb6906bbbcf783d01488de9278977cbbe4b44948a7"
+  "89164679cf426fb50185be14d9673c8ca35e429a0308f06393988c20dcfb9c20"
+  "96d14d9f8c8af857dc64beaf4cee297f22d7992a463cfff3e30928b5d5572ef6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

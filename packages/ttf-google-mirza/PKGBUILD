@@ -1,0 +1,38 @@
+pkgname=ttf-google-mirza
+pkgver=1.0010
+pkgrel=1
+_commit="198dc37b628ca55f19df66c2024c5dd52111d580"  # Latest commit touching ofl/mirza
+pkgdesc="Google Fonts family: Mirza"
+arch=('any')
+url="https://fonts.google.com/specimen/Mirza"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirza/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirza/Mirza-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirza/Mirza-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirza/Mirza-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mirza/Mirza-SemiBold.ttf"
+)
+sha256sums=(
+  "6849425e0d6d9d32e95d5de6c2c453d8d430a20d9a25ae340984aa1fab9bb0ad"
+  "306b412a39d9f93ca840c13ca62300eb5c7712e2afa94bd7ef2272b51131be6d"
+  "423532407cc832ef84cc8f08a3359f26b50e721c8aa0e00221e4215cc83440b3"
+  "5b1ac6cb285ca3492e313a53d5252b9784bf7607f2835a2d44cb3cbad0168539"
+  "4225215d0df4ad389c4ac29d48fddc531703776591ade64c23f6f995669d4078"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

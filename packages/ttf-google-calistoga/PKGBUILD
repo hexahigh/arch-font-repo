@@ -1,0 +1,32 @@
+pkgname=ttf-google-calistoga
+pkgver=1.010
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/calistoga
+pkgdesc="Google Fonts family: Calistoga"
+arch=('any')
+url="https://fonts.google.com/specimen/Calistoga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/calistoga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/calistoga/Calistoga-Regular.ttf"
+)
+sha256sums=(
+  "8b3204f5a3ae2e3276e66c84fbbb247ff6daa35a3a10b88f20d60852674cbb12"
+  "85a5accb2453368357d432fd0edf4701545cac7551946711c06085677fd1399f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

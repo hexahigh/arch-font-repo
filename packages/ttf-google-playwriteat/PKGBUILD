@@ -1,0 +1,34 @@
+pkgname=ttf-google-playwriteat
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwriteat
+pkgdesc="Google Fonts family: Playwrite AT"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+AT"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteat/PlaywriteAT-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteat/PlaywriteAT[wght].ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "0bbfd0a63b20ab1ddc6ebdd4d26e268c066336489d4d51d7b918ba3d20a73baf"
+  "878517b405acf41cb54c00091b8560d37b4d1cc599c9894aa379621d6059db54"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

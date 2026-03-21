@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindmadurai
+pkgver=1.001
+pkgrel=1
+_commit="0773f767e439aeda9826b966698896724daefc3d"  # Latest commit touching ofl/hindmadurai
+pkgdesc="Google Fonts family: Hind Madurai"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Madurai"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/HindMadurai-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/HindMadurai-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/HindMadurai-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/HindMadurai-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindmadurai/HindMadurai-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "842086c4312100a032494dcb43fa7afc69ad5772fe004865e0761f92165910a1"
+  "dbe7a2234d341e80b345d4ffc2002e3089492cd07cd4ff5c38fe2dcbbfea54cc"
+  "522aae6dea7fb9a9dfbf2ea25bf2ebf5d6f05c4ecba30fd2a56d22a690f4c072"
+  "8bd56d6002d4fe4f5f378dd29f9ad382dbbd03a2bf16da24599aabe33f9b55b3"
+  "fce32cd155130741e8dbae7256ddc2cb195eb07f7816746e7bc828e03c7b0ce5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

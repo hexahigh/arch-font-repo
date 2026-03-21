@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwriteauqld
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwriteauqld
+pkgdesc="Google Fonts family: Playwrite AU QLD"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+AU+QLD"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteauqld/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteauqld/PlaywriteAUQLD[wght].ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "ee7b8703daf9f2f17bfae50e9d19145acc93b94a0d76b5e96393d093673959eb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

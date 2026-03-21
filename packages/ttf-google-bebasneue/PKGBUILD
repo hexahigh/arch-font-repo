@@ -1,0 +1,32 @@
+pkgname=ttf-google-bebasneue
+pkgver=2.000
+pkgrel=1
+_commit="61f595f96445e9c2316b50d1ba3d79ef91f72b0a"  # Latest commit touching ofl/bebasneue
+pkgdesc="Google Fonts family: Bebas Neue"
+arch=('any')
+url="https://fonts.google.com/specimen/Bebas+Neue"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bebasneue/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bebasneue/BebasNeue-Regular.ttf"
+)
+sha256sums=(
+  "72082f6cb4d04be2ecf7cc7d9e1e7d73787f0af8a5a278a47cade70c16b78341"
+  "08e4623805102d819f58601e46e345648846075e363b2ceb23313c2d1c83ec73"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

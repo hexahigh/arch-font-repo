@@ -1,0 +1,32 @@
+pkgname=ttf-google-baloo2
+pkgver=1.700
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/baloo2
+pkgdesc="Google Fonts family: Baloo 2"
+arch=('any')
+url="https://fonts.google.com/specimen/Baloo+2"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/baloo2/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/baloo2/Baloo2[wght].ttf"
+)
+sha256sums=(
+  "ad09b05dc8bc678c9daf7c4c5f7ef1f55e5726127f4330b2e98e40b9dffcb860"
+  "d47a6852548059b1db49a1319d06d499d546c3fa2237cf9eee9c43c8abb025c2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

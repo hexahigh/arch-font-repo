@@ -1,0 +1,44 @@
+pkgname=ttf-google-muktamahee
+pkgver=2.538
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktamahee
+pkgdesc="Google Fonts family: Mukta Mahee"
+arch=('any')
+url="https://fonts.google.com/specimen/Mukta+Mahee"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktamahee/MuktaMahee-SemiBold.ttf"
+)
+sha256sums=(
+  "46751a31966477e3f038d1e5ff1146a33234a3a523a0e6a21be3221cba082a34"
+  "f3d58ebd5f28d3913bcbfc2eb1b512f8b19d7b3e82eeb63adeac4c35414c29bc"
+  "a818bc5d365109c983088dcda549f75d0633477a105520a0cc4ea411b96c816c"
+  "6780020b758bff126aa7670f7b44a6e86f399d19256a4a6831308e5764f4eeb8"
+  "c82c1dac3686050e0d9254fcb0a71a0b2a011c23bb85ebd185facd415b4cac60"
+  "c1681503dc805a303b925221c9847137721b8a65e5614bbd495c2fb71eb98a97"
+  "100eb35bf7a96697897bec747b423034a7c322e8ce314628a50a69936e2766e2"
+  "9e0bc3f02e82b95683dbd2593b0d44f6a27a7d06c3e2572501df9fa193b2bfa7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

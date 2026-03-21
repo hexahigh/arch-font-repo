@@ -1,0 +1,66 @@
+pkgname=ttf-google-grenze
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grenze
+pkgdesc="Google Fonts family: Grenze"
+arch=('any')
+url="https://fonts.google.com/specimen/Grenze"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenze/Grenze-ThinItalic.ttf"
+)
+sha256sums=(
+  "5070d4334d60972881020a5453b9832a090843e904cf013f40b6ebdfe9b871ca"
+  "199f5a31ebd24a91376c43ab9dac3480c6b7a5158c1077e845d652b6cb947ae8"
+  "fc257d614d5a8545dd43e07daef2cbf8cedd5d58c47a3671f1619941eeed154e"
+  "2efe90e425bc15f87597d2dd6ef0ac5820d67aea88221ba76cab351d7ee5baa2"
+  "7d74560f8b7cf19e4b43f9ebd02dbd8857edcabdcdbea438f458094541467c42"
+  "acbc06cf687e219a3331624a328064b85a82d33ca3906ebb2d4425e1e8126607"
+  "4ed1c0efe549aedeac7551b8ac3ac637be6fb97243eb74fd75caa3853a36198b"
+  "e28cd3a7ce91fba018399f620b9058203d7d5a5055c1d4e8b981bcfeb9bc3110"
+  "8bb44c21bd90e69cdb2b769956e9e1f70568b38a46780cb241e9c8b84c3d6c40"
+  "70fbb7f56996747fedf7c37e37d4232c5629e889d89eee3125f0c7d56bdf9b7b"
+  "b49b8f940efa022ea7339c0f15bf486010f47e6eea87a1bae0ff2be1faf9480a"
+  "448cc18abfc44ea79e5612835fa09a29a2b47af6a6206838c67c8075ea607f6c"
+  "472f282cebf4f667e9ac591c14edbe8e1e6ce2d6b2ad5c44dd803d968b9a14db"
+  "84ec63b40c64273016b841a2928e877ec1791bf5fad78c45c642e0ae4b2ff699"
+  "a2fd97e65d3cb1ae16b21c02f45f320e49895333754da27bc92d235eec84832e"
+  "f8197355ae494f676d2cb6f14466955d67f0f856d255ea9c14b7b75df98c1613"
+  "f907f0c73726ef9bd9d394b0cf99a01b9293425ea5ddea37e6aaa95c09fbe95f"
+  "9b217c1eeab37a0e1811608eb25c5bd303834c864a868aa295e4a519d5a5f111"
+  "448780c30dd17b240cf3c55e49c5dd3d85b3343bbbb8a733239bf098cd5854fd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

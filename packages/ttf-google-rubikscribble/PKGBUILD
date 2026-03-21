@@ -1,0 +1,32 @@
+pkgname=ttf-google-rubikscribble
+pkgver=2.201
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rubikscribble
+pkgdesc="Google Fonts family: Rubik Scribble"
+arch=('any')
+url="https://fonts.google.com/specimen/Rubik+Scribble"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikscribble/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikscribble/RubikScribble-Regular.ttf"
+)
+sha256sums=(
+  "f9e2d4498ea80d38bac7b8841d68af68c132fa67e1552e7c05717e6987de1d74"
+  "341d083481febe704791212f560a0898039d6a5744c8819102f3ce7a7f8fc2d4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-jacquard24
+pkgver=1.002
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jacquard24
+pkgdesc="Google Fonts family: Jacquard 24"
+arch=('any')
+url="https://fonts.google.com/specimen/Jacquard+24"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquard24/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquard24/Jacquard24-Regular.ttf"
+)
+sha256sums=(
+  "dea0ea45c7835a51c20d24b9ef2ac03f5beec858995f5eda085540f1f7c713b7"
+  "8e5b1bdb8b6087d6175f1d9edd2634e38b10fb109c0955c24ad55272a866ed49"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

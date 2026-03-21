@@ -1,0 +1,32 @@
+pkgname=ttf-google-fjordone
+pkgver=1.002
+pkgrel=1
+_commit="a44ae71e61237742828985c112060173528ba4f2"  # Latest commit touching ofl/fjordone
+pkgdesc="Google Fonts family: Fjord One"
+arch=('any')
+url="https://fonts.google.com/specimen/Fjord+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fjordone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fjordone/FjordOne-Regular.ttf"
+)
+sha256sums=(
+  "df9fcd8f62ae79aba7fa5b0563a08dfede1fa0909d668287d70c395d88f5fe02"
+  "e589e22412b5382c1a4ec482af28c515d9c794ce8bde9a4c2db8ef2a6a063d86"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

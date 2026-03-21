@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanskharoshthi
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanskharoshthi
+pkgdesc="Google Fonts family: Noto Sans Kharoshthi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Kharoshthi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskharoshthi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanskharoshthi/NotoSansKharoshthi-Regular.ttf"
+)
+sha256sums=(
+  "b3928e46f902b1d6d7108c8e9d5c08599b1c5c3e02bdec8a2e21a184c9a19e13"
+  "e1cc4bd5abc3c0efe6cb102a30b543371c8a42d12ed661bcc4c3f3e3421ee670"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

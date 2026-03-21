@@ -1,0 +1,32 @@
+pkgname=ttf-google-suravaram
+pkgver=1.0.4
+pkgrel=1
+_commit="9f2657f18b0d5469966dc685d367d7b1fe0b879e"  # Latest commit touching ofl/suravaram
+pkgdesc="Google Fonts family: Suravaram"
+arch=('any')
+url="https://fonts.google.com/specimen/Suravaram"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/suravaram/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/suravaram/Suravaram-Regular.ttf"
+)
+sha256sums=(
+  "42ad5a49e171bec80308a1c9e8e66b03e638b3ea65af7fafa6fc0e42f45e7626"
+  "67c8e0d9e78c3eef2924bfe54b7462e9875ff42fe37abbe3e601ad6a9ada0f9c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

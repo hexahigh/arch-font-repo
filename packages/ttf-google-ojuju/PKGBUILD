@@ -1,0 +1,32 @@
+pkgname=ttf-google-ojuju
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ojuju
+pkgdesc="Google Fonts family: Ojuju"
+arch=('any')
+url="https://fonts.google.com/specimen/Ojuju"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ojuju/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ojuju/Ojuju[wght].ttf"
+)
+sha256sums=(
+  "1d328a4d26bb6550e2d26b1eaaabd4b6e6ed262c68bb29571d730537ebd8e872"
+  "6a4eae3adcf726e5a3961fa6843d5cb4fae3b08726c58fc143e9c2ca5c3d5b52"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

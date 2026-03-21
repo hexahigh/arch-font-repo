@@ -1,0 +1,32 @@
+pkgname=ttf-google-tasaexplorer
+pkgver=2.011
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tasaexplorer
+pkgdesc="Google Fonts family: TASA Explorer"
+arch=('any')
+url="https://fonts.google.com/specimen/TASA+Explorer"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tasaexplorer/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tasaexplorer/TASAExplorer[wght].ttf"
+)
+sha256sums=(
+  "0673adc5fac52c6bd0782fa19f6f1554ac7af748a39f9c223058a2cb63c8c7fa"
+  "118a786cfc37bda16d1c5650085523b7f3ef4d49b8d366b89c1c800aee876cc2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

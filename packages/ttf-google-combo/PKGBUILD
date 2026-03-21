@@ -1,0 +1,32 @@
+pkgname=ttf-google-combo
+pkgver=1.001
+pkgrel=1
+_commit="43c3321f5f944a48fb7976d9f5dd98232128d0fc"  # Latest commit touching ofl/combo
+pkgdesc="Google Fonts family: Combo"
+arch=('any')
+url="https://fonts.google.com/specimen/Combo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/combo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/combo/Combo-Regular.ttf"
+)
+sha256sums=(
+  "574430e571a6928624f4bdf044420f7547a26309b7ebf6962296d33294e0a1e0"
+  "e714674117c2864bf7407e2ebfafb11e581e97480286fa01b419adda94d08686"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

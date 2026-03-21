@@ -1,0 +1,34 @@
+pkgname=ttf-google-asap
+pkgver=3.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/asap
+pkgdesc="Google Fonts family: Asap"
+arch=('any')
+url="https://fonts.google.com/specimen/Asap"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/asap/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asap/Asap-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asap/Asap[wdth,wght].ttf"
+)
+sha256sums=(
+  "a6f4d778db0d2a87c2c6e560f71eb018b4253505b2f23c108724dea5d4d74ed0"
+  "a21e12f9babf2d02526003b27dff884b6d1cd0fed883ffe7740725626a11dd59"
+  "7bf29bcab72f7d00de600e964a3fc206620050d8448ddd976822378d0fe18028"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

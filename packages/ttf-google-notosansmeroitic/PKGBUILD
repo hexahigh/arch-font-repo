@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansmeroitic
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansmeroitic
+pkgdesc="Google Fonts family: Noto Sans Meroitic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Meroitic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmeroitic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansmeroitic/NotoSansMeroitic-Regular.ttf"
+)
+sha256sums=(
+  "1dfb3d4b1c7a31bf3de390189cf46f30eef4a45f43523437d09c1339e6b3a194"
+  "0a9920e60a884d517c9385f68bef840d380ea0918b397a02357a882c28acca69"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-mergeone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mergeone
+pkgdesc="Google Fonts family: Merge One"
+arch=('any')
+url="https://fonts.google.com/specimen/Merge+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mergeone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mergeone/MergeOne-Regular.ttf"
+)
+sha256sums=(
+  "131d19126a0e7ddd25540fd6bee219cebbc8aee7e8374882998ee6c2f4ff6cf4"
+  "93ad28579d4abf3bec9ad9961fd20912ecea60afad1d77c3ecbd39349b88d967"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssiddham
+pkgver=2.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssiddham
+pkgdesc="Google Fonts family: Noto Sans Siddham"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Siddham"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssiddham/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssiddham/NotoSansSiddham-Regular.ttf"
+)
+sha256sums=(
+  "85610e60cd4cfa1395c27ada1f15ac5ba10b7b9f1eb343a66532105682d2c830"
+  "8ae4c893d5df6a4e418e7cd19ad6cc7fb95c7b9e04a772072a102fca74ca0185"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

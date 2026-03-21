@@ -1,0 +1,34 @@
+pkgname=ttf-google-cascadiacode
+pkgver=2407.024
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cascadiacode
+pkgdesc="Google Fonts family: Cascadia Code"
+arch=('any')
+url="https://fonts.google.com/specimen/Cascadia+Code"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiacode/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiacode/CascadiaCode-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cascadiacode/CascadiaCode[wght].ttf"
+)
+sha256sums=(
+  "82c05d6c53dfa0c9025985c19e371810020b74ed2c61d51d370f2a8ab2506d52"
+  "33559b4beb60523b824e25a416b5de2779a9bc7c7ce32ce128490b42acbf4681"
+  "30f2e14a5c389b346b1fce110c4ddcf0dc5ce8265faf5eca2ab7323f49dba590"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

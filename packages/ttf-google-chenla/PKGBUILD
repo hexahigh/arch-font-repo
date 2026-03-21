@@ -1,0 +1,32 @@
+pkgname=ttf-google-chenla
+pkgver=6.00
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chenla
+pkgdesc="Google Fonts family: Chenla"
+arch=('any')
+url="https://fonts.google.com/specimen/Chenla"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chenla/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chenla/Chenla.ttf"
+)
+sha256sums=(
+  "bb8fac04b8535d39fb9851c9d886248d25bc0c82000066c92dd577c3369f512b"
+  "0174cda2c7718e129b9f2599cd7dd9265b01a63b9acf67f939882f0fddff29b7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

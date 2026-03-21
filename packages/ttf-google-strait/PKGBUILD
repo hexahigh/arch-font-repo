@@ -1,0 +1,32 @@
+pkgname=ttf-google-strait
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/strait
+pkgdesc="Google Fonts family: Strait"
+arch=('any')
+url="https://fonts.google.com/specimen/Strait"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/strait/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/strait/Strait-Regular.ttf"
+)
+sha256sums=(
+  "a97ad9dd8228fbe25532616c7f12169501a5445ee33eaa233a5c69c595dfcc97"
+  "f705c4ade7470e084582b1f5a1f1e45c16524c7b30ce81204c76236ef4ffbb38"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

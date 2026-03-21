@@ -1,0 +1,32 @@
+pkgname=ttf-google-angkor
+pkgver=8.000
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/angkor
+pkgdesc="Google Fonts family: Angkor"
+arch=('any')
+url="https://fonts.google.com/specimen/Angkor"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/angkor/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/angkor/Angkor-Regular.ttf"
+)
+sha256sums=(
+  "ffa0191e03e3d94d2269bcdcdbaa31cd5c7dc6aa189ec531de939ffd2a3a5f09"
+  "ef3a846370cf0a5f6d5718162cb9133a1a9243586f32faf6cdbc449594a3dc1c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-rochester
+pkgver=1.006
+pkgrel=1
+_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/rochester
+pkgdesc="Google Fonts family: Rochester"
+arch=('any')
+url="https://fonts.google.com/specimen/Rochester"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/rochester/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/rochester/Rochester-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "38657df5e357e841a39995592970ac14ea96a1376f178f0d8e0231fd5d630b2b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

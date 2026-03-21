@@ -1,0 +1,32 @@
+pkgname=ttf-google-gochihand
+pkgver=1.001
+pkgrel=1
+_commit="53d49037c6b6f148dbeed6d64cab88cf91a3e27e"  # Latest commit touching ofl/gochihand
+pkgdesc="Google Fonts family: Gochi Hand"
+arch=('any')
+url="https://fonts.google.com/specimen/Gochi+Hand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gochihand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gochihand/GochiHand-Regular.ttf"
+)
+sha256sums=(
+  "fd20b82eb12d16ec31a58fc44f7e6c533b14b425b569d83f616a1f7a9a401e75"
+  "c46b029ab4846b2935e301af0b2cf85a1d74d2858e6a33636a3e64cf3cc4696b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

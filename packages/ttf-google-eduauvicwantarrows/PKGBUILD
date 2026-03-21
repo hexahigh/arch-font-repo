@@ -1,0 +1,32 @@
+pkgname=ttf-google-eduauvicwantarrows
+pkgver=1.001
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/eduauvicwantarrows
+pkgdesc="Google Fonts family: Edu AU VIC WA NT Arrows"
+arch=('any')
+url="https://fonts.google.com/specimen/Edu+AU+VIC+WA+NT+Arrows"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwantarrows/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwantarrows/EduAUVICWANTArrows[wght].ttf"
+)
+sha256sums=(
+  "11a98fa66908aa244c7608443d945dd50e2821d879bb25b5897ffc8f94712688"
+  "adf8176cc45747608c091094612a7e8d3088d4d46dc89acc37df37fb7a561903"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

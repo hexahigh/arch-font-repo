@@ -1,0 +1,32 @@
+pkgname=ttf-google-slabo27px
+pkgver=1.02
+pkgrel=1
+_commit="13cc1d90bcbb733213b3c23e8d40ee8cd604d37b"  # Latest commit touching ofl/slabo27px
+pkgdesc="Google Fonts family: Slabo 27px"
+arch=('any')
+url="https://fonts.google.com/specimen/Slabo+27px"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/slabo27px/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/slabo27px/Slabo27px-Regular.ttf"
+)
+sha256sums=(
+  "76a55594c9a18b7d94b8119de838237eb834bae4e8c646d6d363aee587b7b427"
+  "7615a9e35725401d89c0fb02a96cbce43b49efada51b181d74049ac8d49d4b55"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

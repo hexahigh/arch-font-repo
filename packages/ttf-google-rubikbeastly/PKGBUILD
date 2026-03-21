@@ -1,0 +1,32 @@
+pkgname=ttf-google-rubikbeastly
+pkgver=2.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rubikbeastly
+pkgdesc="Google Fonts family: Rubik Beastly"
+arch=('any')
+url="https://fonts.google.com/specimen/Rubik+Beastly"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikbeastly/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikbeastly/RubikBeastly-Regular.ttf"
+)
+sha256sums=(
+  "f9e2d4498ea80d38bac7b8841d68af68c132fa67e1552e7c05717e6987de1d74"
+  "854c5f4bd05aae76d7830e871e2c990ea309a436072d8f0b67a796a80ec1cb18"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

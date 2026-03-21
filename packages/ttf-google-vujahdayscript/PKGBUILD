@@ -1,0 +1,32 @@
+pkgname=ttf-google-vujahdayscript
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vujahdayscript
+pkgdesc="Google Fonts family: Vujahday Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Vujahday+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vujahdayscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vujahdayscript/VujahdayScript-Regular.ttf"
+)
+sha256sums=(
+  "e609059f5600ecaa921d782de1f5072f92c08e5b4868de63be7c98abfd9b4061"
+  "f102428da88931f20c5ed947d9f8aea85ee3f1d4a18b51a74b4f59a344ce5daa"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

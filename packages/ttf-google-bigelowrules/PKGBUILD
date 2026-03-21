@@ -1,0 +1,32 @@
+pkgname=ttf-google-bigelowrules
+pkgver=1.001
+pkgrel=1
+_commit="bafad3405341d8f49fe074d5d578407abcb61689"  # Latest commit touching ofl/bigelowrules
+pkgdesc="Google Fonts family: Bigelow Rules"
+arch=('any')
+url="https://fonts.google.com/specimen/Bigelow+Rules"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigelowrules/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigelowrules/BigelowRules-Regular.ttf"
+)
+sha256sums=(
+  "0409c6582424508453ce41648067efaacf0c790622918493d8f1d934bc5329a0"
+  "b6cef7ba51c1fbca920b531a39ac2c348023b5b9e4d35d1bca43ec801eeb5fcb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

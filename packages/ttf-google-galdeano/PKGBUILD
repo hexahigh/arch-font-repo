@@ -1,0 +1,32 @@
+pkgname=ttf-google-galdeano
+pkgver=1.001
+pkgrel=1
+_commit="f3b5a759243d9ff26e0ef81a4636c45b0f715d76"  # Latest commit touching ofl/galdeano
+pkgdesc="Google Fonts family: Galdeano"
+arch=('any')
+url="https://fonts.google.com/specimen/Galdeano"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/galdeano/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/galdeano/Galdeano-Regular.ttf"
+)
+sha256sums=(
+  "d102f22055cfa31a9659228483de3c726010f0b3b416b78e3cbefcb54816e812"
+  "ec2379e6ae1192420eb7a633c170890cf85944abc73e6ef6c68371d1c05c6652"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-courgette
+pkgver=1.002
+pkgrel=1
+_commit="2d77e06150e45cfa7531ea13e30a4a117b1513a1"  # Latest commit touching ofl/courgette
+pkgdesc="Google Fonts family: Courgette"
+arch=('any')
+url="https://fonts.google.com/specimen/Courgette"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/courgette/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/courgette/Courgette-Regular.ttf"
+)
+sha256sums=(
+  "0836fd874230b17f840efcf7d3bb529f5a7b5befbfeef94478519cfe2d8551c2"
+  "099739d22e66ee2b80656bba63847f9ed419ad7e3969ba2c1d3c437c0d08f3e3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

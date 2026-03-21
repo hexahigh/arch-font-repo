@@ -1,0 +1,34 @@
+pkgname=ttf-google-robotoserif
+pkgver=1.008
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/robotoserif
+pkgdesc="Google Fonts family: Roboto Serif"
+arch=('any')
+url="https://fonts.google.com/specimen/Roboto+Serif"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotoserif/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotoserif/RobotoSerif-Italic[GRAD,opsz,wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotoserif/RobotoSerif[GRAD,opsz,wdth,wght].ttf"
+)
+sha256sums=(
+  "34dbfbb43e0b4fdeef445d77b9ac0b988e5ad7a9bbf16808c97b66c66d51f553"
+  "695ffbe6bfd0893a8de90b1ea13632e7e838bc7427b818584e1daf82b36b99de"
+  "351ced75f3851806aa6d846b669361521eb1925cfc530396df9c1a1b77061ddb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

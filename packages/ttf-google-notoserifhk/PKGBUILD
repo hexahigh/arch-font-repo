@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifhk
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifhk
+pkgdesc="Google Fonts family: Noto Serif HK"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+HK"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifhk/NotoSerifHK[wght].ttf"
+)
+sha256sums=(
+  "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+  "66108860e321aa413e7cb346448b4a418b779d94ae392accb32d163c024ae661"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

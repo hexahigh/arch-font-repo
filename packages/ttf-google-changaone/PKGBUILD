@@ -1,0 +1,34 @@
+pkgname=ttf-google-changaone
+pkgver=1.003
+pkgrel=1
+_commit="20ea00016512b42da82bfaff8bcba7318256083a"  # Latest commit touching ofl/changaone
+pkgdesc="Google Fonts family: Changa One"
+arch=('any')
+url="https://fonts.google.com/specimen/Changa+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/changaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/changaone/ChangaOne-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/changaone/ChangaOne-Regular.ttf"
+)
+sha256sums=(
+  "67261c7ceb3e627da5c94d6617dac6da29bf36b910bee304a7680ad62e2c8b46"
+  "b6228f50f720651795c98aa24cf93bf062fee5899084a9e60f115ab3886f5583"
+  "7ac4d26a3a45b4731904b59cbb8a9cc15b7b70d447fc2b5dda40ef17c5d2e16d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

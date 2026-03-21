@@ -1,0 +1,32 @@
+pkgname=ttf-google-imperialscript
+pkgver=1.010
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/imperialscript
+pkgdesc="Google Fonts family: Imperial Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Imperial+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imperialscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imperialscript/ImperialScript-Regular.ttf"
+)
+sha256sums=(
+  "42b758018a3f0fa429f9aaf7cafaa273ce922ea7dfba30f50cc828b8aa3e1717"
+  "fa040ae596cde82559c3bcf056ac216a94efa904b848382ab85740d38df4bab7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

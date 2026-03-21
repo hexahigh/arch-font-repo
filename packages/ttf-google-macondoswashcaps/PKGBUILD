@@ -1,0 +1,32 @@
+pkgname=ttf-google-macondoswashcaps
+pkgver=2.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/macondoswashcaps
+pkgdesc="Google Fonts family: Macondo Swash Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Macondo+Swash+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/macondoswashcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/macondoswashcaps/MacondoSwashCaps-Regular.ttf"
+)
+sha256sums=(
+  "0d75673e4c98de3e11337dbd90b05d0232edfcade5c1c02fbc0118c85aea25da"
+  "776c95ad520e4776a45add8d8693e693b566be9f26cd20505256c8e944dc07ea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

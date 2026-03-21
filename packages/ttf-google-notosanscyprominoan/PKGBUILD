@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanscyprominoan
+pkgver=1.503
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanscyprominoan
+pkgdesc="Google Fonts family: Noto Sans Cypro Minoan"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Cypro+Minoan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanscyprominoan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanscyprominoan/NotoSansCyproMinoan-Regular.ttf"
+)
+sha256sums=(
+  "d3350b235b681746db9ca902f656cadf122769738f3cef76bc999df7d52bbd77"
+  "e2c9c85ce7044f895443e97653ca440e7499d10c59ef780c12e592558a7c2bda"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

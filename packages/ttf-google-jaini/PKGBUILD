@@ -1,0 +1,32 @@
+pkgname=ttf-google-jaini
+pkgver=2.000
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jaini
+pkgdesc="Google Fonts family: Jaini"
+arch=('any')
+url="https://fonts.google.com/specimen/Jaini"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaini/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaini/Jaini-Regular.ttf"
+)
+sha256sums=(
+  "5f716b45b3d7c1e206a6a40da96208f151c1fcd33d7de578b88124d1ae341ec3"
+  "67224e60cafa27291c4b03cd907ca61ec678ba59fc1743af89da4472ea50d5c7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

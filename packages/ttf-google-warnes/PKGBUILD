@@ -1,0 +1,32 @@
+pkgname=ttf-google-warnes
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/warnes
+pkgdesc="Google Fonts family: Warnes"
+arch=('any')
+url="https://fonts.google.com/specimen/Warnes"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/warnes/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/warnes/Warnes-Regular.ttf"
+)
+sha256sums=(
+  "11739fc270dbd2ff3d726f5177d2402132fc1bb1455f886e4f084bc13eda665c"
+  "d3bd538498237de2f30420b45efe9b1a2d0671f66868ddf595284f797266ba32"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

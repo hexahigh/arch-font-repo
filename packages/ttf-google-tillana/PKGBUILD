@@ -1,0 +1,40 @@
+pkgname=ttf-google-tillana
+pkgver=2.003
+pkgrel=1
+_commit="304d56b883f6556b321eae5a7dfb0b2b80f6af18"  # Latest commit touching ofl/tillana
+pkgdesc="Google Fonts family: Tillana"
+arch=('any')
+url="https://fonts.google.com/specimen/Tillana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/Tillana-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/Tillana-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/Tillana-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/Tillana-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tillana/Tillana-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "76c53b8963432418087fa3748d14be25f090fd89cd709f6c14b63679c4c72244"
+  "66e96f9cca864969fdf12311cb7157bab60d6c7d9a47d803ff06a40efd7dce25"
+  "bff30851742c92d894a358ce788669782aabee95a9f51c39f37f2c2b853f46e8"
+  "fd907100fa0c131db999960bb7ac71243e515c330ee16e18f28fa8958bd1811b"
+  "8bfe14bc76b8bcb2dd63b92df748e3495af0e7eeee71db4936034e6fed7119c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

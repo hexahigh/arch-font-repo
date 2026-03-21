@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifethiopic
+pkgver=2.102
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifethiopic
+pkgdesc="Google Fonts family: Noto Serif Ethiopic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Ethiopic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifethiopic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifethiopic/NotoSerifEthiopic[wdth,wght].ttf"
+)
+sha256sums=(
+  "72606b23f312cb25973958f2892d4d2c2012deabadbf0f763232624a9649fc69"
+  "49d5daa6c3477a427f5d4f8a5ae9ea7f0a04ea7f865fc21f7e08fc4aed70d92a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

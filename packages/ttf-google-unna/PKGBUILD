@@ -1,0 +1,38 @@
+pkgname=ttf-google-unna
+pkgver=2.007
+pkgrel=1
+_commit="aa8caebaa08785d14879307855e612bace84612e"  # Latest commit touching ofl/unna
+pkgdesc="Google Fonts family: Unna"
+arch=('any')
+url="https://fonts.google.com/specimen/Unna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unna/Unna-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unna/Unna-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unna/Unna-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unna/Unna-Regular.ttf"
+)
+sha256sums=(
+  "99d67fff016522688b8f913377f8ae9f6da6ffeae42cf67c0e5e87cfb0928d33"
+  "d20dcc29cd2b5db18f6c782918f26ee9a6a8240a3850d7aa56fd9977024fc5b1"
+  "3cf90fb9a8d12eb1cb909842633bf1468819deaf993d39988229d38200a7793e"
+  "fd94aa77c2ab4572688ac8ad48c51629c8d651c32b23013b9c33cd72fc9c77b1"
+  "94269efa448520c135ae1f994e0a711b214f5df4ce6b37f2d3ef10a7ccdb1700"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-jaldi
+pkgver=1.007
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jaldi
+pkgdesc="Google Fonts family: Jaldi"
+arch=('any')
+url="https://fonts.google.com/specimen/Jaldi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaldi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaldi/Jaldi-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jaldi/Jaldi-Regular.ttf"
+)
+sha256sums=(
+  "a74380bba78a364ec70b3a5fb6a1161b83cb05cc3e75a0910afbd1b5aff4f9c8"
+  "5518eef27bab146f957c70fe50ef10bea8fe363d3ac75cc797aa882a7226bd99"
+  "26f34c48b7baa838dd459b5f5db026e9493bb468efc2956761c52134d478d2e2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

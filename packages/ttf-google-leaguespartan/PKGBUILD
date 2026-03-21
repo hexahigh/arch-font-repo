@@ -1,0 +1,32 @@
+pkgname=ttf-google-leaguespartan
+pkgver=2.002
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/leaguespartan
+pkgdesc="Google Fonts family: League Spartan"
+arch=('any')
+url="https://fonts.google.com/specimen/League+Spartan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguespartan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguespartan/LeagueSpartan[wght].ttf"
+)
+sha256sums=(
+  "41c9980cacc325ccd1afa6553bcae038cc6c74fa519aff60bacb99e3854292ce"
+  "2dbb6290b39ab7c48a40b18f74ca59ef48a69a015c3ea0542703f0c6ce51d617"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,44 @@
+pkgname=ttf-google-lateef
+pkgver=4.400
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lateef
+pkgdesc="Google Fonts family: Lateef"
+arch=('any')
+url="https://fonts.google.com/specimen/Lateef"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lateef/Lateef-SemiBold.ttf"
+)
+sha256sums=(
+  "63fbda065921d34b9421154fbdeba09075efa2405a5bcb32fbbcfd0aeea892c9"
+  "eee405eeb4e81491b0b659fb40dc016765292022d74406c616f72501e160afe2"
+  "ee6406b63af32993054b1f7e2d6ff0fd7c91c409b0d4818bb1d686f709f0cdff"
+  "d22920471ea9305e50b18674a285975cd9856059dd1dccb088becb101090c328"
+  "f5c18f8c66cc30a61cc009f86b31aeecc4d81804fe4ef847cef4d2288a1e6723"
+  "b08e71723c6bdcc7855a1384ced2cc459f0fbbc65dfa0dfa0a94b9983d484ef1"
+  "fcbd9e0227a4d7238880defa5fd74c012d69351150709e559a8577446145c2fc"
+  "ac0ba34269c19062340d942c5ad4ecc41ab8b9d21df92973372a7e1d7a421ff2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

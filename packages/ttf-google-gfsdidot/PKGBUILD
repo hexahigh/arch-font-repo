@@ -1,0 +1,32 @@
+pkgname=ttf-google-gfsdidot
+pkgver=1.0
+pkgrel=1
+_commit="1b37fa9e4a4ad50e613520391a3de7d4f9a0ed76"  # Latest commit touching ofl/gfsdidot
+pkgdesc="Google Fonts family: GFS Didot"
+arch=('any')
+url="https://fonts.google.com/specimen/GFS+Didot"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gfsdidot/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gfsdidot/GFSDidot-Regular.ttf"
+)
+sha256sums=(
+  "9e19c0d2e7e7adcbe9dfd0749e34dda41e7e356e0f2cc082d61d2fc9b6e0cef7"
+  "4fc784ab824e8866eeef8ad55976b93e7e170fb1b8237fd4f8781b5b4dd297f9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-buda
+pkgver=1.003
+pkgrel=1
+_commit="42cbe3feac018389bd54a88520d9ff277d16204b"  # Latest commit touching ofl/buda
+pkgdesc="Google Fonts family: Buda"
+arch=('any')
+url="https://fonts.google.com/specimen/Buda"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/buda/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/buda/Buda-Light.ttf"
+)
+sha256sums=(
+  "a9ef1db03f660130790beeb3b5d91b68536a44a98ec2db3097d02a1c5f91c599"
+  "1c8a9bb52f69dba3b66961b792c03e5407f48070bf9ff8436103082f6dd6a720"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-tradewinds
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tradewinds
+pkgdesc="Google Fonts family: Trade Winds"
+arch=('any')
+url="https://fonts.google.com/specimen/Trade+Winds"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tradewinds/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tradewinds/TradeWinds-Regular.ttf"
+)
+sha256sums=(
+  "018d17b5e04c0a217a21979fa6b6d77bd5a143a5f06ea2ea102e427abd1ebfa2"
+  "bbc4c9a17927d6c5076a1957b0b165fae6c835c1bfa0fb8c07053243097e495b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

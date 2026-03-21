@@ -1,0 +1,32 @@
+pkgname=ttf-google-bungeecolor
+pkgver=1.000
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bungeecolor
+pkgdesc="Google Fonts family: Bungee Color"
+arch=('any')
+url="https://fonts.google.com/specimen/Bungee+Color"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bungeecolor/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bungeecolor/BungeeColor-Regular.ttf"
+)
+sha256sums=(
+  "2ce1c4fcf4ab9c8474d0824434497d4afa4425db4de5629103698b170ac4ee74"
+  "cf21a786e54f43694f4edbb51a38f81331a4c3414217c524c8cb2d091aa7fd63"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

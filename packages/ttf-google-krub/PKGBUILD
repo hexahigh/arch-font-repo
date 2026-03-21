@@ -1,0 +1,54 @@
+pkgname=ttf-google-krub
+pkgver=1.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/krub
+pkgdesc="Google Fonts family: Krub"
+arch=('any')
+url="https://fonts.google.com/specimen/Krub"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/krub/Krub-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "8f187da1eb4f23e3fe7ba68b1cb2e92881a415dd34c46489698454517e273c4f"
+  "0b8c2684736742e181f48ed7d9b0aed10ac2d4e1e3a02c8346e5300a4a07f100"
+  "b4363ba5369dc7cd1380932d7e4adcdce0f2190ae6ad659dea37cb7a45448d25"
+  "6b5b32c071d7b6656f2a34a58ac78991c5dca5679f300ee59e12a6ee434fde37"
+  "bf6139882b5f3dbbfa000844145ee51df7ce3bb4b330943602094558a18fcba6"
+  "3b1b9a1740e0ee096806c5d82867d3e28816575bfffb07885d84f7b4d9fe2937"
+  "bb537914c72d5bbb305d161546dc3ccccfdd7bef69c59e27ce4b740b9ea39bf3"
+  "eb4290e7174a37f0cc71b9096813a2d8a9c7119c93467ab6f7c0028955d80229"
+  "cdf7274a4822c9e0eebc1b503650ab3703bc968082a7ebbaaf69a3bfb605d477"
+  "6f4059366153fa39f651ab2c0b193b7a030fdae305ea9ae5877681d099a87904"
+  "24e5c4084ee9e878d54e70bfe5fceccf3ae46fd4aae73a794c04df4091f5e69d"
+  "9a3403dad454c45cc4f1fbe0bfc0001c842302ddda514c47285925b7921f5602"
+  "c273f16ce968d402bf144e5bb82e074e6af9bc261c200c374d57d13bf077af4e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-signikanegative
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/signikanegative
+pkgdesc="Google Fonts family: Signika Negative"
+arch=('any')
+url="https://fonts.google.com/specimen/Signika+Negative"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegative/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegative/SignikaNegative[wght].ttf"
+)
+sha256sums=(
+  "225fa26a24e27536ac01342419a0aa812469f5f2eaf0d79693a5f92904e86571"
+  "2d111b1f760fdf84739371f11c88d47d47f642ad643039d3e639466606a5cdec"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

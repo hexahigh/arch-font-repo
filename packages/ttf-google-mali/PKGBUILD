@@ -1,0 +1,54 @@
+pkgname=ttf-google-mali
+pkgver=1.000
+pkgrel=1
+_commit="147b29987bc3cb343804702f57a540a15ca2862d"  # Latest commit touching ofl/mali
+pkgdesc="Google Fonts family: Mali"
+arch=('any')
+url="https://fonts.google.com/specimen/Mali"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mali/Mali-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "bc1175730d609233043cde47e48f69831f012e85537c5ec1a2cf4836757c1540"
+  "3e2f421036c3f91eb5ef34650a5cd2116c737a542147769437a9856a455d4462"
+  "ed51d1fa721e4dc4a43dba34926442a007f8a300543c1171887810a547e5b23b"
+  "1ee5ea883fde78e4ec8b66ba3606348cd48171cc42072090df8f7500a82e3f33"
+  "0295ac94b941c9ee00997aaf83459f100a99986b3f4e2f2c19d211961e3986b4"
+  "feb2808bbd3827949b5eda93179d5820b0fbbb2bfd6154866b0d05e1b8f25f8c"
+  "0cd365c361b4a394583746ae222b136ca627b344a35cf84c6a65c2cf4ba7a97c"
+  "47e58abc37bbd0279d2e349956a529a069fc08866b2cdb97e17131aeb05d39a3"
+  "aa3320845e281de05d7076aed9be5a09df4bf11e6c46165027a0b57a0c8f5dc9"
+  "2c37d78ccf7e6095526f13ee020c7e48c15e91cf42a8b115a22467ff68fc2eca"
+  "e3212f0f9be130743d32a4f174b7d79628daa5db0d72ca4c63c799ae465597bb"
+  "0ba6d92b46369ec5040d119f87a17586be96364fac743fbf510b54a3ead1adcc"
+  "3a83a53f2b88e8464a09f8788cd4ad4e96ae3008e3bb2128de34693bd2ad6ed1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

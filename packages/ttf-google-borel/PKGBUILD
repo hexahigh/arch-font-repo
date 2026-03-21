@@ -1,0 +1,32 @@
+pkgname=ttf-google-borel
+pkgver=1.008
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/borel
+pkgdesc="Google Fonts family: Borel"
+arch=('any')
+url="https://fonts.google.com/specimen/Borel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/borel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/borel/Borel-Regular.ttf"
+)
+sha256sums=(
+  "a44737231b1272dda0ff794086a02be2967de9a83db7eeb0265007c9667cbd12"
+  "14ba894fe6b13f361c5beafab15048b90c4abbf282e3dbb477672462b323b3a8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

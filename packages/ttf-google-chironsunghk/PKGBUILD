@@ -1,0 +1,34 @@
+pkgname=ttf-google-chironsunghk
+pkgver=1.019
+pkgrel=1
+_commit="354db8ef6df0a13bb213613df45f63416c71699f"  # Latest commit touching ofl/chironsunghk
+pkgdesc="Google Fonts family: Chiron Sung HK"
+arch=('any')
+url="https://fonts.google.com/specimen/Chiron+Sung+HK"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chironsunghk/ChironSungHK[wght].ttf"
+)
+sha256sums=(
+  "b8aea45c9cb6a682b68e32d2cfa454ce34117770b6bd6a956c1661428918c1f4"
+  "5e2434ba30eee3ed90fcf5aed4690964cdf9c7c0cf9bec61b1adb695f009e12f"
+  "c88d5db947f4aad3399105d2c1c808a64580ab65e8cb26e58bb81cd96843d130"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

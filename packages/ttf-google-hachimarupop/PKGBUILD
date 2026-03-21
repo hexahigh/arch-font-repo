@@ -1,0 +1,32 @@
+pkgname=ttf-google-hachimarupop
+pkgver=1.300
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hachimarupop
+pkgdesc="Google Fonts family: Hachi Maru Pop"
+arch=('any')
+url="https://fonts.google.com/specimen/Hachi+Maru+Pop"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hachimarupop/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hachimarupop/HachiMaruPop-Regular.ttf"
+)
+sha256sums=(
+  "8d3c434650e84f42ddb33e9b5929089ea51c39b231b798dacb33087d5f05d9f1"
+  "78408910c8f1a2f174a279cbc1484b48b71780039eba3fe1be2bfcc5d4df3f98"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

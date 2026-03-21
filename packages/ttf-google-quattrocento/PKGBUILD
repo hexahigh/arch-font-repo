@@ -1,0 +1,34 @@
+pkgname=ttf-google-quattrocento
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quattrocento
+pkgdesc="Google Fonts family: Quattrocento"
+arch=('any')
+url="https://fonts.google.com/specimen/Quattrocento"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocento/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocento/Quattrocento-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quattrocento/Quattrocento-Regular.ttf"
+)
+sha256sums=(
+  "684ef102ca4c5ff61cf1c1e5c2c6326f3c26f848446f98b8862dcca716a87601"
+  "5945de7b6d6c7c9fefbb67bc34ec60f64a7dd1bd645fb2771ec7728c0ab67c9d"
+  "57dc8daff9121be82e54cf1221658b7ba4f1801212817aead2d184a5660fbcb9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

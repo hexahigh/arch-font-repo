@@ -1,0 +1,32 @@
+pkgname=ttf-google-marcellus
+pkgver=1.000
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marcellus
+pkgdesc="Google Fonts family: Marcellus"
+arch=('any')
+url="https://fonts.google.com/specimen/Marcellus"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/marcellus/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marcellus/Marcellus-Regular.ttf"
+)
+sha256sums=(
+  "715ba72697e14daa9b29a333545f69bde7c497b9f77d0a2a4c4a5a752d961801"
+  "1cf0cd10b17d35e852729962cc1ffaffed94514895972458345e2df34abb2f81"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

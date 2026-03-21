@@ -1,0 +1,48 @@
+pkgname=ttf-google-gothica1
+pkgver=2.50
+pkgrel=1
+_commit="765ac1ee9cca7d8d128b99c5bfd79d9a09c6fed8"  # Latest commit touching ofl/gothica1
+pkgdesc="Google Fonts family: Gothic A1"
+arch=('any')
+url="https://fonts.google.com/specimen/Gothic+A1"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gothica1/GothicA1-Thin.ttf"
+)
+sha256sums=(
+  "ed95c33f80ccca002e3a360b683c43368f9c5eb024e5b992abb51af3c10b59bc"
+  "6398ff5c6923c74cb453390892dcb982ec0a6c43b35da8590a8f32702d8c079d"
+  "2e883fa0ae548000996258b4101f2bb732a28b197264f49621a2cb16d6e9f126"
+  "37a65353a646fea5a1ac90585d1bb8f9b997ecae0b79c4f1f187566f910e3f9d"
+  "3de01e7b6bc0fdd494fa4de0677e67a73a6ae907537bb4c5f355d9c966e2ebfd"
+  "927826b1e23366327ebe53d4675a87938ee90b77104cb794087b5138588b53f4"
+  "c8a0eb56fa6b13448688fed0799d503fe536a8c6b7acfafdfd580edb9c4c2192"
+  "211151bea98098c579610ab1114bb1bfe909057207db561f357b896d076c21ac"
+  "7ee3063f2d626936d8a59dfa21525e7ed19b4e89e8fbb0ea5a924cad9b0cc1f4"
+  "2caee77c0db6afe1cd759c547537361ce66945e7d6fef0f14a9a35fbb4581bb6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

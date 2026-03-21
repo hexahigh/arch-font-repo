@@ -1,0 +1,34 @@
+pkgname=ttf-google-nanumgothiccoding
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nanumgothiccoding
+pkgdesc="Google Fonts family: Nanum Gothic Coding"
+arch=('any')
+url="https://fonts.google.com/specimen/Nanum+Gothic+Coding"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nanumgothiccoding/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nanumgothiccoding/NanumGothicCoding-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nanumgothiccoding/NanumGothicCoding-Regular.ttf"
+)
+sha256sums=(
+  "eeacf16032901d0ed0456876ec77b8f0fda6b3fecec7d972f8543eb602e6c30f"
+  "77a6de97c176b76ef9a683b565a1e6f4ce40b499c72a2972c4b5bdf7c6b8e7a0"
+  "787effd7efed2abca88ade231faa8191f4e9fcf85b1805a13ee1dc3724b72089"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

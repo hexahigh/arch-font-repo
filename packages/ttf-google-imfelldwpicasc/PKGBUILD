@@ -1,0 +1,32 @@
+pkgname=ttf-google-imfelldwpicasc
+pkgver=3.00
+pkgrel=1
+_commit="cd752c2521ed088a9a6d4744a47f9e042141b129"  # Latest commit touching ofl/imfelldwpicasc
+pkgdesc="Google Fonts family: IM Fell DW Pica SC"
+arch=('any')
+url="https://fonts.google.com/specimen/IM+Fell+DW+Pica+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfelldwpicasc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfelldwpicasc/IMFePIsc28P.ttf"
+)
+sha256sums=(
+  "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+  "7fc01c056b20956bf2e84375340a6274332b67f7845cbbb479fe0b90b41f845d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

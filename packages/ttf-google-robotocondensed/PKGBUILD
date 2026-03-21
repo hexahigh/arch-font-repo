@@ -1,0 +1,34 @@
+pkgname=ttf-google-robotocondensed
+pkgver=3.008
+pkgrel=1
+_commit="69d0549e8fc7ad72e1531734c81237be401ec4fd"  # Latest commit touching ofl/robotocondensed
+pkgdesc="Google Fonts family: Roboto Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Roboto+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/robotocondensed/RobotoCondensed[wght].ttf"
+)
+sha256sums=(
+  "0e4cc6ece88573545be2ed25835363662a6182ba4a4c1b5c8feda52add30e8a6"
+  "78f643b1923008b00dfc9b371a2ecd4d80a017722925f1a3fac9940be56d1b7d"
+  "dace262afcee68a5276f200d8026c57221735c0118ab5fda8c2c0d3dc409a8d0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

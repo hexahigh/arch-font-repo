@@ -1,0 +1,38 @@
+pkgname=ttf-google-rambla
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rambla
+pkgdesc="Google Fonts family: Rambla"
+arch=('any')
+url="https://fonts.google.com/specimen/Rambla"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rambla/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rambla/Rambla-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rambla/Rambla-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rambla/Rambla-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rambla/Rambla-Regular.ttf"
+)
+sha256sums=(
+  "9a9f089005f389717106bb3ba427cda9bd51b8a477078644566543f2a60ca85d"
+  "0e5af09d5cf4c7f04a95ae034fed45b8d37dc5a7f3f5492961bb4ecb3a2aa359"
+  "6cd51a19872e3736c92e0d0dd48fbef314df200b5b169b7d57b9ffdcc46f92a3"
+  "359e2cc8e935ab9bbd17734c774ca086b8dc7a30f39cb5440429d298a44390a6"
+  "50b69b938921d41a868e8cfbcc71a411e04caf14edad6a153222fc03d316ed97"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

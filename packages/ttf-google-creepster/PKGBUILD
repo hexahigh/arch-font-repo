@@ -1,0 +1,32 @@
+pkgname=ttf-google-creepster
+pkgver=1.002
+pkgrel=1
+_commit="4086f6e6ffaa7959a30fac28f5a1ac00adb85c42"  # Latest commit touching ofl/creepster
+pkgdesc="Google Fonts family: Creepster"
+arch=('any')
+url="https://fonts.google.com/specimen/Creepster"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/creepster/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/creepster/Creepster-Regular.ttf"
+)
+sha256sums=(
+  "c09e3b81d9cfeec46bc29a3374000e8ad013d694bdf24a288088491dd4cd5c69"
+  "402aeb734586c74aecd3dbdc454589b1fb12e2e1c71f782fd019ae68066d9f44"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

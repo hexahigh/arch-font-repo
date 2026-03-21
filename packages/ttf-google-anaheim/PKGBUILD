@@ -1,0 +1,32 @@
+pkgname=ttf-google-anaheim
+pkgver=2.001
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/anaheim
+pkgdesc="Google Fonts family: Anaheim"
+arch=('any')
+url="https://fonts.google.com/specimen/Anaheim"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/anaheim/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/anaheim/Anaheim[wght].ttf"
+)
+sha256sums=(
+  "e8a1cf20882d0cc27d95d7b5353fdca6a2a925a7de441e2ff0770881f8858b9d"
+  "4dcf9445d6d6791377da5079771ef565abf19a1d93869d6a46dcd5341944a058"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

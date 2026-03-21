@@ -1,0 +1,32 @@
+pkgname=ttf-google-girassol
+pkgver=1.004
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/girassol
+pkgdesc="Google Fonts family: Girassol"
+arch=('any')
+url="https://fonts.google.com/specimen/Girassol"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/girassol/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/girassol/Girassol-Regular.ttf"
+)
+sha256sums=(
+  "5a8469d3fe72117eb9b630747cfd9f50a31d81b7d18c112cfc9fb368509fe739"
+  "84c229dea2428bf26808d985a44262fd57f47a17b1722497c9d4ec5bba94fafc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

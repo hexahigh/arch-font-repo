@@ -1,0 +1,32 @@
+pkgname=ttf-google-sirivennela
+pkgver=1.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sirivennela
+pkgdesc="Google Fonts family: Sirivennela"
+arch=('any')
+url="https://fonts.google.com/specimen/Sirivennela"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sirivennela/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sirivennela/Sirivennela-Regular.ttf"
+)
+sha256sums=(
+  "4284159a77fa352b392483eeba76aea923eda9510205ac0587ab63688ba83ecd"
+  "36af0418247babf130ff25eec8fb1eb64d29c97e4b640d8ea125d2c9b201175a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

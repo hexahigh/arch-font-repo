@@ -1,0 +1,32 @@
+pkgname=ttf-google-gidole
+pkgver=2.100
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gidole
+pkgdesc="Google Fonts family: Gidole"
+arch=('any')
+url="https://fonts.google.com/specimen/Gidole"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gidole/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gidole/Gidole-Regular.ttf"
+)
+sha256sums=(
+  "5e5e983d51d32974fa4ba6d1ed7e5ba75ce17575f49a2f06ba17e4ad5c5cf2fa"
+  "7a9b54e2ce1f582cfcd1aa39ca025cd125084f4fb2ea35969d21f6544aa05f23"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

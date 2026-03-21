@@ -1,0 +1,40 @@
+pkgname=ttf-google-zenmarugothic
+pkgver=1.002
+pkgrel=1
+_commit="92503f07b74eab956c1abf4956fbf46170716caa"  # Latest commit touching ofl/zenmarugothic
+pkgdesc="Google Fonts family: Zen Maru Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Maru+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/ZenMaruGothic-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/ZenMaruGothic-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/ZenMaruGothic-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/ZenMaruGothic-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenmarugothic/ZenMaruGothic-Regular.ttf"
+)
+sha256sums=(
+  "2a20cf7ce1909d8ee1e949095d340f7d7656705f7c810a2d6faf56800ad0cb3d"
+  "6bd74fe76cd39ee0ec18775c3661d845343fb3f6f8fa09a3076638417baf741f"
+  "fe24426b9c8b5523a0146a8235c8674eccf0493af354a53ec895c3596d9eb745"
+  "c4e6fa10ff517df37cb0c13038fe2813f3c47afe6577fa4a5573200e4508b2c1"
+  "3cfdb98a13571ede17fcc769f5093a97c38b80a7b9b2ab754a26b4d822092b3b"
+  "a0c0b53543e0993ae2225e629c833f3d51495ad31720694ff112ce4ce11111ef"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

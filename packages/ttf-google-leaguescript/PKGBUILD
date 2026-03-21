@@ -1,0 +1,32 @@
+pkgname=ttf-google-leaguescript
+pkgver=1.001
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/leaguescript
+pkgdesc="Google Fonts family: League Script"
+arch=('any')
+url="https://fonts.google.com/specimen/League+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguescript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguescript/LeagueScript-Regular.ttf"
+)
+sha256sums=(
+  "81d0973236b5b5709a80a217a330db36eabedf57bf4031de46b4660b69901234"
+  "42c3a493028aec3a2266e540a1264f7b5e26eefd17219dda9b165b928986308a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

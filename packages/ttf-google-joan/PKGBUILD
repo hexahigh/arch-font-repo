@@ -1,0 +1,32 @@
+pkgname=ttf-google-joan
+pkgver=1.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/joan
+pkgdesc="Google Fonts family: Joan"
+arch=('any')
+url="https://fonts.google.com/specimen/Joan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/joan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/joan/Joan-Regular.ttf"
+)
+sha256sums=(
+  "1a7bee2a10dc98def83076f719360f7db6a7760e0f5401046877a415ffc1abfa"
+  "8777dccac8b33ee6fe4a0c7ab20e08cad20d7d10c18b0ce775e728f8e67be0e4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

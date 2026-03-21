@@ -1,0 +1,32 @@
+pkgname=ttf-google-nationalpark
+pkgver=1.009
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nationalpark
+pkgdesc="Google Fonts family: National Park"
+arch=('any')
+url="https://fonts.google.com/specimen/National+Park"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nationalpark/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nationalpark/NationalPark[wght].ttf"
+)
+sha256sums=(
+  "81c6c71d83b5b45d7344f96df12bb4a2477a5b092a9144757ee1d0f50f855175"
+  "17699dc82c52b177b95dec6805c8091ab79a965c866fa0f07ffa8672ddde0b5c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

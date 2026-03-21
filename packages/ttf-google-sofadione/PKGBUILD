@@ -1,0 +1,32 @@
+pkgname=ttf-google-sofadione
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sofadione
+pkgdesc="Google Fonts family: Sofadi One"
+arch=('any')
+url="https://fonts.google.com/specimen/Sofadi+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofadione/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofadione/SofadiOne-Regular.ttf"
+)
+sha256sums=(
+  "455397ca15d39e9178bbbf4b485a29187751d60f7ceb7829980a521d5ab6848d"
+  "e88fa20679a9e3568b66ee0bb973bc8bebf73bb868297a2dffd30a99354c0a2f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

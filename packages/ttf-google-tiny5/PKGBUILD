@@ -1,0 +1,32 @@
+pkgname=ttf-google-tiny5
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tiny5
+pkgdesc="Google Fonts family: Tiny5"
+arch=('any')
+url="https://fonts.google.com/specimen/Tiny5"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiny5/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiny5/Tiny5-Regular.ttf"
+)
+sha256sums=(
+  "6fe7d64407c69d187748206265977654747d3e2fe9e38e45a62cd03ec4770df6"
+  "cb8168f80cfee2f47f6db59f2a7afbde31cdcdcdcf262e7a993e4d468a5bf4b0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

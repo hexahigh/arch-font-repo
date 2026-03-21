@@ -1,0 +1,32 @@
+pkgname=ttf-google-festive
+pkgver=1.101
+pkgrel=1
+_commit="846db8cc7a1f8dab1893b079ca64ee6e72c4f6d1"  # Latest commit touching ofl/festive
+pkgdesc="Google Fonts family: Festive"
+arch=('any')
+url="https://fonts.google.com/specimen/Festive"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/festive/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/festive/Festive-Regular.ttf"
+)
+sha256sums=(
+  "9185cdf29ddad3ff97f5f07094345937c33f01ea232827a9ef9af9d88ae4b6a8"
+  "34940d4e68ffdbaee80e25d9ac8ef956eb0f4965c804d067041373ddca6a9ec8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

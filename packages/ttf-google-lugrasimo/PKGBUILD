@@ -1,0 +1,32 @@
+pkgname=ttf-google-lugrasimo
+pkgver=1.001
+pkgrel=1
+_commit="e068b8bc2ce3581ad3a18320887e2a0a844d37c6"  # Latest commit touching ofl/lugrasimo
+pkgdesc="Google Fonts family: Lugrasimo"
+arch=('any')
+url="https://fonts.google.com/specimen/Lugrasimo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lugrasimo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lugrasimo/Lugrasimo-Regular.ttf"
+)
+sha256sums=(
+  "d028940636b0acee45c302e6de8eee8e1ec66a6c59280a5f5f2b0c06a6681428"
+  "5a8a7b736bfb38c4fa32b0dc82591e5cddc46a52905866d79a4f8050fe40d0c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

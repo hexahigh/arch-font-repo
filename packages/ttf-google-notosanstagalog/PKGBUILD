@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstagalog
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstagalog
+pkgdesc="Google Fonts family: Noto Sans Tagalog"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Tagalog"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstagalog/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstagalog/NotoSansTagalog-Regular.ttf"
+)
+sha256sums=(
+  "34e8361b8799f1e37b199f0260a66a38f4359f42ed0f2dcf96e3650f6bff2cd9"
+  "871a66319d10d1a027eee889f75ea49be0b7d2a4e97acd6bf7f7a0ed1d741aac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

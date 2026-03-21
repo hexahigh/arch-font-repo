@@ -1,0 +1,38 @@
+pkgname=ttf-google-ruwudu
+pkgver=3.000
+pkgrel=1
+_commit="5c54798f3b13e1a278f75c4e17e0db0a13fd96ef"  # Latest commit touching ofl/ruwudu
+pkgdesc="Google Fonts family: Ruwudu"
+arch=('any')
+url="https://fonts.google.com/specimen/Ruwudu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruwudu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruwudu/Ruwudu-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruwudu/Ruwudu-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruwudu/Ruwudu-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruwudu/Ruwudu-SemiBold.ttf"
+)
+sha256sums=(
+  "2abc42812053bb5fd07d5f49c98311fef1471c2ff108c372abbbd44cdd4c7759"
+  "7f7611d534aea674b960e0b586d1f594f3975b4db3fff5f55c1b92484a34cf78"
+  "11688c54f825b293e6554c44a645ffa863a04331f3abee3dee18711a01719a8e"
+  "ed5b134e7f389eecfdabc6bbbf9605177fa8b5b9984c8b24edbec908623d2c3b"
+  "13f4e5c44f184bf9432cc4f4121e24853a3b81026a4223d113042710e361041d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

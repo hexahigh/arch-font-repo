@@ -1,0 +1,32 @@
+pkgname=ttf-google-clickerscript
+pkgver=1.000
+pkgrel=1
+_commit="4616d5078869dc94a8b1b4b32ebd471f469c547b"  # Latest commit touching ofl/clickerscript
+pkgdesc="Google Fonts family: Clicker Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Clicker+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/clickerscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/clickerscript/ClickerScript-Regular.ttf"
+)
+sha256sums=(
+  "ec1d7de447a90e4b6d8f2b4f95c7f89a70e315fdb41969bc716059e4f2461fa4"
+  "0221d4376fc0a25795a32d7e309798b6693b56f65c5851f92529043b230a9117"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

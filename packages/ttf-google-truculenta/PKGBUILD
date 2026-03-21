@@ -1,0 +1,32 @@
+pkgname=ttf-google-truculenta
+pkgver=1.002
+pkgrel=1
+_commit="1ff993ca79cf553fbfa937cd8fd6464963a64128"  # Latest commit touching ofl/truculenta
+pkgdesc="Google Fonts family: Truculenta"
+arch=('any')
+url="https://fonts.google.com/specimen/Truculenta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/truculenta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/truculenta/Truculenta[opsz,wdth,wght].ttf"
+)
+sha256sums=(
+  "d4c3f10bf7997331b75c76d40535898729361c589b7301507120fa5582c827f3"
+  "08d8abe8590e3fef246801f86ef1ede30f8c7a000500857024a590529c443f3c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

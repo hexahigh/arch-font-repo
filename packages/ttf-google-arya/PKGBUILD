@@ -1,0 +1,34 @@
+pkgname=ttf-google-arya
+pkgver=1.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/arya
+pkgdesc="Google Fonts family: Arya"
+arch=('any')
+url="https://fonts.google.com/specimen/Arya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arya/Arya-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arya/Arya-Regular.ttf"
+)
+sha256sums=(
+  "dd028a807788d5e22e9f8cc18f026cda23369954673658f2ecc7d30bdb364b89"
+  "96449d0ec5f452f56c05fd3072115435f41ed3f78d362444b79a8379de2479f4"
+  "b02bdacefe31bd544f9332b9b4244168ec23e18be395a573e08f484c2a778879"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

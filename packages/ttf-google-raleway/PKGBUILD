@@ -1,0 +1,34 @@
+pkgname=ttf-google-raleway
+pkgver=4.026
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/raleway
+pkgdesc="Google Fonts family: Raleway"
+arch=('any')
+url="https://fonts.google.com/specimen/Raleway"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/raleway/Raleway[wght].ttf"
+)
+sha256sums=(
+  "7e946cf1171784d1015279e7dc35f827957a6b5d1f1f659ae0c98e5f5e37ed9b"
+  "96629caf2202183fab46c70237055a7d67e6a5400b85413d45a77ed6f2a0770c"
+  "8bbcc3eb8275c388f4bcd998832f8a4b943eadbaf6a595205312774b5951aefb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

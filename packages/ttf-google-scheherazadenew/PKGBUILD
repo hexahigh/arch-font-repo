@@ -1,0 +1,38 @@
+pkgname=ttf-google-scheherazadenew
+pkgver=4.400
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/scheherazadenew
+pkgdesc="Google Fonts family: Scheherazade New"
+arch=('any')
+url="https://fonts.google.com/specimen/Scheherazade+New"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/scheherazadenew/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/scheherazadenew/ScheherazadeNew-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/scheherazadenew/ScheherazadeNew-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/scheherazadenew/ScheherazadeNew-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/scheherazadenew/ScheherazadeNew-SemiBold.ttf"
+)
+sha256sums=(
+  "bbfb12d3df758ffe870799fcf3df5e36788acc739a055a27a15df8dc4a0c2979"
+  "1cdb9e8c73a222fdd4daca629de853444cafd1d577d6afa2cb7c64540d200de7"
+  "6658ce893ffbf4ed7c50008808bc2ce7eb43e9abd1eba4429873864c1a83c975"
+  "9e07862eac6dfe532d3db97616642017c018eacb8084122100dbcf746b231b89"
+  "042d6c8a1277edc4de50cb1ade27d99e541bb83e74a1ce71ae6ffe52b7404d05"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,46 @@
+pkgname=ttf-google-iosevkacharon
+pkgver=34.100
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/iosevkacharon
+pkgdesc="Google Fonts family: Iosevka Charon"
+arch=('any')
+url="https://fonts.google.com/specimen/Iosevka+Charon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharon/IosevkaCharon-Regular.ttf"
+)
+sha256sums=(
+  "d322b7d6b9be80a87ef7a8e49573a376390621952e3d4abee4662fc41976686a"
+  "6929f4d263eef34bf72992782b8fd49aaf06a94a3bd02bc418bdc9e25892dbc5"
+  "2d2e548d533903d608b9c6ee4a5262cbf7703d339a25593310cceb5e3c02814d"
+  "16fafa08364b9657f8acaea402ce0549a98b74cc10b9ca19dd674f3026b7b060"
+  "47bf91a4348e0079f5ddcfe6649f6617e43e663541d8b51c05a512597eca09a2"
+  "7788641d2613c1ee0a733220acd954bae4d33ecf0074a6d19607e29e6b669293"
+  "fe4236724c45b1fe2073c30c0fb212fcd361a2f6f22c776a777e464fb8917553"
+  "18396b7a0db5863e4e60bdab6d0d02bc57e31477a7a311d7eff94bc44d264914"
+  "a5a85271575eefce115a0c029c787bc8914d0c771bd1fdfc3776b7280a57d047"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

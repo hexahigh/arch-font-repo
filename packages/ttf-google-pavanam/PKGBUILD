@@ -1,0 +1,32 @@
+pkgname=ttf-google-pavanam
+pkgver=1.86
+pkgrel=1
+_commit="f24f69d712575c5acb66597bd604a08bfe72bc55"  # Latest commit touching ofl/pavanam
+pkgdesc="Google Fonts family: Pavanam"
+arch=('any')
+url="https://fonts.google.com/specimen/Pavanam"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pavanam/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pavanam/Pavanam-Regular.ttf"
+)
+sha256sums=(
+  "75a77451968e55a1ab404bd953bd8778983e21116d507b890fbcf838e58c8e8b"
+  "d2805bfdca57f7d7a0c69edf35a5f98d4605af6603dcca943db5d11ea531c2f3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

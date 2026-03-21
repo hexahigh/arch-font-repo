@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanscherokee
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanscherokee
+pkgdesc="Google Fonts family: Noto Sans Cherokee"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Cherokee"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanscherokee/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanscherokee/NotoSansCherokee[wght].ttf"
+)
+sha256sums=(
+  "d7f9ca0cf1b9bcb7e94697bce31b2ec7a5571c51deb8f1f2f411ddf9a67859dd"
+  "865d9e644f5011f2020a10325b7242f85c9c8ef0edece00e5ed743e5dfb275fd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

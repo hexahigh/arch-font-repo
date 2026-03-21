@@ -1,0 +1,32 @@
+pkgname=ttf-google-copse
+pkgver=1.000
+pkgrel=1
+_commit="1353f21e812978e17d6f09f2af4ffeb0bc59eea3"  # Latest commit touching ofl/copse
+pkgdesc="Google Fonts family: Copse"
+arch=('any')
+url="https://fonts.google.com/specimen/Copse"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/copse/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/copse/Copse-Regular.ttf"
+)
+sha256sums=(
+  "7a1d085067cd589026b256dd85af1eaa1087fa0f3d468192724c5138cc14d894"
+  "b852e682f0c66de4db1835f8545ff2e94761549987a4607447b069e973f50b1d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

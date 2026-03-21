@@ -1,0 +1,34 @@
+pkgname=ttf-google-newscycle
+pkgver=0.5.1
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/newscycle
+pkgdesc="Google Fonts family: News Cycle"
+arch=('any')
+url="https://fonts.google.com/specimen/News+Cycle"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/newscycle/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newscycle/NewsCycle-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newscycle/NewsCycle-Regular.ttf"
+)
+sha256sums=(
+  "7729f005b7a087368e2cf61fc4b65cdc85988e47d0e6e38c93a72de345e86b41"
+  "97f733a3a414cef6c44d6a4fde8ce2543facbfd1f5a35ae80dbfd691a89dd632"
+  "8653ccce06d26dcf19a68704a16063835fc9fea036638c2fcbd5bdc8c94e4e95"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

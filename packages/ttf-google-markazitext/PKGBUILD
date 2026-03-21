@@ -1,0 +1,32 @@
+pkgname=ttf-google-markazitext
+pkgver=1.001
+pkgrel=1
+_commit="6c109f02a1e1592d1abd26febb4768882e22b335"  # Latest commit touching ofl/markazitext
+pkgdesc="Google Fonts family: Markazi Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Markazi+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/markazitext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/markazitext/MarkaziText[wght].ttf"
+)
+sha256sums=(
+  "6e7f259edf178c70b2ee36acfcc934b76d1cd56bb58d2c8f2ab8b5dded8bd430"
+  "424b7331681160ff2a4b209bfc356ea9564d429a7daea43ee4dc28de8ff4f9fe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

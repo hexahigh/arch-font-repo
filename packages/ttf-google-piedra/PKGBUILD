@@ -1,0 +1,32 @@
+pkgname=ttf-google-piedra
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/piedra
+pkgdesc="Google Fonts family: Piedra"
+arch=('any')
+url="https://fonts.google.com/specimen/Piedra"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/piedra/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/piedra/Piedra-Regular.ttf"
+)
+sha256sums=(
+  "5b158abb3406e69b7408b562b7199f6ff55a41ea56e260b87176d693b0095e47"
+  "2e9d00f94d3d78f38618250d03d3e8bccca541c956d5e0a437c62d708ef6c1da"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

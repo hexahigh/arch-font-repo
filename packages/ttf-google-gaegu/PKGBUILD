@@ -1,0 +1,36 @@
+pkgname=ttf-google-gaegu
+pkgver=1.00
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gaegu
+pkgdesc="Google Fonts family: Gaegu"
+arch=('any')
+url="https://fonts.google.com/specimen/Gaegu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gaegu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gaegu/Gaegu-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gaegu/Gaegu-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gaegu/Gaegu-Regular.ttf"
+)
+sha256sums=(
+  "53a9ce47085d9fef613c7ecb3730dc80d25962510bbea231b89564f58240f251"
+  "cc38a4af9506a45254d1ce07c589ec473d9e5f0be319e5a77b17c214903f8c1c"
+  "da44ad6e5823819599ec42e1a516f23002cc0e72f968f93bd49e793360cd77ca"
+  "aa52c98336f7c62e2896fc8b12b56a75d5b476d88a2f104b0980f4f7ce0adfc3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

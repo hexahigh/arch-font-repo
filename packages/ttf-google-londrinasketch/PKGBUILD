@@ -1,0 +1,32 @@
+pkgname=ttf-google-londrinasketch
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/londrinasketch
+pkgdesc="Google Fonts family: Londrina Sketch"
+arch=('any')
+url="https://fonts.google.com/specimen/Londrina+Sketch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasketch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasketch/LondrinaSketch-Regular.ttf"
+)
+sha256sums=(
+  "85b700bfba1250a6f8bdf930cd7113faf3d8e9dc52cd89eb98c3ac8a038a4aa9"
+  "1d3b7beeda7015014412c916e205016ed66d1f8298a97dce0ca3ae2d13271c9f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansolditalic
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansolditalic
+pkgdesc="Google Fonts family: Noto Sans Old Italic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Old+Italic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansolditalic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansolditalic/NotoSansOldItalic-Regular.ttf"
+)
+sha256sums=(
+  "9c892f8ae3d98d86a31bfb811335da1ad6fb90bc3feac6774ee4b709e2c1ba98"
+  "be47cca5000d090c3716c86428afbce436864a67c817271af0b57e450e2b7aab"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

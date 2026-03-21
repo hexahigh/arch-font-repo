@@ -1,0 +1,32 @@
+pkgname=ttf-google-dhurjati
+pkgver=1.0.5
+pkgrel=1
+_commit="cd8239071e20b91382a8e6949baf12ea864e39a7"  # Latest commit touching ofl/dhurjati
+pkgdesc="Google Fonts family: Dhurjati"
+arch=('any')
+url="https://fonts.google.com/specimen/Dhurjati"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dhurjati/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dhurjati/Dhurjati-Regular.ttf"
+)
+sha256sums=(
+  "9e53298e3629e00ae4c31531cca09051ddaa654a5de4f7b55e596132fff86e1f"
+  "7f82ab141b77d263f9ea9b31b47faf50c11310f42fce6d9dffeaaa334909bbf9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

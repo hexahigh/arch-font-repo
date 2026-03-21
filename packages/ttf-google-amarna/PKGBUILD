@@ -1,0 +1,34 @@
+pkgname=ttf-google-amarna
+pkgver=1.003
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/amarna
+pkgdesc="Google Fonts family: Amarna"
+arch=('any')
+url="https://fonts.google.com/specimen/Amarna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amarna/Amarna[wght].ttf"
+)
+sha256sums=(
+  "12d84550f6bcde9c4f5c4e1c0adccc10ac50a9053ef328c3cbeffd0ff4effe4c"
+  "b5ef66a2439aec16199373c0feef9f8261f5800eb0514a556576c112309ce3c7"
+  "257f905b7a84302726995daef4aac1bb62c94171b8e29803d2eeb43c3d105bd4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

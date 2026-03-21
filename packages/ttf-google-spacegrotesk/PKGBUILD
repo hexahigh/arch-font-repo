@@ -1,0 +1,32 @@
+pkgname=ttf-google-spacegrotesk
+pkgver=2.000
+pkgrel=1
+_commit="060415592e0970a784bad9ea20d2b255e816fd22"  # Latest commit touching ofl/spacegrotesk
+pkgdesc="Google Fonts family: Space Grotesk"
+arch=('any')
+url="https://fonts.google.com/specimen/Space+Grotesk"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/spacegrotesk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spacegrotesk/SpaceGrotesk[wght].ttf"
+)
+sha256sums=(
+  "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+  "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

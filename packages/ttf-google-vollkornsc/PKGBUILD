@@ -1,0 +1,38 @@
+pkgname=ttf-google-vollkornsc
+pkgver=4.015
+pkgrel=1
+_commit="5081ec64046ff04e82233258ba3faad2545813dd"  # Latest commit touching ofl/vollkornsc
+pkgdesc="Google Fonts family: Vollkorn SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Vollkorn+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkornsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkornsc/VollkornSC-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkornsc/VollkornSC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkornsc/VollkornSC-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vollkornsc/VollkornSC-SemiBold.ttf"
+)
+sha256sums=(
+  "53f9c99fa3d47f7d632a42ee7bab4a834a60a744f6026d676c3a223cef2b2ef3"
+  "b4db8f746ed1a2a23b73b7dbad6b723a4dae507d94e191c5a09649b6e1a8f7d6"
+  "e699f58347d31321902c74ff3bafde0f2820240c89c321acff1da69e015a5f56"
+  "a6b4dbabb5cf158f2359c15f39a0eefd5ef99434b9d443a84e6012c2fcbd81ae"
+  "caa308c2c5970bc7732a0188eb44867fc2f2124e8acbaba7e1aa87403a70e804"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

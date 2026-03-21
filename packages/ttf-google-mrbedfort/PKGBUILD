@@ -1,0 +1,32 @@
+pkgname=ttf-google-mrbedfort
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mrbedfort
+pkgdesc="Google Fonts family: Mr Bedfort"
+arch=('any')
+url="https://fonts.google.com/specimen/Mr+Bedfort"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrbedfort/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrbedfort/MrBedfort-Regular.ttf"
+)
+sha256sums=(
+  "5ae0cfa62a70251d9a2c3c5430ed3bafa480005f23e4b9525488f2318e5c10ca"
+  "1551321151a818cfc5f9f16302e76b8ca86f16bef8fe7478ffeac69211bbdcc9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

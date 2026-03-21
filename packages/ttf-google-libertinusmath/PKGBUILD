@@ -1,0 +1,32 @@
+pkgname=ttf-google-libertinusmath
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinusmath
+pkgdesc="Google Fonts family: Libertinus Math"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Math"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusmath/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusmath/LibertinusMath-Regular.ttf"
+)
+sha256sums=(
+  "543bbe3d066d7ee6b062b6911220355c72720dc16003e5086885d6f543a6f376"
+  "6eaebb1260c45328a49299a614eb20cee6d0b5c2fbb0d48314def159e0715318"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

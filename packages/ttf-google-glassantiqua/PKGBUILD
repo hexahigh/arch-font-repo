@@ -1,0 +1,32 @@
+pkgname=ttf-google-glassantiqua
+pkgver=1.001
+pkgrel=1
+_commit="bb1982109d6167438faab892b5d9500db64799fc"  # Latest commit touching ofl/glassantiqua
+pkgdesc="Google Fonts family: Glass Antiqua"
+arch=('any')
+url="https://fonts.google.com/specimen/Glass+Antiqua"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/glassantiqua/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/glassantiqua/GlassAntiqua-Regular.ttf"
+)
+sha256sums=(
+  "2950994bcfb8e903f0539d28a8ec4af077e0aa1fa7946c33c912d2d6969c2971"
+  "af93faedd95bd2ea55fd6f6ca62136933b641497693f15b19fc3642d54b5b44e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

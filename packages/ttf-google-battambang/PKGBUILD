@@ -1,0 +1,40 @@
+pkgname=ttf-google-battambang
+pkgver=8.002
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/battambang
+pkgdesc="Google Fonts family: Battambang"
+arch=('any')
+url="https://fonts.google.com/specimen/Battambang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/Battambang-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/Battambang-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/Battambang-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/Battambang-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/battambang/Battambang-Thin.ttf"
+)
+sha256sums=(
+  "b7e7aaa1d798762d14374256ee62450bd6585f1ec9490a95368e90a90e425d7d"
+  "4426332a541f6cc85489813b11d99b8a1aaca53b313f8deb21b403a3d58286dd"
+  "4cd10f7a56a7d9d1fb4184b2219821f8ad6f425be290243ef73c4ef3a80c86ff"
+  "282626df0ef99cdba8e2519e63705de621d1cf29c3d323a1d8e424df1caea5ed"
+  "1fd3eb9960911396cb7955f2c68afe5ee21c2c14f8097e945d05b768ed4de942"
+  "8e02ceb59104791191d7370324a75c4e74e85623691272507f8bde3c83d7a8d9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

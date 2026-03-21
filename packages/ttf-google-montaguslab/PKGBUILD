@@ -1,0 +1,32 @@
+pkgname=ttf-google-montaguslab
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montaguslab
+pkgdesc="Google Fonts family: Montagu Slab"
+arch=('any')
+url="https://fonts.google.com/specimen/Montagu+Slab"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/montaguslab/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/montaguslab/MontaguSlab[opsz,wght].ttf"
+)
+sha256sums=(
+  "3b00031e7de1fd7d8cce0a7a4638a38a8988e16a8950210ebf8e57f688b14c4d"
+  "26fe25e6f5221fa48b97807d9666bbf36e7486bc7853676b24bb631373e8a505"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,38 @@
+pkgname=ttf-google-enriqueta
+pkgver=2.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/enriqueta
+pkgdesc="Google Fonts family: Enriqueta"
+arch=('any')
+url="https://fonts.google.com/specimen/Enriqueta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/enriqueta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/enriqueta/Enriqueta-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/enriqueta/Enriqueta-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/enriqueta/Enriqueta-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/enriqueta/Enriqueta-SemiBold.ttf"
+)
+sha256sums=(
+  "0e74984817cdd51dbfbd8309022aa75f733e80dff0cb1d26ad2157e90446ba97"
+  "bb453797b5e353990c4569994754c2496640f427331c9f33b51414ed56777412"
+  "be7455fe09db15b36ee858d66ac59d0ab31e37b04b4253099fd869258f9b5592"
+  "5e3aca4c6daf22188a92717b7ed53221519daa96b7f85117601ebf1890686716"
+  "b866967948a53bd516d441c0b04f0bbc4b45061a8d1d57e7a8989eab2bd9cc18"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

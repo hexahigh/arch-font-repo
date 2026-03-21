@@ -1,0 +1,32 @@
+pkgname=ttf-google-tiltwarp
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tiltwarp
+pkgdesc="Google Fonts family: Tilt Warp"
+arch=('any')
+url="https://fonts.google.com/specimen/Tilt+Warp"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiltwarp/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tiltwarp/TiltWarp[XROT,YROT].ttf"
+)
+sha256sums=(
+  "97941703cd5fb1d5e86a062c9463ed12a613dbfbab9961c333699bdb2d277321"
+  "e650320e405c220853184fa20a60a812f3f0275c3a1b2d1769409ad1cb4bfca5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

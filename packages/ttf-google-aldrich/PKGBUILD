@@ -1,0 +1,32 @@
+pkgname=ttf-google-aldrich
+pkgver=1.002
+pkgrel=1
+_commit="4d4b948e76213e535a99956f3e8a2aba5b9da90c"  # Latest commit touching ofl/aldrich
+pkgdesc="Google Fonts family: Aldrich"
+arch=('any')
+url="https://fonts.google.com/specimen/Aldrich"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aldrich/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aldrich/Aldrich-Regular.ttf"
+)
+sha256sums=(
+  "de985adf63cff6b1bcb7c5cb55f1c5850fb1d36289d20a0e26d97a281bfcf956"
+  "bcabd8e6db3e8cb59242e8dbdef30bfd9b25be600e2e8f506618008f99138d47"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

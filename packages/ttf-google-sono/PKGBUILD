@@ -1,0 +1,32 @@
+pkgname=ttf-google-sono
+pkgver=2.112
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sono
+pkgdesc="Google Fonts family: Sono"
+arch=('any')
+url="https://fonts.google.com/specimen/Sono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sono/Sono[MONO,wght].ttf"
+)
+sha256sums=(
+  "19d06d19f1720e1873105ce859318099f1a5322361007ce8f5a2b48463c33ad7"
+  "247ca641ca7066e3addc8081d89613c06a79e4276cd4f2164d07a6493530010f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssylotinagri
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssylotinagri
+pkgdesc="Google Fonts family: Noto Sans Syloti Nagri"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Syloti+Nagri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssylotinagri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssylotinagri/NotoSansSylotiNagri-Regular.ttf"
+)
+sha256sums=(
+  "5533f0addd3fcdfc8d784db3aeec631bb04f570961831ea2c384a4dbf2fcfc13"
+  "86125713777b45f80ea7f08abe9cc02e2e25cf9a475f8c7e15d29180ab980571"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

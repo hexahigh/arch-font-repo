@@ -1,0 +1,42 @@
+pkgname=ttf-google-crimsontext
+pkgver=1.100
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/crimsontext
+pkgdesc="Google Fonts family: Crimson Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Crimson+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/crimsontext/CrimsonText-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "50fd67cddc097377a5c871e8452b778bc5aedfa3480a705cb27c5e3a078218df"
+  "a3a0765fc5e8d0b49b540a23aefe0184887dd79f06a0bdf4db7035cea6befa93"
+  "467013e913e46304760461c46661c994b2aa1769e3fbd31371026300315181b4"
+  "4ed1699ac7c64e8b3d33f6bb8323c3d7206b0d7bacb9ee2d65c697e6014d29de"
+  "48e6c5d5ad1d01599d374ecb817e15890d1feb3b8a3a88e527d44c90389e1f06"
+  "802e84000740fec2a9fbe0ae09b6b6811bd86a78a0173b15d44450a1530e9410"
+  "8f4a0db2d181ba4493a4ad53042edc3b57ab50fedd8fa32c7b2ad57173208543"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

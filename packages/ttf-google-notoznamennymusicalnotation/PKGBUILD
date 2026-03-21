@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoznamennymusicalnotation
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoznamennymusicalnotation
+pkgdesc="Google Fonts family: Noto Znamenny Musical Notation"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Znamenny+Musical+Notation"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoznamennymusicalnotation/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoznamennymusicalnotation/NotoZnamennyMusicalNotation-Regular.ttf"
+)
+sha256sums=(
+  "b1b08ef05bc4e6e9bc16bc372e2a980d437aafa4de86c33baba37ba2651e9a90"
+  "38b7bd32372d35f7601e8cc485c5b04d0a023c75ecebe9543a7916e3c0626c32"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

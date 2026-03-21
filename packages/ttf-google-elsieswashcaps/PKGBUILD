@@ -1,0 +1,34 @@
+pkgname=ttf-google-elsieswashcaps
+pkgver=1.003
+pkgrel=1
+_commit="5c0f12efeaeba74ff779d6e8c2656e98b465b2fe"  # Latest commit touching ofl/elsieswashcaps
+pkgdesc="Google Fonts family: Elsie Swash Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Elsie+Swash+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsieswashcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsieswashcaps/ElsieSwashCaps-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/elsieswashcaps/ElsieSwashCaps-Regular.ttf"
+)
+sha256sums=(
+  "0c3f4763f49c2cd37757a2856ad470aec6a416981ac6d6e3f900c1128be39de7"
+  "6961a1cda97a11a9783151670529a01dab5e44a84cd1029a44c95270b72b26bd"
+  "6b9c2d61e6f955e4cc7bc51777a2e411c2034d921d150473098b9c7554734520"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

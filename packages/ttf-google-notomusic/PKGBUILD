@@ -1,0 +1,32 @@
+pkgname=ttf-google-notomusic
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notomusic
+pkgdesc="Google Fonts family: Noto Music"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Music"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notomusic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notomusic/NotoMusic-Regular.ttf"
+)
+sha256sums=(
+  "1679cb60544990b4c2445320c6d5298e4bb0c08ff00dbb5a526f3793fdaa1e6f"
+  "e913be269fe16723d1dea0afc3c31a28be6958f6a7f0e6d5be6e98506c4022bd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

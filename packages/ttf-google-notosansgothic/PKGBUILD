@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansgothic
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansgothic
+pkgdesc="Google Fonts family: Noto Sans Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansgothic/NotoSansGothic-Regular.ttf"
+)
+sha256sums=(
+  "f7107137477d250fc49410833110c25ffd8b96a78b1a25e1f1b967e876070949"
+  "5a1b3946cc98fd9ccd8d3b32777cdaa82ae7f0278469d18272e1d9fcf2f6ff87"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-silkscreen
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/silkscreen
+pkgdesc="Google Fonts family: Silkscreen"
+arch=('any')
+url="https://fonts.google.com/specimen/Silkscreen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/silkscreen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/silkscreen/Silkscreen-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/silkscreen/Silkscreen-Regular.ttf"
+)
+sha256sums=(
+  "86c5e9c9382cdcc5948704fdfe60f2aa164a719746931219a42736ecd9cefbd3"
+  "768476aa712d4f5c3e18d3bce80f980a8bd3f72b7094d22ec5e768df3acfed61"
+  "c845473330b94c2079ce9af01c51ac8ba2d99c24f4d14c039843bbb8e642ebd8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

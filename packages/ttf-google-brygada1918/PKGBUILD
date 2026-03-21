@@ -1,0 +1,34 @@
+pkgname=ttf-google-brygada1918
+pkgver=3.006
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/brygada1918
+pkgdesc="Google Fonts family: Brygada 1918"
+arch=('any')
+url="https://fonts.google.com/specimen/Brygada+1918"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/brygada1918/Brygada1918[wght].ttf"
+)
+sha256sums=(
+  "733ac89b598ee093fe094927a8e66a988423a61b745c62233a2b0d6e2a159e58"
+  "c694f075a9240c47c72a2298acf9c14f79abdf7bae824eca96b78099dbed93c5"
+  "93a23e7c6de5e2c54410116abceed294a05b71aa03af52fbaa92c2cc79003d4d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

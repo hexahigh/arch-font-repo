@@ -1,0 +1,32 @@
+pkgname=ttf-google-comme
+pkgver=1.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/comme
+pkgdesc="Google Fonts family: Comme"
+arch=('any')
+url="https://fonts.google.com/specimen/Comme"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/comme/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comme/Comme[wght].ttf"
+)
+sha256sums=(
+  "2685ed3cc823fdf9c1f91e59ede79bc8823a1b5e5d654e10072bc6d310277065"
+  "c368b2b9152d7c1e7d52f9dd058c2b01bab4dfb30c4b55097787083ef61f82e9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

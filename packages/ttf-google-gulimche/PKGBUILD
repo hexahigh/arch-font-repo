@@ -1,0 +1,32 @@
+pkgname=ttf-google-gulimche
+pkgver=2.21
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gulimche
+pkgdesc="Google Fonts family: GulimChe"
+arch=('any')
+url="https://fonts.google.com/specimen/GulimChe"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gulimche/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gulimche/GulimChe-Regular.ttf"
+)
+sha256sums=(
+  "59fc225e9c23417ad83070289cd77814937c72fe7c65e72aaff13e5114957988"
+  "aba838ffa7d1bc8e95107f643bb0486434ca424edf020e5a5e9b32295029de6c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

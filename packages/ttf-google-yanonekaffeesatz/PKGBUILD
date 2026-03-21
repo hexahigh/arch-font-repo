@@ -1,0 +1,32 @@
+pkgname=ttf-google-yanonekaffeesatz
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/yanonekaffeesatz
+pkgdesc="Google Fonts family: Yanone Kaffeesatz"
+arch=('any')
+url="https://fonts.google.com/specimen/Yanone+Kaffeesatz"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yanonekaffeesatz/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yanonekaffeesatz/YanoneKaffeesatz[wght].ttf"
+)
+sha256sums=(
+  "9efbe6f8570e8c3d8b000914bd1da07ff4977d1325cc2d046180e05f40677f01"
+  "17e3bd546d57d2c41200866ac310bd76b8c59c44cd738f6ca402a285f45e97b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

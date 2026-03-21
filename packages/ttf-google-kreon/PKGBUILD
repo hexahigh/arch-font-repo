@@ -1,0 +1,32 @@
+pkgname=ttf-google-kreon
+pkgver=2.002
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kreon
+pkgdesc="Google Fonts family: Kreon"
+arch=('any')
+url="https://fonts.google.com/specimen/Kreon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kreon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kreon/Kreon[wght].ttf"
+)
+sha256sums=(
+  "bec72f4e6e1f29541d7295ed2ed14fc868695673051b940352200d1ffc4095e3"
+  "3fdb29ba16fe1907747c40b4706d3b8f91a9e95171609194bc10cbd16d982943"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

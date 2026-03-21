@@ -1,0 +1,32 @@
+pkgname=ttf-google-doppioone
+pkgver=1.002
+pkgrel=1
+_commit="c38848b40c57a1a1889a68a57756892cd8a8b2cf"  # Latest commit touching ofl/doppioone
+pkgdesc="Google Fonts family: Doppio One"
+arch=('any')
+url="https://fonts.google.com/specimen/Doppio+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/doppioone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/doppioone/DoppioOne-Regular.ttf"
+)
+sha256sums=(
+  "4342add6f0f2261f8579f31c10a55938930559703eed18be4a33b74eb749d298"
+  "2686a4eadfad03961f63e8474798a8b591d531aaa1bde6923481565830b19d9e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

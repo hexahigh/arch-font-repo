@@ -1,0 +1,32 @@
+pkgname=ttf-google-bowlbyonesc
+pkgver=1.2
+pkgrel=1
+_commit="bb0ae5d664d86aa7a1a50f435b0e5a5df572df07"  # Latest commit touching ofl/bowlbyonesc
+pkgdesc="Google Fonts family: Bowlby One SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Bowlby+One+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bowlbyonesc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bowlbyonesc/BowlbyOneSC-Regular.ttf"
+)
+sha256sums=(
+  "f3ee3eb20a9d565bee2bbc0d616de382a113327d7506565b2f3d3bee5f489375"
+  "dc9f2325fb6bab327c26619a752b274b8f0f4022756d896450911e885609f071"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

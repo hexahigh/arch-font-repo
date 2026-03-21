@@ -1,0 +1,38 @@
+pkgname=ttf-google-signikanegativesc
+pkgver=2.000
+pkgrel=1
+_commit="951dadb01806029b88e599f778c188532d1f1a46"  # Latest commit touching ofl/signikanegativesc
+pkgdesc="Google Fonts family: Signika Negative SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Signika+Negative+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegativesc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegativesc/SignikaNegativeSC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegativesc/SignikaNegativeSC-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegativesc/SignikaNegativeSC-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/signikanegativesc/SignikaNegativeSC-SemiBold.ttf"
+)
+sha256sums=(
+  "1ba345a91338581e5f8fccc3e37e447ddea5b99ec9caec1b76c7c39492387d2f"
+  "40751aa92248cbb479ea85d7d706522256662c887d399bd0a87b020fa5887918"
+  "971023e3bfefb00176ba9de8374fb9e70301353fe5ba740f4041e3544d97d689"
+  "f6d21ecfe08f2ba59f819907191c8880ee1aea360cc9547ea9ccef8e907b437b"
+  "74a12828cd1c004940c57d66b51c285fe503dddb8e1a2e0e388508c7a0401e76"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-metrophobic
+pkgver=3.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/metrophobic
+pkgdesc="Google Fonts family: Metrophobic"
+arch=('any')
+url="https://fonts.google.com/specimen/Metrophobic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/metrophobic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/metrophobic/Metrophobic-Regular.ttf"
+)
+sha256sums=(
+  "4eaa1fae0ddbce35cfbc42ec1079f7fd78e4146b1d322630600af07a1e3212a9"
+  "34e4ac3257307c28e6dd14f5d77bb296211f0ddd217607228a5375416ed8ac58"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-diplomata
+pkgver=1.002
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/diplomata
+pkgdesc="Google Fonts family: Diplomata"
+arch=('any')
+url="https://fonts.google.com/specimen/Diplomata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/diplomata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/diplomata/Diplomata-Regular.ttf"
+)
+sha256sums=(
+  "f4e8602be4b69bc44e3ce17d026622722b992a07b1aab0db23da48b0155b289e"
+  "0197d3dd0c7e8daf4ec373f15a4cdeeb963f76748ffd8360b9150bac90b73997"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

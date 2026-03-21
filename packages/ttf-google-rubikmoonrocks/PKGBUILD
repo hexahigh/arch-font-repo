@@ -1,0 +1,32 @@
+pkgname=ttf-google-rubikmoonrocks
+pkgver=2.200
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rubikmoonrocks
+pkgdesc="Google Fonts family: Rubik Moonrocks"
+arch=('any')
+url="https://fonts.google.com/specimen/Rubik+Moonrocks"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikmoonrocks/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikmoonrocks/RubikMoonrocks-Regular.ttf"
+)
+sha256sums=(
+  "f9e2d4498ea80d38bac7b8841d68af68c132fa67e1552e7c05717e6987de1d74"
+  "39ff4d96b906e8cc2fd7a350aa13620d5eff18d776fedb5c98c12cbf6e1f2c1e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

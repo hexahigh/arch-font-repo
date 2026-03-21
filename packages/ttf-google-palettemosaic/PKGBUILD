@@ -1,0 +1,32 @@
+pkgname=ttf-google-palettemosaic
+pkgver=1.001
+pkgrel=1
+_commit="96505abe9c3b3ec1536883c9cc7ccb041b410399"  # Latest commit touching ofl/palettemosaic
+pkgdesc="Google Fonts family: Palette Mosaic"
+arch=('any')
+url="https://fonts.google.com/specimen/Palette+Mosaic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/palettemosaic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palettemosaic/PaletteMosaic-Regular.ttf"
+)
+sha256sums=(
+  "3c1a085f9dbd44877f73b0e1e1917ab084eb79828328fba74323c3bcd4171c6a"
+  "6029de6a94670695b620b3df665794e3dae213d8b7aed8ac0327b2da5679b004"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

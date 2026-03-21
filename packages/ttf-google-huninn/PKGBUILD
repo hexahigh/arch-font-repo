@@ -1,0 +1,32 @@
+pkgname=ttf-google-huninn
+pkgver=1.003
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/huninn
+pkgdesc="Google Fonts family: Huninn"
+arch=('any')
+url="https://fonts.google.com/specimen/Huninn"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/huninn/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/huninn/Huninn-Regular.ttf"
+)
+sha256sums=(
+  "d71824aeb09afc4c2cac01acab5c3db79796e927ba37be40d69fb62a412639b6"
+  "1bd770a5ffc0c06723b567686f8b5db5abf9ab54227f3bbc4e6fd648f4698805"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

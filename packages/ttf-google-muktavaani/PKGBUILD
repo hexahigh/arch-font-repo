@@ -1,0 +1,44 @@
+pkgname=ttf-google-muktavaani
+pkgver=2.538
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktavaani
+pkgdesc="Google Fonts family: Mukta Vaani"
+arch=('any')
+url="https://fonts.google.com/specimen/Mukta+Vaani"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/muktavaani/MuktaVaani-SemiBold.ttf"
+)
+sha256sums=(
+  "d24ff874133ecd133e55d7c4070d2edab14d3933477c2bccb3a0d8d1cc9c33bf"
+  "e11f330d219010c13b85e3bc568366ba32544f1c4ae7f9c4976792ed2918ac51"
+  "427f6ca0b008914d4e0ca277fab7fd63d3c439863661f08e39f4fccc7e1a488d"
+  "6107a72e51ccf4a747a264d21de81069a614005fca8f87273fbcb0f64d6d4413"
+  "a3585b04045ca3fdf642b147e032fb02b61d8a5372b7216b8c17d6eedb612017"
+  "5b19b8efcb0a042e7edeec14befaa3a653e27b48aae8db6c572346deae020990"
+  "296f0086902c79f422d9c4a9a03b6e42433a5e7b5e213e7e00f2d1c8fd4f266c"
+  "7e86b220ccee01048cde6ac87824459475c578ba8494a83df3fade2111c9d75f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

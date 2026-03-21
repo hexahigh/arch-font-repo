@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoseriftibetan
+pkgver=2.103
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoseriftibetan
+pkgdesc="Google Fonts family: Noto Serif Tibetan"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Tibetan"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftibetan/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftibetan/NotoSerifTibetan[wght].ttf"
+)
+sha256sums=(
+  "0077789fc3cb20f358278ba4c6437eb14ade97d4d3e3281eaa42853efcd9dc8b"
+  "060ec022b04c306de3f58d051fb0e1cf81a5b610c5910fbfc43bba154c057cda"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

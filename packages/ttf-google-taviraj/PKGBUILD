@@ -1,0 +1,66 @@
+pkgname=ttf-google-taviraj
+pkgver=1.001
+pkgrel=1
+_commit="7bd10c4026cfb413909eb13a1fa665554e33b630"  # Latest commit touching ofl/taviraj
+pkgdesc="Google Fonts family: Taviraj"
+arch=('any')
+url="https://fonts.google.com/specimen/Taviraj"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taviraj/Taviraj-ThinItalic.ttf"
+)
+sha256sums=(
+  "1d08c63944e639bbfe8a1b81e3c6a63836806c126b3573b9cda0db83fd27ffe9"
+  "81f3c81155733a73c4b5914d7d6857832e7dcad5b5e63f7992d797907e327a17"
+  "33b178920c742a79fc5dab4b55585b61ea0a099ce152c8fabaddccc2f8be11e8"
+  "ece5631dc38d8a229148ec87830fa10aa4ba8d8641c719ea25eef2c37474ba21"
+  "30d45de52374cec3a07e602841e7aadbf45316fcd5bb8191bf9c2337c7175aab"
+  "964ba956d8953ac4242471d7f20c898c266c8f2cf7c983a51008be0acfb3ef19"
+  "1eed5bf0b32cd8d7123b81fc190d1a2695199e2752ef0716b6675aa1e80e9a87"
+  "79cc55234fc8b85121bb3e4563dd8e35af7c805d438ece34d484f7066da8b00e"
+  "e59c5c8aee9545014a90a8c00b5f974ab1078f0635a3bdff65a2ca7ac3bf47b7"
+  "fa1cc9f894d97f4a40a0b02438dc3b515570e7d3db296d2a503ba3d32cc6c613"
+  "57670abb418f67f90031eb073e7afb69d98e041b7ef824a0d68981104f13beed"
+  "9ea582249b84f20f3bd7a5d782de86abf86ecfaddf2120445e0ce1d199e6c8ee"
+  "126a0ed061ff96c499b314bdcdacfa1c2ccd153fcd78e4fbb3575c88e98dae3d"
+  "d4d395f9cad1b34c290eba6c93da85ea99a90e8ba5884adf7a4504ffcf0b8033"
+  "077e6299711fddca973f9d43455949018459c2d29c6e790666d41017ee1a27d5"
+  "7f4780e18a823b464421ac2da16b190ce3cf6177e78145a1005228efddbe622c"
+  "fb1d37bd556db119d4b46e26f22bf668cbacbab20ed3748170090a16b9a750fa"
+  "3bbc37644f9eda2475bd5627798b0d97c765cf668297973a21fe8266c351071e"
+  "4180da968771442706c2a88b034d04defcf71e5fe15b835c0d7e4e1cd4252322"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

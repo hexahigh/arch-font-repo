@@ -1,0 +1,46 @@
+pkgname=ttf-google-iosevkacharonmono
+pkgver=34.100
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/iosevkacharonmono
+pkgdesc="Google Fonts family: Iosevka Charon Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Iosevka+Charon+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iosevkacharonmono/IosevkaCharonMono-Regular.ttf"
+)
+sha256sums=(
+  "b2aef7a8ad51392460dab003ae1ea352b7a46bf1ec732ca5fea723b69ce1d8aa"
+  "d5a0e6259a77a98b086897b3b86f120c1170b85ab5e82f527cf810e239f082cf"
+  "bc533014f84b7dab2330a8789fd012a539649c8f4b7a20b66048f7767875612a"
+  "9c2df07a74f0fcd1b79da18a7c936a25f07cd665363a8b9bc89310f80a84a551"
+  "f9cc555e90c24e971b0d2e21847c676dabe674caedff3b49d30551a8345867ba"
+  "16d06baa8a498087fcb10cf67f2871d95aeb5501c86586a0cb0b6ad41b7c6d30"
+  "ec463b2041e58656fc26911a4d0cd42eca766cf4dd35023e33e643b80e0f8bbc"
+  "f89929f73e08347babf8b1adfb4b02c151cf7ff6ac23ab116fcaf0c0b5ab3aef"
+  "ae87c9bc7baae0a18e78cbe498d967865c251cae20fffa0c34e5937ce118f845"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

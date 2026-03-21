@@ -1,0 +1,34 @@
+pkgname=ttf-google-amita
+pkgver=1.004
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/amita
+pkgdesc="Google Fonts family: Amita"
+arch=('any')
+url="https://fonts.google.com/specimen/Amita"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amita/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amita/Amita-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amita/Amita-Regular.ttf"
+)
+sha256sums=(
+  "0dd8e32457e18621737b593ab0fac49905cd948a078ed0e64f4890df714a1dfb"
+  "2e3db0a183495cc55b81346311bc2c22dde0e4b6599a9f8a7469b5feffdbf0e8"
+  "551369ea6a8caeaa9d2dc31719564ba2379a445d16e6994bc7adbf9446a2b63d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-uncialantiqua
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/uncialantiqua
+pkgdesc="Google Fonts family: Uncial Antiqua"
+arch=('any')
+url="https://fonts.google.com/specimen/Uncial+Antiqua"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/uncialantiqua/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/uncialantiqua/UncialAntiqua-Regular.ttf"
+)
+sha256sums=(
+  "244ca4ef7b106d8c660e9a00cecf5d581b6a222f447d7d59a8f61711b2ad3400"
+  "33a5128b59d1c95d4f3788164f4ab3a1196f0a982263cb2cd278c47418366766"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

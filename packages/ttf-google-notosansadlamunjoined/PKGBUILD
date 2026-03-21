@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansadlamunjoined
+pkgver=3.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansadlamunjoined
+pkgdesc="Google Fonts family: Noto Sans Adlam Unjoined"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Adlam+Unjoined"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansadlamunjoined/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansadlamunjoined/NotoSansAdlamUnjoined[wght].ttf"
+)
+sha256sums=(
+  "0e86b3990089b054d8e6a29520589ac7ff3926738e2868e20d1b7f137d337d14"
+  "edd3827faf66232eede488883b7bc73fdc7de0cddc96cfc1e3a72c7a73e5f2a2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

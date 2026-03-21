@@ -1,0 +1,32 @@
+pkgname=ttf-google-waterfall
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/waterfall
+pkgdesc="Google Fonts family: Waterfall"
+arch=('any')
+url="https://fonts.google.com/specimen/Waterfall"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/waterfall/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/waterfall/Waterfall-Regular.ttf"
+)
+sha256sums=(
+  "d842d4d8ea0c1010050a83d51ed7a5594d55a4a988e89646470454af14e9f624"
+  "83dd964cccae10084e3f3b3168247d47a06375f9efe893cee0b5488cba83eff3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

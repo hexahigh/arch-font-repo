@@ -1,0 +1,32 @@
+pkgname=ttf-google-librebarcode39text
+pkgver=1.005
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librebarcode39text
+pkgdesc="Google Fonts family: Libre Barcode 39 Text"
+arch=('any')
+url="https://fonts.google.com/specimen/Libre+Barcode+39+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebarcode39text/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/librebarcode39text/LibreBarcode39Text-Regular.ttf"
+)
+sha256sums=(
+  "a4b7ccd1bda3269afba7d6d9293a7161e699d2f4f1f280dd8a8535c569388de9"
+  "06ffe0f72409b2912673e2d00b488e4a874bda5d7845ecb5713bbc9d091483af"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

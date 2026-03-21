@@ -1,0 +1,32 @@
+pkgname=ttf-google-bethellen
+pkgver=2.000
+pkgrel=1
+_commit="f69040e2710b3c617b1ba5bd8ffb0bb463813ec9"  # Latest commit touching ofl/bethellen
+pkgdesc="Google Fonts family: Beth Ellen"
+arch=('any')
+url="https://fonts.google.com/specimen/Beth+Ellen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bethellen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bethellen/BethEllen-Regular.ttf"
+)
+sha256sums=(
+  "b54f3a872628c8b350ffe6b069078936cc23d9d3d020f886ea5867a000c2e2ce"
+  "ca49471aec90a19df63f583f5a60d514f012559a8a2d17f62f8a389fe90726d7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

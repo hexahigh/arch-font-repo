@@ -1,0 +1,32 @@
+pkgname=ttf-google-shortstack
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shortstack
+pkgdesc="Google Fonts family: Short Stack"
+arch=('any')
+url="https://fonts.google.com/specimen/Short+Stack"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shortstack/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shortstack/ShortStack-Regular.ttf"
+)
+sha256sums=(
+  "fe079cdbbad0f6520eb0a8235bce65b21596dd0c4c5a2694b3325cc87313b618"
+  "9f0e16e8683b2dce66edd7c3340362b554326739fbac594cabc1e9442cf5e8cc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

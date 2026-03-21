@@ -1,0 +1,32 @@
+pkgname=ttf-google-stixtwomath
+pkgver=2.12
+pkgrel=1
+_commit="fbdf7c1d098db22ef90cb028ab6c32f415a87605"  # Latest commit touching ofl/stixtwomath
+pkgdesc="Google Fonts family: STIX Two Math"
+arch=('any')
+url="https://fonts.google.com/specimen/STIX+Two+Math"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stixtwomath/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stixtwomath/STIXTwoMath-Regular.ttf"
+)
+sha256sums=(
+  "0c8825913b60d858aacdb33c4ca6660a7d64b0d6464702efbb19313f5765861a"
+  "562551b15b836e6e01d1b7350909baf3c8c8d83260c1190fbf4544333e6936de"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

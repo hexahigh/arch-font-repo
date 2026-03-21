@@ -1,0 +1,32 @@
+pkgname=ttf-google-alata
+pkgver=1.005
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alata
+pkgdesc="Google Fonts family: Alata"
+arch=('any')
+url="https://fonts.google.com/specimen/Alata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alata/Alata-Regular.ttf"
+)
+sha256sums=(
+  "ca7f9d453fe14052245af446203a47aeeb177f64ba5b60932b155a8d8a431fb5"
+  "7b71432a5e2e2409a3583553bc5ce703209a8bce9b2f136ca257ac4c2d3addc4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

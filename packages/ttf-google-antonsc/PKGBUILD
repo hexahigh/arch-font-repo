@@ -1,0 +1,32 @@
+pkgname=ttf-google-antonsc
+pkgver=2.116
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/antonsc
+pkgdesc="Google Fonts family: Anton SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Anton+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/antonsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/antonsc/AntonSC-Regular.ttf"
+)
+sha256sums=(
+  "ee67e6ee22790b7929f1a3769ca2801d565c64b5a9096942c1adf5596de9c9e4"
+  "a38d04953f7a3878d947381081b2b80c673dec58404878702788a9c81a944bea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

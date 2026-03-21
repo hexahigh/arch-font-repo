@@ -1,0 +1,32 @@
+pkgname=ttf-google-playwriteczguides
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/playwriteczguides
+pkgdesc="Google Fonts family: Playwrite CZ Guides"
+arch=('any')
+url="https://fonts.google.com/specimen/Playwrite+CZ+Guides"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteczguides/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/playwriteczguides/PlaywriteCZGuides-Regular.ttf"
+)
+sha256sums=(
+  "0370f5946020846b0ca65e44950d11411ea3bd3c4c0d755916470f9f96cd8cb8"
+  "aca1370567f613c49128d0b84061d0098837cad6c1eaf1e0954917fb99b2afd7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

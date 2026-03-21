@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansthailooped
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansthailooped
+pkgdesc="Google Fonts family: Noto Sans Thai Looped"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Thai+Looped"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansthailooped/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansthailooped/NotoSansThaiLooped[wdth,wght].ttf"
+)
+sha256sums=(
+  "dad6e6abc2bf3fc37cc698af7607c3f4d4235039695713b222e5a034fb5b9b1c"
+  "a6d220ea215bc2c4bfcd5c5efc4103e20302443f87f6dca7a9ce733a11f2cfbd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

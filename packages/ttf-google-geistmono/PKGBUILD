@@ -1,0 +1,32 @@
+pkgname=ttf-google-geistmono
+pkgver=1.401
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/geistmono
+pkgdesc="Google Fonts family: Geist Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Geist+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/geistmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geistmono/GeistMono[wght].ttf"
+)
+sha256sums=(
+  "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+  "2386ddac2c72b6e0c126561e91486b7284412f303d8d9513da9ffec789e63338"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-frankruhllibre
+pkgver=6.004
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/frankruhllibre
+pkgdesc="Google Fonts family: Frank Ruhl Libre"
+arch=('any')
+url="https://fonts.google.com/specimen/Frank+Ruhl+Libre"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/frankruhllibre/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/frankruhllibre/FrankRuhlLibre[wght].ttf"
+)
+sha256sums=(
+  "4e9720b2544d946737e7dfe0027a62c23c7247f0144f08bc437cdcc2e6a7d828"
+  "f9bf26966681037aae894b031bd0dcf2c1bfdfa128dd0640cf276fe62a338a43"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

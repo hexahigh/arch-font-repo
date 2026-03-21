@@ -1,0 +1,32 @@
+pkgname=ttf-google-oranienbaum
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oranienbaum
+pkgdesc="Google Fonts family: Oranienbaum"
+arch=('any')
+url="https://fonts.google.com/specimen/Oranienbaum"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oranienbaum/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oranienbaum/Oranienbaum-Regular.ttf"
+)
+sha256sums=(
+  "d941c5b788d47aa469ee54e30f4c12d6a43c45a295f10c568bdf9772f2893b7b"
+  "d0c2527f106ddaf53bebce08e903b585d1fd1d830eddd23ed723c313b4fe2c6c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

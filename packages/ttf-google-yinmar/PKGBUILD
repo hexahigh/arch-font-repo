@@ -1,0 +1,32 @@
+pkgname=ttf-google-yinmar
+pkgver=1.11
+pkgrel=1
+_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yinmar
+pkgdesc="Google Fonts family: Yinmar"
+arch=('any')
+url="https://fonts.google.com/specimen/Yinmar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yinmar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yinmar/Yinmar-Regular.ttf"
+)
+sha256sums=(
+  "f9e5dfcdb2947c0db70465668706b0617cd052b6f86e582dff8741d9e5cded0a"
+  "a1976639a99f252b3471839c85fe5e87fc1c4e0d1386c9f8ac8c5ff84d357e35"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

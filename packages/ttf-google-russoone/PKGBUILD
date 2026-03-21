@@ -1,0 +1,32 @@
+pkgname=ttf-google-russoone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/russoone
+pkgdesc="Google Fonts family: Russo One"
+arch=('any')
+url="https://fonts.google.com/specimen/Russo+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/russoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/russoone/RussoOne-Regular.ttf"
+)
+sha256sums=(
+  "3ac1301549523d9861fedca12871f24e575fbd26d520632fc00ba849b471d275"
+  "bc0abcc660bd8b7ad3000ecb2898a27c58a29a50f7ec81652fa12e75148d09df"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,38 @@
+pkgname=ttf-google-palanquindark
+pkgver=1.001
+pkgrel=1
+_commit="73ee3f9b49876616b4524aa56c5223832dd2a4d6"  # Latest commit touching ofl/palanquindark
+pkgdesc="Google Fonts family: Palanquin Dark"
+arch=('any')
+url="https://fonts.google.com/specimen/Palanquin+Dark"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquindark/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquindark/PalanquinDark-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquindark/PalanquinDark-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquindark/PalanquinDark-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/palanquindark/PalanquinDark-SemiBold.ttf"
+)
+sha256sums=(
+  "548890e4083028f04e5feba04b6e00554654d840aab81c8664eb66c2216a571b"
+  "8bf3591c758a3a35977b9af72c6a9639aa60c6652743ddb9cdc59dc1a30f7971"
+  "32b2f0672eb1597556c71d002b59dbaff75aeb20e3d2fde9286c71b3793b483f"
+  "de7ba10d7038f13c677b6a57e01c4b2082dd49602a15406135d761296c949284"
+  "4729ae4e60cc20cbc1ec942b033354683339fd77a9dcf55f998e9153cb6d3036"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

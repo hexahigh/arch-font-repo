@@ -1,0 +1,32 @@
+pkgname=ttf-google-freckleface
+pkgver=1.000
+pkgrel=1
+_commit="379730c94efb0165c835f0c0604931c5b9d2e948"  # Latest commit touching ofl/freckleface
+pkgdesc="Google Fonts family: Freckle Face"
+arch=('any')
+url="https://fonts.google.com/specimen/Freckle+Face"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/freckleface/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/freckleface/FreckleFace-Regular.ttf"
+)
+sha256sums=(
+  "60fea3a0da19167a3efb9c3792a3a15dc9235405d01bbec1233fdf3e79c74296"
+  "54b61a9f5bac3eb3a3d7f78f99d4d9c5d5688a9859e79bbf8704ae79c7f8f0fc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-figtree
+pkgver=2.002
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/figtree
+pkgdesc="Google Fonts family: Figtree"
+arch=('any')
+url="https://fonts.google.com/specimen/Figtree"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/figtree/Figtree[wght].ttf"
+)
+sha256sums=(
+  "140d37233e7f3ce7313798befa9600893bcceaf41a55fa0fa5ad52f7f657a268"
+  "94dec1f18b9275d69e8b4a91b6514bdc18199048347e1c36e1285b11b0b87653"
+  "26ad3db9b31ff7dde67a91ff515d022d2f495cd506590699cf264f0bfe6fb714"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

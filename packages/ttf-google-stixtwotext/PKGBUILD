@@ -1,0 +1,34 @@
+pkgname=ttf-google-stixtwotext
+pkgver=2.13
+pkgrel=1
+_commit="fbdf7c1d098db22ef90cb028ab6c32f415a87605"  # Latest commit touching ofl/stixtwotext
+pkgdesc="Google Fonts family: STIX Two Text"
+arch=('any')
+url="https://fonts.google.com/specimen/STIX+Two+Text"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/stixtwotext/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stixtwotext/STIXTwoText-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/stixtwotext/STIXTwoText[wght].ttf"
+)
+sha256sums=(
+  "62c0967a997b9691326d35b1f90baf085a557327b711618bc4161325ce1bb1b2"
+  "88c0e2e316eaff56eddc9e51e4850317e2a1e490bbf758b2dec4793aedba9c74"
+  "7962b8b7811e6a896c9a91a0bccbb5241047770eb24d4997c5cb5fe21d5c0df2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

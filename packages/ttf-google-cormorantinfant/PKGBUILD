@@ -1,0 +1,34 @@
+pkgname=ttf-google-cormorantinfant
+pkgver=4.001
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cormorantinfant
+pkgdesc="Google Fonts family: Cormorant Infant"
+arch=('any')
+url="https://fonts.google.com/specimen/Cormorant+Infant"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantinfant/CormorantInfant[wght].ttf"
+)
+sha256sums=(
+  "60700d351cac4650c51f3f9db318d2a420f8b45052dba2715eb5fec41f0f6956"
+  "d5f81edef82cf31c093d057709e1bfb42aa776aacf78651b14f9817c2decb251"
+  "48c6efe07539c75d3108795467898706a9cd71ce876d461e45f58482156d7bf3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

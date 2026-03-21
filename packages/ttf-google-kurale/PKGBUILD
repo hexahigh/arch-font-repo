@@ -1,0 +1,32 @@
+pkgname=ttf-google-kurale
+pkgver=2.000
+pkgrel=1
+_commit="2f8657456dac703ed33503dba1b67f67334028b2"  # Latest commit touching ofl/kurale
+pkgdesc="Google Fonts family: Kurale"
+arch=('any')
+url="https://fonts.google.com/specimen/Kurale"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kurale/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kurale/Kurale-Regular.ttf"
+)
+sha256sums=(
+  "b712dacdda5da76c0213f8478886f893b855665c1153ae438bc3e55a7dc525ef"
+  "6055aaca6870ca64210dd81fa47f8bb71595a9c8fbe570351ed45a15f1a0820d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

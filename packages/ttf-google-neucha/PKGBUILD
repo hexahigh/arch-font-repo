@@ -1,0 +1,32 @@
+pkgname=ttf-google-neucha
+pkgver=001.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/neucha
+pkgdesc="Google Fonts family: Neucha"
+arch=('any')
+url="https://fonts.google.com/specimen/Neucha"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/neucha/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/neucha/Neucha.ttf"
+)
+sha256sums=(
+  "656a20870fbcb8f559f1c6308c1df90ac93d7cd0279aab49b43a43b5e58534e6"
+  "7927bd6ce090fa032857dcbc3ad0e8b765c462d0a72a8779068132496b4e087d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

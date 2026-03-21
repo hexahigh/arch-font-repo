@@ -1,0 +1,32 @@
+pkgname=ttf-google-bitcountpropsingleink
+pkgver=1.002
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bitcountpropsingleink
+pkgdesc="Google Fonts family: Bitcount Prop Single Ink"
+arch=('any')
+url="https://fonts.google.com/specimen/Bitcount+Prop+Single+Ink"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcountpropsingleink/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcountpropsingleink/BitcountPropSingleInk[CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght].ttf"
+)
+sha256sums=(
+  "c214f3227a93a64c5b73d7e6a1a922c90803fcfb7312404fa2890c63f56fadf8"
+  "eb6798670cd63a62e45bbae7de57e3ec2107b8b02482bdca7b01ad1a397d92ab"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

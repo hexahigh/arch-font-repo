@@ -1,0 +1,32 @@
+pkgname=ttf-google-bilboswashcaps
+pkgver=1.003
+pkgrel=1
+_commit="faf85d86e1e969203c6549d389403a9d3ee49686"  # Latest commit touching ofl/bilboswashcaps
+pkgdesc="Google Fonts family: Bilbo Swash Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Bilbo+Swash+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bilboswashcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bilboswashcaps/BilboSwashCaps-Regular.ttf"
+)
+sha256sums=(
+  "93f60741563b4f51f2fcdb207fde72b2b23292a47022c729aecd998b360d8038"
+  "36e0a6d9f33c57797340a65c8789272247f8d2b0b9521a92112eaa13c77a4354"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-jersey20charted
+pkgver=1.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jersey20charted
+pkgdesc="Google Fonts family: Jersey 20 Charted"
+arch=('any')
+url="https://fonts.google.com/specimen/Jersey+20+Charted"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey20charted/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey20charted/Jersey20Charted-Regular.ttf"
+)
+sha256sums=(
+  "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+  "4e76e87dcb7b42858089347e59950b965c10ae690fa4172c16fe12d7c606bbea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

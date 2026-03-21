@@ -1,0 +1,32 @@
+pkgname=ttf-google-cantoraone
+pkgver=1.002
+pkgrel=1
+_commit="78f2f544ad0b0b5ce718f499e2db37b965dc7a51"  # Latest commit touching ofl/cantoraone
+pkgdesc="Google Fonts family: Cantora One"
+arch=('any')
+url="https://fonts.google.com/specimen/Cantora+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cantoraone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cantoraone/CantoraOne-Regular.ttf"
+)
+sha256sums=(
+  "867b506cb023eae20c1accde77b2e0abf7d8a9e2620da8dbebac9f7b1117ca0b"
+  "78e9174f67db3e0c1efbe0b570c3546bc805ed43a0fb2dbec4aca7831caf1f15"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

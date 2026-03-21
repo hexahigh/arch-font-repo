@@ -1,0 +1,32 @@
+pkgname=ttf-google-quintessential
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quintessential
+pkgdesc="Google Fonts family: Quintessential"
+arch=('any')
+url="https://fonts.google.com/specimen/Quintessential"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/quintessential/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/quintessential/Quintessential-Regular.ttf"
+)
+sha256sums=(
+  "0786594992757ea0290ae4a490ab9249728f372adb13959c0c8ae4fec83057ff"
+  "73d192f10dbfc716214aae282afb93036f12415d16adc9d6d0e981f34d829d32"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

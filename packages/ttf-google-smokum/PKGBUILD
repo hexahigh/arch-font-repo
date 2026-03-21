@@ -1,0 +1,32 @@
+pkgname=ttf-google-smokum
+pkgver=1.001
+pkgrel=1
+_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/smokum
+pkgdesc="Google Fonts family: Smokum"
+arch=('any')
+url="https://fonts.google.com/specimen/Smokum"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/smokum/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/smokum/Smokum-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "dfb06e95e7b99724e2e508979bdd679c2a1a9c8413c7f6961656097fd38c9a63"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

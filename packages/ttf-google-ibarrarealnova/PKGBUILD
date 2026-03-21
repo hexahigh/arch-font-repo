@@ -1,0 +1,34 @@
+pkgname=ttf-google-ibarrarealnova
+pkgver=2.000
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/ibarrarealnova
+pkgdesc="Google Fonts family: Ibarra Real Nova"
+arch=('any')
+url="https://fonts.google.com/specimen/Ibarra+Real+Nova"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibarrarealnova/IbarraRealNova[wght].ttf"
+)
+sha256sums=(
+  "a642565cd75e9535acc67679fdc6a8a99115fb437b764e86b4d82b03d8b17945"
+  "2ead710644460a0433998baccda6070207ad819c027cec442489578b580e1f6e"
+  "c627ab48daf6544099014b4c5c7faa4e3b993ef5ec77709c89dd37efd4107ddd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

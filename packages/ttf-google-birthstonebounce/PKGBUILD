@@ -1,0 +1,34 @@
+pkgname=ttf-google-birthstonebounce
+pkgver=1.010
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/birthstonebounce
+pkgdesc="Google Fonts family: Birthstone Bounce"
+arch=('any')
+url="https://fonts.google.com/specimen/Birthstone+Bounce"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/birthstonebounce/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/birthstonebounce/BirthstoneBounce-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/birthstonebounce/BirthstoneBounce-Regular.ttf"
+)
+sha256sums=(
+  "8214d2621f5a4113dd0eba60863e3e88916cd639444b519c87f6b6b652543072"
+  "ed8a0f1ad5ff82d617288e15268d6365412e3b793d17230610435b09474b31bc"
+  "a03b6146597d467e794fdd4d61178d72f083eb93e9e86040a10530aaa1307ef9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

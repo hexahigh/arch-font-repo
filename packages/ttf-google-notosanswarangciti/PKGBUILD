@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanswarangciti
+pkgver=3.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanswarangciti
+pkgdesc="Google Fonts family: Noto Sans Warang Citi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Warang+Citi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanswarangciti/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanswarangciti/NotoSansWarangCiti-Regular.ttf"
+)
+sha256sums=(
+  "a97d2d7a91aa60fe67b6c9b77ff562fd0d29e1c27f667c650bd52f322ab0be88"
+  "f4c6ec5458b85e1d7d9452fb404bf0c4762e98ac7eea95aa6a7e5798cb6ffdba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

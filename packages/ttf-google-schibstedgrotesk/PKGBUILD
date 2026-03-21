@@ -1,0 +1,34 @@
+pkgname=ttf-google-schibstedgrotesk
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/schibstedgrotesk
+pkgdesc="Google Fonts family: Schibsted Grotesk"
+arch=('any')
+url="https://fonts.google.com/specimen/Schibsted+Grotesk"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/schibstedgrotesk/SchibstedGrotesk[wght].ttf"
+)
+sha256sums=(
+  "3b4f3063b6ac7c1e403e2c4a5e8ef3a58190ff83ed7b15af66511858699139ce"
+  "b49fedb6f3a2ff9b43e13351888641505dc8e5f300941e597eecbc3f52ba357b"
+  "6ceeadf6be8e1fd7687011c7fa38ed0edd1abe967a0b73d97caec183552e823d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

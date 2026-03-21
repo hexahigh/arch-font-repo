@@ -1,0 +1,32 @@
+pkgname=ttf-google-cagliostro
+pkgver=20260226
+pkgrel=1
+_commit="a039e9f78a8adcfc412b29c71c22e90a6ec99085"  # Latest commit touching ofl/cagliostro
+pkgdesc="Google Fonts family: Cagliostro"
+arch=('any')
+url="https://fonts.google.com/specimen/Cagliostro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cagliostro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cagliostro/Cagliostro-Regular.ttf"
+)
+sha256sums=(
+  "c0a8947de199b422d30c16137e4decd5362e3a1d504422880d69c02bd6046dac"
+  "0d205e9a9b34691dca50064ea681404157f1747e39b592fce978b2a32bd5fb61"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

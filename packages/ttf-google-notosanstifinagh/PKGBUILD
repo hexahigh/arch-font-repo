@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstifinagh
+pkgver=2.006
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstifinagh
+pkgdesc="Google Fonts family: Noto Sans Tifinagh"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Tifinagh"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstifinagh/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstifinagh/NotoSansTifinagh-Regular.ttf"
+)
+sha256sums=(
+  "030b53206585ee108e261d15e3674ea3f8969cd59bbeccbd0028027a0eb22d6a"
+  "b08755bdee9835ebbca1095460e36a9e2f3ae396919fd0fa2377d9b4a3388f7e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

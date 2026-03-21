@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssinhala
+pkgver=2.006
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssinhala
+pkgdesc="Google Fonts family: Noto Sans Sinhala"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Sinhala"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssinhala/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssinhala/NotoSansSinhala[wdth,wght].ttf"
+)
+sha256sums=(
+  "2d6f7c43bce61f4b1919379f901bc613484f5285f520b6d29bb7c1f31b17e841"
+  "9bd93e407a278075be403324063bc94a7e306c44de4df81214e932330c22eecf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

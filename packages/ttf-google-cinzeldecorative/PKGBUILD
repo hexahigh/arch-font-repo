@@ -1,0 +1,36 @@
+pkgname=ttf-google-cinzeldecorative
+pkgver=1.002
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cinzeldecorative
+pkgdesc="Google Fonts family: Cinzel Decorative"
+arch=('any')
+url="https://fonts.google.com/specimen/Cinzel+Decorative"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzeldecorative/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzeldecorative/CinzelDecorative-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzeldecorative/CinzelDecorative-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzeldecorative/CinzelDecorative-Regular.ttf"
+)
+sha256sums=(
+  "1e5d6660366ddcfca4f2fc10e2acfba9fa4d97d40aec80d7dbfd41d730a420ae"
+  "a6c1eb3e228f639a98aafd8a8e8a035582dd50ad5f8a84e9dcbc8664e7457114"
+  "e854e68a388aa50d742a4415c1ae5c17a617ef7956c95a70021d0a4a44f20518"
+  "5b862be329103ad287a10f0a53e27a40e8cc519999253f1a0223e2dc330b10b8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-kranky
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching apache/kranky
+pkgdesc="Google Fonts family: Kranky"
+arch=('any')
+url="https://fonts.google.com/specimen/Kranky"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/kranky/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/kranky/Kranky-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "2b40548b2a84e3daa922f770657aefc86d4ce13d155b96912bea2d50bcb09cc4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

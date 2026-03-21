@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansbhaiksuki
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansbhaiksuki
+pkgdesc="Google Fonts family: Noto Sans Bhaiksuki"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Bhaiksuki"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbhaiksuki/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansbhaiksuki/NotoSansBhaiksuki-Regular.ttf"
+)
+sha256sums=(
+  "55acad617cc72f630484d7cef2c12074a818df03eea7d89d6d595c663fc92fc5"
+  "eac343bece0d783218f3ab574df20217c0e165de3d04cd6fef8b47934605e0d9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

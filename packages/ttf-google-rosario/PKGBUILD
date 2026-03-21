@@ -1,0 +1,34 @@
+pkgname=ttf-google-rosario
+pkgver=1.201
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rosario
+pkgdesc="Google Fonts family: Rosario"
+arch=('any')
+url="https://fonts.google.com/specimen/Rosario"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rosario/Rosario[wght].ttf"
+)
+sha256sums=(
+  "944998f475ee63b332a19137840d9e334c94ec6300f8091a5049a647798ca33a"
+  "42a418a5472e60671432d8981f8deffd4090706a941a33a87e077c703e9304c5"
+  "ebeaaae45c8840f5054dc4bfca2101bed3d744b40368597cd6877980f21bfe48"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

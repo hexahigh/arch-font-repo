@@ -1,0 +1,36 @@
+pkgname=ttf-google-bonanovasc
+pkgver=4.001
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/bonanovasc
+pkgdesc="Google Fonts family: Bona Nova SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Bona+Nova+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonanovasc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonanovasc/BonaNovaSC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonanovasc/BonaNovaSC-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bonanovasc/BonaNovaSC-Regular.ttf"
+)
+sha256sums=(
+  "640d65a09191a9c6b84fdc0a8bebdd807bcfb92ff9afd7a668ef2e984b2f251a"
+  "bf71dbb726e75b34b3f09aaf799107937af5c0f401f3fc6bca80cbbed55fe36c"
+  "9b329433c3a9a2e4c89c1197b9cfffc1803c3cc6e0b95d6481d29e585fe3a34c"
+  "e4d155cdf1917f42e4d9073ab8856bb4b58984a3849c7753f27fe3837da832f8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

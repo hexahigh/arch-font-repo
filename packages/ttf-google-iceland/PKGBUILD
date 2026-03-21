@@ -1,0 +1,32 @@
+pkgname=ttf-google-iceland
+pkgver=1.001
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/iceland
+pkgdesc="Google Fonts family: Iceland"
+arch=('any')
+url="https://fonts.google.com/specimen/Iceland"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/iceland/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/iceland/Iceland-Regular.ttf"
+)
+sha256sums=(
+  "518962c41d4a5e96b0016bd8d8acc965413ea1a0102467e4955931e702b14a0d"
+  "5b5919189e5d01a6fac79251aaf9fa9565a738c39974cbe13de98ac02ec7fff5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

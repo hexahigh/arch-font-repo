@@ -1,0 +1,32 @@
+pkgname=ttf-google-righteous
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/righteous
+pkgdesc="Google Fonts family: Righteous"
+arch=('any')
+url="https://fonts.google.com/specimen/Righteous"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/righteous/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/righteous/Righteous-Regular.ttf"
+)
+sha256sums=(
+  "1c5bc055869d5e9151ec7774082727db720ec4293c65be67f91a4bdcaeb02998"
+  "2ffb3fe5c27d7e6571210b800448c4e234e651b46c6b4426c1bb567e5341348a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

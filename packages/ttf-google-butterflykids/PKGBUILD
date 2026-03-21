@@ -1,0 +1,32 @@
+pkgname=ttf-google-butterflykids
+pkgver=1.001
+pkgrel=1
+_commit="c9581ea65df061082c761ad8cdafa6e2c98519ab"  # Latest commit touching ofl/butterflykids
+pkgdesc="Google Fonts family: Butterfly Kids"
+arch=('any')
+url="https://fonts.google.com/specimen/Butterfly+Kids"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/butterflykids/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/butterflykids/ButterflyKids-Regular.ttf"
+)
+sha256sums=(
+  "d64c91b0306b53fabed08762068eea8b918d654fb0721c288f13cefa4aaf088c"
+  "4a131f49c3d90e816e6447d244090eb2c36cdbf26be53254271ccdf2d8d111b9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

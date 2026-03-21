@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansoldsoutharabian
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansoldsoutharabian
+pkgdesc="Google Fonts family: Noto Sans Old South Arabian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Old+South+Arabian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldsoutharabian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansoldsoutharabian/NotoSansOldSouthArabian-Regular.ttf"
+)
+sha256sums=(
+  "22aac2446e3aa2fb1e02eb6aecde823aa7e13e3fbd89ed3bd8595905e1d37671"
+  "54df22db482aef96a0f4aa7eb9e0a7bc92f4af281dec93ca7d16d03a42ef20a5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

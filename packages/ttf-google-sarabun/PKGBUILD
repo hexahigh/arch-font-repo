@@ -1,0 +1,62 @@
+pkgname=ttf-google-sarabun
+pkgver=1.000
+pkgrel=1
+_commit="88058c714073e72bb1b32baffc2d4ce9bc73944c"  # Latest commit touching ofl/sarabun
+pkgdesc="Google Fonts family: Sarabun"
+arch=('any')
+url="https://fonts.google.com/specimen/Sarabun"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarabun/Sarabun-ThinItalic.ttf"
+)
+sha256sums=(
+  "b26cae1321380296ba8311b632a397d5eac11b47197f9d0aa0b9310f1531ad60"
+  "d38308ca27d067b9a1b79006337c1f9a66c29aa016d96a9d88d3801da7fa83b9"
+  "5ef1b930f9a3afed5ec83374b5617cad3a89d91a8fc5e372dc028c2aa2950f8d"
+  "1f4ba0daad63c802d825885341bd7f1f054306a669ea2b183f2b20ee65a0a043"
+  "4b699f0ae018a58df04bd2a2a7c37d71c29c5359cb9df48abc70210ba2564ef9"
+  "8aa9fba8885554545c7bce3f1db5efd914c74c0ce8ae58e9e4cb477b5824fe9d"
+  "c2da92eae4674589bfb7ec04ecb5041c0bbe7768adf65fdddcfc1c9af3bbbb2f"
+  "595a968e97a8b8179a6bde2d74d4f91b11475dcfb6cf270037d76d8ed71160ea"
+  "9efd75e5ebb6d7755cca3faa5906c77a4bbd39c9aac0ed23bf7f4ba33b02f688"
+  "50c12a64ff7fb67fa7ca525c2ed2def9660c97c3ca443acea622e35beee97c33"
+  "cc7c3016daab3321674fdf6e2ef59850dc0c07503de1cbdb8b90fe8080ada2b4"
+  "263e6bb51d80c228c201a0770e6100181115119fdca7968445d44d2fb94ab009"
+  "226d4f368fbc0457990ddef2692679badfd2c1a4e89e5ac4d43c10ba7743b2f1"
+  "c0bb057d86e4a12097d701ac0953597e315788d47a446f5b63a6604ab21dceba"
+  "982bd56d4683c60e7e4c9cd84bfafae7b700c4b514d9655b8810bb7478063e5c"
+  "fa55eab332e998acb4bb64c43d9bd1cef791d88d5d15d63570f43741688d7057"
+  "c520d004674d257f4e539926c04ec9b77cbab2239aaa2b468df9693a369bb884"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

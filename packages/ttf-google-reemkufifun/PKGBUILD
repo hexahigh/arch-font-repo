@@ -1,0 +1,32 @@
+pkgname=ttf-google-reemkufifun
+pkgver=1.899
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/reemkufifun
+pkgdesc="Google Fonts family: Reem Kufi Fun"
+arch=('any')
+url="https://fonts.google.com/specimen/Reem+Kufi+Fun"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/reemkufifun/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/reemkufifun/ReemKufiFun[wght].ttf"
+)
+sha256sums=(
+  "fedb204ccadda62524c5467136cef4968b6b67efdc6ca3e8752c1248d81e7f4e"
+  "d1342cebd08afc04a51bf9a28e5ac6a8299c5716c47df9b7ea27f94653aaa40f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

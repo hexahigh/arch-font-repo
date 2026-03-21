@@ -1,0 +1,32 @@
+pkgname=ttf-google-alfaslabone
+pkgver=2.000
+pkgrel=1
+_commit="ae38321d5a5ff3a2125357402dd332998e6bf41b"  # Latest commit touching ofl/alfaslabone
+pkgdesc="Google Fonts family: Alfa Slab One"
+arch=('any')
+url="https://fonts.google.com/specimen/Alfa+Slab+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alfaslabone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alfaslabone/AlfaSlabOne-Regular.ttf"
+)
+sha256sums=(
+  "e315abc82a78710c7242e2f2e6529651fd631d4d50e6ad98ea194f9b54c3d701"
+  "28664afa698a3393bd5a29eec750230a0645c5301d62200e5f2d3a027fb2299d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

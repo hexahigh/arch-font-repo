@@ -1,0 +1,32 @@
+pkgname=ttf-google-bentham
+pkgver=002.002
+pkgrel=1
+_commit="c87ddc69981bf00e1f91bb8073dd4a8586fd7411"  # Latest commit touching ofl/bentham
+pkgdesc="Google Fonts family: Bentham"
+arch=('any')
+url="https://fonts.google.com/specimen/Bentham"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bentham/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bentham/Bentham-Regular.ttf"
+)
+sha256sums=(
+  "4a7d2f227b91046ef7a54f8f735668d86e45f4fd4089268de292a6e9de108253"
+  "6b5d6ac11b4902fc6912c3afb99520e290f59a56245228ca7529fe3937cba793"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

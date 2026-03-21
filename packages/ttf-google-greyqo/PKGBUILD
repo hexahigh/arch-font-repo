@@ -1,0 +1,32 @@
+pkgname=ttf-google-greyqo
+pkgver=2.010
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/greyqo
+pkgdesc="Google Fonts family: Grey Qo"
+arch=('any')
+url="https://fonts.google.com/specimen/Grey+Qo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/greyqo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/greyqo/GreyQo-Regular.ttf"
+)
+sha256sums=(
+  "1bd29b2ddae760a1f7014c59fedefb0b110f91110d25080615bcdadad83dbb87"
+  "1ed4701c24145a2a3b4271c48fe27d3ae082b98efc7619c1e7ee5b29ffe2cd67"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

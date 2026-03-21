@@ -1,0 +1,32 @@
+pkgname=ttf-google-nicomoji
+pkgver=1.02
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nicomoji
+pkgdesc="Google Fonts family: Nicomoji"
+arch=('any')
+url="https://fonts.google.com/specimen/Nicomoji"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nicomoji/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nicomoji/NicoMoji-Regular.ttf"
+)
+sha256sums=(
+  "6aa923334ec515d26b1a61bb978a0bb5bd8884de7529add1625beef2f4a53f74"
+  "c74f2f8cc83252adc86ab28a4070d33d1cadaee32ff4c314b47338ab53ae13f1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

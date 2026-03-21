@@ -1,0 +1,32 @@
+pkgname=ttf-google-rozhaone
+pkgver=1.301
+pkgrel=1
+_commit="77ce01eceb2c1b8714b62fd1278f04cd978ccee7"  # Latest commit touching ofl/rozhaone
+pkgdesc="Google Fonts family: Rozha One"
+arch=('any')
+url="https://fonts.google.com/specimen/Rozha+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rozhaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rozhaone/RozhaOne-Regular.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "8491b838c31f30272aa6da67e4749afabab8297db82a055fd2d0aa689f500ee3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

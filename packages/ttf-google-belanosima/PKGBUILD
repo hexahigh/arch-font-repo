@@ -1,0 +1,36 @@
+pkgname=ttf-google-belanosima
+pkgver=2.000
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/belanosima
+pkgdesc="Google Fonts family: Belanosima"
+arch=('any')
+url="https://fonts.google.com/specimen/Belanosima"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/belanosima/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/belanosima/Belanosima-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/belanosima/Belanosima-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/belanosima/Belanosima-SemiBold.ttf"
+)
+sha256sums=(
+  "b2c0e5c91cc2a0e0b9594ceae858c9bf0cf41dca3c1d7d0f3c508d41db6752a9"
+  "ff3fc9341c07ee4260b9f060d4b66b34f2b13d88a6798ac4ad3c8920a0dbc9b1"
+  "fe5f8af7696a801accff91511c4feecb51bc49516465a5557af3b0593c67685c"
+  "2394d701ecaede7bdcfb01906a4cfccd7d72108c7e66e41be6419dae7d8811ea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

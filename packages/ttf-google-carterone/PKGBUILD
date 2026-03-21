@@ -1,0 +1,32 @@
+pkgname=ttf-google-carterone
+pkgver=1.000
+pkgrel=1
+_commit="088b7efaa8e557d575ecc58a9085b552bdaa60a2"  # Latest commit touching ofl/carterone
+pkgdesc="Google Fonts family: Carter One"
+arch=('any')
+url="https://fonts.google.com/specimen/Carter+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/carterone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/carterone/CarterOne.ttf"
+)
+sha256sums=(
+  "c4afe82f49c05689c40dd4e262803b29c6e611e7b4efd3a0418f574b2be79d9a"
+  "9267b32e571924b5977a3bfb068726603a1eecf2af8dadbc4262e943b53959c8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

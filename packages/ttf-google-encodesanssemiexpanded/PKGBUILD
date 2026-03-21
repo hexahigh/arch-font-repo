@@ -1,0 +1,48 @@
+pkgname=ttf-google-encodesanssemiexpanded
+pkgver=2.000
+pkgrel=1
+_commit="0607ac87d892511464a19f04bb9fef63d4e01f05"  # Latest commit touching ofl/encodesanssemiexpanded
+pkgdesc="Google Fonts family: Encode Sans Semi Expanded"
+arch=('any')
+url="https://fonts.google.com/specimen/Encode+Sans+Semi+Expanded"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesanssemiexpanded/EncodeSansSemiExpanded-Thin.ttf"
+)
+sha256sums=(
+  "cc8c0c3e81cf543e190f128b83ba7c30959f15865c14dd972fca4917faeceec1"
+  "5ccf895878db2154b4a21def75594258e89e7122d05134d56cd37981ea22ff8f"
+  "388f18cbf0bcc4dcafc916c5f03989be30de3efebab71ef800f36d1f86b65962"
+  "b50b6596ceb2e5ba62c33b46ba7e6f3a0a8cc7cf2b491f01bfa4ee30aa177a85"
+  "ba81657a3d28eb922075b6419ef79b74098f6bf74770797f90e0ce59796a529a"
+  "ed235d922e0f859ac9cbcd559d0441e32506d44ddae24aea89926e98841f982c"
+  "ceb8cd76cedec8021892bc46dff129cde6c47ae19cd5d9cf676044ff337b3a98"
+  "aa69bcb0adf89d178c82e381ab6b959eca58c861440532cafbcc24e03cdce0ff"
+  "1bc6f3f5aa3db42d4fc37d924f4b22f313a677fd3575fec805fc1169006e3e1f"
+  "2d62660af2b106f8ff45356d009c4dbc4107c950e5ce3145522b1a1137c3f86a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

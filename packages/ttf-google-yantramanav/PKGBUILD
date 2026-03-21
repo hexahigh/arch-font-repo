@@ -1,0 +1,42 @@
+pkgname=ttf-google-yantramanav
+pkgver=1.001
+pkgrel=1
+_commit="05b6236ab27384f41b226a672dffcc67e85ae0d6"  # Latest commit touching ofl/yantramanav
+pkgdesc="Google Fonts family: Yantramanav"
+arch=('any')
+url="https://fonts.google.com/specimen/Yantramanav"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yantramanav/Yantramanav-Thin.ttf"
+)
+sha256sums=(
+  "8f2e5a9b52cf355023104413827e17dd7126c5a3656492d45eaa1ceb270aa4f1"
+  "8862dd6dba166ec1060c9fc0159b04c470e7102f3967d1746072bdab98a4d031"
+  "682ef4ebc9c8dde1f312c435ade5eca9cafea6ab0c3602e1638c02d3759b135d"
+  "aafcbbf2c8a104746ba7f551050e03b4fff8a2094d7ea10adfca3e30bcc15db8"
+  "8c6287e28f009a687d0616ad5f31e0f8fc513b82df09093ef5bae65dfc216206"
+  "823dbb5d9c73a2c192371bf73341a30291b5a416578362eb4607b9c5a5be9821"
+  "6e88e360cd722b123e1426e4d98602790b805def1fb198ece28f3bfcaf168650"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

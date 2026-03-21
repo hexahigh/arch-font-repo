@@ -1,0 +1,32 @@
+pkgname=ttf-google-ruda
+pkgver=2.001
+pkgrel=1
+_commit="3f86b3f5bd6c74b7c1a428666a824cca81a20108"  # Latest commit touching ofl/ruda
+pkgdesc="Google Fonts family: Ruda"
+arch=('any')
+url="https://fonts.google.com/specimen/Ruda"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruda/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ruda/Ruda[wght].ttf"
+)
+sha256sums=(
+  "1ac58be64e921818878e02adb0712060d51991cc3341228748ee6055885662aa"
+  "acc6e412c74545f934bed8564f8650f113d46d220f0f3a94484e6a6558cb40f0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

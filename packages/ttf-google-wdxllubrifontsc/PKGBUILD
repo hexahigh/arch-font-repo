@@ -1,0 +1,32 @@
+pkgname=ttf-google-wdxllubrifontsc
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/wdxllubrifontsc
+pkgdesc="Google Fonts family: WDXL Lubrifont SC"
+arch=('any')
+url="https://fonts.google.com/specimen/WDXL+Lubrifont+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wdxllubrifontsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wdxllubrifontsc/WDXLLubrifontSC-Regular.ttf"
+)
+sha256sums=(
+  "048eba87d28b5d74c432cfa38ca44737e86a5508cf912c1b2cc211c45944e1d9"
+  "0134ed261d56aab8fa1860df677858c5d0d3ca899b2aa5430581c458a752e914"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

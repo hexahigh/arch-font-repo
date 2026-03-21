@@ -1,0 +1,32 @@
+pkgname=ttf-google-pattaya
+pkgver=2.001
+pkgrel=1
+_commit="4b732c215e859b28ff4c3a7221c1fa5b496268a3"  # Latest commit touching ofl/pattaya
+pkgdesc="Google Fonts family: Pattaya"
+arch=('any')
+url="https://fonts.google.com/specimen/Pattaya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pattaya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pattaya/Pattaya-Regular.ttf"
+)
+sha256sums=(
+  "72060253bd481a8dc18664bb9117072dc07c0f0270a40617c230654821774850"
+  "02b77f7f5b52e718a91230c8ea153bfe746e1d748dabded4e41d7e6765fa9889"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

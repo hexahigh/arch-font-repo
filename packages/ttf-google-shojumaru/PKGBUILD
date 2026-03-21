@@ -1,0 +1,32 @@
+pkgname=ttf-google-shojumaru
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shojumaru
+pkgdesc="Google Fonts family: Shojumaru"
+arch=('any')
+url="https://fonts.google.com/specimen/Shojumaru"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shojumaru/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shojumaru/Shojumaru-Regular.ttf"
+)
+sha256sums=(
+  "ee81f11dd1970e9749afd2a572256f8eefce65532872762a4d7a3d5daa0812c8"
+  "8607110ef45da664861c72d95fb804c3609169ebfd2a380cb47b353a7b241c75"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

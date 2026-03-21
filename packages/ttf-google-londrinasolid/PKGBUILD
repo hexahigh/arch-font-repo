@@ -1,0 +1,38 @@
+pkgname=ttf-google-londrinasolid
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/londrinasolid
+pkgdesc="Google Fonts family: Londrina Solid"
+arch=('any')
+url="https://fonts.google.com/specimen/Londrina+Solid"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasolid/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasolid/LondrinaSolid-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasolid/LondrinaSolid-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasolid/LondrinaSolid-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinasolid/LondrinaSolid-Thin.ttf"
+)
+sha256sums=(
+  "66b5c49d384cba754806a891ebd52f2ca08dd05c0eb3c56170192da466a00a20"
+  "8c63a15e3fa34e0b362abeb903944a2bd45e71b1efa122486c0a47e295eae06f"
+  "fc6f2572d00807895ac2ffe2c5cffb9fb107ccb75cdb62b5d159d7c9c81591a1"
+  "e82b9b3ee21ccf153dcf67e5f4226a210474591a6ad31b5f17f2f14dc2524514"
+  "77761d803e937ec42a7f4b3be80ca15212a7d592dc10022838dc11df8e15fdb5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

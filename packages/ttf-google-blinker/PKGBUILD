@@ -1,0 +1,46 @@
+pkgname=ttf-google-blinker
+pkgver=1.016
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/blinker
+pkgdesc="Google Fonts family: Blinker"
+arch=('any')
+url="https://fonts.google.com/specimen/Blinker"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/blinker/Blinker-Thin.ttf"
+)
+sha256sums=(
+  "3ae0ef4107cdb72d21f4076575487e7b1c76fdc2d62d451ef223633a3196cb20"
+  "9404723f3a1a2c600c2b1ca8ba3bdaa1fcc348cdcaa94301181f97e368cfff49"
+  "da7c3e42b502b5445263d492b5adcdff01e656d87beddf8cc5bae5657898664a"
+  "2aadb3bf884c0f60c1fccf861ccc4c31ae4ff42c87b23444cd979246d6863129"
+  "99070de9779f72df4e836b8dff77aba1db6102c41f093d200c5d77f336b16174"
+  "6b8a38218155b1fb37bfdc10d5ff2ef815372ed99aeef3c4e5aebb39ec8d471d"
+  "2f2da3988c84378f11568885c970c442a7263bce637bd5bd4b02ec064c5753c0"
+  "a9a701eb18cbd5f786f28f986c16895ffc0d0337e4a9a63131b619d9542e07d4"
+  "3e06087e0f62496ac99f14de72d4bee718ef28b9ad824ebc1d79fc8956d30288"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

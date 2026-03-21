@@ -1,0 +1,32 @@
+pkgname=ttf-google-acme
+pkgver=1.002
+pkgrel=1
+_commit="5e3ad8265be5fcf278c7af0b66e09b48072d47fe"  # Latest commit touching ofl/acme
+pkgdesc="Google Fonts family: Acme"
+arch=('any')
+url="https://fonts.google.com/specimen/Acme"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/acme/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/acme/Acme-Regular.ttf"
+)
+sha256sums=(
+  "e5ccbfc32e4d7fae98b467a9af310ac8d2efd5d90e684426cd24f3eb36090a2c"
+  "76fdb582f54653c27274d5cd986f994c28d7fa7d323e7eb9ee14ce8875d39dc4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

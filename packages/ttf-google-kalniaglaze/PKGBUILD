@@ -1,0 +1,32 @@
+pkgname=ttf-google-kalniaglaze
+pkgver=1.110
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kalniaglaze
+pkgdesc="Google Fonts family: Kalnia Glaze"
+arch=('any')
+url="https://fonts.google.com/specimen/Kalnia+Glaze"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kalniaglaze/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kalniaglaze/KalniaGlaze[wdth,wght].ttf"
+)
+sha256sums=(
+  "fa401a7ad8fc4975a1690c6a629a83cf487de3796b52e4399c170accd943c916"
+  "526a3f364fff570bf01dfeb71b2de2f52bac0376b51004804e703df698b964ac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

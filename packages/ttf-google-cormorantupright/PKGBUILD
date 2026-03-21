@@ -1,0 +1,40 @@
+pkgname=ttf-google-cormorantupright
+pkgver=3.302
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cormorantupright
+pkgdesc="Google Fonts family: Cormorant Upright"
+arch=('any')
+url="https://fonts.google.com/specimen/Cormorant+Upright"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/CormorantUpright-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/CormorantUpright-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/CormorantUpright-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/CormorantUpright-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cormorantupright/CormorantUpright-SemiBold.ttf"
+)
+sha256sums=(
+  "9134ca6996bd33ea2022e109f13f20e29dee1dcd8b2e8878aad576d2ca334e9f"
+  "4b691441a35a78ec69490c046596f3b326235e3a3f88a56d3b288b4f2844aa6f"
+  "4623b17bf69369940e1b2114a2a81e5802710cb3ca84b1b8121fb95d8f53b4f9"
+  "d79318204a87bf31f7513fe7f61dd1bfeb88aa90f7fd419622d4a50ef85bafc2"
+  "69d6fea133a07cfdeae0e928141822317dc5a4521e568af32dc4edc7456bc1d5"
+  "585e9106c433f1b4cc5d023103305123d92741526a7e27e9ff8a1f5befcc90e6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

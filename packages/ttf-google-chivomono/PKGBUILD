@@ -1,0 +1,34 @@
+pkgname=ttf-google-chivomono
+pkgver=1.008
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chivomono
+pkgdesc="Google Fonts family: Chivo Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Chivo+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chivomono/ChivoMono[wght].ttf"
+)
+sha256sums=(
+  "c9b69fa18c372df2b187b49efc57b1ea643b86a938e5af32f6b5a7af1017c891"
+  "e6c3e5469d99fee864414845d95ef6aa2fb166121bddd7486d6958c4a54e3aea"
+  "725256f30b7b1b25dd001a96ff8d4a23773197bb886cd847a97ff8eabc9c1d9d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

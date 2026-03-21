@@ -1,0 +1,32 @@
+pkgname=ttf-google-ledger
+pkgver=1.003
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/ledger
+pkgdesc="Google Fonts family: Ledger"
+arch=('any')
+url="https://fonts.google.com/specimen/Ledger"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ledger/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ledger/Ledger-Regular.ttf"
+)
+sha256sums=(
+  "ba01480319f922ecebbc73f1a523e7f8876e92b16553a32c494bcd3f6f5a27fa"
+  "0d9e4086208d5aee8813ae1185010c58fa2f07933fb5c1a1d0950f42bd976272"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

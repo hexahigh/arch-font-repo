@@ -1,0 +1,32 @@
+pkgname=ttf-google-shrikhand
+pkgver=1.001
+pkgrel=1
+_commit="6b7ef487a9c1f9702a34ec62c7c0aea23b5fcda5"  # Latest commit touching ofl/shrikhand
+pkgdesc="Google Fonts family: Shrikhand"
+arch=('any')
+url="https://fonts.google.com/specimen/Shrikhand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shrikhand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shrikhand/Shrikhand-Regular.ttf"
+)
+sha256sums=(
+  "325e890b8b26fe0a683c3ba24c506d902bdd7034d9c47bd7fa2bb72b5433b9c9"
+  "8ba32f6d6a96fb8dbc92fc1acfbc4d2123d5348063d89b2c3dd784e7afcb81af"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

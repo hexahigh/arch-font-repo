@@ -1,0 +1,32 @@
+pkgname=ttf-google-firacode
+pkgver=5.002
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firacode
+pkgdesc="Google Fonts family: Fira Code"
+arch=('any')
+url="https://fonts.google.com/specimen/Fira+Code"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/firacode/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/firacode/FiraCode[wght].ttf"
+)
+sha256sums=(
+  "926041dac670e6922505e35ac1661a4e8d20f1ffeabbbcb5edb5544370702369"
+  "9335b082b3c7850d98a64b584f3417f65355f3471278bb5eeb8c6c0e8657aeeb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

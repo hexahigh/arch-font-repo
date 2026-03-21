@@ -1,0 +1,34 @@
+pkgname=ttf-google-comicrelief
+pkgver=1.200
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/comicrelief
+pkgdesc="Google Fonts family: Comic Relief"
+arch=('any')
+url="https://fonts.google.com/specimen/Comic+Relief"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicrelief/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicrelief/ComicRelief-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comicrelief/ComicRelief-Regular.ttf"
+)
+sha256sums=(
+  "009b3056cef5c9bcaff872bfb0e27fa4a0f8cc6f6984cc490caf5618748d766b"
+  "33aee007212b696afd57d50c901135cd723cd188f7ad98f3a1c572ea64e8f0d5"
+  "9ef4958ab06385d91f635f83a15569786b243f9d010cfb3f9a5cdda593c7bc22"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

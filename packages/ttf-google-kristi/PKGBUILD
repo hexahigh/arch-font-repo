@@ -1,0 +1,32 @@
+pkgname=ttf-google-kristi
+pkgver=1.004
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kristi
+pkgdesc="Google Fonts family: Kristi"
+arch=('any')
+url="https://fonts.google.com/specimen/Kristi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kristi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kristi/Kristi-Regular.ttf"
+)
+sha256sums=(
+  "4ec46c3e4469afa19f0156bac6917472974f9c85c189f9220cf8735d3e810401"
+  "6725b7a28d9bd8761e2834a6ab380babe073678c6f42017fe576116b9d6fd2a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

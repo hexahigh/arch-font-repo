@@ -1,0 +1,32 @@
+pkgname=ttf-google-orelegaone
+pkgver=1.1
+pkgrel=1
+_commit="4ad7174ac13f9448cdf293099996e2a88e36a521"  # Latest commit touching ofl/orelegaone
+pkgdesc="Google Fonts family: Orelega One"
+arch=('any')
+url="https://fonts.google.com/specimen/Orelega+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/orelegaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/orelegaone/OrelegaOne-Regular.ttf"
+)
+sha256sums=(
+  "14c21a0a12187e4d5e83914ffb2c976cc0f616ce1e0da80cb1f5a80f6a9b8709"
+  "df8372dca68d1a5bc4c7713594ec275d14192f2260b9d5c67c426d300505b704"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

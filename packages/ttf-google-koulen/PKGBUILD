@@ -1,0 +1,32 @@
+pkgname=ttf-google-koulen
+pkgver=8.000
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/koulen
+pkgdesc="Google Fonts family: Koulen"
+arch=('any')
+url="https://fonts.google.com/specimen/Koulen"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/koulen/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/koulen/Koulen-Regular.ttf"
+)
+sha256sums=(
+  "d5e231771c466695f0aea212a3c18ae4e34ea2503f1fc0751f04b0c7610c6735"
+  "4e19b0b83c537547b0f1ff1fb39dafb55cefbf6e957ef4bc900dccb9e4220117"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

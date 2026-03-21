@@ -1,0 +1,32 @@
+pkgname=ttf-google-liujianmaocao
+pkgver=1.003
+pkgrel=1
+_commit="1658caeec10ae203e8c3a46e7b4abbe6f129828a"  # Latest commit touching ofl/liujianmaocao
+pkgdesc="Google Fonts family: Liu Jian Mao Cao"
+arch=('any')
+url="https://fonts.google.com/specimen/Liu+Jian+Mao+Cao"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/liujianmaocao/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/liujianmaocao/LiuJianMaoCao-Regular.ttf"
+)
+sha256sums=(
+  "ff56684b0212481e7c3886c26d5a655de9b211c8119e5ccc756138a97b066acc"
+  "cab396b91a5b7c0b4005a35891180d06e6751f5ac261fe680aec65c1ae209033"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

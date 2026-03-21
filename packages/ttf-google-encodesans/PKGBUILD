@@ -1,0 +1,32 @@
+pkgname=ttf-google-encodesans
+pkgver=3.002
+pkgrel=1
+_commit="52bf34761d7c1877c5df065c469ecbdebe21f6d8"  # Latest commit touching ofl/encodesans
+pkgdesc="Google Fonts family: Encode Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Encode+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/encodesans/EncodeSans[wdth,wght].ttf"
+)
+sha256sums=(
+  "b47f4d635e8c592a37e98f751627cad0a81694c56aecc603b33819a908ea9625"
+  "7735320abb63a1022d086c938872dae32754db733ecd4dcd402f2a445cbeb43f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

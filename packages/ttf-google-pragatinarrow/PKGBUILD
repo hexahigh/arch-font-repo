@@ -1,0 +1,34 @@
+pkgname=ttf-google-pragatinarrow
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pragatinarrow
+pkgdesc="Google Fonts family: Pragati Narrow"
+arch=('any')
+url="https://fonts.google.com/specimen/Pragati+Narrow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pragatinarrow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pragatinarrow/PragatiNarrow-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pragatinarrow/PragatiNarrow-Regular.ttf"
+)
+sha256sums=(
+  "2dab153a33dcb2101bba3f194d27d953c848a0fabf2e336650a81f84a0c33b3f"
+  "8e151c9307194e6fdd69503999f2150e066dc5e9cdb2a966c861ec53286fc863"
+  "c00d288cc79bce384e85161a256570d278bf25598f809c9718a4f59421516a94"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

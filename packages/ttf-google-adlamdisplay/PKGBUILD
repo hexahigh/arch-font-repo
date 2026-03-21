@@ -1,0 +1,32 @@
+pkgname=ttf-google-adlamdisplay
+pkgver=2.000
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/adlamdisplay
+pkgdesc="Google Fonts family: ADLaM Display"
+arch=('any')
+url="https://fonts.google.com/specimen/ADLaM+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/adlamdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adlamdisplay/ADLaMDisplay-Regular.ttf"
+)
+sha256sums=(
+  "657961e80b42febe82f70a56a4ffe6bbd1dba06aec6338f002f729e637fdb902"
+  "cc36c3c6cba02522b86ef6c5ee7b062c5bf2a60b0f51f9b87a44c7d50d650899"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

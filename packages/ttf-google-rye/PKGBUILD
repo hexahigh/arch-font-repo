@@ -1,0 +1,32 @@
+pkgname=ttf-google-rye
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rye
+pkgdesc="Google Fonts family: Rye"
+arch=('any')
+url="https://fonts.google.com/specimen/Rye"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rye/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rye/Rye-Regular.ttf"
+)
+sha256sums=(
+  "399b33eb38cdfc76b8665defa5f81d52e8193d630ad5858c893db6bc20031bc9"
+  "b7edee5e615ae1b6b07e9d030c1309152bf3672a0e8a2a46293e273730f5adba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

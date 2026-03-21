@@ -1,0 +1,32 @@
+pkgname=ttf-google-oi
+pkgver=4.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oi
+pkgdesc="Google Fonts family: Oi"
+arch=('any')
+url="https://fonts.google.com/specimen/Oi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oi/Oi-Regular.ttf"
+)
+sha256sums=(
+  "053326baf9314c746e170e100766517d85ad78f5c9311123787e7d82b0ee7341"
+  "a406eece17ef2416ffefd6f57e4d5272ab2fa226c001ccf6aee7838231175203"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-overtherainbow
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overtherainbow
+pkgdesc="Google Fonts family: Over the Rainbow"
+arch=('any')
+url="https://fonts.google.com/specimen/Over+the+Rainbow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/overtherainbow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overtherainbow/OvertheRainbow.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "62a232ccaa3f1a0b575947a88d1355c5e4c55f5e0ce65307ab91ea958915c3d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

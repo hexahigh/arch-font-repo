@@ -1,0 +1,32 @@
+pkgname=ttf-google-gasoekone
+pkgver=1.000
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gasoekone
+pkgdesc="Google Fonts family: Gasoek One"
+arch=('any')
+url="https://fonts.google.com/specimen/Gasoek+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gasoekone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gasoekone/GasoekOne-Regular.ttf"
+)
+sha256sums=(
+  "a13e353470a9abc44e015067bc353fd3ebc3ea010dea68a00d56f961ebe8f7a9"
+  "73a6b8e0d12a56f0a070f19b44a93ae050f98eb926da5d2a7c8d6db92bd8d9c3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

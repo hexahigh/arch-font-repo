@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansnushu
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansnushu
+pkgdesc="Google Fonts family: Noto Sans Nushu"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Nushu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnushu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnushu/NotoSansNushu-Regular.ttf"
+)
+sha256sums=(
+  "1cabb5c007be074c36e1a390b591265c31fa910d20d73af57e13093928f8cac0"
+  "dc9cd53e71e2ecfb749b6a824bf779c88af840b9f9bdd22db51246fc6b9fca2d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

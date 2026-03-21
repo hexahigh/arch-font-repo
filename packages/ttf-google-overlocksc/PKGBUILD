@@ -1,0 +1,32 @@
+pkgname=ttf-google-overlocksc
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overlocksc
+pkgdesc="Google Fonts family: Overlock SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Overlock+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlocksc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlocksc/OverlockSC-Regular.ttf"
+)
+sha256sums=(
+  "62fab0ba1d5593782cbf048da193f4b1edc16b817577a99d707827513ad80e9a"
+  "35432623a400a074e3931b7c4958e00479cbdfa8484a23f6fbba8dfc94976675"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

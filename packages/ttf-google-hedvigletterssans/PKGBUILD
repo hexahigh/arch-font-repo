@@ -1,0 +1,32 @@
+pkgname=ttf-google-hedvigletterssans
+pkgver=1.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hedvigletterssans
+pkgdesc="Google Fonts family: Hedvig Letters Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Hedvig+Letters+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hedvigletterssans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hedvigletterssans/HedvigLettersSans-Regular.ttf"
+)
+sha256sums=(
+  "2a603f9fb5d68c3a67b3ab5d79e685fbc0c0585a9a478e5b89b2edab135cc1f6"
+  "ee35016e71917e3960b310607480f4621d511720ebd1cedff8d44674cf09ae80"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

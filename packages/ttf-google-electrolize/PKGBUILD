@@ -1,0 +1,32 @@
+pkgname=ttf-google-electrolize
+pkgver=1.002
+pkgrel=1
+_commit="eb6920819856bfd01255afaf710a675a6168181d"  # Latest commit touching ofl/electrolize
+pkgdesc="Google Fonts family: Electrolize"
+arch=('any')
+url="https://fonts.google.com/specimen/Electrolize"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/electrolize/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/electrolize/Electrolize-Regular.ttf"
+)
+sha256sums=(
+  "c4955dfe15a5db10326aa58ef767460c42cd12a3acdb3e698eee2704eb373d94"
+  "aa81ab9015fc0190bb5e68c50290565c7a4a723ddf32b88774aaff05cdd66bca"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

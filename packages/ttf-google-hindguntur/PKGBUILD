@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindguntur
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindguntur
+pkgdesc="Google Fonts family: Hind Guntur"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Guntur"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/HindGuntur-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/HindGuntur-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/HindGuntur-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/HindGuntur-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindguntur/HindGuntur-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "e3e88e87a47094b34d1b0bc4a88f700cb1d1d35dd6286bd224bc35cc1712b167"
+  "dd3847b40d16ee8f906b41928b5f0e3480ea9092524b5c6a949eb19dc458caf9"
+  "370d2838cc51cbf0060f164ffe11ecb35a2619452b8c8d200beccb50e3d0228c"
+  "2f9b4d31507c92fe1d54e5256904e41d91698b952c90d66bfe926cd156dac4eb"
+  "c143afa804c637d05c6c30542c0533820046d52e2c4c32dd7b6a8a51ef307594"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-fasterone
+pkgver=1.003
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/fasterone
+pkgdesc="Google Fonts family: Faster One"
+arch=('any')
+url="https://fonts.google.com/specimen/Faster+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/fasterone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/fasterone/FasterOne-Regular.ttf"
+)
+sha256sums=(
+  "4da248dc81a7ea4cf5b23f9cf7a0f8cad900875b3f52a928befb5c51e82e9438"
+  "382877a3a497c42bfeadfbb6e1b939d5b0f3f5cfd6c1a566c0c0d3d1f9b4bcb5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

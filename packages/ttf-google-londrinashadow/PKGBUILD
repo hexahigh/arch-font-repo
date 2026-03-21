@@ -1,0 +1,32 @@
+pkgname=ttf-google-londrinashadow
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/londrinashadow
+pkgdesc="Google Fonts family: Londrina Shadow"
+arch=('any')
+url="https://fonts.google.com/specimen/Londrina+Shadow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinashadow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/londrinashadow/LondrinaShadow-Regular.ttf"
+)
+sha256sums=(
+  "819e3b25f9b50f12299a3db1638be3813efc6b938f2b86693a218d20ec4e3209"
+  "bdc4a66213c2bed3a0e58912bb2e47f7b0ea51b07d291a43896eed5c87e01a21"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

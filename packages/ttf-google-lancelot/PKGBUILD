@@ -1,0 +1,32 @@
+pkgname=ttf-google-lancelot
+pkgver=1.004
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lancelot
+pkgdesc="Google Fonts family: Lancelot"
+arch=('any')
+url="https://fonts.google.com/specimen/Lancelot"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lancelot/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lancelot/Lancelot-Regular.ttf"
+)
+sha256sums=(
+  "d51f3341fd7b3dfa1114d3ef0bdabbe57f60eef86a1458019e0077d676fa1fcb"
+  "beca925079dfc167416fdafe9536136a14f66dc5cb06d94949f6e95fba49674c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

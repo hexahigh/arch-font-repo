@@ -1,0 +1,32 @@
+pkgname=ttf-google-puppiesplay
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/puppiesplay
+pkgdesc="Google Fonts family: Puppies Play"
+arch=('any')
+url="https://fonts.google.com/specimen/Puppies+Play"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/puppiesplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/puppiesplay/PuppiesPlay-Regular.ttf"
+)
+sha256sums=(
+  "fdc9b4ddc3c811c2ece4c4a11a2126115bc087ec0e1ffbca5f379865a9aa18c9"
+  "104fd20ddc4f78f256dd5e3a77d2cfdb0ef5b26e467404377f7bd0afabbb24c0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

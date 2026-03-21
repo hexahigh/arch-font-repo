@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansrejang
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansrejang
+pkgdesc="Google Fonts family: Noto Sans Rejang"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Rejang"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansrejang/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansrejang/NotoSansRejang-Regular.ttf"
+)
+sha256sums=(
+  "768322eaf654dd25d1f21b7ee144211d4b6d38ca088bc4b3f7279bcc2d84a217"
+  "4350c7672a035d21bacf9909a17da374aec268e5394cf66302838c194eeaca47"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

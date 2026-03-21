@@ -1,0 +1,32 @@
+pkgname=ttf-google-sawarabimincho
+pkgver=1.082
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sawarabimincho
+pkgdesc="Google Fonts family: Sawarabi Mincho"
+arch=('any')
+url="https://fonts.google.com/specimen/Sawarabi+Mincho"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sawarabimincho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sawarabimincho/SawarabiMincho-Regular.ttf"
+)
+sha256sums=(
+  "23a49d3198c9ffd233f73208c5e39c4ed893783cece36b954c0a65ee9aa7ef29"
+  "1f27e6b0c2543a311c31d2ba3e895e50028069bd24b5e0d20a5b6e0a0b03e9c4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

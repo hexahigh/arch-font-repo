@@ -1,0 +1,42 @@
+pkgname=ttf-google-sarpanch
+pkgver=2.004
+pkgrel=1
+_commit="2f99058d3135ba7381587ac14c77cee5c1cb2e8d"  # Latest commit touching ofl/sarpanch
+pkgdesc="Google Fonts family: Sarpanch"
+arch=('any')
+url="https://fonts.google.com/specimen/Sarpanch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sarpanch/Sarpanch-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "a1e1f81adb8404de57803bcd42096ec6702bf85bfb9524049f03f26cfcf4f771"
+  "c23f96c15d1d075b339bb7a5ede342591d1389924331464b98584865d88c8ebf"
+  "5ffb125033d467fafd79e8b13dc11fa88c3ce317840d6042afb56d3bb94dc32b"
+  "9f1ab5f1ba96df5a968c5f7f02bbb560b1af1bdd92bba8a33ef09384cc41b7be"
+  "2828287b0825b08c7b2cbba15779fd8b3b85c1907df8b9a987f08848cd6947f4"
+  "ced773bc2a7597ec1a5145ffce6dfacec076255204cf02f1303907a82c6102f2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

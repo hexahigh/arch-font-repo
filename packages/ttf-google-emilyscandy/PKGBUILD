@@ -1,0 +1,32 @@
+pkgname=ttf-google-emilyscandy
+pkgver=1.000
+pkgrel=1
+_commit="6c814d1422888c546f20d27dcb5ebe5b87a4dd85"  # Latest commit touching ofl/emilyscandy
+pkgdesc="Google Fonts family: Emilys Candy"
+arch=('any')
+url="https://fonts.google.com/specimen/Emilys+Candy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/emilyscandy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/emilyscandy/EmilysCandy-Regular.ttf"
+)
+sha256sums=(
+  "0623888cc2391c6c9853c04eafa7f687fef1a8328bbb848feab05d9e2a98764d"
+  "0cf3ca9dbe71b33596e8a1eb12b40deac2e6414fe5616dda50c554580b6e0c68"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

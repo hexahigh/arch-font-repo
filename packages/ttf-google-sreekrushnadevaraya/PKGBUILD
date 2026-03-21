@@ -1,0 +1,32 @@
+pkgname=ttf-google-sreekrushnadevaraya
+pkgver=1.0.5
+pkgrel=1
+_commit="46eaf3f24d5c1094521b0ccfb352dd1aebc6bf28"  # Latest commit touching ofl/sreekrushnadevaraya
+pkgdesc="Google Fonts family: Sree Krushnadevaraya"
+arch=('any')
+url="https://fonts.google.com/specimen/Sree+Krushnadevaraya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sreekrushnadevaraya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sreekrushnadevaraya/SreeKrushnadevaraya-Regular.ttf"
+)
+sha256sums=(
+  "f8c2225a5fdb50e2e75f98cf6e69f198571f605f1b7f6f7eacc0947e2fcdbe8d"
+  "3b8f5b01a08fba5af53760e274d6cd7ea6514ec2658d9c480eafcc8917d7e2cb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

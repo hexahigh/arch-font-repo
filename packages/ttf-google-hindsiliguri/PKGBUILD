@@ -1,0 +1,40 @@
+pkgname=ttf-google-hindsiliguri
+pkgver=1.001
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindsiliguri
+pkgdesc="Google Fonts family: Hind Siliguri"
+arch=('any')
+url="https://fonts.google.com/specimen/Hind+Siliguri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/HindSiliguri-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/HindSiliguri-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/HindSiliguri-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/HindSiliguri-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hindsiliguri/HindSiliguri-SemiBold.ttf"
+)
+sha256sums=(
+  "4b255eb44f613a8e426e195f0d0b7e10fcba1af7eb6047d9a7f4f3c449940e19"
+  "d135765781d1a4aebc7dd4a2af221427ec8689060121d8a48b19bca3eeb3977e"
+  "9d55d0dcc9b54cb0870ae5d5b24caf8d3ca9f304cd90ee6f4fe1e6c8ef833e5a"
+  "f2759c530d647720a4d4e99faef3c2d150e1452193a9c83fb81c8d29805c13ea"
+  "45071a7da902a74877f432722f525d00502d61aef71fca4cab3da8a23156c33d"
+  "92a9a68240883467830b87b2568242a59e68d4535e9e15f087650e12c4aaca83"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

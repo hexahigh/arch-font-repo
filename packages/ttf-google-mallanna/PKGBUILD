@@ -1,0 +1,32 @@
+pkgname=ttf-google-mallanna
+pkgver=1.0.4
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/mallanna
+pkgdesc="Google Fonts family: Mallanna"
+arch=('any')
+url="https://fonts.google.com/specimen/Mallanna"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mallanna/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mallanna/Mallanna-Regular.ttf"
+)
+sha256sums=(
+  "8928e999ff156e35852ab41d7a906598a8285acd3bcd81dff67213a6cd98d43e"
+  "73e5769253565b284aded5d9da1f98c6a10b0da5ba75b40b3c236239fcc23f76"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

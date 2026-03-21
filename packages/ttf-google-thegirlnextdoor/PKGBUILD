@@ -1,0 +1,32 @@
+pkgname=ttf-google-thegirlnextdoor
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/thegirlnextdoor
+pkgdesc="Google Fonts family: The Girl Next Door"
+arch=('any')
+url="https://fonts.google.com/specimen/The+Girl+Next+Door"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/thegirlnextdoor/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/thegirlnextdoor/TheGirlNextDoor.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "35329e71258e48398643f1f94175aa0c9a8d18bd179918d9ac4f3d497b6557a1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

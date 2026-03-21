@@ -1,0 +1,50 @@
+pkgname=ttf-google-daibannasil
+pkgver=4.000
+pkgrel=1
+_commit="1058a1dda6141444c06a56bdb1aca4b8ac0f3b6a"  # Latest commit touching ofl/daibannasil
+pkgdesc="Google Fonts family: Dai Banna SIL"
+arch=('any')
+url="https://fonts.google.com/specimen/Dai+Banna+SIL"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daibannasil/DaiBannaSIL-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "58e2ecc7d7147a7c8268553c1bed2354331c2003829396fa6f9506852144e46e"
+  "ae562489672abdccbbcf664f29e706c114b41c110edea3fe404a9ea7c8322b55"
+  "001b197160209b8e70302c8e9aeb8504d1a2f17a830b486b20696c1ed9b6e864"
+  "058fb915b7a5a42ee719760406c65c036b82b55470da3f263de4131289f187af"
+  "a33a115cb803e1b2f500e48750e68a4513a965ce5248415dd2654a3b3ed24b8b"
+  "091460bd9b0585e94b1b20d5906e6554ec29958e8e573682d37fb7c735f0860b"
+  "cf34bb5312df3531a999a83ec4d1c0daa83a1e37a144be3d40510c06efeb4de6"
+  "f0ef8fc8c85b4a1e0c9aa780b5765a5951ac4aa4820f61b5c645fd3044279887"
+  "7756d1c25925ba89130aef675d2d11f419602564c1091e9520fef1ac9ed8f193"
+  "49e0e792d6b0bb625569a49b320dc5f974ca96f02314a8238e5ea98d40cdcc62"
+  "416bc32287b4d07e8536639f35fc58e5190c4281fb6d115cd76d9ebfdddff020"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

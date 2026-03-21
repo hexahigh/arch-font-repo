@@ -1,0 +1,32 @@
+pkgname=ttf-google-pirataone
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pirataone
+pkgdesc="Google Fonts family: Pirata One"
+arch=('any')
+url="https://fonts.google.com/specimen/Pirata+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pirataone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pirataone/PirataOne-Regular.ttf"
+)
+sha256sums=(
+  "e8ad3f3de5baeff6bac6e711d8c406e0a6b8a61d2944741532d8965d893a2681"
+  "5347a2e155589ecf667d4b766613c8ee003edde9f83717fd24c09599a4b1ecc0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

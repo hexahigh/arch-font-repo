@@ -1,0 +1,66 @@
+pkgname=ttf-google-tomorrow
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tomorrow
+pkgdesc="Google Fonts family: Tomorrow"
+arch=('any')
+url="https://fonts.google.com/specimen/Tomorrow"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-ExtraLightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-MediumItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-SemiBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-Thin.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tomorrow/Tomorrow-ThinItalic.ttf"
+)
+sha256sums=(
+  "1dd4eaacd1da1bfb7e1d14dd5af0279c17d4503fde55abc628bdaccc63ae9eca"
+  "50f588a001797ba6db023d00c1950cb33c983786d9e809c6e1473669ec2b167e"
+  "5eb9a4021dac271e6714b20998d5dfcf0b16856bf34044081a072a522b2b6167"
+  "f024e7550a4c61583f19b12bf9f0730a91634c370549a87667b812376d6d858a"
+  "c30f681ba51129cd2d81a93d5a8a5c8262d2e535ae53e73a001d3d3770636038"
+  "e7ea7979decf1bb60d83f28176cd5ba79667a9b66c7827023fcc7a787d88c435"
+  "f7fe4bed14aaec1e25b1173c4eed35c3c5537e836c47db67b06189ec4adc7b19"
+  "4743cc9a6214fc8a92f84972f348ae7a37521803428e319da38c4188769863bc"
+  "6629c77344425e9df21fbac82cdf949532ecc197975d93c31c554029aa40abea"
+  "6702f65c28bd3fc835aebe71edc1e862cd54a0bd78b81868aba98b89b1c627dc"
+  "5b9b59bc09eb7983717ae4a31beacbfad259f1c70fdff9203f174f506e645f11"
+  "2e37e3fce108df08f5639d529a20b7fb5f3ad542694605cbc6572b81731bc803"
+  "ed82147f4fdefa4a89cefdbeff0d6d0fc6af5a3fac073884918bfba846e5b88b"
+  "04258fbdda083701e8fe5af445eb2fbb540967aa118c76d9cf78c7a63d32094b"
+  "6bb5534178637f472be093b2df876d580e7cb50df53e1a4b2be9f94070ff1767"
+  "27f99342d00d33da5a5c89cf53e58a09a6e079d07511edbac9594713bd2368b6"
+  "44bef0383d3ae455aefa06e84935b80c439f3f661b5097367255a2119cf1c4f0"
+  "1f31e17daea5eb340b4104988b45848be568df0a7d8cff4caf3e6c668fcd1df3"
+  "dc2dc4737909d4ad6a7b9ca937bb9606cd7b1a525dd1b604a08a70f5ef152042"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

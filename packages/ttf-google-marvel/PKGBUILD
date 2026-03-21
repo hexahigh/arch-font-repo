@@ -1,0 +1,38 @@
+pkgname=ttf-google-marvel
+pkgver=1.001
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marvel
+pkgdesc="Google Fonts family: Marvel"
+arch=('any')
+url="https://fonts.google.com/specimen/Marvel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/marvel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marvel/Marvel-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marvel/Marvel-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marvel/Marvel-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/marvel/Marvel-Regular.ttf"
+)
+sha256sums=(
+  "6cca1abc09d677cf00a55674ce2775e0eeb6dc5c0137b0401816680b9e500f81"
+  "2f154dc302525d262f3a5930ed69c1ffdbe26ee837cafe9a2cc124b832d2ed9c"
+  "4d1453fd5ce503afe0b16f4ac75e7642f2a007a55baaf589a47ec952ac73bfae"
+  "d3595cb5f687e593cefee93027db12783a2701a81dff460a82a6373724c2bbc4"
+  "826c418b11e194fc426338aa6da3b7420cbc2a8089d1b785198fe072e7515d10"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

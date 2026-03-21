@@ -1,0 +1,34 @@
+pkgname=ttf-google-cherryswash
+pkgver=1.001
+pkgrel=1
+_commit="afb68dcdba0f5b1eff049f97394077851ba75f32"  # Latest commit touching ofl/cherryswash
+pkgdesc="Google Fonts family: Cherry Swash"
+arch=('any')
+url="https://fonts.google.com/specimen/Cherry+Swash"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherryswash/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherryswash/CherrySwash-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cherryswash/CherrySwash-Regular.ttf"
+)
+sha256sums=(
+  "d416bc9437e1d7d8aba0613395ee49c95ce72d680672e910c6205b545cfcbad8"
+  "5cca323c29a80e19400a06be7c0c46e19db8ff2966cbbff7e05eac33354124ba"
+  "ce98243d428163be0d59fc02d3133507cd5afe78c501aa320c09c5deaa78a4a3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

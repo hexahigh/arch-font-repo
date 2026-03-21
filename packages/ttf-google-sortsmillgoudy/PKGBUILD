@@ -1,0 +1,34 @@
+pkgname=ttf-google-sortsmillgoudy
+pkgver=003.101
+pkgrel=1
+_commit="51c1c05e51ca04d02545ee21a52155b8e774d9dc"  # Latest commit touching ofl/sortsmillgoudy
+pkgdesc="Google Fonts family: Sorts Mill Goudy"
+arch=('any')
+url="https://fonts.google.com/specimen/Sorts+Mill+Goudy"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sortsmillgoudy/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sortsmillgoudy/SortsMillGoudy-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sortsmillgoudy/SortsMillGoudy-Regular.ttf"
+)
+sha256sums=(
+  "ed50ebe2fa922554980909192526fe94966556626d6d440a462c8e7eaed74cdc"
+  "7a7720703749c74b657f5340eda5374d0b87a9653855d5cd2f23cc1083d9b0f9"
+  "3a1fdc0d151b29c562ad3f3b7d7cabf007783ba4dc69444d3a98666bb614352d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

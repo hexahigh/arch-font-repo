@@ -1,0 +1,34 @@
+pkgname=ttf-google-imfellfrenchcanon
+pkgver=3.00
+pkgrel=1
+_commit="4f7aad31620eae22dc39f17cd6e56400403ecbdf"  # Latest commit touching ofl/imfellfrenchcanon
+pkgdesc="Google Fonts family: IM Fell French Canon"
+arch=('any')
+url="https://fonts.google.com/specimen/IM+Fell+French+Canon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellfrenchcanon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellfrenchcanon/IMFeFCit28P.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/imfellfrenchcanon/IMFeFCrm28P.ttf"
+)
+sha256sums=(
+  "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+  "c52e1ec27251b4cd6663e38415380404ecf39b2ceeb5535d40598590a511e459"
+  "3fea76932a62ff94ff93f1cf95b338330674df8ecd16e961116a346a64900dd3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

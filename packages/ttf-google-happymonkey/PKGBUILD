@@ -1,0 +1,32 @@
+pkgname=ttf-google-happymonkey
+pkgver=1.001
+pkgrel=1
+_commit="a0ab26d8aa8bfe410ac32046baac7d613c1896fa"  # Latest commit touching ofl/happymonkey
+pkgdesc="Google Fonts family: Happy Monkey"
+arch=('any')
+url="https://fonts.google.com/specimen/Happy+Monkey"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/happymonkey/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/happymonkey/HappyMonkey-Regular.ttf"
+)
+sha256sums=(
+  "bff4e5087ece354afccd073621197bbb7dd9349943b5ee6aa12b1adf0b133081"
+  "154d17efd5043e9f76ea4b8a15743fe19634c7adbe3531d6af68bec8a0c7fad3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

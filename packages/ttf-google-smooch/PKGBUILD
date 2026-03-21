@@ -1,0 +1,32 @@
+pkgname=ttf-google-smooch
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/smooch
+pkgdesc="Google Fonts family: Smooch"
+arch=('any')
+url="https://fonts.google.com/specimen/Smooch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/smooch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/smooch/Smooch-Regular.ttf"
+)
+sha256sums=(
+  "dc894a2b7d8000fbda9998744f7d47e1fd1b2ab53609c1fb8461d5b3a7d027b8"
+  "a6a90a4613d353228eb56a8b257879365f9282105989997f92b3930f2fc55d84"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

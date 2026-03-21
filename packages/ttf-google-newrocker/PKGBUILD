@@ -1,0 +1,32 @@
+pkgname=ttf-google-newrocker
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/newrocker
+pkgdesc="Google Fonts family: New Rocker"
+arch=('any')
+url="https://fonts.google.com/specimen/New+Rocker"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/newrocker/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/newrocker/NewRocker-Regular.ttf"
+)
+sha256sums=(
+  "942d51cf079299e83e9dd7a9a37eb92260524e8d1d576b2f0b3f7ca207c53f8e"
+  "28a499ce5b8bcf0652f8b2e25135183eaddf0c3c8c3e251259b075c71d1ef14c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

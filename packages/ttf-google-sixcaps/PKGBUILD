@@ -1,0 +1,32 @@
+pkgname=ttf-google-sixcaps
+pkgver=001.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sixcaps
+pkgdesc="Google Fonts family: Six Caps"
+arch=('any')
+url="https://fonts.google.com/specimen/Six+Caps"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sixcaps/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sixcaps/SixCaps.ttf"
+)
+sha256sums=(
+  "29cca754098468057880970c604e55c4e2bcb8479742e4130c94f2ddc0363f9c"
+  "7b54a46671722fb670647c9c3951e6e618b6a9d876fc5d9ae34dfd311628ae5a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

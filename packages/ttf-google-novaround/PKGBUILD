@@ -1,0 +1,32 @@
+pkgname=ttf-google-novaround
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novaround
+pkgdesc="Google Fonts family: Nova Round"
+arch=('any')
+url="https://fonts.google.com/specimen/Nova+Round"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/novaround/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/novaround/NovaRound.ttf"
+)
+sha256sums=(
+  "f1ef4c3ef43322403f5c30e4fb46496969cb5c34a2a6e7247b507254b69caa6a"
+  "9f427a08e6367f847d4b9452ab56252d99436b6a567206c1734d5cb4de895d95"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

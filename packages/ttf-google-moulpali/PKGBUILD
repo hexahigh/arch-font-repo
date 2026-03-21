@@ -1,0 +1,32 @@
+pkgname=ttf-google-moulpali
+pkgver=8.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/moulpali
+pkgdesc="Google Fonts family: Moulpali"
+arch=('any')
+url="https://fonts.google.com/specimen/Moulpali"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/moulpali/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/moulpali/Moulpali-Regular.ttf"
+)
+sha256sums=(
+  "9268f8a3b23f0ab8ad964478b4ad5e0ac534a4835b8409cd208bcc846d096bef"
+  "555fa15b85a70b3b18c182ccd26a24f2e1babaf64fb53ba31bbf91327a7b31b4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

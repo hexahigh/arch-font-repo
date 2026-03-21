@@ -1,0 +1,32 @@
+pkgname=ttf-google-novascript
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novascript
+pkgdesc="Google Fonts family: Nova Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Nova+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/novascript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/novascript/NovaScript-Regular.ttf"
+)
+sha256sums=(
+  "9b1cfccef4a7e19f90e2901f808f3aec4335d3cc81f978453ad0c8ded14447a0"
+  "470a4b2ca317b49f8bfc21d2b8f70d506b2652643664e1c3898852e72122a28d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

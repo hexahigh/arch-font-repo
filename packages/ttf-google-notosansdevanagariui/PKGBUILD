@@ -1,0 +1,48 @@
+pkgname=ttf-google-notosansdevanagariui
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansdevanagariui
+pkgdesc="Google Fonts family: Noto Sans Devanagari UI"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Devanagari+UI"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansdevanagariui/NotoSansDevanagariUI-Thin.ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "544560061449451446610409e6d3a30fbe6d341313e8f0089839a8c38dc6cbb7"
+  "c2a648025d13b35674ce39d886b179ffada7202097b42bd4634bf298f08f654e"
+  "fd36245aa8535d950b8a22fa52e161646855b36338cffc4a0333610ee7af1267"
+  "44b9cc07a76aa8c4aac181b93f44b1505f580ce2183b601ecf79b6f6dbe0cdb8"
+  "0f66c249feed1e2d164c7d194b73070dab7159a9a329d1c0215e961233d2993e"
+  "a3ba715b2822f1b76f23b76238ef4aa5a417d4df49815c1979b56af39e6240ce"
+  "c0b105d248337435b876d3a3d19b380c9782e452b15f142a0cf7b10f5d29a280"
+  "660b369a23914f270a9b73ff7db7d8d73c1d1c854141d8ca10aef17b258768f0"
+  "74a640dd72785855505332c8e02f2499587f89c6c319c9849590d3ce4f691958"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

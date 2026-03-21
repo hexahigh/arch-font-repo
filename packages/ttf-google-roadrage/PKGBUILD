@@ -1,0 +1,32 @@
+pkgname=ttf-google-roadrage
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/roadrage
+pkgdesc="Google Fonts family: Road Rage"
+arch=('any')
+url="https://fonts.google.com/specimen/Road+Rage"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/roadrage/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roadrage/RoadRage-Regular.ttf"
+)
+sha256sums=(
+  "b926569d7ff2c695dab9d771f3d9c3ded162f7a5bbac4aaf390d89f1ce0e1a5c"
+  "b25b8113340bd83520f92a32a13d8d2e39c46fcc595cf39e8ae9e9a4b6332eb8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

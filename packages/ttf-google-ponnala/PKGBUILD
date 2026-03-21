@@ -1,0 +1,32 @@
+pkgname=ttf-google-ponnala
+pkgver=1.0.3
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ponnala
+pkgdesc="Google Fonts family: Ponnala"
+arch=('any')
+url="https://fonts.google.com/specimen/Ponnala"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ponnala/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ponnala/Ponnala-Regular.ttf"
+)
+sha256sums=(
+  "6ea7a3ef1d07feb592693f3f22c26d0b09321ff81814292b49be99888d0da9d7"
+  "7febc4f7f386e8fe4485a7579ebadafb8c5d5eeb05660bf35eda33d11f2ed81e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

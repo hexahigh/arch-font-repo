@@ -1,0 +1,32 @@
+pkgname=ttf-google-bhutukaexpandedone
+pkgver=1.000
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bhutukaexpandedone
+pkgdesc="Google Fonts family: BhuTuka Expanded One"
+arch=('any')
+url="https://fonts.google.com/specimen/BhuTuka+Expanded+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bhutukaexpandedone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bhutukaexpandedone/BhuTukaExpandedOne-Regular.ttf"
+)
+sha256sums=(
+  "653b14a843954678d2ebcfbbc211d59edf10ea912a953ae00704230536e702f4"
+  "66b52f1013bf977571c08217fc851b9988f264b065be611880b90909fb3c274d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

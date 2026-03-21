@@ -1,0 +1,32 @@
+pkgname=ttf-google-jacquard12charted
+pkgver=1.002
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jacquard12charted
+pkgdesc="Google Fonts family: Jacquard 12 Charted"
+arch=('any')
+url="https://fonts.google.com/specimen/Jacquard+12+Charted"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquard12charted/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jacquard12charted/Jacquard12Charted-Regular.ttf"
+)
+sha256sums=(
+  "dea0ea45c7835a51c20d24b9ef2ac03f5beec858995f5eda085540f1f7c713b7"
+  "b9fa4451af15dc03f08d902378e22eef1c1c07375736ee54b16fee2c170516d2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,42 @@
+pkgname=ttf-google-overlock
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overlock
+pkgdesc="Google Fonts family: Overlock"
+arch=('any')
+url="https://fonts.google.com/specimen/Overlock"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-BlackItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overlock/Overlock-Regular.ttf"
+)
+sha256sums=(
+  "62fab0ba1d5593782cbf048da193f4b1edc16b817577a99d707827513ad80e9a"
+  "57e9a9982075e72a7800c0c4c37c4ff2321dcacec5b66622c4a3e114c5d25f7b"
+  "a7de24f86f8170b2f923ace452e2889d74e781f82890e10e8c23135b03cccc91"
+  "03ac4ce07ebd6e890aaf9071f8c75bf8b7060f39d44335250dd26bcfc8a16329"
+  "1aa0cf070fc76fde63bc3eb144ed838730abcf33bc65811b0ce9b23adec7691e"
+  "8602fc83b372d5a09e774054fadee4056a2770e0f3b9000da263d221d0d804a5"
+  "e27ec26dcb055e6d3843c5106fcacbc54e0c50accc0409935c7aaa16327bc92a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

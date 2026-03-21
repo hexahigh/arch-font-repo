@@ -1,0 +1,32 @@
+pkgname=ttf-google-tharlon
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tharlon
+pkgdesc="Google Fonts family: Tharlon"
+arch=('any')
+url="https://fonts.google.com/specimen/Tharlon"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tharlon/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tharlon/Tharlon-Regular.ttf"
+)
+sha256sums=(
+  "59bda6b53e28d388de5eac7bbb8f3e65889dc8489be3d922f95a525354110c0e"
+  "af32cbccd50d8b3eca45d995fc56e6904119791376d991157f4733685221c874"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

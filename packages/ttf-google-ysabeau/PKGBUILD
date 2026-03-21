@@ -1,0 +1,34 @@
+pkgname=ttf-google-ysabeau
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ysabeau
+pkgdesc="Google Fonts family: Ysabeau"
+arch=('any')
+url="https://fonts.google.com/specimen/Ysabeau"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ysabeau/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ysabeau/Ysabeau-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ysabeau/Ysabeau[wght].ttf"
+)
+sha256sums=(
+  "1343b9162a2d24f685767766ea23a75a80b88ba13ba421244e65b72210578b78"
+  "6d9099e463926e46659e01e415f891af967ec65a1fa5c496ec2b6612e4d3e27c"
+  "aa6df9f1f6cb1180f7c00fffb5ae2734ba66aa5f58defd173a9247ca11dffcf4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

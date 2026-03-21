@@ -1,0 +1,32 @@
+pkgname=ttf-google-federo
+pkgver=1.000
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/federo
+pkgdesc="Google Fonts family: Federo"
+arch=('any')
+url="https://fonts.google.com/specimen/Federo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/federo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/federo/Federo-Regular.ttf"
+)
+sha256sums=(
+  "e30f893523e50ebbe07acd783ae29c7d604e6208cae7646d993e8528ce13e35a"
+  "5284628c38309ec5046a6bf231e038eaf84c46df03602690607af56cac2b9bc7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

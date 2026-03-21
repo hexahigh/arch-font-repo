@@ -1,0 +1,32 @@
+pkgname=ttf-google-hinamincho
+pkgver=1.100
+pkgrel=1
+_commit="49060c938a4d3513ab86b69b0476f9ce87667459"  # Latest commit touching ofl/hinamincho
+pkgdesc="Google Fonts family: Hina Mincho"
+arch=('any')
+url="https://fonts.google.com/specimen/Hina+Mincho"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/hinamincho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/hinamincho/HinaMincho-Regular.ttf"
+)
+sha256sums=(
+  "3e9b0ddf2dd1ed6ada1bc29977601095102505d11dae646df1f6b1d59572f4ba"
+  "8395fafa0c2721b4b5c274031e1336fea0f703d908b175ee21f8ba2f1ad566a0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

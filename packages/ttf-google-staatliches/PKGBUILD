@@ -1,0 +1,32 @@
+pkgname=ttf-google-staatliches
+pkgver=1.000
+pkgrel=1
+_commit="e2c66c12056b4fbb223c5e03b4238ae91fab725a"  # Latest commit touching ofl/staatliches
+pkgdesc="Google Fonts family: Staatliches"
+arch=('any')
+url="https://fonts.google.com/specimen/Staatliches"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/staatliches/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/staatliches/Staatliches-Regular.ttf"
+)
+sha256sums=(
+  "72afba97d1ac9409a9fd3bb91a02a639427ca1988977909dad273e293a508d7e"
+  "8395212aa4c6c3534bd39a745d956305ff080c3f3ed73ba61e4fbaae951e55cc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

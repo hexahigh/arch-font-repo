@@ -1,0 +1,32 @@
+pkgname=ttf-google-bigshoulderstextsc
+pkgver=2.002
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bigshoulderstextsc
+pkgdesc="Google Fonts family: Big Shoulders Text SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Big+Shoulders+Text+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshoulderstextsc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bigshoulderstextsc/BigShouldersTextSC[wght].ttf"
+)
+sha256sums=(
+  "fbc746aabf0eb1847dfd92e2efc4596d79fa897d60b8e64062a22f585508fb3f"
+  "3f02d35b7776aca0b00a85dae9e6500cbc2c8646c802f330376d089557b6a8d4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

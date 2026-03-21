@@ -1,0 +1,32 @@
+pkgname=ttf-google-braahone
+pkgver=1.001
+pkgrel=1
+_commit="6ce172f74aa355ea43eb964fa4a91570a4d3064d"  # Latest commit touching ofl/braahone
+pkgdesc="Google Fonts family: Braah One"
+arch=('any')
+url="https://fonts.google.com/specimen/Braah+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/braahone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/braahone/BraahOne-Regular.ttf"
+)
+sha256sums=(
+  "005dd8f296dfe349f4da0da2ab29fb730a1be2b16c760197740b133680c85769"
+  "b571d948a89980dfed4e69170c852311989ce2807ec486572d6106049ffc9521"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

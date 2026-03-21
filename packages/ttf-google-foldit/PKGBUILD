@@ -1,0 +1,32 @@
+pkgname=ttf-google-foldit
+pkgver=1.003
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/foldit
+pkgdesc="Google Fonts family: Foldit"
+arch=('any')
+url="https://fonts.google.com/specimen/Foldit"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/foldit/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/foldit/Foldit[wght].ttf"
+)
+sha256sums=(
+  "b0daefd86530f48f6f57e90770276e42e63b3daadc9cdcf0cfd4cb16a7499946"
+  "cd0f1932ed7762ce679b4f39dafc181660883b14d97a1260c074a88d3915212e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

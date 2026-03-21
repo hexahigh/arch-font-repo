@@ -1,0 +1,44 @@
+pkgname=ttf-google-ibmplexsansdevanagari
+pkgver=1.1
+pkgrel=1
+_commit="13a2fad085ebc42c067af269f32c03d20d31f9fe"  # Latest commit touching ofl/ibmplexsansdevanagari
+pkgdesc="Google Fonts family: IBM Plex Sans Devanagari"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans+Devanagari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansdevanagari/IBMPlexSansDevanagari-Thin.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "8c1a55530a59f4d3df71e36ed7090e78511cf1e03c32b932c693ae6ac603b38f"
+  "9fd21512c2dcbd1675f0999195ac6d09011a13f61fe60775ae6a5e00e577c1e5"
+  "d174a4b8c9d3de5bdbbdfca5adc87edf578b61fc207f576aec47f440b8c0b256"
+  "a112f36f92ecb6967ee82c643547986462d1ddcff22c20ad024cb0915ddd2bee"
+  "9a309796ffbe3b6827591eb4e6e7f13e273c38d37b40d12a5ac695172571e88b"
+  "57f002a2e09846841ebfc59f12d3f3c530d05ff85648d6856dfe44f531c6c84d"
+  "f41144a3bf9130ba62ad10d7e0b0f42695bf74f73b00c6154b03f8e35a9196d1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

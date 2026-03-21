@@ -1,0 +1,32 @@
+pkgname=ttf-google-adobeblank
+pkgver=1.045
+pkgrel=1
+_commit="3ee943a947311e9e655a7845411e53e3b3fa93d9"  # Latest commit touching ofl/adobeblank
+pkgdesc="Google Fonts family: Adobe Blank"
+arch=('any')
+url="https://fonts.google.com/specimen/Adobe+Blank"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/adobeblank/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/adobeblank/AdobeBlank-Regular.ttf"
+)
+sha256sums=(
+  "794d72ffdd25e8f7ca8e1d68db088c30ddbf2fdb369b6cc8217d4fa5fa6dc62f"
+  "3b468f6efabe9274e804edf10477c8bdaf27cb2a76f50a5dd7cca34599f8b918"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

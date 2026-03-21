@@ -1,0 +1,32 @@
+pkgname=ttf-google-sekuya
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sekuya
+pkgdesc="Google Fonts family: Sekuya"
+arch=('any')
+url="https://fonts.google.com/specimen/Sekuya"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sekuya/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sekuya/Sekuya-Regular.ttf"
+)
+sha256sums=(
+  "a83a1cf52d9115e549ca79478f7a458870f91225755e9330c0b5f1c484c07c36"
+  "88d8f98973abd22df4660a2b64b9ad775a63b317010025069cd0738617221a72"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

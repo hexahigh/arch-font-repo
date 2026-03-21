@@ -1,0 +1,32 @@
+pkgname=ttf-google-shanti
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shanti
+pkgdesc="Google Fonts family: Shanti"
+arch=('any')
+url="https://fonts.google.com/specimen/Shanti"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/shanti/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/shanti/Shanti-Regular.ttf"
+)
+sha256sums=(
+  "bab5a06fe5d0b7ef84a169bc67a6ca90f65e9a13877b84ce564a60b19142ee0c"
+  "cc7320c8c4579293f4389ac391b4189c59d8276c3ac1f3b902bf0b0f0e2e9278"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

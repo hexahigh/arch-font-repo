@@ -1,0 +1,32 @@
+pkgname=ttf-google-parastoo
+pkgver=3.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/parastoo
+pkgdesc="Google Fonts family: Parastoo"
+arch=('any')
+url="https://fonts.google.com/specimen/Parastoo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/parastoo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/parastoo/Parastoo[wght].ttf"
+)
+sha256sums=(
+  "2396b56e16a325bb2d47771f62340c12452d482ecd96e4d5ce9effdd367a15c9"
+  "f29efde7fbdc1ec5d2e2d009371103c6a06ec4f85ed1703306b5fa11d261a8e4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

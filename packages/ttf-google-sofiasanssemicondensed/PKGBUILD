@@ -1,0 +1,34 @@
+pkgname=ttf-google-sofiasanssemicondensed
+pkgver=4.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sofiasanssemicondensed
+pkgdesc="Google Fonts family: Sofia Sans Semi Condensed"
+arch=('any')
+url="https://fonts.google.com/specimen/Sofia+Sans+Semi+Condensed"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasanssemicondensed/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasanssemicondensed/SofiaSansSemiCondensed-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasanssemicondensed/SofiaSansSemiCondensed[wght].ttf"
+)
+sha256sums=(
+  "3e824d5099202de2c98cbd8e5ecba54da7d220c1ad851330726e65f3e60842d1"
+  "ac7f4f8e5cee9c63c722c52e6cb73c97a7894992746e90a0ee8286291e4dfaff"
+  "7942e1c0b370cb5fe8dbf3584a3f38a913ad84a27e13e74ccd0e547e43d57a1f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,36 @@
+pkgname=ttf-google-libertinussans
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinussans
+pkgdesc="Google Fonts family: Libertinus Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinussans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinussans/LibertinusSans-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinussans/LibertinusSans-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinussans/LibertinusSans-Regular.ttf"
+)
+sha256sums=(
+  "229c8ecbad9dd2407784a35b396c2f1f186662a3c0c69add913a5cdbf3882e78"
+  "92e1e56b0d949241c400e3bca9a772a5318d3b49de7c5f7ccff0413d1a4cc339"
+  "44527ec77f40df4a9f5b306ca4db46d973ddf90929e7e875f8dde0084754ef38"
+  "2d261d21add710a08b2ffbd89072d7fd2f29a19582e872da4b8f8f6d622cd78b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

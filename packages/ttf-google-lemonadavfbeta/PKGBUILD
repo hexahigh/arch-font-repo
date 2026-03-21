@@ -1,0 +1,32 @@
+pkgname=ttf-google-lemonadavfbeta
+pkgver=4.004
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lemonadavfbeta
+pkgdesc="Google Fonts family: Lemonadavfbeta"
+arch=('any')
+url="https://fonts.google.com/specimen/Lemonadavfbeta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lemonadavfbeta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lemonadavfbeta/LemonadaVFBeta.ttf"
+)
+sha256sums=(
+  "1e78e944cd403dda9fe3acf02394f2cfc7d7e0679e934b7ea48cd603471341e8"
+  "bdb02b86117636e1b9e502f8c87405ebf4421ec573217fb757f892efd3ec7821"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

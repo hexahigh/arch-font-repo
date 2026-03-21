@@ -1,0 +1,32 @@
+pkgname=ttf-google-trainone
+pkgver=1.100
+pkgrel=1
+_commit="fcfdecc1b1290d1a78142eec186ae6d58a43d86b"  # Latest commit touching ofl/trainone
+pkgdesc="Google Fonts family: Train One"
+arch=('any')
+url="https://fonts.google.com/specimen/Train+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/trainone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/trainone/TrainOne-Regular.ttf"
+)
+sha256sums=(
+  "709f9689eabbab61e913ddc288187e7e3d09550339f7df894a909548f90af814"
+  "07d67ad14231a4a41f0ee501b14bd6f9c7a9beada5ee6af2924114863a034623"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

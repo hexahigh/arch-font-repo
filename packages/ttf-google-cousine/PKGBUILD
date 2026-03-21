@@ -1,0 +1,38 @@
+pkgname=ttf-google-cousine
+pkgver=1.21
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching apache/cousine
+pkgdesc="Google Fonts family: Cousine"
+arch=('any')
+url="https://fonts.google.com/specimen/Cousine"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/cousine/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/cousine/Cousine-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/cousine/Cousine-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/cousine/Cousine-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/cousine/Cousine-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "42d14baaf1802f8edf7659346a8574b41c4c78e264eb81cdb0891ca6686354ce"
+  "ef65b8624e7993977feb9f9ba18f514a1fa9adc4e1c4737c8839574685c188ae"
+  "9b2b98e5d389fe74968af2abb440ac4b6fcd24e2a1aba5ed895b0337b6b0b5e6"
+  "69e1ea59eb770014204e5174f805750f9a793db4a2531e6516b30b7460d470b3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

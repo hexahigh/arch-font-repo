@@ -1,0 +1,36 @@
+pkgname=ttf-google-lxgwwenkaimonotc
+pkgver=1.330
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lxgwwenkaimonotc
+pkgdesc="Google Fonts family: LXGW WenKai Mono TC"
+arch=('any')
+url="https://fonts.google.com/specimen/LXGW+WenKai+Mono+TC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwwenkaimonotc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwwenkaimonotc/LXGWWenKaiMonoTC-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwwenkaimonotc/LXGWWenKaiMonoTC-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lxgwwenkaimonotc/LXGWWenKaiMonoTC-Regular.ttf"
+)
+sha256sums=(
+  "4fff27d35db0e22cd81d58da6f20e09f415cf354a3338e3cf1fc0eb9222c7174"
+  "b3c9b93d8074e1ee8ff8b2f49388f26f6528d5cd614ba7d61ea4d45645c9a3e8"
+  "b61aa17e05c027cb8ce3768516795ef92a3363f8f537f385797dba7045bc453c"
+  "ea6707f71c862f4f255cbe510148b676ca8f5360872633de88694f8004f3f8b3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

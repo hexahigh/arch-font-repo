@@ -1,0 +1,34 @@
+pkgname=ttf-google-intertight
+pkgver=3.004
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/intertight
+pkgdesc="Google Fonts family: Inter Tight"
+arch=('any')
+url="https://fonts.google.com/specimen/Inter+Tight"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/intertight/InterTight[wght].ttf"
+)
+sha256sums=(
+  "50240ab035cf1b6b3307940235481d515c4b6de3ab1fa843dbe59e7892cb9d58"
+  "15d3edf0c3d2560658529b8c4c7398d06c730a4695484c680b6c9ca9e4385be2"
+  "b81b73dcb64df3c230cabade7df6c5773bf863233f24c9ee51087519f1f88b6f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

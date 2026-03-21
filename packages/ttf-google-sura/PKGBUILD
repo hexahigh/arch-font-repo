@@ -1,0 +1,34 @@
+pkgname=ttf-google-sura
+pkgver=1.003
+pkgrel=1
+_commit="2ce8f3196dbdfd204aa3627f08ba38bec7dd61ef"  # Latest commit touching ofl/sura
+pkgdesc="Google Fonts family: Sura"
+arch=('any')
+url="https://fonts.google.com/specimen/Sura"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sura/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sura/Sura-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sura/Sura-Regular.ttf"
+)
+sha256sums=(
+  "53ad6a474f68ddfc3fe72449de3ede4d3f033b2f24b77833b1d56edf505486d2"
+  "3f05a9ce75f1d8eaf8f2dc57684fc8aa84a81fa72a437583849eeb84f57089eb"
+  "df35bdf883ef6cda173f3e75e88970a257ae69eaa94b93655451f33b9f960234"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

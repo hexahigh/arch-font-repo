@@ -1,0 +1,32 @@
+pkgname=ttf-google-armata
+pkgver=1.003
+pkgrel=1
+_commit="a1d190139831a65dbe578d2bdcd0c64a1bfdf010"  # Latest commit touching ofl/armata
+pkgdesc="Google Fonts family: Armata"
+arch=('any')
+url="https://fonts.google.com/specimen/Armata"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/armata/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/armata/Armata-Regular.ttf"
+)
+sha256sums=(
+  "47a0b7e315bc56ca0326fca46302d87d48a61e3528d4196e966b62f5bf0243f2"
+  "ee4a6a0410bafc1d0b46bd4551e5360d4ef7603eea1a9c783d46e9569a936905"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

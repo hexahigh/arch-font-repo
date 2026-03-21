@@ -1,0 +1,32 @@
+pkgname=ttf-google-tasaorbiter
+pkgver=2.011
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tasaorbiter
+pkgdesc="Google Fonts family: TASA Orbiter"
+arch=('any')
+url="https://fonts.google.com/specimen/TASA+Orbiter"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tasaorbiter/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tasaorbiter/TASAOrbiter[wght].ttf"
+)
+sha256sums=(
+  "0673adc5fac52c6bd0782fa19f6f1554ac7af748a39f9c223058a2cb63c8c7fa"
+  "7126649ec754cd651eff02dfb01b1e9aa834419efb6af0a7f5fc57f63e5759f5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

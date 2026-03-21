@@ -1,0 +1,32 @@
+pkgname=ttf-google-prociono
+pkgver=2.301
+pkgrel=1
+_commit="ea9a597cd24bd9c21eaf43fe001eee6285b53b49"  # Latest commit touching ofl/prociono
+pkgdesc="Google Fonts family: Prociono"
+arch=('any')
+url="https://fonts.google.com/specimen/Prociono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/prociono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/prociono/Prociono-Regular.ttf"
+)
+sha256sums=(
+  "9ca8b9e5db7184105da255bb110023cf1cce6caa56186341bb7b09ba97b20ba5"
+  "cfc641117fe748d9958d9891702692da61bf86917de5039a0b31d30f78ce427a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

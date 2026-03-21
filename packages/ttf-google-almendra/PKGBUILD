@@ -1,0 +1,38 @@
+pkgname=ttf-google-almendra
+pkgver=1.004
+pkgrel=1
+_commit="4192ef0289b5f0f099efa9422caa68d7a736c0c0"  # Latest commit touching ofl/almendra
+pkgdesc="Google Fonts family: Almendra"
+arch=('any')
+url="https://fonts.google.com/specimen/Almendra"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendra/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendra/Almendra-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendra/Almendra-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendra/Almendra-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/almendra/Almendra-Regular.ttf"
+)
+sha256sums=(
+  "b7eae5e3c3447f70caa14e0c43f5e0d953f54ee59df406f6362863bcee1a0a95"
+  "5895ef04d0d56c60083ec302e72db99b952b044ab2b440ee12283649b5edc971"
+  "10e0a7dd4b9f5ad7d51be7f8ee42d76919c322dcbb7733dbad48f4ac751cb105"
+  "972eb95dd030592755064c35e8e394b75423973d0b7dbfd759c7e36ef80bb7cb"
+  "b127a6121209353b53da9ce73bf9d350f74190d8384c28ede179e4fb9440f946"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

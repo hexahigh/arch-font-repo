@@ -1,0 +1,32 @@
+pkgname=ttf-google-vampiroone
+pkgver=1.002
+pkgrel=1
+_commit="8a3011ad5625fce4130786d457ab4bc6f7093c84"  # Latest commit touching ofl/vampiroone
+pkgdesc="Google Fonts family: Vampiro One"
+arch=('any')
+url="https://fonts.google.com/specimen/Vampiro+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/vampiroone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/vampiroone/VampiroOne-Regular.ttf"
+)
+sha256sums=(
+  "7344b8b8c97c4f88c0ff8bb72bb024bba72f404be1c740b6596a73ed15d28df3"
+  "6e1920a4bbbc66552f793ecc686313ef09469ae75b6b25878bf8923fdfecb2a2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

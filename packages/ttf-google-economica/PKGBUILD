@@ -1,0 +1,38 @@
+pkgname=ttf-google-economica
+pkgver=1.101
+pkgrel=1
+_commit="336859beb57afe7c266646973585dd3634e96fbe"  # Latest commit touching ofl/economica
+pkgdesc="Google Fonts family: Economica"
+arch=('any')
+url="https://fonts.google.com/specimen/Economica"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/economica/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/economica/Economica-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/economica/Economica-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/economica/Economica-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/economica/Economica-Regular.ttf"
+)
+sha256sums=(
+  "1b3b78123c94dcbc9fd4ec174317336c8c93423da62dc946b8852553cb13ddee"
+  "b65bd51b7be6bd0df20bf9a652c96afb0ecd7cc1863bd2c3ee8f00e2e29304f4"
+  "00abac86722696edd3e681c71b2eca1df510f54d3f2fbfa0471c8db38190ab43"
+  "7524301555913bc0422727b2830d9b6e8269a36433acc825681ed96b40948843"
+  "7d5e3599ef99560f6ecafd0fe41753484ee86f215a7f6c5033c6c07d65b5d7b4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-aladin
+pkgver=1.000
+pkgrel=1
+_commit="52cc53a23244c7de861b7a8a84906d0993de68d5"  # Latest commit touching ofl/aladin
+pkgdesc="Google Fonts family: Aladin"
+arch=('any')
+url="https://fonts.google.com/specimen/Aladin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aladin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aladin/Aladin-Regular.ttf"
+)
+sha256sums=(
+  "aac8f0cda6159b7251d1034651bcb42e07611495bc8cd764c89d22f3123032f8"
+  "c7ee57e19b1b2c89f8d786115dc69225091ff7665f30fea7908bc2fb27d13398"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

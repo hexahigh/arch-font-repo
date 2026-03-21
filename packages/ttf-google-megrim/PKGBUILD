@@ -1,0 +1,32 @@
+pkgname=ttf-google-megrim
+pkgver=20110427
+pkgrel=1
+_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/megrim
+pkgdesc="Google Fonts family: Megrim"
+arch=('any')
+url="https://fonts.google.com/specimen/Megrim"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/megrim/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/megrim/Megrim.ttf"
+)
+sha256sums=(
+  "36e2f1debc9778bac79fac1a0cb5a5ef51c102f00b58ef7d8a05324144b68166"
+  "88d30544a63121ab021f4cf60f57257c81caaeddeeb2eb4d6ec1a600ae779cfd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

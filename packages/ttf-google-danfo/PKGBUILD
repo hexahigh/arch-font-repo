@@ -1,0 +1,32 @@
+pkgname=ttf-google-danfo
+pkgver=1.000
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/danfo
+pkgdesc="Google Fonts family: Danfo"
+arch=('any')
+url="https://fonts.google.com/specimen/Danfo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/danfo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/danfo/Danfo[ELSH].ttf"
+)
+sha256sums=(
+  "68e4cf6cb0eabde76d1fb41588062b2ee3882cd5fd1c868bcc8773788d848050"
+  "7e88c371ac63b0e4d0140812e703a3e021d37147a0df4f167ac324255a39d42f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,40 @@
+pkgname=ttf-google-biorhymeexpanded
+pkgver=1.001
+pkgrel=1
+_commit="2e8dadbdf54c791642333e460d40933cd3f824e9"  # Latest commit touching ofl/biorhymeexpanded
+pkgdesc="Google Fonts family: BioRhyme Expanded"
+arch=('any')
+url="https://fonts.google.com/specimen/BioRhyme+Expanded"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/BioRhymeExpanded-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/BioRhymeExpanded-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/BioRhymeExpanded-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/BioRhymeExpanded-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/biorhymeexpanded/BioRhymeExpanded-Regular.ttf"
+)
+sha256sums=(
+  "0b7eae990329ac175a2e1c329060b3a4d6876e4e0cd7e5235511578352f7b191"
+  "b90136544a46250d2c366d8fdb3268419f0433ba6a6c96998baafe0d17319a77"
+  "3b916880fa74c804153051745376988e856029c86bed1f7facd532cebeee000d"
+  "16ba12fa8b94712383e5a4eac51d11addba2a8ce44a0c239ee13583cd7c32fc1"
+  "396a934bcfcd29009432f281c5be6ee2d1ed9552ca45eae509af3f9076d511cb"
+  "e75a7c996c8884d3d26c0823e7cfbf3cf404d27a36ddff715f6dfd95389affa7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

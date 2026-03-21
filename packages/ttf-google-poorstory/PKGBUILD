@@ -1,0 +1,32 @@
+pkgname=ttf-google-poorstory
+pkgver=3.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poorstory
+pkgdesc="Google Fonts family: Poor Story"
+arch=('any')
+url="https://fonts.google.com/specimen/Poor+Story"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poorstory/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poorstory/PoorStory-Regular.ttf"
+)
+sha256sums=(
+  "39de3de5f1873f89bca4af37823ab22e28e88d0d8f7fe2f07e82e9e6e9bf7b70"
+  "831ab87f7b5463f9cd83ac249bf386816f3a478f1d226427c88cac907adb7ee2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

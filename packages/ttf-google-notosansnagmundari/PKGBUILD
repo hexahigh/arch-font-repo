@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansnagmundari
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansnagmundari
+pkgdesc="Google Fonts family: Noto Sans Nag Mundari"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Nag+Mundari"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnagmundari/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansnagmundari/NotoSansNagMundari[wght].ttf"
+)
+sha256sums=(
+  "89c7524928e05e5d5d9d16bed5e61466824dc076e5a71091a09bea729fc6fc04"
+  "326db3178a5cb37f602c2b4ee32fdcb8b97e9526954f5c715b3c11545ec8a424"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

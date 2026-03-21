@@ -1,0 +1,32 @@
+pkgname=ttf-google-nerkoone
+pkgver=1.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nerkoone
+pkgdesc="Google Fonts family: Nerko One"
+arch=('any')
+url="https://fonts.google.com/specimen/Nerko+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nerkoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nerkoone/NerkoOne-Regular.ttf"
+)
+sha256sums=(
+  "dc7c4ee52985271463f5ad27e06e87a5c5c9de1f9edd04d5a9ca7b76486fc2a6"
+  "55695d7d77712b983973e2984d8014c5060aecfb2e94493671fa4f0ffc3876c7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

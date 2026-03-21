@@ -1,0 +1,32 @@
+pkgname=ttf-google-teko
+pkgver=2.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/teko
+pkgdesc="Google Fonts family: Teko"
+arch=('any')
+url="https://fonts.google.com/specimen/Teko"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/teko/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/teko/Teko[wght].ttf"
+)
+sha256sums=(
+  "4a193c54e911c1e8194d4db657423f2527f54a1239f24cb67ecb09128dc9f065"
+  "d1321889f262bbbff632e7976349853399cd097b6f382d4b19790c915c13c1ae"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

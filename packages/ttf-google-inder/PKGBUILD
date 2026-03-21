@@ -1,0 +1,32 @@
+pkgname=ttf-google-inder
+pkgver=1.001
+pkgrel=1
+_commit="40e1729ff535d2e1d9c54b20364390132a26f228"  # Latest commit touching ofl/inder
+pkgdesc="Google Fonts family: Inder"
+arch=('any')
+url="https://fonts.google.com/specimen/Inder"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/inder/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inder/Inder-Regular.ttf"
+)
+sha256sums=(
+  "ca9fe3a0e10bbb082f83ecdc07f5f04845c4bd689c46456da3e6bae23e11aae2"
+  "7e9922756c6879c6aed60b1f880fcd3067c44c8f3328830909d1091b11168fc6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

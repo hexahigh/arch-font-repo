@@ -1,0 +1,32 @@
+pkgname=ttf-google-knewave
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/knewave
+pkgdesc="Google Fonts family: Knewave"
+arch=('any')
+url="https://fonts.google.com/specimen/Knewave"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/knewave/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/knewave/Knewave-Regular.ttf"
+)
+sha256sums=(
+  "14b3fbd06078a869cf2ba96e6dacb852d373703c86ca7ad54a4cdd6e20fbab19"
+  "ed3bac761d755b89ab3082c844d4a623d63c7d6eef85d22ba1fb6c680e6a4436"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

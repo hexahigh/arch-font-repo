@@ -1,0 +1,32 @@
+pkgname=ttf-google-storyscript
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/storyscript
+pkgdesc="Google Fonts family: Story Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Story+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/storyscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/storyscript/StoryScript-Regular.ttf"
+)
+sha256sums=(
+  "99df423da3a9c5b178e4e29f38272d8d0699a63de29edff6fe17cdf527dae871"
+  "2988808654b44c902f0e3a1a0b31fc67398ea5a093888da30c014bc3329f7731"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,38 @@
+pkgname=ttf-google-amiri
+pkgver=1.002
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/amiri
+pkgdesc="Google Fonts family: Amiri"
+arch=('any')
+url="https://fonts.google.com/specimen/Amiri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiri/Amiri-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiri/Amiri-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiri/Amiri-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amiri/Amiri-Regular.ttf"
+)
+sha256sums=(
+  "72de68e5954f4fdd24702292ef5a32f003ca960ec9330dc86e5eefb5dffb9b22"
+  "cfccb794268e7d573d857e6d6a67f89cf8a053e8ffd85dfa0c8ec1bb36fc4827"
+  "241300e2dcb2c541ac3617872960d99683d261e4f526dc4691d0727e7bef130b"
+  "770e4da44d0459c0ddd6484483d475b95f2d088dd27ce472427624081eb68c70"
+  "ab391c4147d054c48976e98322ad0eefe1427aa0e0502a12a4c75d80a70cfcd7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

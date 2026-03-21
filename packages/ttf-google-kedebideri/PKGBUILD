@@ -1,0 +1,42 @@
+pkgname=ttf-google-kedebideri
+pkgver=3.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kedebideri
+pkgdesc="Google Fonts family: Kedebideri"
+arch=('any')
+url="https://fonts.google.com/specimen/Kedebideri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kedebideri/Kedebideri-SemiBold.ttf"
+)
+sha256sums=(
+  "8c3c60646d27f24c13f1575262e422bc752d00419e4a7f1062784e6887cd8f1a"
+  "d97de0f816199815c76f42735796a791c6dee9a4d2d6718e07b84b5933382d51"
+  "44f61b6539ff31d2a2ddca62dabfb66af4f3db17242a239641a3ba85a4748cdb"
+  "5628251db19898f946fe899ac064c9e0c0d2b58daffd2ecf6895d846e17d749e"
+  "84d6fabd103e69c8a7ef49b260f7329a7a21f6edfb139eeb1da88cfd62d1c158"
+  "f95907a8c39c68d557c2264fcf593a858eb4751cd5e0c3c7c53e1ef354444064"
+  "ace157f39b0ff229b4bef5f5e7fc1486c470315aae0bcb9a59eefaa9166463c7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

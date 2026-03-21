@@ -1,0 +1,32 @@
+pkgname=ttf-google-sriracha
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sriracha
+pkgdesc="Google Fonts family: Sriracha"
+arch=('any')
+url="https://fonts.google.com/specimen/Sriracha"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sriracha/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sriracha/Sriracha-Regular.ttf"
+)
+sha256sums=(
+  "1f00d1f970b4ea469b6936e599b599bb217edaab792e586658ef2e71cf438685"
+  "c3128c30cb21e8724b792586c87059d1b5eceae10d9957ba2ab26c80bbed3669"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

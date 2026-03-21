@@ -1,0 +1,34 @@
+pkgname=ttf-google-kleeone
+pkgver=1.100
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kleeone
+pkgdesc="Google Fonts family: Klee One"
+arch=('any')
+url="https://fonts.google.com/specimen/Klee+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kleeone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kleeone/KleeOne-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kleeone/KleeOne-SemiBold.ttf"
+)
+sha256sums=(
+  "e376b0df8e8a2345a9533db6f0a5333a1107975569ad9d1973a7ee557161ca38"
+  "bf4063f030cc2ae6adf0a11424a1888e5c0eb4438f1f6d02f52294af868e9b3a"
+  "b031ec426c23ca1143ef1f7d58bee7a79efe119ed654152f121c922202b303fd"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

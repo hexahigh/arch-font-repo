@@ -1,0 +1,32 @@
+pkgname=ttf-google-zenantique
+pkgver=1.001
+pkgrel=1
+_commit="70bcf4897b4cc67d0fc31551e97bc3c6b54d36b5"  # Latest commit touching ofl/zenantique
+pkgdesc="Google Fonts family: Zen Antique"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Antique"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenantique/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zenantique/ZenAntique-Regular.ttf"
+)
+sha256sums=(
+  "c76594cc8f4af2ea35d1e05278b1911b22cc6227bc3b0ad404f68be03fe3f107"
+  "8c5cf7a136837ee705d06bbc133ea18ac06b7dd284f38aace91f5de36725c315"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

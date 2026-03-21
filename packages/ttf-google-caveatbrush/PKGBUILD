@@ -1,0 +1,32 @@
+pkgname=ttf-google-caveatbrush
+pkgver=1.096
+pkgrel=1
+_commit="f3595d3a8e5e4c2f81db658e7b86ba917127b7ec"  # Latest commit touching ofl/caveatbrush
+pkgdesc="Google Fonts family: Caveat Brush"
+arch=('any')
+url="https://fonts.google.com/specimen/Caveat+Brush"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/caveatbrush/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/caveatbrush/CaveatBrush-Regular.ttf"
+)
+sha256sums=(
+  "21b54eb0d7513524798a00dfbaf99a02c003a0012a728cc5f0e02d24c50482fb"
+  "e565bd7bffd895ca64f8d1cb77c816b9b38d9c010246386a07c9648592f6f282"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

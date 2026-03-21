@@ -1,0 +1,32 @@
+pkgname=ttf-google-chocolateclassicalsans
+pkgver=1.005
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/chocolateclassicalsans
+pkgdesc="Google Fonts family: Chocolate Classical Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Chocolate+Classical+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chocolateclassicalsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chocolateclassicalsans/ChocolateClassicalSans-Regular.ttf"
+)
+sha256sums=(
+  "2e07464fdfc781cd68f976fcfab13ad30913c04465571c33eaddc7db20f74ad6"
+  "e6345f3d92c7a9b7044c31a87d9b61f50220b08c0f1dcc2736e94c2aa587ce03"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

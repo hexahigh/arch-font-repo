@@ -1,0 +1,32 @@
+pkgname=ttf-google-gamjaflower
+pkgver=3.00
+pkgrel=1
+_commit="bc7234b94c97728a6b3b4b19c9f05dbed123d155"  # Latest commit touching ofl/gamjaflower
+pkgdesc="Google Fonts family: Gamja Flower"
+arch=('any')
+url="https://fonts.google.com/specimen/Gamja+Flower"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gamjaflower/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gamjaflower/GamjaFlower-Regular.ttf"
+)
+sha256sums=(
+  "39de3de5f1873f89bca4af37823ab22e28e88d0d8f7fe2f07e82e9e6e9bf7b70"
+  "ece32819ed58536355a49a095b0cdfdd3b8ef9081c5ed9ca1cef8f5d999ae1ac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

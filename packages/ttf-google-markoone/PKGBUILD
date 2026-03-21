@@ -1,0 +1,32 @@
+pkgname=ttf-google-markoone
+pkgver=1.003
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/markoone
+pkgdesc="Google Fonts family: Marko One"
+arch=('any')
+url="https://fonts.google.com/specimen/Marko+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/markoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/markoone/MarkoOne-Regular.ttf"
+)
+sha256sums=(
+  "a345b13576140008a697ac66ca8c76cd63b1dd076712bc30a0f5e97dcc53cc83"
+  "6514019373dabdb5d91ab3d3d7e97d96a656738c634fbae047dbb8143815395d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-beaurivage
+pkgver=1.010
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/beaurivage
+pkgdesc="Google Fonts family: Beau Rivage"
+arch=('any')
+url="https://fonts.google.com/specimen/Beau+Rivage"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/beaurivage/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/beaurivage/BeauRivage-Regular.ttf"
+)
+sha256sums=(
+  "072b20402dd2e98e819b7469e9ffc0f5e3cc42224e3ccd012494a8080198f516"
+  "6a407ad2418a5e29ceb447de49fb11e614615de4943292e3862347fa010e7bba"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

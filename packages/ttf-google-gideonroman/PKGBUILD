@@ -1,0 +1,32 @@
+pkgname=ttf-google-gideonroman
+pkgver=2.010
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gideonroman
+pkgdesc="Google Fonts family: Gideon Roman"
+arch=('any')
+url="https://fonts.google.com/specimen/Gideon+Roman"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gideonroman/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gideonroman/GideonRoman-Regular.ttf"
+)
+sha256sums=(
+  "c72eaa495a68969eb124218d20d3a6092e8f23ac1d25b9315d1014c5438f43e1"
+  "8edd923657529e420382016e8f0a395d2d526c391328fc97cf4d42ed2d18bdce"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-tirotamil
+pkgver=1.52
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tirotamil
+pkgdesc="Google Fonts family: Tiro Tamil"
+arch=('any')
+url="https://fonts.google.com/specimen/Tiro+Tamil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirotamil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirotamil/TiroTamil-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tirotamil/TiroTamil-Regular.ttf"
+)
+sha256sums=(
+  "2ed6051706542c5d6d96480318152b17900bb6d4dbadb11d7d5d6464d8b3e0dd"
+  "9571f0048b9f25411ff020ec037d2c7e257c5fc2b043c18533e305ea4aa193e6"
+  "f4ad26a93893a45fcb44bf117940d462c5aef1887543e9b8bf150767e597a76f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

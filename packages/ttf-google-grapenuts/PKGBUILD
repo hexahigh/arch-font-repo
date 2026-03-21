@@ -1,0 +1,32 @@
+pkgname=ttf-google-grapenuts
+pkgver=1.010
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grapenuts
+pkgdesc="Google Fonts family: Grape Nuts"
+arch=('any')
+url="https://fonts.google.com/specimen/Grape+Nuts"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grapenuts/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grapenuts/GrapeNuts-Regular.ttf"
+)
+sha256sums=(
+  "5818012656b5ba904c83dad6a0011bd25071d840231f83d69ba34eebd5e510e7"
+  "d4772724931dbafc507c610f10d8cffa4602f8b8e8abfc0bd384996875af4134"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

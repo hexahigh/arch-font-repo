@@ -1,0 +1,34 @@
+pkgname=ttf-google-ranga
+pkgver=1.0.2
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ranga
+pkgdesc="Google Fonts family: Ranga"
+arch=('any')
+url="https://fonts.google.com/specimen/Ranga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ranga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ranga/Ranga-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ranga/Ranga-Regular.ttf"
+)
+sha256sums=(
+  "8c22fb3866eaebd77a2cb8e8ecbb095381ff32300db57758326fef35a26132f5"
+  "c5c763628e805a2af3c9deb68abd0b70227a98911f7ba56f4f8c2a3e8c286b96"
+  "e51a6898e34d12bd9b9057002e645f176d30f5e821bfaa1ccc4e56294af7099a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

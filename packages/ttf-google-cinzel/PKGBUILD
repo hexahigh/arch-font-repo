@@ -1,0 +1,32 @@
+pkgname=ttf-google-cinzel
+pkgver=2.000
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/cinzel
+pkgdesc="Google Fonts family: Cinzel"
+arch=('any')
+url="https://fonts.google.com/specimen/Cinzel"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzel/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cinzel/Cinzel[wght].ttf"
+)
+sha256sums=(
+  "f2b3029aba64c378bf0963b62945eee15e564fe4330b934c8f2eb058282b5e83"
+  "f4d83d34d1f6c741193e4acf4b3dff9531e5a67b6aa65228d00a7db72a4e0f34"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

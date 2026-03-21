@@ -1,0 +1,32 @@
+pkgname=ttf-google-unifrakturmaguntia
+pkgver=2010-11-24
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unifrakturmaguntia
+pkgdesc="Google Fonts family: UnifrakturMaguntia"
+arch=('any')
+url="https://fonts.google.com/specimen/UnifrakturMaguntia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/unifrakturmaguntia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/unifrakturmaguntia/UnifrakturMaguntia-Book.ttf"
+)
+sha256sums=(
+  "96199bf9ff12dd471a66911dee95440737b437e7f5a6fd30e9e950c16d66e8df"
+  "d64afc0547059dd2e4a78da48bda0aba0a9901be58c7f8c201a8b2b6b4492cc8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

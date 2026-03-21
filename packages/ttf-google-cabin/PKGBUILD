@@ -1,0 +1,34 @@
+pkgname=ttf-google-cabin
+pkgver=3.001
+pkgrel=1
+_commit="35af94302aca62d2b12b855fe3780bdf4c7807fc"  # Latest commit touching ofl/cabin
+pkgdesc="Google Fonts family: Cabin"
+arch=('any')
+url="https://fonts.google.com/specimen/Cabin"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cabin/Cabin[wdth,wght].ttf"
+)
+sha256sums=(
+  "965bf33673aec648a3b399185639e502b58e52693d004fc03f6bbdf21b1a0094"
+  "f033cc4391bdcbb674169c997e3cafbf3417b1fd790a1d9bd31eafa0ca8afea4"
+  "a16576e6cec01cf994c46838ed1c17ffdb62cf6da8430edfbcb011f57dd62457"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,34 @@
+pkgname=ttf-google-manuale
+pkgver=1.002
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/manuale
+pkgdesc="Google Fonts family: Manuale"
+arch=('any')
+url="https://fonts.google.com/specimen/Manuale"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manuale/Manuale[wght].ttf"
+)
+sha256sums=(
+  "6f5869d0892d8c06cabcccce3726cacc849bd0a96b83bef5850402ab2b9fce71"
+  "13eb20f22e8b6a28eba93670219cb472980e8fd006319a917316434e2ed1961a"
+  "19ea09ad2fbf321cf8f94ac3f66547bc9b2bdf3723a2f073615eaa02fe17ded6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

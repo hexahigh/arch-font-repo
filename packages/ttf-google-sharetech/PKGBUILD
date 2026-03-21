@@ -1,0 +1,32 @@
+pkgname=ttf-google-sharetech
+pkgver=1.100
+pkgrel=1
+_commit="538d6f719e5406b5670068fb99fae9ee12593316"  # Latest commit touching ofl/sharetech
+pkgdesc="Google Fonts family: Share Tech"
+arch=('any')
+url="https://fonts.google.com/specimen/Share+Tech"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sharetech/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sharetech/ShareTech-Regular.ttf"
+)
+sha256sums=(
+  "87b7d831a81fe8b37e7e6c672937493f710ff81883eee3adec7b5423297efd16"
+  "2d1dc42631c22ce99285a3a7c1d0ca9e0bae9e67aa1ca01a501081f27a203df4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

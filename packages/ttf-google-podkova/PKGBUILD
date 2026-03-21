@@ -1,0 +1,32 @@
+pkgname=ttf-google-podkova
+pkgver=2.103
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/podkova
+pkgdesc="Google Fonts family: Podkova"
+arch=('any')
+url="https://fonts.google.com/specimen/Podkova"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/podkova/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/podkova/Podkova[wght].ttf"
+)
+sha256sums=(
+  "7076d4436e0908702b4dcd94974cdedb01770649b9cc4a13030ea8fb20889d0b"
+  "a7be6732a489b1c5c7c37a5c2e816fad901563ccd882e9bbc56d13eeebf4a4e7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

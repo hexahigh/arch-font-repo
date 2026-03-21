@@ -1,0 +1,32 @@
+pkgname=ttf-google-kenia
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kenia
+pkgdesc="Google Fonts family: Kenia"
+arch=('any')
+url="https://fonts.google.com/specimen/Kenia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kenia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kenia/Kenia-Regular.ttf"
+)
+sha256sums=(
+  "ce78cc8de3f6edd2738e8c02f2079db7086c9a74314baa5854675f83c33954ff"
+  "4052e03cdabd35ef9f739fdf1462b1b26c16b2238ba27223238624a2bb5565b9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

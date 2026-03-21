@@ -1,0 +1,44 @@
+pkgname=ttf-google-tajawal
+pkgver=1.700
+pkgrel=1
+_commit="ef138069282677337d19ed2f3ecf3146a7a56779"  # Latest commit touching ofl/tajawal
+pkgdesc="Google Fonts family: Tajawal"
+arch=('any')
+url="https://fonts.google.com/specimen/Tajawal"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/tajawal/Tajawal-Regular.ttf"
+)
+sha256sums=(
+  "9b584984f9db0ee30347391a76eff9c0a6b03dc450c3c6afe3757a2cb3a4db87"
+  "da582a579d3200869535dc994d2349608a8582042f8776b3679b157015db287c"
+  "0342ab6b74b6bd1b4b5bf7beda45a9734a2b3147a31e8a3a45b6a3417a52d9d7"
+  "3d1298b747c22579f9e1bdeb0d4165064cb17f7e66145e2f43f9deb12ad7a2cf"
+  "a12ffbfaaec30ab8142edc60fa4727b104a90eb54c6a200a76988a1ec2ec11dc"
+  "ab26ed3e0c5af2c71b469b5780decff8088d290ab91aa29b07321580136e813a"
+  "1ff8bd943a261c9dd7906bdb1993cab87b6d925a7fb5f848cdb51ed301531090"
+  "6882892da3e03527d5db2bbab3b48bde6ef2e878a43f522d1a4eebda90010a19"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

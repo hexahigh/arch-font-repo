@@ -1,0 +1,32 @@
+pkgname=ttf-google-kottaone
+pkgver=1.001
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kottaone
+pkgdesc="Google Fonts family: Kotta One"
+arch=('any')
+url="https://fonts.google.com/specimen/Kotta+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kottaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kottaone/KottaOne-Regular.ttf"
+)
+sha256sums=(
+  "e39d6ec64a37ed1523a59940695a61ea5e7882d9bbe0e7eb11653fda4b04fc79"
+  "17b1dd75c9ebd632b5df2b052fe5ae83139516a56e8367c5027dbbfd4ac5b184"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

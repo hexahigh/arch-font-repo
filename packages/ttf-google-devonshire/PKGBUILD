@@ -1,0 +1,32 @@
+pkgname=ttf-google-devonshire
+pkgver=1.001
+pkgrel=1
+_commit="17396027aba45e2441f1e531b4b4323c779c2156"  # Latest commit touching ofl/devonshire
+pkgdesc="Google Fonts family: Devonshire"
+arch=('any')
+url="https://fonts.google.com/specimen/Devonshire"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/devonshire/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/devonshire/Devonshire-Regular.ttf"
+)
+sha256sums=(
+  "bac36a7fcafc5702d9d928bb81c7de9f8739eaa820e546c3d2cc52730b652af4"
+  "4c00f003570e5a99361cc83017cb1314aa3170cfaa53be29a08c555bbb434657"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

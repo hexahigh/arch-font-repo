@@ -1,0 +1,32 @@
+pkgname=ttf-google-asset
+pkgver=1.003
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/asset
+pkgdesc="Google Fonts family: Asset"
+arch=('any')
+url="https://fonts.google.com/specimen/Asset"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/asset/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asset/Asset-Regular.ttf"
+)
+sha256sums=(
+  "14313e23f0e8f72849f29306b73e878001a77bf3a22fef14352f9800357a3827"
+  "1dac444192904730f28fbbb10a5ca7a629fe38e4717e026fdfea50ed69bef920"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

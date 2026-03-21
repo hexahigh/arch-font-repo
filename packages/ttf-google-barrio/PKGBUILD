@@ -1,0 +1,32 @@
+pkgname=ttf-google-barrio
+pkgver=1.005
+pkgrel=1
+_commit="a423802ce87c9c5d7a65f35bd3acb5aaddf4fcad"  # Latest commit touching ofl/barrio
+pkgdesc="Google Fonts family: Barrio"
+arch=('any')
+url="https://fonts.google.com/specimen/Barrio"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/barrio/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/barrio/Barrio-Regular.ttf"
+)
+sha256sums=(
+  "e2f2dc7a667954c16a919acff5351e8ea89813d10f5a7504e1f4668fffbfa14b"
+  "6f86249fbed4d0d620bcfefda64a0081e15cf0c8c5fd2ad17db157b98b558bc5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

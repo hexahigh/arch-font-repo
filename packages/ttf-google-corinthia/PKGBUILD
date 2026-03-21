@@ -1,0 +1,34 @@
+pkgname=ttf-google-corinthia
+pkgver=1.013
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/corinthia
+pkgdesc="Google Fonts family: Corinthia"
+arch=('any')
+url="https://fonts.google.com/specimen/Corinthia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/corinthia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/corinthia/Corinthia-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/corinthia/Corinthia-Regular.ttf"
+)
+sha256sums=(
+  "93c4a947d0c82b6838675aeb6090b7e9e7534b9655b2aeec1874149290a58bbf"
+  "86c58bf8f6a7160f9914160fb3c8dfbf75d5b145dd0ab943a0b82913836516f9"
+  "ee2adb172a41a52c5f6b7de6de5953bf8e9e6bdfa5bc641fdddbdf4c737fc98e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

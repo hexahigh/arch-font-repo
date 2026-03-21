@@ -1,0 +1,32 @@
+pkgname=ttf-google-baskervvillesc
+pkgver=1.100
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/baskervvillesc
+pkgdesc="Google Fonts family: Baskervville SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Baskervville+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/baskervvillesc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/baskervvillesc/BaskervvilleSC[wght].ttf"
+)
+sha256sums=(
+  "c70bd75ad8f4e4fd774a65cef5c0c97f9358944a3528505b875927bb54fa38cb"
+  "cd2ac64e7b75f6c31fcec8b8c85a729f88d6b2987bdc0062d057f06904069304"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

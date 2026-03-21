@@ -1,0 +1,36 @@
+pkgname=ttf-google-idiqlat
+pkgver=2.000
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/idiqlat
+pkgdesc="Google Fonts family: Idiqlat"
+arch=('any')
+url="https://fonts.google.com/specimen/Idiqlat"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/idiqlat/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/idiqlat/Idiqlat-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/idiqlat/Idiqlat-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/idiqlat/Idiqlat-Regular.ttf"
+)
+sha256sums=(
+  "8892713e927669e091b4d7fb5f3b914c7f78e2e9415a231bc49a7ab1ea648562"
+  "20f3f0187a9c4941cdb453826dc0a96cb66840e7ef13b48517407be6e87205a9"
+  "7919cf789d047203aa0009a5ded0ed2ca0c8a759ee3f4c9c62677f1c1c703982"
+  "e77b3eecc71244dc5b91a84d515d6ac5745ade38033cc9fb7c2086474627200e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

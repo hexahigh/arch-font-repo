@@ -1,0 +1,32 @@
+pkgname=ttf-google-mada
+pkgver=1.5
+pkgrel=1
+_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/mada
+pkgdesc="Google Fonts family: Mada"
+arch=('any')
+url="https://fonts.google.com/specimen/Mada"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mada/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mada/Mada[wght].ttf"
+)
+sha256sums=(
+  "e15f74b13b1a30c878f162b2ce10aff4668d0e8ec8dae41dc61c1c12aa6d9eb9"
+  "bf4d193ee78cea2fd8bdc9e64e5cb7e8a19ff76ab74f97a9a4a0e80f8f4cefde"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

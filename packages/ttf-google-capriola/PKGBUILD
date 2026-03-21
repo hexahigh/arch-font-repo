@@ -1,0 +1,32 @@
+pkgname=ttf-google-capriola
+pkgver=1.007
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/capriola
+pkgdesc="Google Fonts family: Capriola"
+arch=('any')
+url="https://fonts.google.com/specimen/Capriola"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/capriola/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/capriola/Capriola[wght].ttf"
+)
+sha256sums=(
+  "01b7787451e430c45bfc2878b0726d37fb9d211fc21474f56f23e45efb8b7901"
+  "03bd906c00b8618af3b0844a45165b699e2fcccd589d29812b5c9f83afd49e75"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

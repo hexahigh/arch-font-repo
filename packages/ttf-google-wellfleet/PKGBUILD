@@ -1,0 +1,32 @@
+pkgname=ttf-google-wellfleet
+pkgver=1.002
+pkgrel=1
+_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/wellfleet
+pkgdesc="Google Fonts family: Wellfleet"
+arch=('any')
+url="https://fonts.google.com/specimen/Wellfleet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/wellfleet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/wellfleet/Wellfleet-Regular.ttf"
+)
+sha256sums=(
+  "4281c00ab5b8f672fc8d686f48cb886ffbe900c8c9ee22473ca7e72e7cef8fbe"
+  "347f3918762c7b61c3b98d57071b03295485bc97b6bfb6c7627bcf365cc3c9e7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

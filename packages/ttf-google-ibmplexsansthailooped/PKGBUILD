@@ -1,0 +1,44 @@
+pkgname=ttf-google-ibmplexsansthailooped
+pkgver=1.1
+pkgrel=1
+_commit="239548cfe1ebc58035ffbbb6853d6793565c6511"  # Latest commit touching ofl/ibmplexsansthailooped
+pkgdesc="Google Fonts family: IBM Plex Sans Thai Looped"
+arch=('any')
+url="https://fonts.google.com/specimen/IBM+Plex+Sans+Thai+Looped"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/ibmplexsansthailooped/IBMPlexSansThaiLooped-Thin.ttf"
+)
+sha256sums=(
+  "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  "df53c5c794b910f68bb8f3075a6c9bf59261c3ad964bd2be0ddff1bd4c79c7a9"
+  "1d8ae33823d3e797b32f5d884ff04879b8d1e266da24e4e9465a50bb209d7a96"
+  "9827df92fc68774d9e51203b11bb831351bfe7bb11509788aeec8dc85ef78365"
+  "0219cd6e21c9bb226378fa60ebd73e2550b1adb245fec821c817e2b1efcb1f04"
+  "6d7910d13a7a9e33872d5501fd81a71f84ee532f729bfb72c6ffa94d1f13009e"
+  "90535e0096a25940788473d2f51ca2dbe4a2404b9fad570b92dc80b792ab22d1"
+  "3ad5c3c2a6b9107a8105250c450e1b2bbaa539a40da58e305c4b61b853e30126"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

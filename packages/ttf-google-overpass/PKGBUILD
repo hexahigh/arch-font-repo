@@ -1,0 +1,34 @@
+pkgname=ttf-google-overpass
+pkgver=4.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overpass
+pkgdesc="Google Fonts family: Overpass"
+arch=('any')
+url="https://fonts.google.com/specimen/Overpass"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpass/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpass/Overpass-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpass/Overpass[wght].ttf"
+)
+sha256sums=(
+  "86e5ff25c701ec446d20b1a85b02ee6d36de8503a7288a4c948f5459809af1f0"
+  "3b45ac4193930bbeb491b5c76227afd5991607712f0d16d6bc5d74db6bbd8172"
+  "970717df17a7f9911dee45f60695d05bfa9d745fa0a11fc5c348371fa21f0073"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

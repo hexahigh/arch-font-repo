@@ -1,0 +1,36 @@
+pkgname=ttf-google-kaiseiharunoumi
+pkgver=5.003
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/kaiseiharunoumi
+pkgdesc="Google Fonts family: Kaisei HarunoUmi"
+arch=('any')
+url="https://fonts.google.com/specimen/Kaisei+HarunoUmi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiharunoumi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiharunoumi/KaiseiHarunoUmi-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiharunoumi/KaiseiHarunoUmi-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kaiseiharunoumi/KaiseiHarunoUmi-Regular.ttf"
+)
+sha256sums=(
+  "6c5445d4febbf6d84025b874a85c51e7e4bfa7495279eccdb4c317a6de857b46"
+  "a10baa36d587245219269e8400da5c1540463c80236b952d6b6cd0485a337f4a"
+  "1575519fd0fb06092b4a65d2cd8e9c057e3a4352c6f1cba8562450b074b06980"
+  "176e2dac3ffb1659dd85c90666a3ee19d2bb4fce8a8a2315fe630625ac5ab6a7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

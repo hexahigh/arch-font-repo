@@ -1,0 +1,32 @@
+pkgname=ttf-google-lexendgiga
+pkgver=1.007
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lexendgiga
+pkgdesc="Google Fonts family: Lexend Giga"
+arch=('any')
+url="https://fonts.google.com/specimen/Lexend+Giga"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendgiga/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/lexendgiga/LexendGiga[wght].ttf"
+)
+sha256sums=(
+  "5da8505887d0fa7fe963445fd58852707fda34adfeb65af25c99d152bab285bd"
+  "a62c958e898995a2177f9683e3dad2a8da98b571a04601a15b4b2c4bb390c6f1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

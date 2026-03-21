@@ -1,0 +1,32 @@
+pkgname=ttf-google-eduauvicwanthand
+pkgver=1.001
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/eduauvicwanthand
+pkgdesc="Google Fonts family: Edu AU VIC WA NT Hand"
+arch=('any')
+url="https://fonts.google.com/specimen/Edu+AU+VIC+WA+NT+Hand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwanthand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/eduauvicwanthand/EduAUVICWANTHand[wght].ttf"
+)
+sha256sums=(
+  "11a98fa66908aa244c7608443d945dd50e2821d879bb25b5897ffc8f94712688"
+  "973361e9e538dda39584b3c259e50b1d511a7a9f2ebe46c85b40066126ee6ebc"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

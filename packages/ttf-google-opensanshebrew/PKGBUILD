@@ -1,0 +1,46 @@
+pkgname=ttf-google-opensanshebrew
+pkgver=2.001
+pkgrel=1
+_commit="49fbebd3dc75d42fe72c4a3eef6524f8fcc335fd"  # Latest commit touching apache/opensanshebrew
+pkgdesc="Google Fonts family: Opensanshebrew"
+arch=('any')
+url="https://fonts.google.com/specimen/Opensanshebrew"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-ExtraBoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-LightItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/apache/opensanshebrew/OpenSansHebrew-Regular.ttf"
+)
+sha256sums=(
+  "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5"
+  "07d8abfcdfd33a1c3bf9a9811ceb4ddb5698951a5fcfc924f2b3ea47d6a830a0"
+  "54c77b9ce8d69f041f4e53ef67accb80f04e6a456fc143eb5d49a9da7c8c2702"
+  "9f8374ab9d0b400a0f2533d75a782072582091f187bac09db1cdef1c633a92a2"
+  "be2f7b60d0000fa39ef9e75371bed363d9d19edcfb37910cd3059443e2a28c7b"
+  "0cf61c26e02649e44ae9a44f3942c611d697226a6ed4b061c0cf9aec93447344"
+  "5649d0e842b7af26437ebac0bf8cc5e2bc310fe1fbacb8d82a77d96b8f6c2b06"
+  "6c03feb09ed1c36b09b442b9ca7da54e6ffd6f6233ee0a7b4d23e620dc7094be"
+  "2f8c1725ed7b1f25e38c74ff23543fa0de7dc4dff732aec766029b5e63352cac"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

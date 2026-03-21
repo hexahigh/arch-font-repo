@@ -1,0 +1,32 @@
+pkgname=ttf-google-jersey10charted
+pkgver=1.001
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jersey10charted
+pkgdesc="Google Fonts family: Jersey 10 Charted"
+arch=('any')
+url="https://fonts.google.com/specimen/Jersey+10+Charted"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey10charted/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jersey10charted/Jersey10Charted-Regular.ttf"
+)
+sha256sums=(
+  "436d5836064cec796c7ddde6fb4faeabdb6f2f17443a24a30d0c38b75d13f922"
+  "c1c211d6bc9569ccc4ae77f3422cfb7f9266aa32cf86351509495d56d94d4a04"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

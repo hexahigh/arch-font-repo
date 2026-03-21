@@ -1,0 +1,32 @@
+pkgname=ttf-google-spicyrice
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/spicyrice
+pkgdesc="Google Fonts family: Spicy Rice"
+arch=('any')
+url="https://fonts.google.com/specimen/Spicy+Rice"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/spicyrice/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spicyrice/SpicyRice-Regular.ttf"
+)
+sha256sums=(
+  "466aaa3bbd245e4c91c4e82c0828efe9fcfd913f5b020d75f0918516c2540fa8"
+  "f339f9b0b3d585974ec22a374d7e0938b429c229dc0f3b3b16f34c650ab08068"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

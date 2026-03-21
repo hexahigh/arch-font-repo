@@ -1,0 +1,40 @@
+pkgname=ttf-google-khand
+pkgver=1.102
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/khand
+pkgdesc="Google Fonts family: Khand"
+arch=('any')
+url="https://fonts.google.com/specimen/Khand"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/Khand-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/Khand-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/Khand-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/Khand-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/khand/Khand-SemiBold.ttf"
+)
+sha256sums=(
+  "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+  "1e166cadaf044765dc41f99386756376d8b648c71e198133653c142a4e9a086e"
+  "52429cff48e8a2a77a63940ca7f7957dfd404c2375691272fc7a386e33fe0055"
+  "40405d6ac45cec61455b960bc13a353536b9787dff38e8070ad3b9cc18a80639"
+  "fb2b604a80f9fd6e3532b1f25c964bf56002240e2da0ea7a7265eec7bb4bc519"
+  "918cb97509c99fe0a9acb857dfa90e5524fc231791fedd76e6bc1f9d94fa038e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

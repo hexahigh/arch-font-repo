@@ -1,0 +1,32 @@
+pkgname=ttf-google-mrssaintdelafield
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mrssaintdelafield
+pkgdesc="Google Fonts family: Mrs Saint Delafield"
+arch=('any')
+url="https://fonts.google.com/specimen/Mrs+Saint+Delafield"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrssaintdelafield/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/mrssaintdelafield/MrsSaintDelafield-Regular.ttf"
+)
+sha256sums=(
+  "f354ef1e7256644b320c5e1d9a07a819c2e2b930166003c96680894f9fba81be"
+  "67a7abc298ce9d368b2c00fcbff52ec54be948889b8a59032ae80ca3322e5b34"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

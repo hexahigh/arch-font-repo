@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifarmenian
+pkgver=2.008
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifarmenian
+pkgdesc="Google Fonts family: Noto Serif Armenian"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Armenian"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifarmenian/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifarmenian/NotoSerifArmenian[wdth,wght].ttf"
+)
+sha256sums=(
+  "0468358b316f69f405b55cadf8a8314e16e3610b8feaad96772bd5d968112d02"
+  "9354b74384d093d59f9a4ad958e188808d58b6f15debeaab18e07bc432f8ce0c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

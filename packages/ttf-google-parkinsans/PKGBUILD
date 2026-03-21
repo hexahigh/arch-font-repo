@@ -1,0 +1,32 @@
+pkgname=ttf-google-parkinsans
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/parkinsans
+pkgdesc="Google Fonts family: Parkinsans"
+arch=('any')
+url="https://fonts.google.com/specimen/Parkinsans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/parkinsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/parkinsans/Parkinsans[wght].ttf"
+)
+sha256sums=(
+  "9754f4a3b59a8c8f14f0a53433145c9fd54799ccb3a392dd6e2657aba1939039"
+  "a4e64caa56ec94dcc82335be924e68c2a4a24544646d819abffe035d87158fa8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

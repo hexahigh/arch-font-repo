@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoserifahom
+pkgver=2.007
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifahom
+pkgdesc="Google Fonts family: Noto Serif Ahom"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Ahom"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifahom/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifahom/NotoSerifAhom-Regular.ttf"
+)
+sha256sums=(
+  "33941759eab10afc82c8a166212be569a1e0bf40aa42f9987bdcabb2907c08ee"
+  "2db70c33f5ef1796753743a87817278094fb031ba05d6b51d359c8cb5929631b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

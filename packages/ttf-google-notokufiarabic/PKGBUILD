@@ -1,0 +1,32 @@
+pkgname=ttf-google-notokufiarabic
+pkgver=2.109
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notokufiarabic
+pkgdesc="Google Fonts family: Noto Kufi Arabic"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Kufi+Arabic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notokufiarabic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notokufiarabic/NotoKufiArabic[wght].ttf"
+)
+sha256sums=(
+  "07fc70bfeb985cc1a87a8587d0a0c80bab11c86c9dc3fd95b6f0cb332f983e96"
+  "494f6b61469d7a02a2d63f0fc4930bb007388d8cfe551de5eb98354e100889f3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

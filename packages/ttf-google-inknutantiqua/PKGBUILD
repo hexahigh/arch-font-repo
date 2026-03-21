@@ -1,0 +1,44 @@
+pkgname=ttf-google-inknutantiqua
+pkgver=1.003
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inknutantiqua
+pkgdesc="Google Fonts family: Inknut Antiqua"
+arch=('any')
+url="https://fonts.google.com/specimen/Inknut+Antiqua"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/inknutantiqua/InknutAntiqua-SemiBold.ttf"
+)
+sha256sums=(
+  "16f8621a8dda01f044b8a58489334dbaadfad44ef2fa1d5ce0864cc2f309df01"
+  "279de2d9b3f21796a2a367cc55d8654eee9534a4f329d5d442294d82a333c361"
+  "222a233da522553541938fa7780d3bcc008af009679797658885f0052ffb76ef"
+  "89f62cfa8e72f8ec9acc5a0aae088ab4b04fed9c3dbaaad0d2fdb6563a41cba4"
+  "6961c4e6b3dfffd2408417d5b58994882806ae959e005309a0096869babd80dc"
+  "2ec563cf7dfc16e944ff6fb3411dd7fc49de13515d3993587243f02e76e4bf98"
+  "d46c7420b1e5fedc2086c8ce89275a6ed13c6778829c0617f56df8c3bddd686f"
+  "f4d31ad01f24ae26b30c8610f5b3e1ab9383876f1ef98cc0a4118024928456f4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

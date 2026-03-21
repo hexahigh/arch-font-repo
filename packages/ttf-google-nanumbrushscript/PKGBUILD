@@ -1,0 +1,32 @@
+pkgname=ttf-google-nanumbrushscript
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nanumbrushscript
+pkgdesc="Google Fonts family: Nanum Brush Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Nanum+Brush+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nanumbrushscript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nanumbrushscript/NanumBrushScript-Regular.ttf"
+)
+sha256sums=(
+  "eeacf16032901d0ed0456876ec77b8f0fda6b3fecec7d972f8543eb602e6c30f"
+  "27ceaf578c96f594cdf07fe0181b251790acbb746a164e45c1f6473f89911a31"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

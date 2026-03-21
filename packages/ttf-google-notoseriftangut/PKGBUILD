@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoseriftangut
+pkgver=2.170
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoseriftangut
+pkgdesc="Google Fonts family: Noto Serif Tangut"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Tangut"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftangut/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftangut/NotoSerifTangut-Regular.ttf"
+)
+sha256sums=(
+  "bd8b32c064be2225d55f878a689063c6f169ccd9e2792d7051f0d74cf4816f1b"
+  "f6098b9210e0a10f2ba2e4fbbb496c1df3594bf84555090929750c79ac75495d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

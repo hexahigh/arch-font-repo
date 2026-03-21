@@ -1,0 +1,32 @@
+pkgname=ttf-google-kolkerbrush
+pkgver=1.010
+pkgrel=1
+_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kolkerbrush
+pkgdesc="Google Fonts family: Kolker Brush"
+arch=('any')
+url="https://fonts.google.com/specimen/Kolker+Brush"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kolkerbrush/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kolkerbrush/KolkerBrush-Regular.ttf"
+)
+sha256sums=(
+  "8045c0c155e0da96ced6c6fd049214ef420575c047ede767d88fd02e31b9aa2f"
+  "c0914812bc5b224cc0e8321de70021a33a1a766b9efaf525f7463200f82300f4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

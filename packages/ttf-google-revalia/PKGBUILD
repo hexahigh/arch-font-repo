@@ -1,0 +1,32 @@
+pkgname=ttf-google-revalia
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/revalia
+pkgdesc="Google Fonts family: Revalia"
+arch=('any')
+url="https://fonts.google.com/specimen/Revalia"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/revalia/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/revalia/Revalia-Regular.ttf"
+)
+sha256sums=(
+  "a1580ba69a8d706bd95e1e72ee0b5cfda0a478fbbab6a4af13b4a9e1b28faac0"
+  "a9313fba7bbeb5f9de6572c3e15ca53f2f608babff40cfa9e9008fff0c1e3c80"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

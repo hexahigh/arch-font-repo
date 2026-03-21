@@ -1,0 +1,32 @@
+pkgname=ttf-google-arbutus
+pkgver=1.003
+pkgrel=1
+_commit="9a9d78d83d06030e719420a116e96968010d8b9f"  # Latest commit touching ofl/arbutus
+pkgdesc="Google Fonts family: Arbutus"
+arch=('any')
+url="https://fonts.google.com/specimen/Arbutus"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arbutus/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arbutus/Arbutus-Regular.ttf"
+)
+sha256sums=(
+  "980c2b058d331f3c5ca4a1223e549511b71630e4f4a5533879d436d583cb5665"
+  "6c86e8b86c9eebcdb963f83b382e5ba92764b34c53cd9dd96a00ec5d3c5acfdb"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

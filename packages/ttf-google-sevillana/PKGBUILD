@@ -1,0 +1,32 @@
+pkgname=ttf-google-sevillana
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sevillana
+pkgdesc="Google Fonts family: Sevillana"
+arch=('any')
+url="https://fonts.google.com/specimen/Sevillana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sevillana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sevillana/Sevillana-Regular.ttf"
+)
+sha256sums=(
+  "473c5e3123102434d05c66a9fc8b19cf285a3bf71cd8a91a41acef44d1448e62"
+  "2489af08e91d2a9befde3a3a2b6138749ff65dd74e2af0cb9bc3ff52d38fd20f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

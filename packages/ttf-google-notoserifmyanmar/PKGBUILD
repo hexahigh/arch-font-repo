@@ -1,0 +1,48 @@
+pkgname=ttf-google-notoserifmyanmar
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifmyanmar
+pkgdesc="Google Fonts family: Noto Serif Myanmar"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Myanmar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-ExtraLight.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifmyanmar/NotoSerifMyanmar-Thin.ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "3bc1073eba29f4ea86d05922cae88216e0ac36170614fa5e99487ebc70bd0879"
+  "4188186da169f55df6cba7b01b9e08c9f44516e0ad66766fc8b46e806b423a7e"
+  "74a006beaa2d64d5204a620530c564366b316dcb443a2278039997a34978f0e0"
+  "444025fd3d29e7d8a454e632a8ecfd02468d7c5236c39c75f6ad2067ce7e6b6d"
+  "68b4f774195520f0b6e9ba54aa6ae951eea9a9a6f6ba6a766de11eed00a570a0"
+  "007c08a5d7554c82a6b6fc3482e897625cf867c7dc22e7f9b7ebf55c9451bb0d"
+  "f88d1da5a75a8e09ff0b073fe3c861d095a72e94fea3235f09f80e6c5b2c9933"
+  "5c82e1c2780a8ce1bc49abee4fa5392bc39333a65acd5affff7589df934a4c90"
+  "91d7c3a9402a3ed18e6c087a511b7542a096801ead8669027f0dfa617f50466f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-overpassmono
+pkgver=4.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overpassmono
+pkgdesc="Google Fonts family: Overpass Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Overpass+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpassmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/overpassmono/OverpassMono[wght].ttf"
+)
+sha256sums=(
+  "86e5ff25c701ec446d20b1a85b02ee6d36de8503a7288a4c948f5459809af1f0"
+  "49f230e10251608f0ae1a2ce46be768d7b9ddcbe5cdca2e9f6b762fcbce1ae4f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

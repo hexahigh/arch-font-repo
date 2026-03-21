@@ -1,0 +1,32 @@
+pkgname=ttf-google-yujiboku
+pkgver=3.002
+pkgrel=1
+_commit="5f6c33e2c139ac7cfcee4a3ca309326d75aa9b2a"  # Latest commit touching ofl/yujiboku
+pkgdesc="Google Fonts family: Yuji Boku"
+arch=('any')
+url="https://fonts.google.com/specimen/Yuji+Boku"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yujiboku/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yujiboku/YujiBoku-Regular.ttf"
+)
+sha256sums=(
+  "ef7c85c72ae94381c8bc4832ae4e6fbabdeafa2bb8a31313cd75dce95a690256"
+  "94fda16384f3bdac24376a000c57e99abfa314961bd89ef27badfb7410322003"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

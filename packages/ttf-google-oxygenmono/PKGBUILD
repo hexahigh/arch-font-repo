@@ -1,0 +1,32 @@
+pkgname=ttf-google-oxygenmono
+pkgver=0.201
+pkgrel=1
+_commit="23e2e92f2eb68a7b3ec32f3d029302e6e224a1f3"  # Latest commit touching ofl/oxygenmono
+pkgdesc="Google Fonts family: Oxygen Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Oxygen+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygenmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/oxygenmono/OxygenMono-Regular.ttf"
+)
+sha256sums=(
+  "1e20933206ca06421c7c378184da5476d195314cf4bcda2bf122cd45d69a956e"
+  "dcc671da93f7fc31f2e7a4a7c058c815c1eaec6a3d27792e18edff4d3bf539f0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-manrope
+pkgver=4.504
+pkgrel=1
+_commit="fb629caaa15ad25c051089c98f09cf6c8e30a86b"  # Latest commit touching ofl/manrope
+pkgdesc="Google Fonts family: Manrope"
+arch=('any')
+url="https://fonts.google.com/specimen/Manrope"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/manrope/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/manrope/Manrope[wght].ttf"
+)
+sha256sums=(
+  "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c"
+  "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

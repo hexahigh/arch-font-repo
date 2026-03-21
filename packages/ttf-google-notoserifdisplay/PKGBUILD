@@ -1,0 +1,34 @@
+pkgname=ttf-google-notoserifdisplay
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoserifdisplay
+pkgdesc="Google Fonts family: Noto Serif Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifdisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifdisplay/NotoSerifDisplay-Italic[wdth,wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoserifdisplay/NotoSerifDisplay[wdth,wght].ttf"
+)
+sha256sums=(
+  "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+  "daad4d314708839a5c343f26e75467edf6c05a3a726502c98974dd3e240e6516"
+  "4b661adcf6a5d38bf5befdc4d976e8a7238a4aeb57e62c1c1a67775380a09df9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-sansitaone
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sansitaone
+pkgdesc="Google Fonts family: Sansita One"
+arch=('any')
+url="https://fonts.google.com/specimen/Sansita+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sansitaone/SansitaOne-Regular.ttf"
+)
+sha256sums=(
+  "9e0d3db586ba0abf5ca398683809dacdf4c81b2960f592bd085fbf206a67ddb0"
+  "8cbe88157d350a7a15faadb0e68eee7310cb18330b9d25ff2d64b1d32f3185ad"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

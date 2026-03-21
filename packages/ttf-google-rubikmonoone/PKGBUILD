@@ -1,0 +1,32 @@
+pkgname=ttf-google-rubikmonoone
+pkgver=2.000
+pkgrel=1
+_commit="64788956ea8219987e5b34d7e3787aef78373b6c"  # Latest commit touching ofl/rubikmonoone
+pkgdesc="Google Fonts family: Rubik Mono One"
+arch=('any')
+url="https://fonts.google.com/specimen/Rubik+Mono+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikmonoone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/rubikmonoone/RubikMonoOne-Regular.ttf"
+)
+sha256sums=(
+  "43d530580461a574f6dfed9e15af6a74e95f7c04d9bfa1174a63ff036e8eee07"
+  "b22624b6a36e543e942106edfccd198c50b57b65b924bfe02a6f0a5699429e6b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

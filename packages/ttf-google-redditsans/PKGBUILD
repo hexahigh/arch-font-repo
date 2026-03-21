@@ -1,0 +1,34 @@
+pkgname=ttf-google-redditsans
+pkgver=1.014
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/redditsans
+pkgdesc="Google Fonts family: Reddit Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Reddit+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/redditsans/RedditSans[wght].ttf"
+)
+sha256sums=(
+  "4171b1a645795c28c2c8e90711742f6d61fc757ebe9f2017b9eddc03b39dcf69"
+  "c68ff1930f5b4046181fc6927c6c35ef5352972173c51cc5ef7376a1e949cd07"
+  "9a564474e5df96608ac1908c555a5f01f52a28d960b94d34c85a48153b0ac557"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

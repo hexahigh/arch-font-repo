@@ -1,0 +1,32 @@
+pkgname=ttf-google-amethysta
+pkgver=1.003
+pkgrel=1
+_commit="24fa99be2824b189abee396c5dcc7cd3e0c06cb6"  # Latest commit touching ofl/amethysta
+pkgdesc="Google Fonts family: Amethysta"
+arch=('any')
+url="https://fonts.google.com/specimen/Amethysta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/amethysta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/amethysta/Amethysta-Regular.ttf"
+)
+sha256sums=(
+  "ca424122f42a8d8442bc4cfd902f5f027ea67b5417705f5af1d1235927781720"
+  "5e192003ec8b95595c27737e2a2bb3c9db2e468b24b572a9183b2f0003143f1c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

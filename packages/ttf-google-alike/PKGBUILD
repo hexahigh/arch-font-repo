@@ -1,0 +1,32 @@
+pkgname=ttf-google-alike
+pkgver=1.301
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alike
+pkgdesc="Google Fonts family: Alike"
+arch=('any')
+url="https://fonts.google.com/specimen/Alike"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/alike/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/alike/Alike-Regular.ttf"
+)
+sha256sums=(
+  "9c63835765bcc42b59fab82a211b61a8cea32f2abd7e8bf288d4c84463adace0"
+  "accb24221880fbdcf8e8b23fc341ed43c6e0cc3cef1dfbad57ac72474dc1e512"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

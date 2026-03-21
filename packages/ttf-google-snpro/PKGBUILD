@@ -1,0 +1,34 @@
+pkgname=ttf-google-snpro
+pkgver=1.005
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/snpro
+pkgdesc="Google Fonts family: SN Pro"
+arch=('any')
+url="https://fonts.google.com/specimen/SN+Pro"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/snpro/SNPro[wght].ttf"
+)
+sha256sums=(
+  "a4e05b7a060fb2d9bb47744942fe2f0c9f982997b065f3902e9b965ea19d6aad"
+  "5152b4b61590ff724901278fc950554a0207e09e600088c822120b590ab9cca2"
+  "63abf11c85df08dde6cec421c133c723408ee1e5744bb280b660dfd8be3fe061"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

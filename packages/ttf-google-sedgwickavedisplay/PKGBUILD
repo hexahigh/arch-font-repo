@@ -1,0 +1,32 @@
+pkgname=ttf-google-sedgwickavedisplay
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sedgwickavedisplay
+pkgdesc="Google Fonts family: Sedgwick Ave Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Sedgwick+Ave+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sedgwickavedisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sedgwickavedisplay/SedgwickAveDisplay-Regular.ttf"
+)
+sha256sums=(
+  "f323edc1e5a6d8fa16120aa15367cdfb15468474cc621f9bda1a2f73c5d08d73"
+  "3b9c295a146bafb93c8a12c1dde38a2fe47512777daf1458825e291752469a38"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

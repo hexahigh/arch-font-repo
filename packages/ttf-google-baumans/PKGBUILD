@@ -1,0 +1,32 @@
+pkgname=ttf-google-baumans
+pkgver=001.002
+pkgrel=1
+_commit="38144810e651a35905a946a7f9e64d7cde14ed62"  # Latest commit touching ofl/baumans
+pkgdesc="Google Fonts family: Baumans"
+arch=('any')
+url="https://fonts.google.com/specimen/Baumans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/baumans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/baumans/Baumans-Regular.ttf"
+)
+sha256sums=(
+  "bc80ea18223ea0db2ed73ab5bfd0cd601906a2b7a163183c6c4ea333be309ce4"
+  "fc224bf301c1c9204ab89fff5a8962472aea25af01a20223d8fe2aa69d06d6b9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

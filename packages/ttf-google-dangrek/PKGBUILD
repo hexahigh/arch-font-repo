@@ -1,0 +1,32 @@
+pkgname=ttf-google-dangrek
+pkgver=8.001
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dangrek
+pkgdesc="Google Fonts family: Dangrek"
+arch=('any')
+url="https://fonts.google.com/specimen/Dangrek"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dangrek/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dangrek/Dangrek-Regular.ttf"
+)
+sha256sums=(
+  "4a89bc6c8bb9f144683714d67dd3098400f90e194176c31f429fe23a08713ec7"
+  "d7dbac288167ef960ea67a5d45890b47419e18c046e90c68ee655a0168e0d06d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

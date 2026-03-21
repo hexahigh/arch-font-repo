@@ -1,0 +1,32 @@
+pkgname=ttf-google-gildadisplay
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gildadisplay
+pkgdesc="Google Fonts family: Gilda Display"
+arch=('any')
+url="https://fonts.google.com/specimen/Gilda+Display"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gildadisplay/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gildadisplay/GildaDisplay-Regular.ttf"
+)
+sha256sums=(
+  "e8d94225bdcfecfb5a6e14bc0e2bb26fe48670f28ac46a7d676d9a90d8bfbe24"
+  "8ca5475692552cd4f149bcd00099c098453c39b8541f4abe2192f84ad17a7aa0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

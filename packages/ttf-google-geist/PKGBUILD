@@ -1,0 +1,32 @@
+pkgname=ttf-google-geist
+pkgver=1.401
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/geist
+pkgdesc="Google Fonts family: Geist"
+arch=('any')
+url="https://fonts.google.com/specimen/Geist"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/geist/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geist/Geist[wght].ttf"
+)
+sha256sums=(
+  "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+  "611e93a8401ee574c9fb3250bdaf5c52262aee3231015e9336359c1b2242cb13"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

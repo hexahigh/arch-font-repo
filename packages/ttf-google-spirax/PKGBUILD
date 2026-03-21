@@ -1,0 +1,32 @@
+pkgname=ttf-google-spirax
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/spirax
+pkgdesc="Google Fonts family: Spirax"
+arch=('any')
+url="https://fonts.google.com/specimen/Spirax"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/spirax/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/spirax/Spirax-Regular.ttf"
+)
+sha256sums=(
+  "2c3737ea83b48d48624068d1bbd1d9f8049eb7cf2e1f67435e420375c42e0686"
+  "e509975c0680e447e6be89467f7f0bebec6d4cb0a8b75d7b6bb6d6fd7e2d5b65"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

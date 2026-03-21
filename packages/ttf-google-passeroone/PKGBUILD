@@ -1,0 +1,32 @@
+pkgname=ttf-google-passeroone
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/passeroone
+pkgdesc="Google Fonts family: Passero One"
+arch=('any')
+url="https://fonts.google.com/specimen/Passero+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/passeroone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/passeroone/PasseroOne-Regular.ttf"
+)
+sha256sums=(
+  "5802c9e3509199c7aa9a13ea410ae27febbc0cdea184bf7d227170fac703bba8"
+  "b5170ecc855200d369f8a60fc8c0c351cc8cb5ec9fab9a838d5a27f34e01982d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

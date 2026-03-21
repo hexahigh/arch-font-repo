@@ -1,0 +1,34 @@
+pkgname=ttf-google-arapey
+pkgver=1.002
+pkgrel=1
+_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/arapey
+pkgdesc="Google Fonts family: Arapey"
+arch=('any')
+url="https://fonts.google.com/specimen/Arapey"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arapey/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arapey/Arapey-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arapey/Arapey-Regular.ttf"
+)
+sha256sums=(
+  "cf6dd07485d67d20f105afb9981dffdb6b180b59af45a228839cf3fb0277c9fb"
+  "3053e62a5bf1fe0f08d8196bf31de312def7dea7b0415d6b20385caa5d333b0a"
+  "5da4525899a27708241a4108e76d6bfd087766a66d159d80dcf986801bfb1092"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

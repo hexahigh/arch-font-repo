@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosansvithkuqi
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansvithkuqi
+pkgdesc="Google Fonts family: Noto Sans Vithkuqi"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Vithkuqi"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansvithkuqi/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosansvithkuqi/NotoSansVithkuqi[wght].ttf"
+)
+sha256sums=(
+  "d6269b9dcf2275996a5dbf660e3d2dda3cf0d74e9b470629e474c4adfe42f969"
+  "9b7f114c20897d6253fac413a7f66295b6fe18c630202f0564785b6aa79e5067"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

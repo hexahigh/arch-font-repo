@@ -1,0 +1,32 @@
+pkgname=ttf-google-zentokyozoo
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zentokyozoo
+pkgdesc="Google Fonts family: Zen Tokyo Zoo"
+arch=('any')
+url="https://fonts.google.com/specimen/Zen+Tokyo+Zoo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/zentokyozoo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/zentokyozoo/ZenTokyoZoo-Regular.ttf"
+)
+sha256sums=(
+  "0fe0292d3dc4551c19ea5774d325f5bf434e910d97c8e7eeb47fb7bac6c3a5d1"
+  "9dd9dc1a5eba800aca9b0bf4671bda880b7caa6d19174c82776256f6732d604a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

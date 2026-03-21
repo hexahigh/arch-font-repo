@@ -1,0 +1,34 @@
+pkgname=ttf-google-susemono
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/susemono
+pkgdesc="Google Fonts family: SUSE Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/SUSE+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/susemono/SUSEMono[wght].ttf"
+)
+sha256sums=(
+  "d5d12664886d0311d55bf6e9dd0c711c1d0eb26a131d99c04bf34d9f96529f64"
+  "6367768fc87e8a948cdbc9aab96caefac6f856bce69f0d0118d4b199aa9c72ce"
+  "d1ad49b5aa76a3136046ff0fde4918e01d895fecb703cea6390d2be3166579d2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

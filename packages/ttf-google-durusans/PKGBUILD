@@ -1,0 +1,32 @@
+pkgname=ttf-google-durusans
+pkgver=1.002
+pkgrel=1
+_commit="c298c41cf3b6b7c2aa5f445c4eb5bc68c57b07e4"  # Latest commit touching ofl/durusans
+pkgdesc="Google Fonts family: Duru Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Duru+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/durusans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/durusans/DuruSans-Regular.ttf"
+)
+sha256sums=(
+  "9df0700fcd0ef48abd74459a8650d35f59397fbaa00c5b00527e57cc155689c0"
+  "edd15a5596318ecc635484f7b4fcb34c6dcaa7be8f85c4d2e9273ad8db688ff0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

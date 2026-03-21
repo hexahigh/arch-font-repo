@@ -1,0 +1,32 @@
+pkgname=ttf-google-bpmfhuninn
+pkgver=1.610
+pkgrel=1
+_commit="928c4bbe9ae6fd402c8da0e8f97c4c90a8de3055"  # Latest commit touching ofl/bpmfhuninn
+pkgdesc="Google Fonts family: Bpmf Huninn"
+arch=('any')
+url="https://fonts.google.com/specimen/Bpmf+Huninn"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bpmfhuninn/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bpmfhuninn/BpmfHuninn-Regular.ttf"
+)
+sha256sums=(
+  "7f4e87a64cb3f3421650b2f0f12fbf23e97f06f93d1d395cae6a8d3205db1c26"
+  "4ff9e6adaa3ef3646982a5538fa2d0ec443e9bf4659c8015c6aee888a54987ee"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

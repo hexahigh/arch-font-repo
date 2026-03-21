@@ -1,0 +1,34 @@
+pkgname=ttf-google-sofiasans
+pkgver=4.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sofiasans
+pkgdesc="Google Fonts family: Sofia Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Sofia+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sofiasans/SofiaSans[wght].ttf"
+)
+sha256sums=(
+  "3e824d5099202de2c98cbd8e5ecba54da7d220c1ad851330726e65f3e60842d1"
+  "c0e69116d34100212881b5f993225ff0c3ea23e2c147f4c0853389923c9ab6a5"
+  "a3e1019b8867e21b75d26a7b59d4eb2c81d1acf6b69b9ae6cedca269fb68e291"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

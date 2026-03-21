@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstirhuta
+pkgver=2.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstirhuta
+pkgdesc="Google Fonts family: Noto Sans Tirhuta"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Tirhuta"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstirhuta/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstirhuta/NotoSansTirhuta-Regular.ttf"
+)
+sha256sums=(
+  "9bf9c1ab9b7837bb65fb40dd7f6b706a28199cd633b80dcebe532bddc56594cb"
+  "ad7123ee63118b83ed2f723591e5e861baad8dd157508b8339362850c6036efe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

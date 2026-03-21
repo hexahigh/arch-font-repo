@@ -1,0 +1,32 @@
+pkgname=ttf-google-snippet
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/snippet
+pkgdesc="Google Fonts family: Snippet"
+arch=('any')
+url="https://fonts.google.com/specimen/Snippet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/snippet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/snippet/Snippet.ttf"
+)
+sha256sums=(
+  "d3909465d5838d9d1c72b975ff1ed4f410a85dccd43801be525bf2b2bde89f92"
+  "66acef67275368057085d747e688e5dcd48807d98fb6a3ca9a9424734bda1353"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

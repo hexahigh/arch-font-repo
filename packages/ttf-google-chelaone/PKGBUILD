@@ -1,0 +1,32 @@
+pkgname=ttf-google-chelaone
+pkgver=1.001
+pkgrel=1
+_commit="d737a1ba1ad6910c19b1928c7cd11279a8db8a3b"  # Latest commit touching ofl/chelaone
+pkgdesc="Google Fonts family: Chela One"
+arch=('any')
+url="https://fonts.google.com/specimen/Chela+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chelaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chelaone/ChelaOne-Regular.ttf"
+)
+sha256sums=(
+  "5d3457831b42632d958fe1a14a09706d8acb006486a5ca5b2b419cd61cb22e32"
+  "a5633f28945f31a5e494683af2c1f99f9f91c96578bf47dc9c315ebe3050c8f5"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

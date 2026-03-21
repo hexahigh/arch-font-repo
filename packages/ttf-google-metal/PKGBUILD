@@ -1,0 +1,32 @@
+pkgname=ttf-google-metal
+pkgver=8.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/metal
+pkgdesc="Google Fonts family: Metal"
+arch=('any')
+url="https://fonts.google.com/specimen/Metal"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/metal/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/metal/Metal-Regular.ttf"
+)
+sha256sums=(
+  "6ec397700f08afddd3f46421e1a2fe59c5e3c1480183b1ab161793f1e901f159"
+  "3718096fff5cf6a76005fdcb786c7f321f496fe6d56fbcb7f664c12c433d8413"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

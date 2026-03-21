@@ -1,0 +1,38 @@
+pkgname=ttf-google-arvo
+pkgver=1.006
+pkgrel=1
+_commit="4a479af1b38165e1835d397a5620343a2b79cb01"  # Latest commit touching ofl/arvo
+pkgdesc="Google Fonts family: Arvo"
+arch=('any')
+url="https://fonts.google.com/specimen/Arvo"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/arvo/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arvo/Arvo-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arvo/Arvo-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arvo/Arvo-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/arvo/Arvo-Regular.ttf"
+)
+sha256sums=(
+  "359671bf16c00cae69cb66d041296b2adc7a4becd73a463cb8c5e101d97c7986"
+  "6239b2edee762db0ab99343137c9ba15ae81fc843da2e76a0a395781748cc21f"
+  "fc29e57f5558873e41ca9ff9a9c77521565f12c6972756d0fbcc592e1f0f4edb"
+  "a2eb63a0771b8d13d8e54bf650a02aef813eeaa2e10f6298358e6b15d26c6686"
+  "f41bd41471ec2db7140351bdde614da5341524503598ff7fe79f3c89c13b605e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

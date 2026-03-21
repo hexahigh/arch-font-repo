@@ -1,0 +1,32 @@
+pkgname=ttf-google-taprom
+pkgver=8.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/taprom
+pkgdesc="Google Fonts family: Taprom"
+arch=('any')
+url="https://fonts.google.com/specimen/Taprom"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/taprom/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/taprom/Taprom-Regular.ttf"
+)
+sha256sums=(
+  "0180c4c3f63f09bf7e740453bc1be09d40583f3884f2f4341facc8af2caf188e"
+  "d89c52e9ad32693ffbd8646e2770e331d83c310056badf32ce3b12b3e1b5b45a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

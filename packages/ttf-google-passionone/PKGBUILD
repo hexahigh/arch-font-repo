@@ -1,0 +1,36 @@
+pkgname=ttf-google-passionone
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/passionone
+pkgdesc="Google Fonts family: Passion One"
+arch=('any')
+url="https://fonts.google.com/specimen/Passion+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionone/PassionOne-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionone/PassionOne-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/passionone/PassionOne-Regular.ttf"
+)
+sha256sums=(
+  "36c285c5472c625901d4a13da7e31c5ea6126678d31d56cf95572c49f27c8950"
+  "c954dbac8835bf16f938f8d97fe1627d47aa122d60246169ff55cec772949e96"
+  "3a7249909b2e56e831f8a357a4ee549e9c5945cd003f0e5e3bd8791a76d98b7e"
+  "86fea5001e5d751cf5696f0ecd4754db80918adbb12658add959f5bcdc92b09b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

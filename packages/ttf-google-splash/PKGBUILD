@@ -1,0 +1,32 @@
+pkgname=ttf-google-splash
+pkgver=1.010
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/splash
+pkgdesc="Google Fonts family: Splash"
+arch=('any')
+url="https://fonts.google.com/specimen/Splash"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/splash/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/splash/Splash-Regular.ttf"
+)
+sha256sums=(
+  "e2740ec5a5949bf65af5771f0537bf26cc1ec3020782b0e43fd961973a730775"
+  "42c2ddc11917333bcd24a3eb0bc7df5205278226e2f6521459384479f1b6675c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

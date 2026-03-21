@@ -1,0 +1,32 @@
+pkgname=ttf-google-chicle
+pkgver=1.000
+pkgrel=1
+_commit="3fe8a9c0d595ed44180691c3e182f06e74b0f508"  # Latest commit touching ofl/chicle
+pkgdesc="Google Fonts family: Chicle"
+arch=('any')
+url="https://fonts.google.com/specimen/Chicle"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/chicle/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/chicle/Chicle-Regular.ttf"
+)
+sha256sums=(
+  "f27cbf1055db7b9dd80bce5cd12b462f2d9ed7313d84dd8bfef1ddd2b61bdfc5"
+  "2c82494b86d3f03821284d60f2209a33218adde0dad7133ce3eb063b4363372b"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

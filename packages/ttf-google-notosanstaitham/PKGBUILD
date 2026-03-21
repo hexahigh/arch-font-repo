@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanstaitham
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanstaitham
+pkgdesc="Google Fonts family: Noto Sans Tai Tham"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Tai+Tham"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaitham/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanstaitham/NotoSansTaiTham[wght].ttf"
+)
+sha256sums=(
+  "8cf7ad1fbb6cd4a3b1596f813d6e0d57f919f612a72c2e2603506489f9dbebc6"
+  "a053b99fc5ed0a3e5fb14eecbbf137245cb0b8c34c2cb4ffd0872db3097bcd0a"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

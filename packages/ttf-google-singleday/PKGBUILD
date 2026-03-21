@@ -1,0 +1,32 @@
+pkgname=ttf-google-singleday
+pkgver=1.00
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/singleday
+pkgdesc="Google Fonts family: Single Day"
+arch=('any')
+url="https://fonts.google.com/specimen/Single+Day"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/singleday/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/singleday/SingleDay-Regular.ttf"
+)
+sha256sums=(
+  "397e83b05703a4240be51e2c3a2be1d0d7693d7a2d8b1ff367c26a2b9afc013e"
+  "716ff67a4b0675b35c26d60a4bb83173f7d153ab754474ed36c3369593ca1ca8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

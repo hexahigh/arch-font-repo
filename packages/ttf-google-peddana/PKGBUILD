@@ -1,0 +1,32 @@
+pkgname=ttf-google-peddana
+pkgver=1.0.4
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/peddana
+pkgdesc="Google Fonts family: Peddana"
+arch=('any')
+url="https://fonts.google.com/specimen/Peddana"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/peddana/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/peddana/Peddana-Regular.ttf"
+)
+sha256sums=(
+  "9263f9488a9ed1d5f4218581b642e0f054f9a20d208f1a53c19c9f7dbd27eaf2"
+  "1aca2e50d3a8dd43250bf942049ae18b8fda542f0469434eb35c8a53b1157836"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-condiment
+pkgver=1.001
+pkgrel=1
+_commit="48f72851f25f57e4d27cd1a1c5f2da51c9377295"  # Latest commit touching ofl/condiment
+pkgdesc="Google Fonts family: Condiment"
+arch=('any')
+url="https://fonts.google.com/specimen/Condiment"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/condiment/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/condiment/Condiment-Regular.ttf"
+)
+sha256sums=(
+  "2492bb8645caaf622bdc3e880cdc9b069921e7341346d7b193666c866a1935d0"
+  "fb12978739fe3824e95b3e5f739ae623f888f715fe44481117fb3436be9a4b5d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-offside
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/offside
+pkgdesc="Google Fonts family: Offside"
+arch=('any')
+url="https://fonts.google.com/specimen/Offside"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/offside/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/offside/Offside-Regular.ttf"
+)
+sha256sums=(
+  "270ab96983ada2aace07b48f216b8e229b747a2d0fc1f8b32dc4d506c1058993"
+  "996d1eb52d4922d9fdab7bb6d0b3525e99396254d4a7e1d5c3b182c6bf5450a9"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

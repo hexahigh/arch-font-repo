@@ -1,0 +1,34 @@
+pkgname=ttf-google-jetbrainsmono
+pkgver=2.211
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jetbrainsmono
+pkgdesc="Google Fonts family: JetBrains Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/JetBrains+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/jetbrainsmono/JetBrainsMono[wght].ttf"
+)
+sha256sums=(
+  "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d"
+  "85ae2a5cd3f56baf1ce1c21a851322c58e3d8fbe8e8ad4a4d090a820dd7fe558"
+  "48715a42ec242c21e9f02692891e147d022299a52e48d5e413e1a942193ffeda"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

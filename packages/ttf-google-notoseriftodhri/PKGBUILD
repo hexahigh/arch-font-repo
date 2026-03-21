@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoseriftodhri
+pkgver=1.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoseriftodhri
+pkgdesc="Google Fonts family: Noto Serif Todhri"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Todhri"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftodhri/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftodhri/NotoSerifTodhri-Regular.ttf"
+)
+sha256sums=(
+  "fc15b3238ec801869c2e069bcb4fb3daf51e2ee33e36fbbcb698c1b86e471cfe"
+  "d2c1afe671b637345e7045fcd0b4a4dca35c55811a7811de486b77f1b035008f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

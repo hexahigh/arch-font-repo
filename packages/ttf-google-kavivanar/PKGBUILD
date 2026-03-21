@@ -1,0 +1,32 @@
+pkgname=ttf-google-kavivanar
+pkgver=1.88
+pkgrel=1
+_commit="430548aad6576c8eb3ac429f2e97b974d29394cf"  # Latest commit touching ofl/kavivanar
+pkgdesc="Google Fonts family: Kavivanar"
+arch=('any')
+url="https://fonts.google.com/specimen/Kavivanar"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/kavivanar/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/kavivanar/Kavivanar-Regular.ttf"
+)
+sha256sums=(
+  "0acef93ca37cf19eeb83a1c6a29b78b08377a211c8d80cd27626e210176828da"
+  "ab373a218ee8464fee6ed14ee864d5a6c5146ca0458f0a61678a1889fe44b710"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

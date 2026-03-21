@@ -1,0 +1,32 @@
+pkgname=ttf-google-cedarvillecursive
+pkgver=1.001
+pkgrel=1
+_commit="d3d340e519cd4ff6dabeb4542c420fe5ac5a3f03"  # Latest commit touching ofl/cedarvillecursive
+pkgdesc="Google Fonts family: Cedarville Cursive"
+arch=('any')
+url="https://fonts.google.com/specimen/Cedarville+Cursive"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cedarvillecursive/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cedarvillecursive/Cedarville-Cursive.ttf"
+)
+sha256sums=(
+  "0e441ae9f18ad0c294cc5b6ae3974c2db1614cab220598578b1b58c4cc334485"
+  "5f86d71d08a68605d5912b9bcb639a060ce9c0debd7e0b715f5e268d4a4bc317"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

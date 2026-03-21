@@ -1,0 +1,32 @@
+pkgname=ttf-google-breeserif
+pkgver=1.002
+pkgrel=1
+_commit="324bd0aa88f35eb9fdfd1de3ee9c877f1f183cc2"  # Latest commit touching ofl/breeserif
+pkgdesc="Google Fonts family: Bree Serif"
+arch=('any')
+url="https://fonts.google.com/specimen/Bree+Serif"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/breeserif/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/breeserif/BreeSerif-Regular.ttf"
+)
+sha256sums=(
+  "fbe0442a6b1ce162c95e241df76cab5ef2daf6a5ac84ae1a7a6749f32c051098"
+  "fd080582d70112ef479ba4ddd72407f9a4fcbcec4caa7d29de259b13eeb5f431"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

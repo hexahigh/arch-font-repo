@@ -1,0 +1,32 @@
+pkgname=ttf-google-micro5charted
+pkgver=1.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/micro5charted
+pkgdesc="Google Fonts family: Micro 5 Charted"
+arch=('any')
+url="https://fonts.google.com/specimen/Micro+5+Charted"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/micro5charted/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/micro5charted/Micro5Charted-Regular.ttf"
+)
+sha256sums=(
+  "b4c75058634d557a621406c8eb5e243fe02d5ac9c49e0a4567eee8d65295fad8"
+  "7897f7c086e622b7063499eb3202d3f14c8c59c6564d409ad1db17534e289645"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

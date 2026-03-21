@@ -1,0 +1,38 @@
+pkgname=ttf-google-istokweb
+pkgver=1.0.2
+pkgrel=1
+_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/istokweb
+pkgdesc="Google Fonts family: Istok Web"
+arch=('any')
+url="https://fonts.google.com/specimen/Istok+Web"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/istokweb/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/istokweb/IstokWeb-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/istokweb/IstokWeb-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/istokweb/IstokWeb-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/istokweb/IstokWeb-Regular.ttf"
+)
+sha256sums=(
+  "1e511bb01d29562932157365418c02d954d8faeef794bcd54729177fb2b03db0"
+  "e8cae1e9a6e9f452059342547ae8ebf58f04f85c04f59d4383109490fef45d69"
+  "546f1b01644176ccf134b97f74cb4bcc8307abfefb0b06ddf10353dab1296a08"
+  "d8b61729f5d71eb9db7d64573f9003fd893dfb9f6fc8fba5d915eec02ba85283"
+  "a13c4e6cba8f6d24abf96542d9028cea47411ac65c01e6f85349d7405dee53c6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

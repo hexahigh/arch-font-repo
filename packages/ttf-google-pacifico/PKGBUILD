@@ -1,0 +1,32 @@
+pkgname=ttf-google-pacifico
+pkgver=3.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pacifico
+pkgdesc="Google Fonts family: Pacifico"
+arch=('any')
+url="https://fonts.google.com/specimen/Pacifico"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/pacifico/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/pacifico/Pacifico-Regular.ttf"
+)
+sha256sums=(
+  "a47e5daeda73568969395c656823102678f2eefb0d7d7ecb47aac4cc17e42204"
+  "5b6c0d5334a7bf77dea52b975c5a0c408878c0f7115ed5b6fb151f634b7bf701"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

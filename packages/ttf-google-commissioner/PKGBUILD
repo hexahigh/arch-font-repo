@@ -1,0 +1,32 @@
+pkgname=ttf-google-commissioner
+pkgver=1.001
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/commissioner
+pkgdesc="Google Fonts family: Commissioner"
+arch=('any')
+url="https://fonts.google.com/specimen/Commissioner"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/commissioner/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/commissioner/Commissioner[FLAR,VOLM,slnt,wght].ttf"
+)
+sha256sums=(
+  "4a7d88c77b4bc39ff84f2e058ba8f015636c50ce33588a86d9da97defe519933"
+  "db01279a6eb8676ee62675a4d7e5edbfe5f08fbc109358e2f49760b70c0447d3"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

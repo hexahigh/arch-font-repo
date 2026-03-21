@@ -1,0 +1,32 @@
+pkgname=ttf-google-gabriela
+pkgver=2.001
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gabriela
+pkgdesc="Google Fonts family: Gabriela"
+arch=('any')
+url="https://fonts.google.com/specimen/Gabriela"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gabriela/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gabriela/Gabriela-Regular.ttf"
+)
+sha256sums=(
+  "c5478a76bd760eed7b741678b71d9dfe1062e7399739a3b6da8ebe00d19715d1"
+  "c38334bfff10cc97fa6e5c5ddf1f12dd54428bb218d7a423fb3c07bf8180bfd8"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

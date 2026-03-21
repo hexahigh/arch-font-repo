@@ -1,0 +1,34 @@
+pkgname=ttf-google-asul
+pkgver=1.002
+pkgrel=1
+_commit="1694a39b8a27f82e092697cf7dcd7338afdc899c"  # Latest commit touching ofl/asul
+pkgdesc="Google Fonts family: Asul"
+arch=('any')
+url="https://fonts.google.com/specimen/Asul"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/asul/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asul/Asul-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/asul/Asul-Regular.ttf"
+)
+sha256sums=(
+  "ea274e87939d38032b31fb741af75bff9fa3f8d4a8b652265f9e0ce1ad7e9f80"
+  "0aea5c8f5f04c9b2f252eb5b3d7f6d2ee80cbef613526ebbc330c592900bbcfe"
+  "2bd614af0594c9657cc6f986f602b294d2a903b3a7ce137942a35ac01b6f1f76"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

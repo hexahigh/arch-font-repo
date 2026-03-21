@@ -1,0 +1,32 @@
+pkgname=ttf-google-leaguegothic
+pkgver=2.001
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/leaguegothic
+pkgdesc="Google Fonts family: League Gothic"
+arch=('any')
+url="https://fonts.google.com/specimen/League+Gothic"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguegothic/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/leaguegothic/LeagueGothic[wdth].ttf"
+)
+sha256sums=(
+  "44778c339892f79188c60b7471485dd5af92c59351c7f9629a00fc625c6cae5d"
+  "3b0e998c9a0034222394ffecdd383e6948259ad037b95555b139a217629ce1d0"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

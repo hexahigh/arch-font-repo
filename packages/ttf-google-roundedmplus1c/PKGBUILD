@@ -1,0 +1,44 @@
+pkgname=ttf-google-roundedmplus1c
+pkgver=1.059.20150529
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/roundedmplus1c
+pkgdesc="Google Fonts family: Roundedmplus1C"
+arch=('any')
+url="https://fonts.google.com/specimen/Roundedmplus1C"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Black.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-ExtraBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Light.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/roundedmplus1c/RoundedMplus1c-Thin.ttf"
+)
+sha256sums=(
+  "67f64c5509e5151796599e3ad47c3131cbe0c80c4f9430b90236a1249c2eacc9"
+  "d5981a59ccc5f00da1bd3ae46750fa95cd165b0e6b3a5fc7a1945f94c59449e3"
+  "c358630584e8e2d8fbd6121d0f4693255ffef6d1e6d4f3441fd6e5a963a11f9e"
+  "8e7c15901dca87f1451b356dda594f7d092ba252a5dcc47da74523a242493c36"
+  "ade5c673a5d097b59c7bc5b1a6c1e37d3dd63c3ac98468a647d8ab2392b98b49"
+  "adfde1b6bae58719c4e0144612a94232e72fc5ca655c4722165fe88d06521a70"
+  "b75708b53e45b06d17d470aeeca5b766e3d1b3999f03f13ec4eb863ca846c14c"
+  "180c0959fff5af21637c3887c0ec47df8164877218ef7e866a7a227f2c1e1a9f"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanssc
+pkgver=2.004
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanssc
+pkgdesc="Google Fonts family: Noto Sans SC"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+SC"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssc/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanssc/NotoSansSC[wght].ttf"
+)
+sha256sums=(
+  "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+  "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

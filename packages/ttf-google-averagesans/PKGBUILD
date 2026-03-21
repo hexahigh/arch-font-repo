@@ -1,0 +1,32 @@
+pkgname=ttf-google-averagesans
+pkgver=1.002
+pkgrel=1
+_commit="9372451250d44fb55d1cbbaa97333500828c5be6"  # Latest commit touching ofl/averagesans
+pkgdesc="Google Fonts family: Average Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Average+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/averagesans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/averagesans/AverageSans-Regular.ttf"
+)
+sha256sums=(
+  "37d5360d8d2433689e78302a93cd88e9add8a2294046476625edada2d4328deb"
+  "f978bb0eb5ad93b02f3a8e4ef0ed525a1192b4076e8a8d0bb37b2546a297762e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

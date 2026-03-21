@@ -1,0 +1,32 @@
+pkgname=ttf-google-niconne
+pkgver=1.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/niconne
+pkgdesc="Google Fonts family: Niconne"
+arch=('any')
+url="https://fonts.google.com/specimen/Niconne"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/niconne/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/niconne/Niconne-Regular.ttf"
+)
+sha256sums=(
+  "70f664de65e7bb62e1ac728f20a9bb28de7fdc18be594186137a9e15ce9dcee5"
+  "dc70580a25914aeec39a9460b7858ee08eb4ad0bbbcd1d7c9cb888a6ea989a27"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

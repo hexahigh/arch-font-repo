@@ -1,0 +1,32 @@
+pkgname=ttf-google-grenzegotisch
+pkgver=1.002
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grenzegotisch
+pkgdesc="Google Fonts family: Grenze Gotisch"
+arch=('any')
+url="https://fonts.google.com/specimen/Grenze+Gotisch"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenzegotisch/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/grenzegotisch/GrenzeGotisch[wght].ttf"
+)
+sha256sums=(
+  "bca29af2c3c9e142d11f523f414902ab8fb9ab8ffa3c34c63b6b72aa4e7d6acc"
+  "701b299d8dc002a2b4bea2ff0f1272c0e4081a2835914354804565c410d0c637"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

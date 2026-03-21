@@ -1,0 +1,32 @@
+pkgname=ttf-google-goudybookletter1911
+pkgver=2010.07.03
+pkgrel=1
+_commit="42b7d94a4645d832aa40e302a5671ab0ab2ae439"  # Latest commit touching ofl/goudybookletter1911
+pkgdesc="Google Fonts family: Goudy Bookletter 1911"
+arch=('any')
+url="https://fonts.google.com/specimen/Goudy+Bookletter+1911"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/goudybookletter1911/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/goudybookletter1911/GoudyBookletter1911.ttf"
+)
+sha256sums=(
+  "58bdc69f4c6177125c6e7cdbc78f710f5f9952f11bba7bd5b17bd7ef169d731f"
+  "62d219942d2e4a3a8473c116254966d308820ae1729e2fac3730e66c073a5548"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

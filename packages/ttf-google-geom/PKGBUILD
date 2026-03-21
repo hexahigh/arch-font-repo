@@ -1,0 +1,34 @@
+pkgname=ttf-google-geom
+pkgver=1.102
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/geom
+pkgdesc="Google Fonts family: Geom"
+arch=('any')
+url="https://fonts.google.com/specimen/Geom"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/geom/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/geom/Geom[wght].ttf"
+)
+sha256sums=(
+  "614e89d16af045c1c32716f67d1e826c692cf643c549cba46b38d41d6919d77b"
+  "f448d04a281a0e8198a109e1809e145ffd5567a26299c8b2b772297de17500ad"
+  "4509ad62e97c2e07c7fbc51180caba092b66fb2967e4de7dcba149ab3beb3b15"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

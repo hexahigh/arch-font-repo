@@ -1,0 +1,34 @@
+pkgname=ttf-google-cossettetexte
+pkgver=1.002
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/cossettetexte
+pkgdesc="Google Fonts family: Cossette Texte"
+arch=('any')
+url="https://fonts.google.com/specimen/Cossette+Texte"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cossettetexte/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cossettetexte/CossetteTexte-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cossettetexte/CossetteTexte-Regular.ttf"
+)
+sha256sums=(
+  "ab398cb1f55e73f298510c76bae3d2a6a87c71b8c711bf4ba146145f14fe503b"
+  "0b1bdc34c0cd001e2f84d507c87f990c21c1ce5034b448bf201d6f074313b190"
+  "7375a5cbf8fa78165a14e8ef5fa8074eab5c5553d1ef2fddd6fa77e8ef6e81a6"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

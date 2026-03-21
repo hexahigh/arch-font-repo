@@ -1,0 +1,32 @@
+pkgname=ttf-google-comingsoon
+pkgver=1.002
+pkgrel=1
+_commit="12ad67e4ac2ea6a2c6b2e90f0727de72b952cf41"  # Latest commit touching apache/comingsoon
+pkgdesc="Google Fonts family: Coming Soon"
+arch=('any')
+url="https://fonts.google.com/specimen/Coming+Soon"
+license=('Apache')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/apache/comingsoon/LICENSE.txt"
+  "https://github.com/google/fonts/raw/$_commit/apache/comingsoon/ComingSoon-Regular.ttf"
+)
+sha256sums=(
+  "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  "cf81388f587ff6122de1a705d1070b8f00abccdba66108509908b5d10715068c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/LICENSE.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

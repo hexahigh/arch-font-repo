@@ -1,0 +1,38 @@
+pkgname=ttf-google-courierprime
+pkgver=3.018
+pkgrel=1
+_commit="7204f5a9b1e530633e00c67bd4954ceb7d8c2483"  # Latest commit touching ofl/courierprime
+pkgdesc="Google Fonts family: Courier Prime"
+arch=('any')
+url="https://fonts.google.com/specimen/Courier+Prime"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/courierprime/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/courierprime/CourierPrime-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/courierprime/CourierPrime-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/courierprime/CourierPrime-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/courierprime/CourierPrime-Regular.ttf"
+)
+sha256sums=(
+  "9a755af092b494944c99f471be6fddd19b006a448fefdc4717e4ee0aa09a97b0"
+  "ff1f38786c849d1c41fa8e447960abdb2bd75fdfb0cfcdeb524fad65a5af3638"
+  "3355273f3ea6d6362658f9564f4e83d59e156cf1a182e3c1592b5c5943627dcc"
+  "f1b9a5829789f7e56432a9f3bc7665ef4531dbba1c112639e48bef39621a006b"
+  "72f793376f8e2841656bf21d77a5de010f2929bd6956a22ee848ad0c7eb978af"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

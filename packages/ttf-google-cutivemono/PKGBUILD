@@ -1,0 +1,32 @@
+pkgname=ttf-google-cutivemono
+pkgver=1.110
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/cutivemono
+pkgdesc="Google Fonts family: Cutive Mono"
+arch=('any')
+url="https://fonts.google.com/specimen/Cutive+Mono"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/cutivemono/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/cutivemono/CutiveMono-Regular.ttf"
+)
+sha256sums=(
+  "ca83490f9c203cdaa5437202c44cb636e0c3c11b44b6dc5318bbe5678156e3f4"
+  "96a36a00079058684982f61ee334323f8b501d7b68dcecd6049a4f9177e3a62c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

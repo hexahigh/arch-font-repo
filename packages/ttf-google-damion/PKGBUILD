@@ -1,0 +1,32 @@
+pkgname=ttf-google-damion
+pkgver=1.100
+pkgrel=1
+_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/damion
+pkgdesc="Google Fonts family: Damion"
+arch=('any')
+url="https://fonts.google.com/specimen/Damion"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/damion/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/damion/Damion-Regular.ttf"
+)
+sha256sums=(
+  "cf28b0c2cd8dea6aaec899baf5d050ef1f578daeaf51e931a934d100b4de9ecc"
+  "a51fd6c3c517feb9924b98139c2e902a7317caee52c22a2ec9682973969562bf"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

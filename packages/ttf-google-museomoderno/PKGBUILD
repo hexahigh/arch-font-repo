@@ -1,0 +1,34 @@
+pkgname=ttf-google-museomoderno
+pkgver=1.003
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/museomoderno
+pkgdesc="Google Fonts family: MuseoModerno"
+arch=('any')
+url="https://fonts.google.com/specimen/MuseoModerno"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno-Italic[wght].ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/museomoderno/MuseoModerno[wght].ttf"
+)
+sha256sums=(
+  "a1da98a568fa3e62fbf76b7f4d735da7da0aa2ed055600937b15356bab5ff118"
+  "ff123989a6c175cd3fce6b3decba302d3841d65d9839ec09dd0c850bea212b56"
+  "d03b027cf5cf72d014c8a405a8ceb83ea1d5d8ae2c64a7f602b131d9973e3503"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

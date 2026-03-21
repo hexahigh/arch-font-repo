@@ -1,0 +1,38 @@
+pkgname=ttf-google-gentiumbookplus
+pkgver=6.101
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gentiumbookplus
+pkgdesc="Google Fonts family: Gentium Book Plus"
+arch=('any')
+url="https://fonts.google.com/specimen/Gentium+Book+Plus"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumbookplus/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumbookplus/GentiumBookPlus-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumbookplus/GentiumBookPlus-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumbookplus/GentiumBookPlus-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gentiumbookplus/GentiumBookPlus-Regular.ttf"
+)
+sha256sums=(
+  "c309a440be606e283ccacc746662d714b9c5b5a7a0a10dd2514b90206b55ddfe"
+  "b39c3fb12e2e15e2336f2ec6d051c778618ec25f7360bc4765bfe755b408c011"
+  "e557dd7a7f818fa482c3e63c7576c6d455f6f2e3bf9d84e0a11d1617e2bc1383"
+  "7a0ab4bd78701fa46d325e362654c41a47e2a0a5cb4a3eebc94dce89c2ee7df1"
+  "fe7b64eeacc430fcf46836a6f0dfe00d2c5a15483ed36692a2a185cb23ec2a5c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

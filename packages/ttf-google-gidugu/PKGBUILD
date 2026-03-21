@@ -1,0 +1,32 @@
+pkgname=ttf-google-gidugu
+pkgver=2.000
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/gidugu
+pkgdesc="Google Fonts family: Gidugu"
+arch=('any')
+url="https://fonts.google.com/specimen/Gidugu"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/gidugu/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/gidugu/Gidugu-Regular.ttf"
+)
+sha256sums=(
+  "96decc81ce07f8012ee0021a5b89befb6aef12d0d2ac53a3637fd4b583f91e08"
+  "1d10013a9e298e9fe79015973e484f3641bf8a1e7b5b58231142853a14bc80f4"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

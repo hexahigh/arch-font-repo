@@ -1,0 +1,32 @@
+pkgname=ttf-google-daysone
+pkgver=1.002
+pkgrel=1
+_commit="c32f75f4e6c382bf4286d91a2f2c8dd0acdfd3a4"  # Latest commit touching ofl/daysone
+pkgdesc="Google Fonts family: Days One"
+arch=('any')
+url="https://fonts.google.com/specimen/Days+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/daysone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/daysone/DaysOne-Regular.ttf"
+)
+sha256sums=(
+  "cacad5bf45bf5c81f4b6cbd114261bc8a08f6110b66a4c6fad8bbc16618a3096"
+  "7b5a0e6d88696e43e95f6320613908e53d36ad854b4a18e4a1b8d1c19fdbf1fe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

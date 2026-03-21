@@ -1,0 +1,32 @@
+pkgname=ttf-google-handjet
+pkgver=2.003
+pkgrel=1
+_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/handjet
+pkgdesc="Google Fonts family: Handjet"
+arch=('any')
+url="https://fonts.google.com/specimen/Handjet"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/handjet/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/handjet/Handjet[ELGR,ELSH,wght].ttf"
+)
+sha256sums=(
+  "934a45d3b43276e1f857301e9cb07e00b829cca3d0c13e8e6f8c6790dd6c8a2c"
+  "9262749e8bb0b73ebcae0e20428689c3c59576eebeb6c4e1020300d2d41bdf4d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

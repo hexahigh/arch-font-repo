@@ -1,0 +1,42 @@
+pkgname=ttf-google-libertinusserif
+pkgver=7.051
+pkgrel=1
+_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/libertinusserif
+pkgdesc="Google Fonts family: Libertinus Serif"
+arch=('any')
+url="https://fonts.google.com/specimen/Libertinus+Serif"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-BoldItalic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-Italic.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-SemiBold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/libertinusserif/LibertinusSerif-SemiBoldItalic.ttf"
+)
+sha256sums=(
+  "543bbe3d066d7ee6b062b6911220355c72720dc16003e5086885d6f543a6f376"
+  "dc5c00822f0d248256dbbe9fea8e68153e90c0dd7f95c906ed667b2ce053b415"
+  "8d7406b1e84e4ee1a658289139d16de75ee4380a2309dce2e4d68704b1d8cfe8"
+  "c8d62202ff921968c491bbbd05f9794213e98e1317c8cbf5edc1d8043f4a21d6"
+  "81ea17858245163742c9f5ddf19e9c54667ee5e026708556fb1bf5dce7f92fae"
+  "1f6d00f88c709b0babeaaf78fdc4da6c8d5ddb619d7799c5f6a1d7ae05576966"
+  "24f97903c512561e8a2499ca755afa45db89721c15c7ff62f728f0a1530e334d"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

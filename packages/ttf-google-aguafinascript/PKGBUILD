@@ -1,0 +1,32 @@
+pkgname=ttf-google-aguafinascript
+pkgver=1.000
+pkgrel=1
+_commit="9f12d509e73de73ce833a6af12fa3f411512a5f9"  # Latest commit touching ofl/aguafinascript
+pkgdesc="Google Fonts family: Aguafina Script"
+arch=('any')
+url="https://fonts.google.com/specimen/Aguafina+Script"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aguafinascript/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aguafinascript/AguafinaScript-Regular.ttf"
+)
+sha256sums=(
+  "520a0c239d39b379b61c4de5f8e3b02db20b0dfc137481843eac01f02c41f4a2"
+  "55f65d84d86936d7aaadffa4c17873923fba26c078d42aa4e6e2f1be8bfb5f6e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

@@ -1,0 +1,32 @@
+pkgname=ttf-google-federant
+pkgver=1.011
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/federant
+pkgdesc="Google Fonts family: Federant"
+arch=('any')
+url="https://fonts.google.com/specimen/Federant"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/federant/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/federant/Federant-Regular.ttf"
+)
+sha256sums=(
+  "17d7a7f5d9f0139535ecec516988c4c73a2ec0f225987288f3fd6ee2622d4450"
+  "d40cb09c85114c2b0c9442636412e997d8258b383e1d1a684e7e32b21d07a5c2"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

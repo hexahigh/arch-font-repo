@@ -1,0 +1,32 @@
+pkgname=ttf-google-nokora
+pkgver=9.000
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nokora
+pkgdesc="Google Fonts family: Nokora"
+arch=('any')
+url="https://fonts.google.com/specimen/Nokora"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/nokora/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/nokora/Nokora[wght].ttf"
+)
+sha256sums=(
+  "3fe944228254901b015c1c39178dac2e4217eba07118294b84dca34d28d4b2ee"
+  "ecdba2c8abcf872422daf61eab12180f2c49b09b325288a447de08d3081dc0ca"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

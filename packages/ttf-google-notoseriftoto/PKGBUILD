@@ -1,0 +1,32 @@
+pkgname=ttf-google-notoseriftoto
+pkgver=2.002
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notoseriftoto
+pkgdesc="Google Fonts family: Noto Serif Toto"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Serif+Toto"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftoto/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notoseriftoto/NotoSerifToto[wght].ttf"
+)
+sha256sums=(
+  "a06bb763aeed40f9b1899cb773fb61c5b33a8c49d48466b90f726fd93aee8715"
+  "776c27354b06462d15963a8c11b35c90a777638ca2659be0667766570ec5fd1c"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

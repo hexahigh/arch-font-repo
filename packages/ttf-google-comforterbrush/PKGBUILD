@@ -1,0 +1,32 @@
+pkgname=ttf-google-comforterbrush
+pkgver=1.013
+pkgrel=1
+_commit="3dd78844021e948ceb633d1dcee3f7885561b5d9"  # Latest commit touching ofl/comforterbrush
+pkgdesc="Google Fonts family: Comforter Brush"
+arch=('any')
+url="https://fonts.google.com/specimen/Comforter+Brush"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/comforterbrush/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/comforterbrush/ComforterBrush-Regular.ttf"
+)
+sha256sums=(
+  "8a4fe79803bade3a40c58d2ab69586f20b841f143e4ea60fd2bf7d98b29a8489"
+  "7bd357dc8bf83d71f27fd5155ece5c8c100a2042d4530e4487635473c5836f95"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

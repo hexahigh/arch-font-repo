@@ -1,0 +1,32 @@
+pkgname=ttf-google-yesteryear
+pkgver=1.000
+pkgrel=1
+_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yesteryear
+pkgdesc="Google Fonts family: Yesteryear"
+arch=('any')
+url="https://fonts.google.com/specimen/Yesteryear"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/yesteryear/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/yesteryear/Yesteryear-Regular.ttf"
+)
+sha256sums=(
+  "a80ee908b60f5bec9c10b135d3da93730e2194107d1f7fd3f61bd8c1a97b3e0c"
+  "17d1b2c57ec648ff9b13d2000bdd9b5c1c326ba14acff4597afe3a730d0a2c94"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

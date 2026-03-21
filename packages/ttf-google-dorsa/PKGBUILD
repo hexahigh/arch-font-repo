@@ -1,0 +1,32 @@
+pkgname=ttf-google-dorsa
+pkgver=1.002
+pkgrel=1
+_commit="b2fd5506481d36a6a8644f79451760337da08b77"  # Latest commit touching ofl/dorsa
+pkgdesc="Google Fonts family: Dorsa"
+arch=('any')
+url="https://fonts.google.com/specimen/Dorsa"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/dorsa/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/dorsa/Dorsa-Regular.ttf"
+)
+sha256sums=(
+  "92f750829545386017c3418d890769778b76fd01dfb41c62fcbb0d42ba0303eb"
+  "d204db5ceb2d028529f9701fab1bf99a7f6b1f555cda5bffe51072ec1409e3c7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

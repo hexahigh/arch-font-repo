@@ -1,0 +1,32 @@
+pkgname=ttf-google-bitcount
+pkgver=1.0
+pkgrel=1
+_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/bitcount
+pkgdesc="Google Fonts family: Bitcount"
+arch=('any')
+url="https://fonts.google.com/specimen/Bitcount"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcount/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bitcount/Bitcount[CRSV,ELSH,ELXP,slnt,wght].ttf"
+)
+sha256sums=(
+  "c214f3227a93a64c5b73d7e6a1a922c90803fcfb7312404fa2890c63f56fadf8"
+  "c7931919e67faa0e9cea2118f47d8f96383c580cc5cb6a3cef9aa1233ba3923e"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

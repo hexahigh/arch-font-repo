@@ -1,0 +1,32 @@
+pkgname=ttf-google-faunaone
+pkgver=2.001
+pkgrel=1
+_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/faunaone
+pkgdesc="Google Fonts family: Fauna One"
+arch=('any')
+url="https://fonts.google.com/specimen/Fauna+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/faunaone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/faunaone/FaunaOne-Regular.ttf"
+)
+sha256sums=(
+  "69ac34f1c6fd163d5d01cea262da6cfa34fee1310283a116a0db8e14116b40d1"
+  "3c636067331e86fbf349924f3c1964155b99072a390caaffe60ce6c0866363fe"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

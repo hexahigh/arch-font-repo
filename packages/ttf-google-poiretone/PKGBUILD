@@ -1,0 +1,32 @@
+pkgname=ttf-google-poiretone
+pkgver=1.101
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poiretone
+pkgdesc="Google Fonts family: Poiret One"
+arch=('any')
+url="https://fonts.google.com/specimen/Poiret+One"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/poiretone/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/poiretone/PoiretOne-Regular.ttf"
+)
+sha256sums=(
+  "708e33bed791c40638926a7577bcef8ff8748f84045f3825277540cbb8d483ba"
+  "457f2d03263f58e5a6dbcc1b607b10dff6581e7cf9c4ebdf330ec3e6772a3558"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

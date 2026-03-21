@@ -1,0 +1,32 @@
+pkgname=ttf-google-julee
+pkgver=1.002
+pkgrel=1
+_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/julee
+pkgdesc="Google Fonts family: Julee"
+arch=('any')
+url="https://fonts.google.com/specimen/Julee"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/julee/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/julee/Julee-Regular.ttf"
+)
+sha256sums=(
+  "6b7242e4ff02ed5bc24ddd655bc1fec1ab7cd4a86335ffef1d197561264cd0e7"
+  "1a895f51fbe0e37f059b1c07030068a2ccbadef8f81970cd346b967bb0b57eb1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

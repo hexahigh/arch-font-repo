@@ -1,0 +1,32 @@
+pkgname=ttf-google-sancreek
+pkgver=1.100
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sancreek
+pkgdesc="Google Fonts family: Sancreek"
+arch=('any')
+url="https://fonts.google.com/specimen/Sancreek"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sancreek/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sancreek/Sancreek-Regular.ttf"
+)
+sha256sums=(
+  "69f01b79c1be37a734736a94a12c55cb28d09ee93e4febc9db109cec608f9ae7"
+  "8f87c42f6e6ba97125cd975c3d7d48902fc227d805948e678d5293a300e3fe55"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

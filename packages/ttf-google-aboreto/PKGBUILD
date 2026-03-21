@@ -1,0 +1,32 @@
+pkgname=ttf-google-aboreto
+pkgver=1.001
+pkgrel=1
+_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/aboreto
+pkgdesc="Google Fonts family: Aboreto"
+arch=('any')
+url="https://fonts.google.com/specimen/Aboreto"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/aboreto/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/aboreto/Aboreto-Regular.ttf"
+)
+sha256sums=(
+  "da0971c73aa1773b791926b81530f3cec50c94031912f162a320263488805ef8"
+  "fc702d535857fa2bda802647b9d55f82a07502d4acdfd95b47279b3bf479eaa1"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

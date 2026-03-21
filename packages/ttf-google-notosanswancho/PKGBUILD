@@ -1,0 +1,32 @@
+pkgname=ttf-google-notosanswancho
+pkgver=2.001
+pkgrel=1
+_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosanswancho
+pkgdesc="Google Fonts family: Noto Sans Wancho"
+arch=('any')
+url="https://fonts.google.com/specimen/Noto+Sans+Wancho"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanswancho/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/notosanswancho/NotoSansWancho-Regular.ttf"
+)
+sha256sums=(
+  "50f044fdaa382fa03de22849f2b31906a56139df0dad90215fa60413dbc255e8"
+  "a5cb8b34da1c91b55a789efd79188c103c34dd9d55218d40087afd3850e97f31"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
