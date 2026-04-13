@@ -1,7 +1,6 @@
 pkgname=ttf-fontshare-teko
 pkgver=3.0
 pkgrel=1
-_slug="teko"
 pkgdesc="Fontshare family: Teko"
 arch=('any')
 url="https://www.fontshare.com/fonts/teko/"
@@ -9,19 +8,20 @@ license=('OFL')
 depends=('fontconfig')
 provides=('ttf-font')
 source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/teko")
-sha256sums=('a592bb4af8c6e60b8f54f1e98efcc804692f0a6cc193b0d745f5c6e776f606d6')
+# Fontshare regenerates zip archives with request-time timestamps, so checksums are not stable.
+sha256sums=('SKIP')
 
 package() {
   install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
 
   # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
   find "${srcdir}" -type f \
-    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    '(' -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' ')' \
     ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
     install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
   done
 
-  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  license_file="$(find "${srcdir}" -type f '(' -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' ')' | head -n 1)"
   if [[ -n "${license_file}" ]]; then
     install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   fi

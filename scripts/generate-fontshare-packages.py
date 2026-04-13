@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import hashlib
 import json
 import re
 import sys
@@ -26,29 +25,21 @@ class FontFamily:
     url: str
     license_value: str
     source_url: str
-    sha256: str
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate packages/ttf-fontshare-*/PKGBUILD entries from Fontshare API"
     )
-    parser.add_argument(
-        "--packages-dir",
-        default="packages",
-        help="Target packages directory",
-    )
+    parser.add_argument("--packages-dir", default="packages",
+                        help="Target packages directory")
     parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Overwrite existing PKGBUILD files (default is skip existing)",
     )
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=0,
-        help="Limit number of families processed (0 means all)",
-    )
+    parser.add_argument("--limit", type=int, default=0,
+                        help="Limit number of families processed")
     parser.add_argument(
         "--family",
         action="append",
@@ -73,26 +64,22 @@ def fetch_json(url: str) -> dict:
 def normalize_pkgver(raw_version: str | None) -> str:
     if not raw_version:
         return "1"
-
     match = re.search(r"([0-9]+(?:\.[0-9]+)+)", raw_version)
     if match:
         return match.group(1)
-
     cleaned = raw_version.strip().lstrip("vV")
     cleaned = re.sub(r"[^0-9A-Za-z.+_-]", "", cleaned)
     return cleaned or "1"
 
 
 def normalize_pkgdesc(text: str) -> str:
-    cleaned = " ".join(text.split())
-    cleaned = cleaned.replace('"', "")
+    cleaned = " ".join(text.split()).replace('"', "")
     return cleaned[:200]
 
 
 def map_license(license_type: str | None) -> str:
     if not license_type:
         return "custom"
-
     normalized = license_type.strip().lower()
     if normalized == "sil_ofl":
         return "OFL"
@@ -101,40 +88,20 @@ def map_license(license_type: str | None) -> str:
     return "custom"
 
 
-def sha256_remote(url: str) -> str:
-    request = Request(
-        url,
-        headers={
-            "User-Agent": "arch-font-repo-fontshare-generator/1.0",
-        },
-    )
-    digest = hashlib.sha256()
-    with urlopen(request, timeout=180) as response:
-        while True:
-            chunk = response.read(65536)
-            if not chunk:
-                break
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def fetch_all_families() -> list[dict]:
     page = 1
     limit = 100
     families: list[dict] = []
-
     while True:
         payload = fetch_json(f"{API_BASE}/fonts?page={page}&limit={limit}")
         batch = payload.get("fonts", [])
         if not batch:
             break
-
         families.extend(batch)
         total = payload.get("count_total", len(families))
         if len(families) >= total:
             break
         page += 1
-
     return sorted(
         (item for item in families if item.get("slug") and item.get("name")),
         key=lambda item: str(item.get("slug", "")).lower(),
@@ -151,8 +118,6 @@ def build_family_model(raw: dict) -> FontFamily:
     url = f"{FONTSHARE_SITE_BASE}/{quote(download_slug)}/"
     license_value = map_license(raw.get("license_type"))
     source_url = f"{API_BASE}/fonts/download/{quote(download_slug)}"
-    sha256 = sha256_remote(source_url)
-
     return FontFamily(
         slug=slug,
         download_slug=download_slug,
@@ -163,7 +128,6 @@ def build_family_model(raw: dict) -> FontFamily:
         url=url,
         license_value=license_value,
         source_url=source_url,
-        sha256=sha256,
     )
 
 
@@ -178,19 +142,20 @@ license=('{model.license_value}')
 depends=('fontconfig')
 provides=('ttf-font')
 source=(\"${{pkgname}}-${{pkgver}}.zip::{model.source_url}\")
-sha256sums=('{model.sha256}')
+# Fontshare regenerates zip archives with request-time timestamps, so checksums are not stable.
+sha256sums=('SKIP')
 
 package() {{
   install -dm755 "${{pkgdir}}/usr/share/fonts/TTF/${{pkgname}}"
 
   # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
   find "${{srcdir}}" -type f \\
-        '(' -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' ')' \\
+    '(' -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' ')' \\
     ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
     install -m644 "${{font}}" "${{pkgdir}}/usr/share/fonts/TTF/${{pkgname}}/"
   done
 
-    license_file="$(find "${{srcdir}}" -type f '(' -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' ')' | head -n 1)"
+  license_file="$(find "${{srcdir}}" -type f '(' -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' ')' | head -n 1)"
   if [[ -n "${{license_file}}" ]]; then
     install -Dm644 "${{license_file}}" "${{pkgdir}}/usr/share/licenses/${{pkgname}}/LICENSE"
   fi
@@ -202,10 +167,8 @@ def write_pkgbuild(packages_dir: Path, model: FontFamily, overwrite: bool) -> bo
     package_dir = packages_dir / model.pkgname
     package_dir.mkdir(parents=True, exist_ok=True)
     pkgbuild_path = package_dir / "PKGBUILD"
-
     if pkgbuild_path.exists() and not overwrite:
         return False
-
     pkgbuild_path.write_text(render_pkgbuild(model), encoding="utf-8")
     return True
 
@@ -235,14 +198,15 @@ def main() -> int:
 
     generated = 0
     skipped = 0
-
     for family in families:
         slug = str(family.get("slug", "<unknown>"))
         try:
             model = build_family_model(family)
-            did_write = write_pkgbuild(packages_dir, model, overwrite=args.overwrite)
+            did_write = write_pkgbuild(
+                packages_dir, model, overwrite=args.overwrite)
         except (HTTPError, URLError, TimeoutError) as exc:
-            print(f"[error] {slug}: download/metadata request failed: {exc}", file=sys.stderr)
+            print(
+                f"[error] {slug}: download/metadata request failed: {exc}", file=sys.stderr)
             continue
         except Exception as exc:
             print(f"[error] {slug}: {exc}", file=sys.stderr)
@@ -255,7 +219,8 @@ def main() -> int:
             skipped += 1
             print(f"[skip]  {model.pkgname} (already exists)")
 
-    print(f"Finished. generated={generated} skipped={skipped} total={len(families)}")
+    print(
+        f"Finished. generated={generated} skipped={skipped} total={len(families)}")
     return 0
 
 

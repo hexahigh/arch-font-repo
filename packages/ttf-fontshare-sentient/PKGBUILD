@@ -1,7 +1,6 @@
 pkgname=ttf-fontshare-sentient
 pkgver=1.001
 pkgrel=1
-_slug="sentient"
 pkgdesc="Fontshare family: Sentient"
 arch=('any')
 url="https://www.fontshare.com/fonts/sentient/"
@@ -9,19 +8,20 @@ license=('custom:ITF-FFL')
 depends=('fontconfig')
 provides=('ttf-font')
 source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/sentient")
-sha256sums=('f65dc41f635ca64af0e20976a54e1449671d77494c3225d216581cb44fb3bcff')
+# Fontshare regenerates zip archives with request-time timestamps, so checksums are not stable.
+sha256sums=('SKIP')
 
 package() {
   install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
 
   # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
   find "${srcdir}" -type f \
-    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    '(' -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' ')' \
     ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
     install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
   done
 
-  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  license_file="$(find "${srcdir}" -type f '(' -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' ')' | head -n 1)"
   if [[ -n "${license_file}" ]]; then
     install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   fi

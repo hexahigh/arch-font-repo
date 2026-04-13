@@ -1,7 +1,6 @@
 pkgname=ttf-fontshare-clash-display
 pkgver=1.0
 pkgrel=1
-_slug="clash-display"
 pkgdesc="Fontshare family: Clash Display"
 arch=('any')
 url="https://www.fontshare.com/fonts/clash-display/"
@@ -9,19 +8,20 @@ license=('custom:ITF-FFL')
 depends=('fontconfig')
 provides=('ttf-font')
 source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/clash-display")
-sha256sums=('2e9199a188f1854718e0f27f384c27b367358b7a04fb219824a058fecef60f77')
+# Fontshare regenerates zip archives with request-time timestamps, so checksums are not stable.
+sha256sums=('SKIP')
 
 package() {
   install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
 
   # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
   find "${srcdir}" -type f \
-    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    '(' -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' ')' \
     ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
     install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
   done
 
-  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  license_file="$(find "${srcdir}" -type f '(' -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' ')' | head -n 1)"
   if [[ -n "${license_file}" ]]; then
     install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   fi
