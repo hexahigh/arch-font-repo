@@ -1,7 +1,7 @@
 pkgname=ttf-google-dellarespira
 pkgver=0.201
 pkgrel=1
-_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/dellarespira
+_commit="58f37ee58d050a4c9d30878b385151434f7ecb95"  # Latest commit touching ofl/dellarespira
 pkgdesc="Google Fonts family: Della Respira"
 arch=('any')
 url="https://fonts.google.com/specimen/Della+Respira"

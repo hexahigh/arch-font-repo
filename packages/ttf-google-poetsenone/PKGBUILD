@@ -1,7 +1,7 @@
 pkgname=ttf-google-poetsenone
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poetsenone
+_commit="f02e51f4130654138f638558ecf6f8aab940266f"  # Latest commit touching ofl/poetsenone
 pkgdesc="Google Fonts family: Poetsen One"
 arch=('any')
 url="https://fonts.google.com/specimen/Poetsen+One"

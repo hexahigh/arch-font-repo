@@ -1,7 +1,7 @@
 pkgname=ttf-google-nabla
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nabla
+_commit="34a2c3daeeb2715576af0786ae4e9dc6c7d8ca2a"  # Latest commit touching ofl/nabla
 pkgdesc="Google Fonts family: Nabla"
 arch=('any')
 url="https://fonts.google.com/specimen/Nabla"

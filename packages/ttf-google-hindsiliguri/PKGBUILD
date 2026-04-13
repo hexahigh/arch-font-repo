@@ -1,7 +1,7 @@
 pkgname=ttf-google-hindsiliguri
 pkgver=1.001
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindsiliguri
+_commit="335918cf0bf871cc4bd8f8c4a1da9dd46014f830"  # Latest commit touching ofl/hindsiliguri
 pkgdesc="Google Fonts family: Hind Siliguri"
 arch=('any')
 url="https://fonts.google.com/specimen/Hind+Siliguri"

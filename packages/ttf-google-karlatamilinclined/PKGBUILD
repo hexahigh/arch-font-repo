@@ -1,7 +1,7 @@
 pkgname=ttf-google-karlatamilinclined
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karlatamilinclined
+_commit="ac7a510e7ca89810c19efdeb64df1e6fac55b69d"  # Latest commit touching ofl/karlatamilinclined
 pkgdesc="Google Fonts family: Karla Tamil Inclined"
 arch=('any')
 url="https://fonts.google.com/specimen/Karla+Tamil+Inclined"

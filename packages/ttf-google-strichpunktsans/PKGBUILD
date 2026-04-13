@@ -1,0 +1,32 @@
+pkgname=ttf-google-strichpunktsans
+pkgver=1.000
+pkgrel=1
+_commit="4a067470d1919b7fe5efe3891f5950df501a8469"  # Latest commit touching ofl/strichpunktsans
+pkgdesc="Google Fonts family: Strichpunkt Sans"
+arch=('any')
+url="https://fonts.google.com/specimen/Strichpunkt+Sans"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/strichpunktsans/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/strichpunktsans/StrichpunktSans%5Bwdth%2Cwght%5D.ttf"
+)
+sha256sums=(
+  "e20639c78876cea819537d60bc3aa2bb685f68b5e7c7ec689526c19c6190258d"
+  "fe0d16855fd52eb54300f69ebcbfd0bd0323faf0abd8e112d7e42cee2d2804ea"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

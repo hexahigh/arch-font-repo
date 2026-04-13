@@ -1,7 +1,7 @@
 pkgname=ttf-google-sura
 pkgver=1.003
 pkgrel=1
-_commit="2ce8f3196dbdfd204aa3627f08ba38bec7dd61ef"  # Latest commit touching ofl/sura
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/sura
 pkgdesc="Google Fonts family: Sura"
 arch=('any')
 url="https://fonts.google.com/specimen/Sura"

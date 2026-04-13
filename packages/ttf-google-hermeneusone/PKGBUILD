@@ -1,7 +1,7 @@
 pkgname=ttf-google-hermeneusone
 pkgver=1.002
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hermeneusone
+_commit="fa806749e3c2bd8d128027f0c69e2119bf5b232d"  # Latest commit touching ofl/hermeneusone
 pkgdesc="Google Fonts family: Hermeneus One"
 arch=('any')
 url="https://fonts.google.com/specimen/Hermeneus+One"

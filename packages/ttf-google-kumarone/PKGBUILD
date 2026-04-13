@@ -1,7 +1,7 @@
 pkgname=ttf-google-kumarone
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kumarone
+_commit="bdd701d39698589d41b846702b46cfdb633efdee"  # Latest commit touching ofl/kumarone
 pkgdesc="Google Fonts family: Kumar One"
 arch=('any')
 url="https://fonts.google.com/specimen/Kumar+One"

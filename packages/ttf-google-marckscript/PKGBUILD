@@ -1,7 +1,7 @@
 pkgname=ttf-google-marckscript
 pkgver=1.002
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marckscript
+_commit="632e5eef34788aadc808f9e8db3cee1ed7f6e661"  # Latest commit touching ofl/marckscript
 pkgdesc="Google Fonts family: Marck Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Marck+Script"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-ubuntucondensed
 pkgver=0.83
 pkgrel=1
-_commit="a4f3deeca2d7547351ff746f7bf3b51f5528dbcf"  # Latest commit touching ufl/ubuntucondensed
+_commit="10b6b75ec3020d11aff5085a8a10d271fb0d9439"  # Latest commit touching ufl/ubuntucondensed
 pkgdesc="Google Fonts family: Ubuntu Condensed"
 arch=('any')
 url="https://fonts.google.com/specimen/Ubuntu+Condensed"

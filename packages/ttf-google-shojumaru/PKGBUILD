@@ -1,7 +1,7 @@
 pkgname=ttf-google-shojumaru
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shojumaru
+_commit="ea5f5c472951d3e0a8abde22053f710d183dbeee"  # Latest commit touching ofl/shojumaru
 pkgdesc="Google Fonts family: Shojumaru"
 arch=('any')
 url="https://fonts.google.com/specimen/Shojumaru"

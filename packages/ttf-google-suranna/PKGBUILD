@@ -1,7 +1,7 @@
 pkgname=ttf-google-suranna
 pkgver=1.0.5
 pkgrel=1
-_commit="5b7a59e8470a5fd173c4dc8b4fbdfd7df5b96090"  # Latest commit touching ofl/suranna
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/suranna
 pkgdesc="Google Fonts family: Suranna"
 arch=('any')
 url="https://fonts.google.com/specimen/Suranna"

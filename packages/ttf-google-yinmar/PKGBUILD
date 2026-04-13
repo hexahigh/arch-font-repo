@@ -1,7 +1,7 @@
 pkgname=ttf-google-yinmar
 pkgver=1.11
 pkgrel=1
-_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yinmar
+_commit="4fbcd3898cd1f17d16608adebbbfccf4f56b40fe"  # Latest commit touching ofl/yinmar
 pkgdesc="Google Fonts family: Yinmar"
 arch=('any')
 url="https://fonts.google.com/specimen/Yinmar"

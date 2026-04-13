@@ -1,7 +1,7 @@
 pkgname=ttf-google-slackey
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/slackey
+_commit="22ba627a88604d40de5fa943401b83c3e8da1269"  # Latest commit touching apache/slackey
 pkgdesc="Google Fonts family: Slackey"
 arch=('any')
 url="https://fonts.google.com/specimen/Slackey"

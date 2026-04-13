@@ -1,7 +1,7 @@
 pkgname=ttf-google-homemadeapple
 pkgver=1.001
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching apache/homemadeapple
+_commit="f3f19ffe2e295deb31a7df2469fc82918ad9b421"  # Latest commit touching apache/homemadeapple
 pkgdesc="Google Fonts family: Homemade Apple"
 arch=('any')
 url="https://fonts.google.com/specimen/Homemade+Apple"

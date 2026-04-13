@@ -1,7 +1,7 @@
 pkgname=ttf-google-miltoniantattoo
 pkgver=1.008
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miltoniantattoo
+_commit="500952db0f97c2bbc49fb2f2688ad863515c0116"  # Latest commit touching ofl/miltoniantattoo
 pkgdesc="Google Fonts family: Miltonian Tattoo"
 arch=('any')
 url="https://fonts.google.com/specimen/Miltonian+Tattoo"

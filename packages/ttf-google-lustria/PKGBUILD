@@ -1,7 +1,7 @@
 pkgname=ttf-google-lustria
 pkgver=001.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lustria
+_commit="392bee5c207a089e2e51787d561af724755f56aa"  # Latest commit touching ofl/lustria
 pkgdesc="Google Fonts family: Lustria"
 arch=('any')
 url="https://fonts.google.com/specimen/Lustria"

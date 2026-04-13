@@ -1,7 +1,7 @@
 pkgname=ttf-google-newscycle
 pkgver=0.5.1
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/newscycle
+_commit="71731ebc626c5c7d7b3b0c8bf4a842ae839899ee"  # Latest commit touching ofl/newscycle
 pkgdesc="Google Fonts family: News Cycle"
 arch=('any')
 url="https://fonts.google.com/specimen/News+Cycle"

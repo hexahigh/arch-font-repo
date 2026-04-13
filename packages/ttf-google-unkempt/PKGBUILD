@@ -1,7 +1,7 @@
 pkgname=ttf-google-unkempt
 pkgver=1.002
 pkgrel=1
-_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/unkempt
+_commit="1b65208c977b7e794f643ec5d5414a8e87dcb345"  # Latest commit touching apache/unkempt
 pkgdesc="Google Fonts family: Unkempt"
 arch=('any')
 url="https://fonts.google.com/specimen/Unkempt"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-imfellgreatprimersc
 pkgver=3.00
 pkgrel=1
-_commit="723776af754da6972dc8dec7877935b50ed58635"  # Latest commit touching ofl/imfellgreatprimersc
+_commit="e992b933c9ace3c01da9b37a1e03d73114016ba4"  # Latest commit touching ofl/imfellgreatprimersc
 pkgdesc="Google Fonts family: IM Fell Great Primer SC"
 arch=('any')
 url="https://fonts.google.com/specimen/IM+Fell+Great+Primer+SC"

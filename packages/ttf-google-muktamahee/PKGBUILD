@@ -1,7 +1,7 @@
 pkgname=ttf-google-muktamahee
 pkgver=2.538
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktamahee
+_commit="a0db5a3dd0b171cea8404e6e7324733db7d8e021"  # Latest commit touching ofl/muktamahee
 pkgdesc="Google Fonts family: Mukta Mahee"
 arch=('any')
 url="https://fonts.google.com/specimen/Mukta+Mahee"

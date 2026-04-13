@@ -1,7 +1,7 @@
 pkgname=ttf-google-meerainimai
 pkgver=2.0.0
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/meerainimai
+_commit="0f7d1d5f86bc40076043d6008e26edf5f7fc1e7f"  # Latest commit touching ofl/meerainimai
 pkgdesc="Google Fonts family: Meera Inimai"
 arch=('any')
 url="https://fonts.google.com/specimen/Meera+Inimai"

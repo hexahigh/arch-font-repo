@@ -1,7 +1,7 @@
 pkgname=ttf-google-suravaram
 pkgver=1.0.4
 pkgrel=1
-_commit="9f2657f18b0d5469966dc685d367d7b1fe0b879e"  # Latest commit touching ofl/suravaram
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/suravaram
 pkgdesc="Google Fonts family: Suravaram"
 arch=('any')
 url="https://fonts.google.com/specimen/Suravaram"

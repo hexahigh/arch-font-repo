@@ -1,7 +1,7 @@
 pkgname=ttf-google-novamono
 pkgver=1.2
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novamono
+_commit="ec5151d3aeafafd7ad0eecc0df9e73aaad2af2a3"  # Latest commit touching ofl/novamono
 pkgdesc="Google Fonts family: Nova Mono"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Mono"

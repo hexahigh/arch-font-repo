@@ -1,7 +1,7 @@
 pkgname=ttf-google-istokweb
 pkgver=1.0.2
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/istokweb
+_commit="1b496d187b1696867acefcb06b3c2e1867ea4a0f"  # Latest commit touching ofl/istokweb
 pkgdesc="Google Fonts family: Istok Web"
 arch=('any')
 url="https://fonts.google.com/specimen/Istok+Web"

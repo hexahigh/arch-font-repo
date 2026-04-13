@@ -1,7 +1,7 @@
 pkgname=ttf-google-raviprakash
 pkgver=1.0.4
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/raviprakash
+_commit="903e42a82f1b0825940c9ff8591b122fc367e735"  # Latest commit touching ofl/raviprakash
 pkgdesc="Google Fonts family: Ravi Prakash"
 arch=('any')
 url="https://fonts.google.com/specimen/Ravi+Prakash"

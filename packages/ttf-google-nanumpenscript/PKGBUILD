@@ -1,7 +1,7 @@
 pkgname=ttf-google-nanumpenscript
 pkgver=1.10
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nanumpenscript
+_commit="ab596b6b0b79ed3932d43911364a597e9d27c873"  # Latest commit touching ofl/nanumpenscript
 pkgdesc="Google Fonts family: Nanum Pen Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Nanum+Pen+Script"

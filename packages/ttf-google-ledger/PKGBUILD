@@ -1,7 +1,7 @@
 pkgname=ttf-google-ledger
 pkgver=1.003
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/ledger
+_commit="17237886deb09de12ff8c5eb26d19ff0c1a36ea9"  # Latest commit touching ofl/ledger
 pkgdesc="Google Fonts family: Ledger"
 arch=('any')
 url="https://fonts.google.com/specimen/Ledger"

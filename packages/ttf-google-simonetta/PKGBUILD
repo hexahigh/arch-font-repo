@@ -1,7 +1,7 @@
 pkgname=ttf-google-simonetta
 pkgver=1.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/simonetta
+_commit="d8153ad802ea8ec5c5175801557de4206ee7ca37"  # Latest commit touching ofl/simonetta
 pkgdesc="Google Fonts family: Simonetta"
 arch=('any')
 url="https://fonts.google.com/specimen/Simonetta"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-maidenorange
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching apache/maidenorange
+_commit="111668ecc2e516a9814c994b5cc0c2ef9ae4f4de"  # Latest commit touching apache/maidenorange
 pkgdesc="Google Fonts family: Maiden Orange"
 arch=('any')
 url="https://fonts.google.com/specimen/Maiden+Orange"

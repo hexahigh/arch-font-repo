@@ -1,7 +1,7 @@
 pkgname=ttf-google-marvel
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marvel
+_commit="3cf487942f493e5b164cff52a1124d51c9716f19"  # Latest commit touching ofl/marvel
 pkgdesc="Google Fonts family: Marvel"
 arch=('any')
 url="https://fonts.google.com/specimen/Marvel"

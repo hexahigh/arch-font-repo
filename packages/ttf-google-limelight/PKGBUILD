@@ -1,7 +1,7 @@
 pkgname=ttf-google-limelight
 pkgver=1.002
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/limelight
+_commit="d841b5e71c64b527564a5cfeda7966ee523cc152"  # Latest commit touching ofl/limelight
 pkgdesc="Google Fonts family: Limelight"
 arch=('any')
 url="https://fonts.google.com/specimen/Limelight"

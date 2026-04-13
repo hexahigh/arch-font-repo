@@ -1,7 +1,7 @@
 pkgname=ttf-google-satisfy
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/satisfy
+_commit="1bf1ba256af8ffbc25714b1152698916e05fe541"  # Latest commit touching apache/satisfy
 pkgdesc="Google Fonts family: Satisfy"
 arch=('any')
 url="https://fonts.google.com/specimen/Satisfy"

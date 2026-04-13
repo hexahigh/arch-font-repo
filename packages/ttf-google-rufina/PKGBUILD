@@ -1,7 +1,7 @@
 pkgname=ttf-google-rufina
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rufina
+_commit="df42574db2ebe8c245d4c5ff01cd258d6190285b"  # Latest commit touching ofl/rufina
 pkgdesc="Google Fonts family: Rufina"
 arch=('any')
 url="https://fonts.google.com/specimen/Rufina"

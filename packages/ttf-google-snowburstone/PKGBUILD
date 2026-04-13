@@ -1,7 +1,7 @@
 pkgname=ttf-google-snowburstone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/snowburstone
+_commit="89f758c94c1814dc8edefb4c637fc69fac80e377"  # Latest commit touching ofl/snowburstone
 pkgdesc="Google Fonts family: Snowburst One"
 arch=('any')
 url="https://fonts.google.com/specimen/Snowburst+One"

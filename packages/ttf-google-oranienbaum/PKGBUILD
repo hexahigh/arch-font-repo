@@ -1,7 +1,7 @@
 pkgname=ttf-google-oranienbaum
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oranienbaum
+_commit="410e093b0350c10fb1e921c47dc4c057ccb6ba7d"  # Latest commit touching ofl/oranienbaum
 pkgdesc="Google Fonts family: Oranienbaum"
 arch=('any')
 url="https://fonts.google.com/specimen/Oranienbaum"

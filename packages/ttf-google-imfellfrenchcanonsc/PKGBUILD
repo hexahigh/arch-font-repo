@@ -1,7 +1,7 @@
 pkgname=ttf-google-imfellfrenchcanonsc
 pkgver=3.00
 pkgrel=1
-_commit="6a3a054ba421eb81775757b80601eb49989f3ccf"  # Latest commit touching ofl/imfellfrenchcanonsc
+_commit="3ec2a3f134c20cf16575bf76fabaf8c0a01deb7a"  # Latest commit touching ofl/imfellfrenchcanonsc
 pkgdesc="Google Fonts family: IM Fell French Canon SC"
 arch=('any')
 url="https://fonts.google.com/specimen/IM+Fell+French+Canon+SC"

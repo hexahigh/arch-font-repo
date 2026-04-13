@@ -1,7 +1,7 @@
 pkgname=ttf-google-averiagruesalibre
 pkgver=1.002
 pkgrel=1
-_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/averiagruesalibre
+_commit="e24c5ff7ced4394d4ad639185034bfd66612d458"  # Latest commit touching ofl/averiagruesalibre
 pkgdesc="Google Fonts family: Averia Gruesa Libre"
 arch=('any')
 url="https://fonts.google.com/specimen/Averia+Gruesa+Libre"

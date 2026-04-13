@@ -1,7 +1,7 @@
 pkgname=ttf-google-mergeone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mergeone
+_commit="a997b8fe3050dda7713410f09f444c87e58ee511"  # Latest commit touching ofl/mergeone
 pkgdesc="Google Fonts family: Merge One"
 arch=('any')
 url="https://fonts.google.com/specimen/Merge+One"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-unifrakturcook
 pkgver=2011-09-01
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/unifrakturcook
+_commit="fa02673f3b360ca4b9a8ba4f6d5a4aeb59eecd32"  # Latest commit touching ofl/unifrakturcook
 pkgdesc="Google Fonts family: UnifrakturCook"
 arch=('any')
 url="https://fonts.google.com/specimen/UnifrakturCook"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-firacode
 pkgver=5.002
 pkgrel=1
-_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firacode
+_commit="5020a98352f1909554697e1da4132da253727138"  # Latest commit touching ofl/firacode
 pkgdesc="Google Fonts family: Fira Code"
 arch=('any')
 url="https://fonts.google.com/specimen/Fira+Code"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-schoolbell
 pkgver=1.001
 pkgrel=1
-_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/schoolbell
+_commit="0b623f43ed4b306e7c473c8b8daad06992ade9e8"  # Latest commit touching apache/schoolbell
 pkgdesc="Google Fonts family: Schoolbell"
 arch=('any')
 url="https://fonts.google.com/specimen/Schoolbell"

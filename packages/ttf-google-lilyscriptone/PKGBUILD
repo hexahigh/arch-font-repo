@@ -1,7 +1,7 @@
 pkgname=ttf-google-lilyscriptone
 pkgver=1.002
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lilyscriptone
+_commit="54584294ef89979740aa9687fdc3c04d11c4b539"  # Latest commit touching ofl/lilyscriptone
 pkgdesc="Google Fonts family: Lily Script One"
 arch=('any')
 url="https://fonts.google.com/specimen/Lily+Script+One"

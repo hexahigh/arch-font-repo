@@ -1,7 +1,7 @@
 pkgname=ttf-google-sanchez
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sanchez
+_commit="b7d028b50afb4cfb754a5da35ec397f9b2284b72"  # Latest commit touching ofl/sanchez
 pkgdesc="Google Fonts family: Sanchez"
 arch=('any')
 url="https://fonts.google.com/specimen/Sanchez"

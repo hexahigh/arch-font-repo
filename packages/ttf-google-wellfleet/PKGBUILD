@@ -1,7 +1,7 @@
 pkgname=ttf-google-wellfleet
 pkgver=1.002
 pkgrel=1
-_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/wellfleet
+_commit="76eab8e03069a510db3231c8a892b6f416a4fd57"  # Latest commit touching ofl/wellfleet
 pkgdesc="Google Fonts family: Wellfleet"
 arch=('any')
 url="https://fonts.google.com/specimen/Wellfleet"

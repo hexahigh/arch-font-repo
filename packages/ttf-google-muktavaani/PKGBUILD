@@ -1,7 +1,7 @@
 pkgname=ttf-google-muktavaani
 pkgver=2.538
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktavaani
+_commit="d9359deb5a726c6e67417f55c052687d522c98c9"  # Latest commit touching ofl/muktavaani
 pkgdesc="Google Fonts family: Mukta Vaani"
 arch=('any')
 url="https://fonts.google.com/specimen/Mukta+Vaani"

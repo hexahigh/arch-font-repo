@@ -1,7 +1,7 @@
 pkgname=ttf-google-mclaren
 pkgver=1.000
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/mclaren
+_commit="d6b6c804c3c4f9b79d5ba149696846fdebba01fd"  # Latest commit touching ofl/mclaren
 pkgdesc="Google Fonts family: McLaren"
 arch=('any')
 url="https://fonts.google.com/specimen/McLaren"

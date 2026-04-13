@@ -1,7 +1,7 @@
 pkgname=ttf-google-pirataone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pirataone
+_commit="4388740f91b3711400cb73881786935e37ad7dfd"  # Latest commit touching ofl/pirataone
 pkgdesc="Google Fonts family: Pirata One"
 arch=('any')
 url="https://fonts.google.com/specimen/Pirata+One"

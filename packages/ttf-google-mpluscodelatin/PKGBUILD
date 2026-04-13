@@ -1,7 +1,7 @@
 pkgname=ttf-google-mpluscodelatin
 pkgver=1.005
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mpluscodelatin
+_commit="dcf57cac9cdba76c21d6220dd257308dbdbaa001"  # Latest commit touching ofl/mpluscodelatin
 pkgdesc="Google Fonts family: M PLUS Code Latin"
 arch=('any')
 url="https://fonts.google.com/specimen/M+PLUS+Code+Latin"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-macondo
 pkgver=2.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/macondo
+_commit="69866e0afc5ff7f5077a86f7d9130a4f50442357"  # Latest commit touching ofl/macondo
 pkgdesc="Google Fonts family: Macondo"
 arch=('any')
 url="https://fonts.google.com/specimen/Macondo"

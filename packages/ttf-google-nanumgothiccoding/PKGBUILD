@@ -1,7 +1,7 @@
 pkgname=ttf-google-nanumgothiccoding
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nanumgothiccoding
+_commit="9cb22ac3b8e238d037c48f98ef521f818958e102"  # Latest commit touching ofl/nanumgothiccoding
 pkgdesc="Google Fonts family: Nanum Gothic Coding"
 arch=('any')
 url="https://fonts.google.com/specimen/Nanum+Gothic+Coding"

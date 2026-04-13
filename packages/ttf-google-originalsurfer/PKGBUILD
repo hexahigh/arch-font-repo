@@ -1,7 +1,7 @@
 pkgname=ttf-google-originalsurfer
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/originalsurfer
+_commit="8fbb00486c972def618a8bb25f0c98b775903d7e"  # Latest commit touching ofl/originalsurfer
 pkgdesc="Google Fonts family: Original Surfer"
 arch=('any')
 url="https://fonts.google.com/specimen/Original+Surfer"

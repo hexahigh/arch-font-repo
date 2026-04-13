@@ -1,7 +1,7 @@
 pkgname=ttf-google-lobstertwo
 pkgver=1.006
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lobstertwo
+_commit="e1051bf966ef88f4539d72dde88599ffad3deb16"  # Latest commit touching ofl/lobstertwo
 pkgdesc="Google Fonts family: Lobster Two"
 arch=('any')
 url="https://fonts.google.com/specimen/Lobster+Two"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-yatraone
 pkgver=1.002
 pkgrel=1
-_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yatraone
+_commit="8cba629d9f46b10f283a73e44ee3bc59e1b28ebe"  # Latest commit touching ofl/yatraone
 pkgdesc="Google Fonts family: Yatra One"
 arch=('any')
 url="https://fonts.google.com/specimen/Yatra+One"

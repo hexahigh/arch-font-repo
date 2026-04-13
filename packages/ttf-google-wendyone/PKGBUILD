@@ -1,7 +1,7 @@
 pkgname=ttf-google-wendyone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/wendyone
+_commit="72c30836db851fdfc71d3f41da138616a6b5c799"  # Latest commit touching ofl/wendyone
 pkgdesc="Google Fonts family: Wendy One"
 arch=('any')
 url="https://fonts.google.com/specimen/Wendy+One"

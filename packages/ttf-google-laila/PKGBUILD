@@ -1,7 +1,7 @@
 pkgname=ttf-google-laila
 pkgver=1.302
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/laila
+_commit="8c015935b505b3694c8a755162ecd1bbce9fd0d9"  # Latest commit touching ofl/laila
 pkgdesc="Google Fonts family: Laila"
 arch=('any')
 url="https://fonts.google.com/specimen/Laila"

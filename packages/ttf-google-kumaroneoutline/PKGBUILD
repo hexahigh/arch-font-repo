@@ -1,7 +1,7 @@
 pkgname=ttf-google-kumaroneoutline
 pkgver=1.000
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kumaroneoutline
+_commit="c02bb4b147153f91a04f6ba8382c6f8272222188"  # Latest commit touching ofl/kumaroneoutline
 pkgdesc="Google Fonts family: Kumar One Outline"
 arch=('any')
 url="https://fonts.google.com/specimen/Kumar+One+Outline"

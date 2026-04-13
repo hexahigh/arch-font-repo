@@ -1,7 +1,7 @@
 pkgname=ttf-google-muktamalar
 pkgver=2.538
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/muktamalar
+_commit="354844b814b53288a1650dadb76098929dcd2b19"  # Latest commit touching ofl/muktamalar
 pkgdesc="Google Fonts family: Mukta Malar"
 arch=('any')
 url="https://fonts.google.com/specimen/Mukta+Malar"

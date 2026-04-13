@@ -1,7 +1,7 @@
 pkgname=ttf-google-kayphodu
 pkgver=3.000
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kayphodu
+_commit="b4fe8902fe1aefca6a38c2921b10cc0852242034"  # Latest commit touching ofl/kayphodu
 pkgdesc="Google Fonts family: Kay Pho Du"
 arch=('any')
 url="https://fonts.google.com/specimen/Kay+Pho+Du"

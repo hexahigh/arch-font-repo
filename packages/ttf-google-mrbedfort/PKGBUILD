@@ -1,7 +1,7 @@
 pkgname=ttf-google-mrbedfort
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mrbedfort
+_commit="e57b8e9964ee3a2ec75abd53a40617418910a58d"  # Latest commit touching ofl/mrbedfort
 pkgdesc="Google Fonts family: Mr Bedfort"
 arch=('any')
 url="https://fonts.google.com/specimen/Mr+Bedfort"

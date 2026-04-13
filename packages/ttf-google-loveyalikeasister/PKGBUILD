@@ -1,7 +1,7 @@
 pkgname=ttf-google-loveyalikeasister
 pkgver=1.002
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/loveyalikeasister
+_commit="a6c7ad9f76cd852957604754a88bd0ce68de2251"  # Latest commit touching ofl/loveyalikeasister
 pkgdesc="Google Fonts family: Love Ya Like A Sister"
 arch=('any')
 url="https://fonts.google.com/specimen/Love+Ya+Like+A+Sister"

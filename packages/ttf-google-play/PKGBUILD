@@ -1,7 +1,7 @@
 pkgname=ttf-google-play
 pkgver=2.101
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/play
+_commit="51c6a423fbfbd78a5111241dfd07791644b4c5c6"  # Latest commit touching ofl/play
 pkgdesc="Google Fonts family: Play"
 arch=('any')
 url="https://fonts.google.com/specimen/Play"

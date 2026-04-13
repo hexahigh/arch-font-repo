@@ -1,7 +1,7 @@
 pkgname=ttf-google-meddon
 pkgver=1.000
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/meddon
+_commit="30c61ef30bf7b89629cf20a2f9b52f76f367c400"  # Latest commit touching ofl/meddon
 pkgdesc="Google Fonts family: Meddon"
 arch=('any')
 url="https://fonts.google.com/specimen/Meddon"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-firasans
 pkgver=4.203
 pkgrel=1
-_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firasans
+_commit="e345593da2a4d596212542edbd28f2ed08fe6cbe"  # Latest commit touching ofl/firasans
 pkgdesc="Google Fonts family: Fira Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Fira+Sans"

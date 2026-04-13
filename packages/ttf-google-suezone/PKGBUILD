@@ -1,7 +1,7 @@
 pkgname=ttf-google-suezone
 pkgver=1.001
 pkgrel=1
-_commit="df36bf1482130a95c54d7c8797d0715407e065b7"  # Latest commit touching ofl/suezone
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/suezone
 pkgdesc="Google Fonts family: Suez One"
 arch=('any')
 url="https://fonts.google.com/specimen/Suez+One"

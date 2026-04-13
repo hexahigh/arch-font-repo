@@ -1,7 +1,7 @@
 pkgname=ttf-google-numans
 pkgver=001.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/numans
+_commit="db033527e404fefcab3a06b8858cf91d1b62350d"  # Latest commit touching ofl/numans
 pkgdesc="Google Fonts family: Numans"
 arch=('any')
 url="https://fonts.google.com/specimen/Numans"

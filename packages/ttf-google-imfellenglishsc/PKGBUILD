@@ -1,7 +1,7 @@
 pkgname=ttf-google-imfellenglishsc
 pkgver=3.00
 pkgrel=1
-_commit="b00f3ca7e4454ea4305198b93f8aab4962b2ee66"  # Latest commit touching ofl/imfellenglishsc
+_commit="a0a380dcefcb4927f09c4439c687f03d2f10183e"  # Latest commit touching ofl/imfellenglishsc
 pkgdesc="Google Fonts family: IM Fell English SC"
 arch=('any')
 url="https://fonts.google.com/specimen/IM+Fell+English+SC"

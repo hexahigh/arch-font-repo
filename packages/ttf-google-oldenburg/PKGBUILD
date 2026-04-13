@@ -1,7 +1,7 @@
 pkgname=ttf-google-oldenburg
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/oldenburg
+_commit="ae9d3c809fc69f9393ef646dc2022dfe5179dd47"  # Latest commit touching ofl/oldenburg
 pkgdesc="Google Fonts family: Oldenburg"
 arch=('any')
 url="https://fonts.google.com/specimen/Oldenburg"

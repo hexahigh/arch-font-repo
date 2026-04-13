@@ -1,7 +1,7 @@
 pkgname=ttf-google-sonsieone
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sonsieone
+_commit="56e9ff00d51898dbf9de24b396de10ae6607e932"  # Latest commit touching ofl/sonsieone
 pkgdesc="Google Fonts family: Sonsie One"
 arch=('any')
 url="https://fonts.google.com/specimen/Sonsie+One"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-leaguescript
 pkgver=1.001
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/leaguescript
+_commit="d2fe750bb2c1140c2371fb30de1279b0e178d824"  # Latest commit touching ofl/leaguescript
 pkgdesc="Google Fonts family: League Script"
 arch=('any')
 url="https://fonts.google.com/specimen/League+Script"

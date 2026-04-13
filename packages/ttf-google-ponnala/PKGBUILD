@@ -1,7 +1,7 @@
 pkgname=ttf-google-ponnala
 pkgver=1.0.3
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ponnala
+_commit="0c0ae5c617bf18f888854c0470efc858dcececd0"  # Latest commit touching ofl/ponnala
 pkgdesc="Google Fonts family: Ponnala"
 arch=('any')
 url="https://fonts.google.com/specimen/Ponnala"

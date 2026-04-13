@@ -1,7 +1,7 @@
 pkgname=ttf-google-kenia
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kenia
+_commit="db07a23ae260595b2d038bbf683597eb63f735f8"  # Latest commit touching ofl/kenia
 pkgdesc="Google Fonts family: Kenia"
 arch=('any')
 url="https://fonts.google.com/specimen/Kenia"

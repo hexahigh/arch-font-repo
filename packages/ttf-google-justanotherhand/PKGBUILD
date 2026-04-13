@@ -1,7 +1,7 @@
 pkgname=ttf-google-justanotherhand
 pkgver=1.001
 pkgrel=1
-_commit="792e678c6666265e6d719e0eb02f303c70ec78df"  # Latest commit touching apache/justanotherhand
+_commit="9bd941c4194f760ad356a38cade454f4e9423c6d"  # Latest commit touching apache/justanotherhand
 pkgdesc="Google Fonts family: Just Another Hand"
 arch=('any')
 url="https://fonts.google.com/specimen/Just+Another+Hand"

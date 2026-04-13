@@ -1,7 +1,7 @@
 pkgname=ttf-google-modak
 pkgver=1.036
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/modak
+_commit="2212fc24569bebbffe49452e3c1f363f89949eb9"  # Latest commit touching ofl/modak
 pkgdesc="Google Fonts family: Modak"
 arch=('any')
 url="https://fonts.google.com/specimen/Modak"

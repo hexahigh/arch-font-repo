@@ -1,7 +1,7 @@
 pkgname=ttf-google-inriasans
 pkgver=1.2
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inriasans
+_commit="8d63e2c36856504e098e4b3d8a3fad48183cd3fd"  # Latest commit touching ofl/inriasans
 pkgdesc="Google Fonts family: Inria Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Inria+Sans"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-textmeone
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/textmeone
+_commit="685b4da4738968efb47ec4674c9b36ec944d8abe"  # Latest commit touching ofl/textmeone
 pkgdesc="Google Fonts family: Text Me One"
 arch=('any')
 url="https://fonts.google.com/specimen/Text+Me+One"

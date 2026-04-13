@@ -1,7 +1,7 @@
 pkgname=ttf-google-quando
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quando
+_commit="1dbb37669d2b49899c6d0e4bc7b55c9cc35d5f60"  # Latest commit touching ofl/quando
 pkgdesc="Google Fonts family: Quando"
 arch=('any')
 url="https://fonts.google.com/specimen/Quando"

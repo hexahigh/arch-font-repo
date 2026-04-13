@@ -1,7 +1,7 @@
 pkgname=ttf-google-nothingyoucoulddo
 pkgver=1.005
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nothingyoucoulddo
+_commit="cb3271a955200f72557673e25eced6f5521f2cca"  # Latest commit touching ofl/nothingyoucoulddo
 pkgdesc="Google Fonts family: Nothing You Could Do"
 arch=('any')
 url="https://fonts.google.com/specimen/Nothing+You+Could+Do"

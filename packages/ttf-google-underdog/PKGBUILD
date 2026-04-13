@@ -1,7 +1,7 @@
 pkgname=ttf-google-underdog
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/underdog
+_commit="e2e05bcbd83b91df816ab6c908db1964c47a8bc9"  # Latest commit touching ofl/underdog
 pkgdesc="Google Fonts family: Underdog"
 arch=('any')
 url="https://fonts.google.com/specimen/Underdog"

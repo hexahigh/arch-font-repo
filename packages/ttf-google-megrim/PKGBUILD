@@ -1,7 +1,7 @@
 pkgname=ttf-google-megrim
 pkgver=20110427
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/megrim
+_commit="e26113d768ba0575e93169535f1efdb144a425c0"  # Latest commit touching ofl/megrim
 pkgdesc="Google Fonts family: Megrim"
 arch=('any')
 url="https://fonts.google.com/specimen/Megrim"

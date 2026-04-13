@@ -1,7 +1,7 @@
 pkgname=ttf-google-salsa
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/salsa
+_commit="56c33d6822f9411ed8de5a1dcb37cf16c412c428"  # Latest commit touching ofl/salsa
 pkgdesc="Google Fonts family: Salsa"
 arch=('any')
 url="https://fonts.google.com/specimen/Salsa"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-rye
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rye
+_commit="5b7e57eb0a1df583e917dbce017554f6bd2b263f"  # Latest commit touching ofl/rye
 pkgdesc="Google Fonts family: Rye"
 arch=('any')
 url="https://fonts.google.com/specimen/Rye"

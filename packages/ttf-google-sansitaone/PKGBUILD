@@ -1,7 +1,7 @@
 pkgname=ttf-google-sansitaone
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sansitaone
+_commit="473687c62c2d9aaead98e18fc2e725659d7f49ff"  # Latest commit touching ofl/sansitaone
 pkgdesc="Google Fonts family: Sansita One"
 arch=('any')
 url="https://fonts.google.com/specimen/Sansita+One"

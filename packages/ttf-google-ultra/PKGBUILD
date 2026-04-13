@@ -1,7 +1,7 @@
 pkgname=ttf-google-ultra
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/ultra
+_commit="3c4ceb25cab01e4d2f1b4a717a3abe89cfe8c793"  # Latest commit touching apache/ultra
 pkgdesc="Google Fonts family: Ultra"
 arch=('any')
 url="https://fonts.google.com/specimen/Ultra"

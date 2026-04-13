@@ -1,7 +1,7 @@
 pkgname=ttf-google-ubuntu
 pkgver=0.83
 pkgrel=1
-_commit="a4f3deeca2d7547351ff746f7bf3b51f5528dbcf"  # Latest commit touching ufl/ubuntu
+_commit="4c1746968e564f687b4fd72af187597a4a6f11fe"  # Latest commit touching ufl/ubuntu
 pkgdesc="Google Fonts family: Ubuntu"
 arch=('any')
 url="https://fonts.google.com/specimen/Ubuntu"

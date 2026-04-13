@@ -1,7 +1,7 @@
 pkgname=ttf-google-ptsanscaption
 pkgver=2.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ptsanscaption
+_commit="6d6e07c035ef3c3a3d06b02171da2c3e75d25e75"  # Latest commit touching ofl/ptsanscaption
 pkgdesc="Google Fonts family: PT Sans Caption"
 arch=('any')
 url="https://fonts.google.com/specimen/PT+Sans+Caption"

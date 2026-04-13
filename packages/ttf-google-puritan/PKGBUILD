@@ -1,7 +1,7 @@
 pkgname=ttf-google-puritan
 pkgver=2.1
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/puritan
+_commit="f23a0528973190b0f10b57a717cb89e519d5ef2d"  # Latest commit touching ofl/puritan
 pkgdesc="Google Fonts family: Puritan"
 arch=('any')
 url="https://fonts.google.com/specimen/Puritan"

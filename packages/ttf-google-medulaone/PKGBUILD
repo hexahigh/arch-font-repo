@@ -1,7 +1,7 @@
 pkgname=ttf-google-medulaone
 pkgver=1.002
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/medulaone
+_commit="a71769759ec1c6ab7431f365dd573f8a2ce36723"  # Latest commit touching ofl/medulaone
 pkgdesc="Google Fonts family: Medula One"
 arch=('any')
 url="https://fonts.google.com/specimen/Medula+One"

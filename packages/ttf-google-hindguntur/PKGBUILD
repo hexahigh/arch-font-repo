@@ -1,7 +1,7 @@
 pkgname=ttf-google-hindguntur
 pkgver=1.002
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindguntur
+_commit="dfebe21ae47829e4b82fb91593be3ae9471b34eb"  # Latest commit touching ofl/hindguntur
 pkgdesc="Google Fonts family: Hind Guntur"
 arch=('any')
 url="https://fonts.google.com/specimen/Hind+Guntur"

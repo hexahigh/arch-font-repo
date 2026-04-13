@@ -1,7 +1,7 @@
 pkgname=ttf-google-kranky
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching apache/kranky
+_commit="6d2678a97784bdab91857068335cb88683f0d6dc"  # Latest commit touching apache/kranky
 pkgdesc="Google Fonts family: Kranky"
 arch=('any')
 url="https://fonts.google.com/specimen/Kranky"

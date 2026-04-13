@@ -1,7 +1,7 @@
 pkgname=ttf-google-siemreap
 pkgver=6.00
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/siemreap
+_commit="c1385139f0f8fd9dd5d51966f91ca85cb8bd8388"  # Latest commit touching ofl/siemreap
 pkgdesc="Google Fonts family: Siemreap"
 arch=('any')
 url="https://fonts.google.com/specimen/Siemreap"

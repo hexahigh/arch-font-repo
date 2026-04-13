@@ -1,7 +1,7 @@
 pkgname=ttf-google-margarine
 pkgver=1.000
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/margarine
+_commit="021e4f3701060346dc43a8cdea7cd677bdb26876"  # Latest commit touching ofl/margarine
 pkgdesc="Google Fonts family: Margarine"
 arch=('any')
 url="https://fonts.google.com/specimen/Margarine"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-lilitaone
 pkgver=1.002
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lilitaone
+_commit="b9f4a43f3684f93a02b88133755deb51508c2fcf"  # Latest commit touching ofl/lilitaone
 pkgdesc="Google Fonts family: Lilita One"
 arch=('any')
 url="https://fonts.google.com/specimen/Lilita+One"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-enriqueta
 pkgver=2.000
 pkgrel=1
-_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/enriqueta
+_commit="668fee8c5a8b6aca48d5482261168e20f0ce7382"  # Latest commit touching ofl/enriqueta
 pkgdesc="Google Fonts family: Enriqueta"
 arch=('any')
 url="https://fonts.google.com/specimen/Enriqueta"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-gentiumbookplus
 pkgver=6.101
 pkgrel=1
-_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/gentiumbookplus
+_commit="b5164365710e54bf3bbc4abd16f0f79a6ef3a131"  # Latest commit touching ofl/gentiumbookplus
 pkgdesc="Google Fonts family: Gentium Book Plus"
 arch=('any')
 url="https://fonts.google.com/specimen/Gentium+Book+Plus"

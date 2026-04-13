@@ -1,7 +1,7 @@
 pkgname=ttf-google-ranga
 pkgver=1.0.2
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ranga
+_commit="b3f5bc8a8ce44b13789f72abcd13c0f915d01812"  # Latest commit touching ofl/ranga
 pkgdesc="Google Fonts family: Ranga"
 arch=('any')
 url="https://fonts.google.com/specimen/Ranga"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-plaster
 pkgver=1.007
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/plaster
+_commit="634e11037cdb8e5f2b02b750e790dd18140707b0"  # Latest commit touching ofl/plaster
 pkgdesc="Google Fonts family: Plaster"
 arch=('any')
 url="https://fonts.google.com/specimen/Plaster"

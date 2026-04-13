@@ -1,7 +1,7 @@
 pkgname=ttf-google-hindjalandhar
 pkgver=0.702
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindjalandhar
+_commit="b3da6516a278bc434699e17bda77534792ca113e"  # Latest commit touching ofl/hindjalandhar
 pkgdesc="Google Fonts family: Hind Jalandhar"
 arch=('any')
 url="https://fonts.google.com/specimen/Hind+Jalandhar"

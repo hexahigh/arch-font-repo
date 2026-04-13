@@ -1,7 +1,7 @@
 pkgname=ttf-google-kottaone
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kottaone
+_commit="a9464593f253576773a18243d99e93c5b2bd0892"  # Latest commit touching ofl/kottaone
 pkgdesc="Google Fonts family: Kotta One"
 arch=('any')
 url="https://fonts.google.com/specimen/Kotta+One"

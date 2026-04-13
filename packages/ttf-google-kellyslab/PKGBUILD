@@ -1,7 +1,7 @@
 pkgname=ttf-google-kellyslab
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kellyslab
+_commit="ec2a70eddd695b8bfaa89d5c1e8157b5e4443010"  # Latest commit touching ofl/kellyslab
 pkgdesc="Google Fonts family: Kelly Slab"
 arch=('any')
 url="https://fonts.google.com/specimen/Kelly+Slab"

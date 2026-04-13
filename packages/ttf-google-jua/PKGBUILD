@@ -1,7 +1,7 @@
 pkgname=ttf-google-jua
 pkgver=1.001
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jua
+_commit="69d2493f8b919292a9c4b530081934877093c038"  # Latest commit touching ofl/jua
 pkgdesc="Google Fonts family: Jua"
 arch=('any')
 url="https://fonts.google.com/specimen/Jua"

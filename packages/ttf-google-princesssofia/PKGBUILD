@@ -1,7 +1,7 @@
 pkgname=ttf-google-princesssofia
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/princesssofia
+_commit="01fe8dc8622400d8b1d5e214b788f79ce13a7a60"  # Latest commit touching ofl/princesssofia
 pkgdesc="Google Fonts family: Princess Sofia"
 arch=('any')
 url="https://fonts.google.com/specimen/Princess+Sofia"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-patrickhand
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/patrickhand
+_commit="aeb9574d3cb4ab2ac5de70a8c730b11662281803"  # Latest commit touching ofl/patrickhand
 pkgdesc="Google Fonts family: Patrick Hand"
 arch=('any')
 url="https://fonts.google.com/specimen/Patrick+Hand"

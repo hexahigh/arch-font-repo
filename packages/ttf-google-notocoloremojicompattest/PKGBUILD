@@ -1,7 +1,7 @@
 pkgname=ttf-google-notocoloremojicompattest
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notocoloremojicompattest
+_commit="e413cae1fe2b7ffd5107d4a8b5370506711848a3"  # Latest commit touching ofl/notocoloremojicompattest
 pkgdesc="Google Fonts family: Noto Color Emoji Compat Test"
 arch=('any')
 url="https://fonts.google.com/specimen/Noto+Color+Emoji+Compat+Test"

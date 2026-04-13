@@ -1,7 +1,7 @@
 pkgname=ttf-google-khmer
 pkgver=2.00
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/khmer
+_commit="8ff38478c21d79318f529d0d3157e422d3f626a9"  # Latest commit touching ofl/khmer
 pkgdesc="Google Fonts family: Khmer"
 arch=('any')
 url="https://fonts.google.com/specimen/Khmer"

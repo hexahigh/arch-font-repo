@@ -1,7 +1,7 @@
 pkgname=ttf-google-redressed
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/redressed
+_commit="061ded413e069e0647ba2a03d9318acc81a3c79f"  # Latest commit touching apache/redressed
 pkgdesc="Google Fonts family: Redressed"
 arch=('any')
 url="https://fonts.google.com/specimen/Redressed"

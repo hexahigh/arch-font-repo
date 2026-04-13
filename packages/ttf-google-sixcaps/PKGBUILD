@@ -1,7 +1,7 @@
 pkgname=ttf-google-sixcaps
 pkgver=001.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sixcaps
+_commit="18ed13c956f09a07f652e209508aea021a5e32bf"  # Latest commit touching ofl/sixcaps
 pkgdesc="Google Fonts family: Six Caps"
 arch=('any')
 url="https://fonts.google.com/specimen/Six+Caps"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-kronaone
 pkgver=1.003
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kronaone
+_commit="dc7a94ba6d609415156f7fda5f48fbfaef183ec7"  # Latest commit touching ofl/kronaone
 pkgdesc="Google Fonts family: Krona One"
 arch=('any')
 url="https://fonts.google.com/specimen/Krona+One"

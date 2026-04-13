@@ -1,7 +1,7 @@
 pkgname=ttf-google-yellowtail
 pkgver=001.002
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/yellowtail
+_commit="e77fdf0f4f6757f773feeea5603898e7d875dceb"  # Latest commit touching apache/yellowtail
 pkgdesc="Google Fonts family: Yellowtail"
 arch=('any')
 url="https://fonts.google.com/specimen/Yellowtail"

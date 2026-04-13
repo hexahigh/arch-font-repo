@@ -1,7 +1,7 @@
 pkgname=ttf-google-poly
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/poly
+_commit="6032a8073954d9a94207b25b0d682592375f4625"  # Latest commit touching ofl/poly
 pkgdesc="Google Fonts family: Poly"
 arch=('any')
 url="https://fonts.google.com/specimen/Poly"

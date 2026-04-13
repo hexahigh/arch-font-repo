@@ -1,7 +1,7 @@
 pkgname=ttf-google-pragatinarrow
 pkgver=1.010
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/pragatinarrow
+_commit="d1782c7943f618009da3ca7f6909ffa45dd45b17"  # Latest commit touching ofl/pragatinarrow
 pkgdesc="Google Fonts family: Pragati Narrow"
 arch=('any')
 url="https://fonts.google.com/specimen/Pragati+Narrow"

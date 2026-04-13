@@ -1,7 +1,7 @@
 pkgname=ttf-google-waitingforthesunrise
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/waitingforthesunrise
+_commit="a3f54021b4d9b5d97fea68221755d0f75a96ea75"  # Latest commit touching ofl/waitingforthesunrise
 pkgdesc="Google Fonts family: Waiting for the Sunrise"
 arch=('any')
 url="https://fonts.google.com/specimen/Waiting+for+the+Sunrise"

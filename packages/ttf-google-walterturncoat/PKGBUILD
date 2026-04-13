@@ -1,7 +1,7 @@
 pkgname=ttf-google-walterturncoat
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/walterturncoat
+_commit="5b59f48db4fdcacdd5bbcd50100d7f40864d4c57"  # Latest commit touching apache/walterturncoat
 pkgdesc="Google Fonts family: Walter Turncoat"
 arch=('any')
 url="https://fonts.google.com/specimen/Walter+Turncoat"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-sharetechmono
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sharetechmono
+_commit="c5a3a1b83fb771759f48d1abdee0127eaec63a97"  # Latest commit touching ofl/sharetechmono
 pkgdesc="Google Fonts family: Share Tech Mono"
 arch=('any')
 url="https://fonts.google.com/specimen/Share+Tech+Mono"

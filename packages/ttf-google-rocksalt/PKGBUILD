@@ -1,7 +1,7 @@
 pkgname=ttf-google-rocksalt
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/rocksalt
+_commit="b91c01c6e3eb21891c27c613b483b3afd68c5410"  # Latest commit touching apache/rocksalt
 pkgdesc="Google Fonts family: Rock Salt"
 arch=('any')
 url="https://fonts.google.com/specimen/Rock+Salt"

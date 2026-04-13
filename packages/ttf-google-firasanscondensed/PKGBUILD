@@ -1,7 +1,7 @@
 pkgname=ttf-google-firasanscondensed
 pkgver=4.203
 pkgrel=1
-_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firasanscondensed
+_commit="2b2055d521eb857325e0f5ee1bfa36aabb5c5b0d"  # Latest commit touching ofl/firasanscondensed
 pkgdesc="Google Fonts family: Fira Sans Condensed"
 arch=('any')
 url="https://fonts.google.com/specimen/Fira+Sans+Condensed"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-missfajardose
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/missfajardose
+_commit="ffc6a1c0d611d3c2cae621e27dce8c48f189a563"  # Latest commit touching ofl/missfajardose
 pkgdesc="Google Fonts family: Miss Fajardose"
 arch=('any')
 url="https://fonts.google.com/specimen/Miss+Fajardose"

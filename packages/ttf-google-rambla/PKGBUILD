@@ -1,7 +1,7 @@
 pkgname=ttf-google-rambla
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rambla
+_commit="98b91755663675fcdf24a4dd539d821168cd524d"  # Latest commit touching ofl/rambla
 pkgdesc="Google Fonts family: Rambla"
 arch=('any')
 url="https://fonts.google.com/specimen/Rambla"

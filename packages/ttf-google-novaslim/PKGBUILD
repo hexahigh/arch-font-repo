@@ -1,7 +1,7 @@
 pkgname=ttf-google-novaslim
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novaslim
+_commit="8d17a64511fd03ccf1f80e910524c604460f7ae8"  # Latest commit touching ofl/novaslim
 pkgdesc="Google Fonts family: Nova Slim"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Slim"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-milonga
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/milonga
+_commit="ce943edd1fb80c347bca6132476c87be2cccffd3"  # Latest commit touching ofl/milonga
 pkgdesc="Google Fonts family: Milonga"
 arch=('any')
 url="https://fonts.google.com/specimen/Milonga"

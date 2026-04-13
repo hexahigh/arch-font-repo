@@ -1,7 +1,7 @@
 pkgname=ttf-google-magra
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/magra
+_commit="45fe3cfa41d1e4faaa1078c7637ed803e192b3aa"  # Latest commit touching ofl/magra
 pkgdesc="Google Fonts family: Magra"
 arch=('any')
 url="https://fonts.google.com/specimen/Magra"

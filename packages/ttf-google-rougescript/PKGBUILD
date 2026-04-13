@@ -1,7 +1,7 @@
 pkgname=ttf-google-rougescript
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rougescript
+_commit="a0c23382f91ea18b655b4386e43d5dff6562a1a9"  # Latest commit touching ofl/rougescript
 pkgdesc="Google Fonts family: Rouge Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Rouge+Script"

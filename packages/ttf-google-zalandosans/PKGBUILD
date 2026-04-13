@@ -1,7 +1,7 @@
 pkgname=ttf-google-zalandosans
-pkgver=1.700
+pkgver=1.800
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zalandosans
+_commit="84e6b03dc0ace8f84973eac176e1430eeec1aea4"  # Latest commit touching ofl/zalandosans
 pkgdesc="Google Fonts family: Zalando Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Zalando+Sans"
@@ -15,8 +15,8 @@ source=(
 )
 sha256sums=(
   "411a22de2734b25584e4764f7212b004f241181ac04944a3bcee0e0371afe547"
-  "a52200aa7b8c049f7263012091b9a073c365e6882a2dcd973bcb97a633c5c495"
-  "caa069204e67208a03444e82fa5f51a8f9c1149c96df9390e0ef2da007b57da6"
+  "70dcf38b38ee3f179211f4a43f99a4cf4e976e16336676d83ae83a8e79078336"
+  "9ef9c85d9b108f588858e045aee46ebbc8e324002d1891c2f662d40a2704dcd8"
 )
 
 package() {

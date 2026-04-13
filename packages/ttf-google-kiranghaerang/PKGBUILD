@@ -1,7 +1,7 @@
 pkgname=ttf-google-kiranghaerang
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kiranghaerang
+_commit="8d488c33137669adbba627f9b2d3a29f5d631fb3"  # Latest commit touching ofl/kiranghaerang
 pkgdesc="Google Fonts family: Kirang Haerang"
 arch=('any')
 url="https://fonts.google.com/specimen/Kirang+Haerang"

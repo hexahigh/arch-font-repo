@@ -1,7 +1,7 @@
 pkgname=ttf-google-synetactile
 pkgver=2.100
 pkgrel=1
-_commit="6973827ce1339f7f32adc4a7c41d5f607a0ffb48"  # Latest commit touching ofl/synetactile
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/synetactile
 pkgdesc="Google Fonts family: Syne Tactile"
 arch=('any')
 url="https://fonts.google.com/specimen/Syne+Tactile"

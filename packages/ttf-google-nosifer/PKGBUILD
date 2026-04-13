@@ -1,7 +1,7 @@
 pkgname=ttf-google-nosifer
 pkgver=001.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nosifer
+_commit="98fd0aacb97e948a642d2ad82048cfa8ade64bfa"  # Latest commit touching ofl/nosifer
 pkgdesc="Google Fonts family: Nosifer"
 arch=('any')
 url="https://fonts.google.com/specimen/Nosifer"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-akronim
 pkgver=1.002
 pkgrel=1
-_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/akronim
+_commit="585d3e2e90e8e7a4e463956ea010aeceea9e8193"  # Latest commit touching ofl/akronim
 pkgdesc="Google Fonts family: Akronim"
 arch=('any')
 url="https://fonts.google.com/specimen/Akronim"

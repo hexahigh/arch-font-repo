@@ -1,7 +1,7 @@
 pkgname=ttf-google-rumraisin
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rumraisin
+_commit="08864a822b78dd27f3ec47f41d0deeafe1f9c1b2"  # Latest commit touching ofl/rumraisin
 pkgdesc="Google Fonts family: Rum Raisin"
 arch=('any')
 url="https://fonts.google.com/specimen/Rum+Raisin"

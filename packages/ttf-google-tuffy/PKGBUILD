@@ -1,7 +1,7 @@
 pkgname=ttf-google-tuffy
 pkgver=1.272
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tuffy
+_commit="ecd9da9f7f80d7460114fe189971a47a23d84b9e"  # Latest commit touching ofl/tuffy
 pkgdesc="Google Fonts family: Tuffy"
 arch=('any')
 url="https://fonts.google.com/specimen/Tuffy"

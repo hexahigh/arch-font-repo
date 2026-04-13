@@ -1,7 +1,7 @@
 pkgname=ttf-google-lekton
 pkgver=34.000
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lekton
+_commit="27b320be51a8b3c38b1f336b5c6d465ed4d09552"  # Latest commit touching ofl/lekton
 pkgdesc="Google Fonts family: Lekton"
 arch=('any')
 url="https://fonts.google.com/specimen/Lekton"

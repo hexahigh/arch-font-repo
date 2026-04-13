@@ -1,7 +1,7 @@
 pkgname=ttf-google-molle
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/molle
+_commit="b270f3a60d9565e4a7b0a07fc07890a783297890"  # Latest commit touching ofl/molle
 pkgdesc="Google Fonts family: Molle"
 arch=('any')
 url="https://fonts.google.com/specimen/Molle"

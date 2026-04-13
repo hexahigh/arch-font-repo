@@ -1,7 +1,7 @@
 pkgname=ttf-google-tauri
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tauri
+_commit="7b319787a55c38e2c687cc458e75e6a225304a78"  # Latest commit touching ofl/tauri
 pkgdesc="Google Fonts family: Tauri"
 arch=('any')
 url="https://fonts.google.com/specimen/Tauri"

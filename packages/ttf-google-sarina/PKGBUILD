@@ -1,7 +1,7 @@
 pkgname=ttf-google-sarina
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sarina
+_commit="b2692516cb83eb9cce0f791ce4c74dfbb3b6808e"  # Latest commit touching ofl/sarina
 pkgdesc="Google Fonts family: Sarina"
 arch=('any')
 url="https://fonts.google.com/specimen/Sarina"

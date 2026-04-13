@@ -1,7 +1,7 @@
 pkgname=ttf-google-jsmathcmex10
 pkgver=001.001
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching apache/jsmathcmex10
+_commit="228ee273e2f87e53f7d2eb461424cab31926aec2"  # Latest commit touching apache/jsmathcmex10
 pkgdesc="Google Fonts family: jsMath cmex10"
 arch=('any')
 url="https://fonts.google.com/specimen/jsMath+cmex10"

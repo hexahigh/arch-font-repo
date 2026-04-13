@@ -1,7 +1,7 @@
 pkgname=ttf-google-grandhotel
 pkgver=001.000
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/grandhotel
+_commit="8920a9c7f5895b4134e0ca5d42b8b3c8cffbd4df"  # Latest commit touching ofl/grandhotel
 pkgdesc="Google Fonts family: Grand Hotel"
 arch=('any')
 url="https://fonts.google.com/specimen/Grand+Hotel"

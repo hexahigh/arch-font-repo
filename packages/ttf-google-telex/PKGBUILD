@@ -1,7 +1,7 @@
 pkgname=ttf-google-telex
 pkgver=1.100
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/telex
+_commit="2c7530894c89c1fa40f25c90cd90834c1cb3a8d1"  # Latest commit touching ofl/telex
 pkgdesc="Google Fonts family: Telex"
 arch=('any')
 url="https://fonts.google.com/specimen/Telex"

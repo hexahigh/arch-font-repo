@@ -1,7 +1,7 @@
 pkgname=ttf-google-hachimarupop
 pkgver=1.300
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hachimarupop
+_commit="252adbcc5e3722bd514c424c4a4395127f18d73c"  # Latest commit touching ofl/hachimarupop
 pkgdesc="Google Fonts family: Hachi Maru Pop"
 arch=('any')
 url="https://fonts.google.com/specimen/Hachi+Maru+Pop"

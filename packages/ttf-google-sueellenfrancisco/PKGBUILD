@@ -1,7 +1,7 @@
 pkgname=ttf-google-sueellenfrancisco
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sueellenfrancisco
+_commit="2483fb9fd9d6046927de4d80b3434d95e84e5712"  # Latest commit touching ofl/sueellenfrancisco
 pkgdesc="Google Fonts family: Sue Ellen Francisco"
 arch=('any')
 url="https://fonts.google.com/specimen/Sue+Ellen+Francisco"

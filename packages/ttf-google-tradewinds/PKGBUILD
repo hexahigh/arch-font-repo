@@ -1,7 +1,7 @@
 pkgname=ttf-google-tradewinds
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tradewinds
+_commit="04b01b692e5bb9126737bf22da3ff58becfdd397"  # Latest commit touching ofl/tradewinds
 pkgdesc="Google Fonts family: Trade Winds"
 arch=('any')
 url="https://fonts.google.com/specimen/Trade+Winds"

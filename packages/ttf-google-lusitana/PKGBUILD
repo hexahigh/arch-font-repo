@@ -1,7 +1,7 @@
 pkgname=ttf-google-lusitana
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lusitana
+_commit="599f79ec517adb4423210c09b9a0bf40257ba02d"  # Latest commit touching ofl/lusitana
 pkgdesc="Google Fonts family: Lusitana"
 arch=('any')
 url="https://fonts.google.com/specimen/Lusitana"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-piedra
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/piedra
+_commit="26cb0b20ddbfdc2b5dd51cf33b104cfea4a0eacf"  # Latest commit touching ofl/piedra
 pkgdesc="Google Fonts family: Piedra"
 arch=('any')
 url="https://fonts.google.com/specimen/Piedra"

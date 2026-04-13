@@ -1,7 +1,7 @@
 pkgname=ttf-google-alef
 pkgver=1.002
 pkgrel=1
-_commit="fffdadf0f0c9cc1ec8b407063424a8bfbee05611"  # Latest commit touching ofl/alef
+_commit="a7e2f6192117ea6283d2b564f05c16c8466d2442"  # Latest commit touching ofl/alef
 pkgdesc="Google Fonts family: Alef"
 arch=('any')
 url="https://fonts.google.com/specimen/Alef"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-russoone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/russoone
+_commit="4adee181a4deb534a57245053f4102831c481890"  # Latest commit touching ofl/russoone
 pkgdesc="Google Fonts family: Russo One"
 arch=('any')
 url="https://fonts.google.com/specimen/Russo+One"

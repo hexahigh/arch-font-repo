@@ -1,7 +1,7 @@
 pkgname=ttf-google-lalezar
 pkgver=1.004
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lalezar
+_commit="8eb55ad201d429c782a4aa1e4236f71fb49b3758"  # Latest commit touching ofl/lalezar
 pkgdesc="Google Fonts family: Lalezar"
 arch=('any')
 url="https://fonts.google.com/specimen/Lalezar"

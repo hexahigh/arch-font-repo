@@ -1,7 +1,7 @@
 pkgname=ttf-google-mrssaintdelafield
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mrssaintdelafield
+_commit="b35a174d75ba798f6725ea0e720fbb0e9349dbe6"  # Latest commit touching ofl/mrssaintdelafield
 pkgdesc="Google Fonts family: Mrs Saint Delafield"
 arch=('any')
 url="https://fonts.google.com/specimen/Mrs+Saint+Delafield"

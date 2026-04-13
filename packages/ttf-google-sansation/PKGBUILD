@@ -1,7 +1,7 @@
 pkgname=ttf-google-sansation
 pkgver=1.301
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sansation
+_commit="bc594e0b93d627bea3ea0b75bf46d287045a5f4f"  # Latest commit touching ofl/sansation
 pkgdesc="Google Fonts family: Sansation"
 arch=('any')
 url="https://fonts.google.com/specimen/Sansation"

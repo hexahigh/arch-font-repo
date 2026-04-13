@@ -1,0 +1,38 @@
+pkgname=ttf-google-bjcree
+pkgver=7.000
+pkgrel=1
+_commit="b977700ca1a6a3ca008564068a8ec14219b574cd"  # Latest commit touching ofl/bjcree
+pkgdesc="Google Fonts family: BJ Cree"
+arch=('any')
+url="https://fonts.google.com/specimen/BJ+Cree"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/bjcree/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bjcree/BJCree-Bold.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bjcree/BJCree-Medium.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bjcree/BJCree-Regular.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/bjcree/BJCree-SemiBold.ttf"
+)
+sha256sums=(
+  "c635c0a4ed6dce0a7cd341c81cf99669c557298a45ae2443c56da8756cbaa14b"
+  "51c2e3fd42316d60b3647144fbb6b1f13bf1151f9898975bcca9a5b841e0795d"
+  "5278a48968c05688cdc54f38bc80dbded644b4085efe239d48b8a325151cd532"
+  "5a818bd24d64f809e6b6575a440443a1a4b5fef0580b9f9e7d6ef30ea9ac2ba8"
+  "1b4e2ad45dd61c56f87a70adda41dad6c6e72203b69940159a11e76be54ee886"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

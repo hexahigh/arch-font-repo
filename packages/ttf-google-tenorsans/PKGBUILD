@@ -1,7 +1,7 @@
 pkgname=ttf-google-tenorsans
 pkgver=1.1
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/tenorsans
+_commit="e955392475929bd297241188a11c06ca499e8267"  # Latest commit touching ofl/tenorsans
 pkgdesc="Google Fonts family: Tenor Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Tenor+Sans"

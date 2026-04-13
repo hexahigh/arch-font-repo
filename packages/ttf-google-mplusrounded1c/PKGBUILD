@@ -1,7 +1,7 @@
 pkgname=ttf-google-mplusrounded1c
 pkgver=1.059.20150529
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mplusrounded1c
+_commit="426166c2761133a04b449c5da9d98beea5e46ccd"  # Latest commit touching ofl/mplusrounded1c
 pkgdesc="Google Fonts family: M PLUS Rounded 1c"
 arch=('any')
 url="https://fonts.google.com/specimen/M+PLUS+Rounded+1c"

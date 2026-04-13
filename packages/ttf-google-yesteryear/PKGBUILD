@@ -1,7 +1,7 @@
 pkgname=ttf-google-yesteryear
 pkgver=1.000
 pkgrel=1
-_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yesteryear
+_commit="8c3db186f3fff8a3f6f98b0525c7918c48085d34"  # Latest commit touching ofl/yesteryear
 pkgdesc="Google Fonts family: Yesteryear"
 arch=('any')
 url="https://fonts.google.com/specimen/Yesteryear"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-passeroone
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/passeroone
+_commit="483fed853a500a9b158fc1498f09da40febb783f"  # Latest commit touching ofl/passeroone
 pkgdesc="Google Fonts family: Passero One"
 arch=('any')
 url="https://fonts.google.com/specimen/Passero+One"

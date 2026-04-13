@@ -1,7 +1,7 @@
 pkgname=ttf-google-montez
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/montez
+_commit="10467458584c9ed8b93b3b4e9101ebf3d8e5f593"  # Latest commit touching apache/montez
 pkgdesc="Google Fonts family: Montez"
 arch=('any')
 url="https://fonts.google.com/specimen/Montez"

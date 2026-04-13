@@ -1,7 +1,7 @@
 pkgname=ttf-google-ebgaramond
-pkgver=1.001
+pkgver=1.002
 pkgrel=1
-_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching ofl/ebgaramond
+_commit="c337133ee4c04681a7deef772aa83d439ddc775f"  # Latest commit touching ofl/ebgaramond
 pkgdesc="Google Fonts family: EB Garamond"
 arch=('any')
 url="https://fonts.google.com/specimen/EB+Garamond"
@@ -14,9 +14,9 @@ source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/ebgaramond/EBGaramond%5Bwght%5D.ttf"
 )
 sha256sums=(
-  "6f9e3a1c51f617e7b110862426204ec7a56d8c6d2f731373b5de6b8d069099b6"
-  "3b681621f9c52ef3e013955305009c5d00f85a50c612897a3b4f18bbce490458"
-  "b7f1dd91643e4f81f60e43fa9c4ba117663a001621913dcfd213706a4d83e6d9"
+  "0985066662eb755ed3683ae5482a81a9195b49ce3f7e165cc2388b3dbece7dd7"
+  "b76b365299331ddff5f8077648ef3b6fbb67f3bd15bebb955a42c6e57904aed0"
+  "684fcc0db2239b43497341d596d68422ea60ef7522cf2e857071ad84e4ade2a4"
 )
 
 package() {

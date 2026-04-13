@@ -1,7 +1,7 @@
 pkgname=ttf-google-novasquare
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novasquare
+_commit="a16dee833a4aebd3b74167c9b9674b2a2fb52610"  # Latest commit touching ofl/novasquare
 pkgdesc="Google Fonts family: Nova Square"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Square"

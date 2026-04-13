@@ -1,7 +1,7 @@
 pkgname=ttf-google-natasans
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/natasans
+_commit="18b7347881abd9f97f000549c46141b96a680537"  # Latest commit touching ofl/natasans
 pkgdesc="Google Fonts family: Nata Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Nata+Sans"

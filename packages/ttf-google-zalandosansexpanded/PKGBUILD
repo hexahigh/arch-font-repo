@@ -1,7 +1,7 @@
 pkgname=ttf-google-zalandosansexpanded
-pkgver=1.700
+pkgver=1.800
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/zalandosansexpanded
+_commit="7be71b9a2a85b75a02227fb6a7395cf7fb57a9db"  # Latest commit touching ofl/zalandosansexpanded
 pkgdesc="Google Fonts family: Zalando Sans Expanded"
 arch=('any')
 url="https://fonts.google.com/specimen/Zalando+Sans+Expanded"
@@ -15,8 +15,8 @@ source=(
 )
 sha256sums=(
   "411a22de2734b25584e4764f7212b004f241181ac04944a3bcee0e0371afe547"
-  "fcab991f0ae457e33580802f5bfd9d404d8f5921b92feb7870c2b9301e8af3f3"
-  "18549d6a7d2644a15ca3cc5f1dd38f0b054edc0688140dfbe3a8d1706a589b44"
+  "289cd38cd7880f4af8e2714a6190f6511ebde887354eb9ad5f5e45c1c892c6de"
+  "e3f331b7125dfdcd202f2135c8b48a3766ba5c4fafaa6fedad1bf37b01d6fb3b"
 )
 
 package() {

@@ -1,7 +1,7 @@
 pkgname=ttf-google-librecaslontext
 pkgver=2.000
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librecaslontext
+_commit="ea37b132420c876be7220094ea6374be0efb23e3"  # Latest commit touching ofl/librecaslontext
 pkgdesc="Google Fonts family: Libre Caslon Text"
 arch=('any')
 url="https://fonts.google.com/specimen/Libre+Caslon+Text"

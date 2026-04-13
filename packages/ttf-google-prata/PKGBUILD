@@ -1,7 +1,7 @@
 pkgname=ttf-google-prata
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/prata
+_commit="a6d9cf25454c667af90cfda1ff1fab4929511599"  # Latest commit touching ofl/prata
 pkgdesc="Google Fonts family: Prata"
 arch=('any')
 url="https://fonts.google.com/specimen/Prata"

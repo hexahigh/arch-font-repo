@@ -1,7 +1,7 @@
 pkgname=ttf-google-craftygirls
 pkgver=1.001
 pkgrel=1
-_commit="7380f7cebbf2250460c23fd301b51bcbab162edf"  # Latest commit touching apache/craftygirls
+_commit="0537729f8f95546e040d0ff9dce96528eabec6f1"  # Latest commit touching apache/craftygirls
 pkgdesc="Google Fonts family: Crafty Girls"
 arch=('any')
 url="https://fonts.google.com/specimen/Crafty+Girls"

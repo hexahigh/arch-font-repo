@@ -1,7 +1,7 @@
 pkgname=ttf-google-lohitbengali
 pkgver=2.5.1
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lohitbengali
+_commit="e65749bdf0b23efb806395027f9b5bba4c438e52"  # Latest commit touching ofl/lohitbengali
 pkgdesc="Google Fonts family: Lohit Bengali"
 arch=('any')
 url="https://fonts.google.com/specimen/Lohit+Bengali"

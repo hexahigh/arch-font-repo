@@ -1,7 +1,7 @@
 pkgname=ttf-google-overtherainbow
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overtherainbow
+_commit="f2c6b980e3fe0828e6d1ec76a09e543cd77a2d4f"  # Latest commit touching ofl/overtherainbow
 pkgdesc="Google Fonts family: Over the Rainbow"
 arch=('any')
 url="https://fonts.google.com/specimen/Over+the+Rainbow"

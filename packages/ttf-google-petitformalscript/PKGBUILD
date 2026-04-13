@@ -1,7 +1,7 @@
 pkgname=ttf-google-petitformalscript
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/petitformalscript
+_commit="84ee6d35bda0acb542b347d8470eb0bef1b63f79"  # Latest commit touching ofl/petitformalscript
 pkgdesc="Google Fonts family: Petit Formal Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Petit+Formal+Script"

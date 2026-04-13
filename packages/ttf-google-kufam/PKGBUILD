@@ -1,7 +1,7 @@
 pkgname=ttf-google-kufam
 pkgver=1.301
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kufam
+_commit="bdd84de7b5ec96d8aa91efe792f5d1536f2a6b28"  # Latest commit touching ofl/kufam
 pkgdesc="Google Fonts family: Kufam"
 arch=('any')
 url="https://fonts.google.com/specimen/Kufam"

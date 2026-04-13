@@ -1,7 +1,7 @@
 pkgname=ttf-google-hindvadodara
 pkgver=1.001
 pkgrel=1
-_commit="c1eda9233c33ad7775b27efd794f931095cf6133"  # Latest commit touching ofl/hindvadodara
+_commit="51063876e70d3bcc9f759e652b5486d74cf1252e"  # Latest commit touching ofl/hindvadodara
 pkgdesc="Google Fonts family: Hind Vadodara"
 arch=('any')
 url="https://fonts.google.com/specimen/Hind+Vadodara"

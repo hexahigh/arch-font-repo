@@ -1,7 +1,7 @@
 pkgname=ttf-google-thabit
 pkgver=0.01
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/thabit
+_commit="538fa260bebf608aad6f47efd0eb657f6ea87c97"  # Latest commit touching ofl/thabit
 pkgdesc="Google Fonts family: Thabit"
 arch=('any')
 url="https://fonts.google.com/specimen/Thabit"

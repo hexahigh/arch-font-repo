@@ -1,7 +1,7 @@
 pkgname=ttf-google-overlock
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/overlock
+_commit="9c7303eb370202b9cb2b9836de67c662daf33f67"  # Latest commit touching ofl/overlock
 pkgdesc="Google Fonts family: Overlock"
 arch=('any')
 url="https://fonts.google.com/specimen/Overlock"

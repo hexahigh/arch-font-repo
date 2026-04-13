@@ -1,7 +1,7 @@
 pkgname=ttf-google-jacquesfrancois
 pkgver=1.003
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jacquesfrancois
+_commit="9d8fbe8c80541b2581d2d6a2a02a25c7f2c3279e"  # Latest commit touching ofl/jacquesfrancois
 pkgdesc="Google Fonts family: Jacques Francois"
 arch=('any')
 url="https://fonts.google.com/specimen/Jacques+Francois"

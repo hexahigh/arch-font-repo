@@ -1,0 +1,34 @@
+pkgname=ttf-google-sairastencil
+pkgver=1.101
+pkgrel=1
+_commit="c0ee4c2df5bf7d472eccc739636d7bb5b9f225a7"  # Latest commit touching ofl/sairastencil
+pkgdesc="Google Fonts family: Saira Stencil"
+arch=('any')
+url="https://fonts.google.com/specimen/Saira+Stencil"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=(
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairastencil/OFL.txt"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairastencil/SairaStencil-Italic%5Bwdth%2Cwght%5D.ttf"
+  "https://github.com/google/fonts/raw/$_commit/ofl/sairastencil/SairaStencil%5Bwdth%2Cwght%5D.ttf"
+)
+sha256sums=(
+  "361e6da19568c4b8f3ad1598fa836c7de12ccf15a1c91a66f3fd99b92cbb202d"
+  "729e645ac82b7c76bd6239c5870d05268eb5720d0287250db6722daaa6ba1eb1"
+  "d459062d39d002f22d25348ab0c7d31db63f25a7b43714fe206a3d85bdb91fc7"
+)
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  shopt -s nullglob
+  for pattern in *.ttf *.otf *.ttc *.woff2; do
+    files=("${srcdir}"/${pattern})
+    (( ${#files[@]} )) || continue
+    install -m644 "${files[@]}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+  shopt -u nullglob
+
+  install -Dm644 "${srcdir}/OFL.txt" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

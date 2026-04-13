@@ -1,7 +1,7 @@
 pkgname=ttf-google-italiana
 pkgver=001.001
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/italiana
+_commit="eab3209dc2c9519268d00649400421f2d5bf8b8b"  # Latest commit touching ofl/italiana
 pkgdesc="Google Fonts family: Italiana"
 arch=('any')
 url="https://fonts.google.com/specimen/Italiana"

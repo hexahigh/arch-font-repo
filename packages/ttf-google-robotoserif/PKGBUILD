@@ -1,7 +1,7 @@
 pkgname=ttf-google-robotoserif
 pkgver=1.008
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/robotoserif
+_commit="00a31b16e05b53660766c34faef6c44082e11caa"  # Latest commit touching ofl/robotoserif
 pkgdesc="Google Fonts family: Roboto Serif"
 arch=('any')
 url="https://fonts.google.com/specimen/Roboto+Serif"

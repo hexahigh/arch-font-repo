@@ -1,7 +1,7 @@
 pkgname=ttf-google-novascript
 pkgver=2.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novascript
+_commit="d79c26af5bf546bd2a8231acefd485310419f30d"  # Latest commit touching ofl/novascript
 pkgdesc="Google Fonts family: Nova Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Script"

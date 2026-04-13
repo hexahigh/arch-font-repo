@@ -1,7 +1,7 @@
 pkgname=ttf-google-mukta
 pkgver=2.538
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mukta
+_commit="4ed247183585550f5ee6d09665680c282227df41"  # Latest commit touching ofl/mukta
 pkgdesc="Google Fonts family: Mukta"
 arch=('any')
 url="https://fonts.google.com/specimen/Mukta"

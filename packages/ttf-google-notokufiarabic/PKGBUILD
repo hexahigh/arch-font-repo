@@ -1,7 +1,7 @@
 pkgname=ttf-google-notokufiarabic
 pkgver=2.109
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notokufiarabic
+_commit="eb4f2fde9aa730c58ba547d2def669066b6ad87e"  # Latest commit touching ofl/notokufiarabic
 pkgdesc="Google Fonts family: Noto Kufi Arabic"
 arch=('any')
 url="https://fonts.google.com/specimen/Noto+Kufi+Arabic"

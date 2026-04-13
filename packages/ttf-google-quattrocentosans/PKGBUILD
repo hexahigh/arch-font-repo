@@ -1,7 +1,7 @@
 pkgname=ttf-google-quattrocentosans
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quattrocentosans
+_commit="4451de63a1ffa5485a793fd1b3c7b763039ff200"  # Latest commit touching ofl/quattrocentosans
 pkgdesc="Google Fonts family: Quattrocento Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Quattrocento+Sans"

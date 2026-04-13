@@ -1,7 +1,7 @@
 pkgname=ttf-google-vastshadow
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vastshadow
+_commit="598c28004b036f1be1c43a3a4c622d21a47f5789"  # Latest commit touching ofl/vastshadow
 pkgdesc="Google Fonts family: Vast Shadow"
 arch=('any')
 url="https://fonts.google.com/specimen/Vast+Shadow"

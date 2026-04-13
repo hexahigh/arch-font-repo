@@ -1,7 +1,7 @@
 pkgname=ttf-google-nuosusil
 pkgver=2.300
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nuosusil
+_commit="d5804c2105fc5031601a9302834f77ef3281f6e2"  # Latest commit touching ofl/nuosusil
 pkgdesc="Google Fonts family: Nuosu SIL"
 arch=('any')
 url="https://fonts.google.com/specimen/Nuosu+SIL"

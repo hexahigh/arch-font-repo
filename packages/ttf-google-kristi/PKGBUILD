@@ -1,7 +1,7 @@
 pkgname=ttf-google-kristi
 pkgver=1.004
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kristi
+_commit="814cc2193f76f9e7bc6ccdd14068c0da805329ff"  # Latest commit touching ofl/kristi
 pkgdesc="Google Fonts family: Kristi"
 arch=('any')
 url="https://fonts.google.com/specimen/Kristi"

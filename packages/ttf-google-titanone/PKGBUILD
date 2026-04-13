@@ -1,7 +1,7 @@
 pkgname=ttf-google-titanone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/titanone
+_commit="931162c4c695f5b29a1b26f007b656e2baca0884"  # Latest commit touching ofl/titanone
 pkgdesc="Google Fonts family: Titan One"
 arch=('any')
 url="https://fonts.google.com/specimen/Titan+One"

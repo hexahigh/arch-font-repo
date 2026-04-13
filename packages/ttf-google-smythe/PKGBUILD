@@ -1,7 +1,7 @@
 pkgname=ttf-google-smythe
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/smythe
+_commit="4f4168f517813d2349118f78e57345293584d18d"  # Latest commit touching ofl/smythe
 pkgdesc="Google Fonts family: Smythe"
 arch=('any')
 url="https://fonts.google.com/specimen/Smythe"

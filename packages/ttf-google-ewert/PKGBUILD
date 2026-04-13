@@ -1,7 +1,7 @@
 pkgname=ttf-google-ewert
 pkgver=1.001
 pkgrel=1
-_commit="1ccd9945047e4f526e2da47089438d73a35f0c2a"  # Latest commit touching ofl/ewert
+_commit="08363313b03a2d9e80721a6bf997b3f824c5eb5a"  # Latest commit touching ofl/ewert
 pkgdesc="Google Fonts family: Ewert"
 arch=('any')
 url="https://fonts.google.com/specimen/Ewert"

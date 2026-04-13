@@ -1,7 +1,7 @@
 pkgname=ttf-google-macondoswashcaps
 pkgver=2.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/macondoswashcaps
+_commit="b47c253fb7ccbcd73236a9f50b99abc7da01a41d"  # Latest commit touching ofl/macondoswashcaps
 pkgdesc="Google Fonts family: Macondo Swash Caps"
 arch=('any')
 url="https://fonts.google.com/specimen/Macondo+Swash+Caps"

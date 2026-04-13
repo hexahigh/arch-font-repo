@@ -1,7 +1,7 @@
 pkgname=ttf-google-balsamiqsans
 pkgver=1.020
 pkgrel=1
-_commit="f31a1ea94a6c989faf4da315639ac2bcb07d7c58"  # Latest commit touching ofl/balsamiqsans
+_commit="441751497b91795d1291c0747dbf93651ec75133"  # Latest commit touching ofl/balsamiqsans
 pkgdesc="Google Fonts family: Balsamiq Sans"
 arch=('any')
 url="https://fonts.google.com/specimen/Balsamiq+Sans"

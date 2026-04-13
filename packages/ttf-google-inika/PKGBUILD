@@ -1,7 +1,7 @@
 pkgname=ttf-google-inika
 pkgver=1.001
 pkgrel=1
-_commit="02026a978f1f00ad6f55c438de31ce4c55b9486a"  # Latest commit touching ofl/inika
+_commit="f4910312af934b5530011ca2155efdfdaa0f9ea6"  # Latest commit touching ofl/inika
 pkgdesc="Google Fonts family: Inika"
 arch=('any')
 url="https://fonts.google.com/specimen/Inika"

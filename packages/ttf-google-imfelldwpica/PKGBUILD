@@ -1,7 +1,7 @@
 pkgname=ttf-google-imfelldwpica
 pkgver=3.00
 pkgrel=1
-_commit="579c94ce5401ab6bc8563b80f3293375476d3229"  # Latest commit touching ofl/imfelldwpica
+_commit="f023d9d161d4456ab39bb2eff4acd970e02dbe36"  # Latest commit touching ofl/imfelldwpica
 pkgdesc="Google Fonts family: IM Fell DW Pica"
 arch=('any')
 url="https://fonts.google.com/specimen/IM+Fell+DW+Pica"

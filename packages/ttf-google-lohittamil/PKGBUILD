@@ -1,7 +1,7 @@
 pkgname=ttf-google-lohittamil
 pkgver=2.5.0
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lohittamil
+_commit="b404bd2dde776aecb8060234858c6587f4d7920a"  # Latest commit touching ofl/lohittamil
 pkgdesc="Google Fonts family: Lohit Tamil"
 arch=('any')
 url="https://fonts.google.com/specimen/Lohit+Tamil"

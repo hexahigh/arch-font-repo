@@ -1,7 +1,7 @@
 pkgname=ttf-google-specialelite
 pkgver=1.001
 pkgrel=1
-_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/specialelite
+_commit="e4a915e4354d27f402ca8e8bfce7dbea89a83b60"  # Latest commit touching apache/specialelite
 pkgdesc="Google Fonts family: Special Elite"
 arch=('any')
 url="https://fonts.google.com/specimen/Special+Elite"

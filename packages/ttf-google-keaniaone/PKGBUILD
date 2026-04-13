@@ -1,7 +1,7 @@
 pkgname=ttf-google-keaniaone
 pkgver=1.003
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/keaniaone
+_commit="6331ad2451964bdb84dbad7a3dd22228be3d2448"  # Latest commit touching ofl/keaniaone
 pkgdesc="Google Fonts family: Keania One"
 arch=('any')
 url="https://fonts.google.com/specimen/Keania+One"

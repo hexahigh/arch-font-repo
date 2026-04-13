@@ -1,7 +1,7 @@
 pkgname=ttf-google-squadaone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/squadaone
+_commit="41f5a805b2947c0edc6878dbaf0408042484b621"  # Latest commit touching ofl/squadaone
 pkgdesc="Google Fonts family: Squada One"
 arch=('any')
 url="https://fonts.google.com/specimen/Squada+One"

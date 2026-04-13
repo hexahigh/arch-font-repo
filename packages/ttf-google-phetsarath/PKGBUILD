@@ -1,7 +1,7 @@
 pkgname=ttf-google-phetsarath
 pkgver=1.01
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/phetsarath
+_commit="fe89588cf742d9691bee4b4c32de177ee622c949"  # Latest commit touching ofl/phetsarath
 pkgdesc="Google Fonts family: Phetsarath"
 arch=('any')
 url="https://fonts.google.com/specimen/Phetsarath"

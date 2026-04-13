@@ -1,7 +1,7 @@
 pkgname=ttf-google-librebarcodeean13text
 pkgver=1.008
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librebarcodeean13text
+_commit="a72c96c1a19635960a42271c031e1e94de97fc09"  # Latest commit touching ofl/librebarcodeean13text
 pkgdesc="Google Fonts family: Libre Barcode EAN13 Text"
 arch=('any')
 url="https://fonts.google.com/specimen/Libre+Barcode+EAN13+Text"

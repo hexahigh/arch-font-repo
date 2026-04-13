@@ -1,7 +1,7 @@
 pkgname=ttf-google-coustard
-pkgver=1.001
+pkgver=1.100
 pkgrel=1
-_commit="e633cb6725e4a20c2aeb7b15b05b01be5e86198d"  # Latest commit touching ofl/coustard
+_commit="a0db7446456b7e40495dd8679206daa7c9197d3f"  # Latest commit touching ofl/coustard
 pkgdesc="Google Fonts family: Coustard"
 arch=('any')
 url="https://fonts.google.com/specimen/Coustard"
@@ -14,9 +14,9 @@ source=(
   "https://github.com/google/fonts/raw/$_commit/ofl/coustard/Coustard-Regular.ttf"
 )
 sha256sums=(
-  "c972795e48b096b6d4e3a947b0bb21c1baf1922a6e07ff9ada587c058f228740"
-  "d8e3e046d7177b62d91a08723122c7ca0c22ce9577261aa09e7605c47962be3d"
-  "90a2e3ae98d5402102375d88819b83976a0155330bd4d19824d40471dd4c3f47"
+  "9db9983bb803b5a12d635f24f9a07aab91beaa53499c1036d6aeb79599b03f7b"
+  "6a7c7019eaf2a96ac6ef242f537a583800687a1e95786e02601f498538c5a24b"
+  "71f251444fc70fc98adb011cdf8d8c64ecc7ae5d57fc04f59d8ebb1cfc16460c"
 )
 
 package() {

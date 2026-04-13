@@ -1,7 +1,7 @@
 pkgname=ttf-google-averiaseriflibre
 pkgver=1.002
 pkgrel=1
-_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/averiaseriflibre
+_commit="6f3c56c74008b97476b4f97e591a5dde93e7cd4d"  # Latest commit touching ofl/averiaseriflibre
 pkgdesc="Google Fonts family: Averia Serif Libre"
 arch=('any')
 url="https://fonts.google.com/specimen/Averia+Serif+Libre"

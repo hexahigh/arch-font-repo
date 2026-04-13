@@ -1,7 +1,7 @@
 pkgname=ttf-google-novaoval
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novaoval
+_commit="92dc81a50f5978795f532f2023e050b0e9889433"  # Latest commit touching ofl/novaoval
 pkgdesc="Google Fonts family: Nova Oval"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Oval"

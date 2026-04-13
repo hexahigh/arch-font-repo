@@ -1,7 +1,7 @@
 pkgname=ttf-google-medievalsharp
 pkgver=1.0
 pkgrel=1
-_commit="d92a4f3214862c9026ce734e85587dd68d88a5c2"  # Latest commit touching ofl/medievalsharp
+_commit="226af0949b607c7d4bc6426bcb94919c93f845ba"  # Latest commit touching ofl/medievalsharp
 pkgdesc="Google Fonts family: MedievalSharp"
 arch=('any')
 url="https://fonts.google.com/specimen/MedievalSharp"

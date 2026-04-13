@@ -1,7 +1,7 @@
 pkgname=ttf-google-notosansjp
 pkgver=2.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansjp
+_commit="66a36c8c94b1a5d992ee4e7f392fccfe4945767c"  # Latest commit touching ofl/notosansjp
 pkgdesc="Google Fonts family: Noto Sans JP"
 arch=('any')
 url="https://fonts.google.com/specimen/Noto+Sans+JP"

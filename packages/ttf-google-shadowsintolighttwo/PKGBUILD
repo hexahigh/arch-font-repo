@@ -1,7 +1,7 @@
 pkgname=ttf-google-shadowsintolighttwo
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/shadowsintolighttwo
+_commit="f518a44332064db944b008a5ad08106590be838c"  # Latest commit touching ofl/shadowsintolighttwo
 pkgdesc="Google Fonts family: Shadows Into Light Two"
 arch=('any')
 url="https://fonts.google.com/specimen/Shadows+Into+Light+Two"

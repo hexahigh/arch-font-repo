@@ -1,7 +1,7 @@
 pkgname=ttf-google-sevillana
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sevillana
+_commit="e58bec748c57d3b54c536ec66c713ab548f8d701"  # Latest commit touching ofl/sevillana
 pkgdesc="Google Fonts family: Sevillana"
 arch=('any')
 url="https://fonts.google.com/specimen/Sevillana"

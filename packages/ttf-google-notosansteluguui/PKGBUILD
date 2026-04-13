@@ -1,7 +1,7 @@
 pkgname=ttf-google-notosansteluguui
 pkgver=2.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notosansteluguui
+_commit="54584294ef89979740aa9687fdc3c04d11c4b539"  # Latest commit touching ofl/notosansteluguui
 pkgdesc="Google Fonts family: Noto Sans Telugu UI"
 arch=('any')
 url="https://fonts.google.com/specimen/Noto+Sans+Telugu+UI"

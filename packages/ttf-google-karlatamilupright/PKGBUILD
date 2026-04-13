@@ -1,7 +1,7 @@
 pkgname=ttf-google-karlatamilupright
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karlatamilupright
+_commit="494381ebbd37fddd4f0277a104f71a2e429630a9"  # Latest commit touching ofl/karlatamilupright
 pkgdesc="Google Fonts family: Karla Tamil Upright"
 arch=('any')
 url="https://fonts.google.com/specimen/Karla+Tamil+Upright"

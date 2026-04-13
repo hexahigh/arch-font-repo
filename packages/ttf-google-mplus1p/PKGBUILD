@@ -1,7 +1,7 @@
 pkgname=ttf-google-mplus1p
 pkgver=1.062
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mplus1p
+_commit="d714b17ce2379f06daf6295617f961df605dccb5"  # Latest commit touching ofl/mplus1p
 pkgdesc="Google Fonts family: M PLUS 1p"
 arch=('any')
 url="https://fonts.google.com/specimen/M+PLUS+1p"

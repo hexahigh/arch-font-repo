@@ -1,7 +1,7 @@
 pkgname=ttf-google-firamono
 pkgver=3.206
 pkgrel=1
-_commit="a60a77e14f28abd4ef243a1b5dfc48df0cec5205"  # Latest commit touching ofl/firamono
+_commit="d74f7e8db499e84477ad0af4140ad25cf573091c"  # Latest commit touching ofl/firamono
 pkgdesc="Google Fonts family: Fira Mono"
 arch=('any')
 url="https://fonts.google.com/specimen/Fira+Mono"

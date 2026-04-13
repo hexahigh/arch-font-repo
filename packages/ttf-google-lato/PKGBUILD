@@ -1,7 +1,7 @@
 pkgname=ttf-google-lato
 pkgver=2.015
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/lato
+_commit="5d3b76120a319730fda218cc7410174a462b32cb"  # Latest commit touching ofl/lato
 pkgdesc="Google Fonts family: Lato"
 arch=('any')
 url="https://fonts.google.com/specimen/Lato"

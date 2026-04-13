@@ -1,7 +1,7 @@
 pkgname=ttf-google-yeonsung
 pkgver=1.001
 pkgrel=1
-_commit="99494aaa393730db3842b755bfa49a7d2428b143"  # Latest commit touching ofl/yeonsung
+_commit="e8f9fd07fc608a9164f8bca27359b029a59a34ca"  # Latest commit touching ofl/yeonsung
 pkgdesc="Google Fonts family: Yeon Sung"
 arch=('any')
 url="https://fonts.google.com/specimen/Yeon+Sung"

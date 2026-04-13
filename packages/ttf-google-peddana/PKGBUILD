@@ -1,7 +1,7 @@
 pkgname=ttf-google-peddana
 pkgver=1.0.4
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/peddana
+_commit="34e23e77de38370a29d55a77902f1fcd323da21d"  # Latest commit touching ofl/peddana
 pkgdesc="Google Fonts family: Peddana"
 arch=('any')
 url="https://fonts.google.com/specimen/Peddana"

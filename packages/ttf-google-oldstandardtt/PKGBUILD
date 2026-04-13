@@ -1,7 +1,7 @@
 pkgname=ttf-google-oldstandardtt
 pkgver=3.000
 pkgrel=1
-_commit="0edc5b3328428f52c6df57b9df32b2a867ecaad2"  # Latest commit touching ofl/oldstandardtt
+_commit="a01f27e9f42b5afad05090256d0d809928d84cae"  # Latest commit touching ofl/oldstandardtt
 pkgdesc="Google Fonts family: Old Standard TT"
 arch=('any')
 url="https://fonts.google.com/specimen/Old+Standard+TT"

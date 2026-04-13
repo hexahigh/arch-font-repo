@@ -1,7 +1,7 @@
 pkgname=ttf-google-moul
 pkgver=8.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/moul
+_commit="adde58aa7f4ef91d3464a7d2a168ff07cc3d9e07"  # Latest commit touching ofl/moul
 pkgdesc="Google Fonts family: Moul"
 arch=('any')
 url="https://fonts.google.com/specimen/Moul"

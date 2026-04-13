@@ -1,7 +1,7 @@
 pkgname=ttf-google-lovedbytheking
 pkgver=1.002
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/lovedbytheking
+_commit="9bb9e9d4915ebaa1979b6185d24ed9606efea889"  # Latest commit touching ofl/lovedbytheking
 pkgdesc="Google Fonts family: Loved by the King"
 arch=('any')
 url="https://fonts.google.com/specimen/Loved+by+the+King"

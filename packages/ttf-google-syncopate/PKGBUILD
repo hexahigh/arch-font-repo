@@ -1,7 +1,7 @@
 pkgname=ttf-google-syncopate
 pkgver=1.001
 pkgrel=1
-_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/syncopate
+_commit="5c938916d392bb1f5c65ecb7f0b5b4a03494d533"  # Latest commit touching apache/syncopate
 pkgdesc="Google Fonts family: Syncopate"
 arch=('any')
 url="https://fonts.google.com/specimen/Syncopate"

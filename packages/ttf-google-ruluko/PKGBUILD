@@ -1,7 +1,7 @@
 pkgname=ttf-google-ruluko
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ruluko
+_commit="83877a00304ce6e148c2a337daa753ef382ce102"  # Latest commit touching ofl/ruluko
 pkgdesc="Google Fonts family: Ruluko"
 arch=('any')
 url="https://fonts.google.com/specimen/Ruluko"

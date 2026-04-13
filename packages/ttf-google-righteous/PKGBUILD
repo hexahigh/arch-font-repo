@@ -1,7 +1,7 @@
 pkgname=ttf-google-righteous
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/righteous
+_commit="3340c8f006ecd6142841d9d5579468675d69ee9c"  # Latest commit touching ofl/righteous
 pkgdesc="Google Fonts family: Righteous"
 arch=('any')
 url="https://fonts.google.com/specimen/Righteous"

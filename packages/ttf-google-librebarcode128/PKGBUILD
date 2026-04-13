@@ -1,7 +1,7 @@
 pkgname=ttf-google-librebarcode128
 pkgver=1.005
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librebarcode128
+_commit="8ace0e6bb7f4c2f06b74319c20d2f3fa9d33735b"  # Latest commit touching ofl/librebarcode128
 pkgdesc="Google Fonts family: Libre Barcode 128"
 arch=('any')
 url="https://fonts.google.com/specimen/Libre+Barcode+128"

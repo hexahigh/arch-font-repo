@@ -1,7 +1,7 @@
 pkgname=ttf-google-mochiypoppone
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/mochiypoppone
+_commit="d0bec910a9ba52f6ae3907fbc6380e3a27807260"  # Latest commit touching ofl/mochiypoppone
 pkgdesc="Google Fonts family: Mochiy Pop P One"
 arch=('any')
 url="https://fonts.google.com/specimen/Mochiy+Pop+P+One"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-nixieone
 pkgver=1.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nixieone
+_commit="78815787debb3688a8c50cfd56adda1d51ba6b34"  # Latest commit touching ofl/nixieone
 pkgdesc="Google Fonts family: Nixie One"
 arch=('any')
 url="https://fonts.google.com/specimen/Nixie+One"

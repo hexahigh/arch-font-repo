@@ -1,7 +1,7 @@
 pkgname=ttf-google-narnoor
 pkgver=3.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/narnoor
+_commit="c58b918ecd0c1080c4c0ab746da53acfcd5c4302"  # Latest commit touching ofl/narnoor
 pkgdesc="Google Fonts family: Narnoor"
 arch=('any')
 url="https://fonts.google.com/specimen/Narnoor"

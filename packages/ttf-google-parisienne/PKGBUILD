@@ -1,7 +1,7 @@
 pkgname=ttf-google-parisienne
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/parisienne
+_commit="f8991dec47f9c2f15a74a1ab131bdf5f1b2fc095"  # Latest commit touching ofl/parisienne
 pkgdesc="Google Fonts family: Parisienne"
 arch=('any')
 url="https://fonts.google.com/specimen/Parisienne"

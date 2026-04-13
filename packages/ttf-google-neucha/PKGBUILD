@@ -1,7 +1,7 @@
 pkgname=ttf-google-neucha
 pkgver=001.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/neucha
+_commit="f1fdf1d956bb359b09de25465a96d0c1d6377205"  # Latest commit touching ofl/neucha
 pkgdesc="Google Fonts family: Neucha"
 arch=('any')
 url="https://fonts.google.com/specimen/Neucha"

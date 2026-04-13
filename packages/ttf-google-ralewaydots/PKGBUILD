@@ -1,7 +1,7 @@
 pkgname=ttf-google-ralewaydots
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/ralewaydots
+_commit="1d4f61638adc3db78eced6d437e6ee72255ef590"  # Latest commit touching ofl/ralewaydots
 pkgdesc="Google Fonts family: Raleway Dots"
 arch=('any')
 url="https://fonts.google.com/specimen/Raleway+Dots"

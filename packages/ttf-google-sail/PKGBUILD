@@ -1,7 +1,7 @@
 pkgname=ttf-google-sail
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sail
+_commit="a0a6801a59e544b3ce7f10eec26f91edd7f1b0eb"  # Latest commit touching ofl/sail
 pkgdesc="Google Fonts family: Sail"
 arch=('any')
 url="https://fonts.google.com/specimen/Sail"

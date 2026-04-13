@@ -1,7 +1,7 @@
 pkgname=ttf-google-khand
 pkgver=1.102
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/khand
+_commit="1f9904b537229bb8d1f04ffc7d58a5d98e45e9d0"  # Latest commit touching ofl/khand
 pkgdesc="Google Fonts family: Khand"
 arch=('any')
 url="https://fonts.google.com/specimen/Khand"

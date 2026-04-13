@@ -1,7 +1,7 @@
 pkgname=ttf-google-benne
 pkgver=1.001
 pkgrel=1
-_commit="c13390277dfb1fcc7415d84ef7ef9cfc1e52f8c1"  # Latest commit touching ofl/benne
+_commit="441751497b91795d1291c0747dbf93651ec75133"  # Latest commit touching ofl/benne
 pkgdesc="Google Fonts family: Benne"
 arch=('any')
 url="https://fonts.google.com/specimen/Benne"

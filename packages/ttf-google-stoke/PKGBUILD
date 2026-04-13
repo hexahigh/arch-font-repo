@@ -1,7 +1,7 @@
 pkgname=ttf-google-stoke
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stoke
+_commit="9223f996303ccf98f0da8b57ff6091ce70343a0f"  # Latest commit touching ofl/stoke
 pkgdesc="Google Fonts family: Stoke"
 arch=('any')
 url="https://fonts.google.com/specimen/Stoke"

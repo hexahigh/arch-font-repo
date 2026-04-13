@@ -1,7 +1,7 @@
 pkgname=ttf-google-averiasanslibre
 pkgver=1.002
 pkgrel=1
-_commit="95f4904fc8bcf26d3420fe315560c96417c6dec7"  # Latest commit touching ofl/averiasanslibre
+_commit="93a7f897c12606921bcbd5e05cfada3411c853e0"  # Latest commit touching ofl/averiasanslibre
 pkgdesc="Google Fonts family: Averia Sans Libre"
 arch=('any')
 url="https://fonts.google.com/specimen/Averia+Sans+Libre"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-reeniebeanie
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/reeniebeanie
+_commit="108bb102d8fd512ca807530c250d4c7cbc32f83e"  # Latest commit touching ofl/reeniebeanie
 pkgdesc="Google Fonts family: Reenie Beanie"
 arch=('any')
 url="https://fonts.google.com/specimen/Reenie+Beanie"

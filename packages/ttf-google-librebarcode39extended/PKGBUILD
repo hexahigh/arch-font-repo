@@ -1,7 +1,7 @@
 pkgname=ttf-google-librebarcode39extended
 pkgver=1.005
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librebarcode39extended
+_commit="45cd16e763d6386067638fa06220b79cafd044c6"  # Latest commit touching ofl/librebarcode39extended
 pkgdesc="Google Fonts family: Libre Barcode 39 Extended"
 arch=('any')
 url="https://fonts.google.com/specimen/Libre+Barcode+39+Extended"

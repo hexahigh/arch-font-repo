@@ -1,7 +1,7 @@
 pkgname=ttf-google-titilliumweb
 pkgver=1.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/titilliumweb
+_commit="6f3aa1348230778648ef2f0bfc85e31627649654"  # Latest commit touching ofl/titilliumweb
 pkgdesc="Google Fonts family: Titillium Web"
 arch=('any')
 url="https://fonts.google.com/specimen/Titillium+Web"

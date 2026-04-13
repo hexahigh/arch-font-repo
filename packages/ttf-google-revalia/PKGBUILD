@@ -1,7 +1,7 @@
 pkgname=ttf-google-revalia
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/revalia
+_commit="281b63d1709692de56ba47b7c0bed6edeefc0b65"  # Latest commit touching ofl/revalia
 pkgdesc="Google Fonts family: Revalia"
 arch=('any')
 url="https://fonts.google.com/specimen/Revalia"

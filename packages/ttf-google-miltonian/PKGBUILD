@@ -1,7 +1,7 @@
 pkgname=ttf-google-miltonian
 pkgver=1.008
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miltonian
+_commit="2ee77f8a4d2c906cee5a0e8d03bb7df233a060b4"  # Latest commit touching ofl/miltonian
 pkgdesc="Google Fonts family: Miltonian"
 arch=('any')
 url="https://fonts.google.com/specimen/Miltonian"

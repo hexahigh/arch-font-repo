@@ -1,7 +1,7 @@
 pkgname=ttf-google-inder
 pkgver=1.001
 pkgrel=1
-_commit="40e1729ff535d2e1d9c54b20364390132a26f228"  # Latest commit touching ofl/inder
+_commit="54c030894d3ee76214345124ce8cc4b021d06b45"  # Latest commit touching ofl/inder
 pkgdesc="Google Fonts family: Inder"
 arch=('any')
 url="https://fonts.google.com/specimen/Inder"

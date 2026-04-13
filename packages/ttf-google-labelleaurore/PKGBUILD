@@ -1,7 +1,7 @@
 pkgname=ttf-google-labelleaurore
 pkgver=1.001
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/labelleaurore
+_commit="b10cfc4df84371220fbc16f31aca046853cefa47"  # Latest commit touching ofl/labelleaurore
 pkgdesc="Google Fonts family: La Belle Aurore"
 arch=('any')
 url="https://fonts.google.com/specimen/La+Belle+Aurore"

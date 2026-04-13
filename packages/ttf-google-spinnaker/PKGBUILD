@@ -1,7 +1,7 @@
 pkgname=ttf-google-spinnaker
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/spinnaker
+_commit="58d95612a50a286dca1b13287c7d3212de2daa82"  # Latest commit touching ofl/spinnaker
 pkgdesc="Google Fonts family: Spinnaker"
 arch=('any')
 url="https://fonts.google.com/specimen/Spinnaker"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-stardosstencil
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stardosstencil
+_commit="c4dccf8733e06376640ca54419faa78d94e8f2cd"  # Latest commit touching ofl/stardosstencil
 pkgdesc="Google Fonts family: Stardos Stencil"
 arch=('any')
 url="https://fonts.google.com/specimen/Stardos+Stencil"

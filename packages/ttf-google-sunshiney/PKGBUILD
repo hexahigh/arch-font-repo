@@ -1,7 +1,7 @@
 pkgname=ttf-google-sunshiney
 pkgver=1.001
 pkgrel=1
-_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/sunshiney
+_commit="2f46995b2a503ed3cdcb81d5d9b3e07fcdd87852"  # Latest commit touching apache/sunshiney
 pkgdesc="Google Fonts family: Sunshiney"
 arch=('any')
 url="https://fonts.google.com/specimen/Sunshiney"

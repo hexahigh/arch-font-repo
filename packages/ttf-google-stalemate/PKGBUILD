@@ -1,7 +1,7 @@
 pkgname=ttf-google-stalemate
 pkgver=001.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stalemate
+_commit="33e94da7d768b01e25778e4557a7641f48ec23e1"  # Latest commit touching ofl/stalemate
 pkgdesc="Google Fonts family: Stalemate"
 arch=('any')
 url="https://fonts.google.com/specimen/Stalemate"

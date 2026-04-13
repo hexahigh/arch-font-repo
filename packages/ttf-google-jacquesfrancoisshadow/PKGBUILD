@@ -1,7 +1,7 @@
 pkgname=ttf-google-jacquesfrancoisshadow
 pkgver=1.003
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jacquesfrancoisshadow
+_commit="e5a5218302beafc4b99309eeebbf13a8614148b4"  # Latest commit touching ofl/jacquesfrancoisshadow
 pkgdesc="Google Fonts family: Jacques Francois Shadow"
 arch=('any')
 url="https://fonts.google.com/specimen/Jacques+Francois+Shadow"

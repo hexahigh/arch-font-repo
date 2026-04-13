@@ -1,7 +1,7 @@
 pkgname=ttf-google-permanentmarker
 pkgver=1.001
 pkgrel=1
-_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/permanentmarker
+_commit="3b093c4be99bbc9cc5384441270a05eaac52cd39"  # Latest commit touching apache/permanentmarker
 pkgdesc="Google Fonts family: Permanent Marker"
 arch=('any')
 url="https://fonts.google.com/specimen/Permanent+Marker"

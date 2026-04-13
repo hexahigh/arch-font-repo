@@ -1,7 +1,7 @@
 pkgname=ttf-google-novaflat
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novaflat
+_commit="70333607035321a87e6e735d2afd5fbfb792e44b"  # Latest commit touching ofl/novaflat
 pkgdesc="Google Fonts family: Nova Flat"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Flat"

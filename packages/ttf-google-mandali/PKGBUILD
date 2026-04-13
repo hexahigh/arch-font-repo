@@ -1,7 +1,7 @@
 pkgname=ttf-google-mandali
 pkgver=1.0.5
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/mandali
+_commit="22797b7f9645d96b0be26a82de57f13dbf1521fe"  # Latest commit touching ofl/mandali
 pkgdesc="Google Fonts family: Mandali"
 arch=('any')
 url="https://fonts.google.com/specimen/Mandali"

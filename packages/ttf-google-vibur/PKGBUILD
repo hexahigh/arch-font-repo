@@ -1,7 +1,7 @@
 pkgname=ttf-google-vibur
 pkgver=1.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/vibur
+_commit="7d2e52f54ff055abca2b3c21ff4de48794bddcd0"  # Latest commit touching ofl/vibur
 pkgdesc="Google Fonts family: Vibur"
 arch=('any')
 url="https://fonts.google.com/specimen/Vibur"

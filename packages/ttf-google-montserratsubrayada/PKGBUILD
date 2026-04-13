@@ -1,7 +1,7 @@
 pkgname=ttf-google-montserratsubrayada
 pkgver=2.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/montserratsubrayada
+_commit="d6495c76a58952651c831acc7d2dca3a0aceb608"  # Latest commit touching ofl/montserratsubrayada
 pkgdesc="Google Fonts family: Montserrat Subrayada"
 arch=('any')
 url="https://fonts.google.com/specimen/Montserrat+Subrayada"

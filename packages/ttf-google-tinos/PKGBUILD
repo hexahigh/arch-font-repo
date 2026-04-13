@@ -1,7 +1,7 @@
 pkgname=ttf-google-tinos
 pkgver=1.23
 pkgrel=1
-_commit="90d7886db9000c893b9559828bf028aaed5f9c10"  # Latest commit touching apache/tinos
+_commit="d4dc6ad9d1b9a307b5a3bb6a1633c30fa5813491"  # Latest commit touching apache/tinos
 pkgdesc="Google Fonts family: Tinos"
 arch=('any')
 url="https://fonts.google.com/specimen/Tinos"

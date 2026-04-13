@@ -1,7 +1,7 @@
 pkgname=ttf-google-marcellussc
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching ofl/marcellussc
+_commit="1e838fdd5dbb8daec48f4de4f76a1cfff4b3d1ed"  # Latest commit touching ofl/marcellussc
 pkgdesc="Google Fonts family: Marcellus SC"
 arch=('any')
 url="https://fonts.google.com/specimen/Marcellus+SC"

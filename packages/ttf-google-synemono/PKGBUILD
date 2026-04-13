@@ -1,7 +1,7 @@
 pkgname=ttf-google-synemono
 pkgver=2.000
 pkgrel=1
-_commit="6973827ce1339f7f32adc4a7c41d5f607a0ffb48"  # Latest commit touching ofl/synemono
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/synemono
 pkgdesc="Google Fonts family: Syne Mono"
 arch=('any')
 url="https://fonts.google.com/specimen/Syne+Mono"

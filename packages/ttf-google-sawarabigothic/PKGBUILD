@@ -1,7 +1,7 @@
 pkgname=ttf-google-sawarabigothic
 pkgver=20141215
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/sawarabigothic
+_commit="6cdf4e00d66c8b7d8df381389e4ab115323b7a8b"  # Latest commit touching ofl/sawarabigothic
 pkgdesc="Google Fonts family: Sawarabi Gothic"
 arch=('any')
 url="https://fonts.google.com/specimen/Sawarabi+Gothic"

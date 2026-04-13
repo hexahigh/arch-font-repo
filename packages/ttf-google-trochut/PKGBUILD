@@ -1,7 +1,7 @@
 pkgname=ttf-google-trochut
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/trochut
+_commit="3e62b3ccd504ecdf03a4bae2fa6f86ddbc6b1270"  # Latest commit touching ofl/trochut
 pkgdesc="Google Fonts family: Trochut"
 arch=('any')
 url="https://fonts.google.com/specimen/Trochut"

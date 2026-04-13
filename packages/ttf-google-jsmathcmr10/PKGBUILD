@@ -1,7 +1,7 @@
 pkgname=ttf-google-jsmathcmr10
 pkgver=001.001
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching apache/jsmathcmr10
+_commit="5d0896549915b5d349706a54ebca62384fd87158"  # Latest commit touching apache/jsmathcmr10
 pkgdesc="Google Fonts family: jsMath cmr10"
 arch=('any')
 url="https://fonts.google.com/specimen/jsMath+cmr10"

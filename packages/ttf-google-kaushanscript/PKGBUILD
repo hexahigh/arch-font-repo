@@ -1,7 +1,7 @@
 pkgname=ttf-google-kaushanscript
 pkgver=1.002
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/kaushanscript
+_commit="782024a002529169c4978b9c53a7441e4648e1c5"  # Latest commit touching ofl/kaushanscript
 pkgdesc="Google Fonts family: Kaushan Script"
 arch=('any')
 url="https://fonts.google.com/specimen/Kaushan+Script"

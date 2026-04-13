@@ -1,7 +1,7 @@
 pkgname=ttf-google-stalinistone
 pkgver=3.004
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stalinistone
+_commit="9c023901ef7169004ff23381143584b61cc60684"  # Latest commit touching ofl/stalinistone
 pkgdesc="Google Fonts family: Stalinist One"
 arch=('any')
 url="https://fonts.google.com/specimen/Stalinist+One"

@@ -1,7 +1,7 @@
 pkgname=ttf-google-luckiestguy
 pkgver=1.001
 pkgrel=1
-_commit="4e5f06dbb274a27ebe71ed54ea706b3ee40eabd9"  # Latest commit touching apache/luckiestguy
+_commit="ac011ec057856b010986a55104323d63cada00f8"  # Latest commit touching apache/luckiestguy
 pkgdesc="Google Fonts family: Luckiest Guy"
 arch=('any')
 url="https://fonts.google.com/specimen/Luckiest+Guy"

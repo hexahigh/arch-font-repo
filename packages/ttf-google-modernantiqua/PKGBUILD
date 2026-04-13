@@ -1,7 +1,7 @@
 pkgname=ttf-google-modernantiqua
 pkgver=1.0
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/modernantiqua
+_commit="9143035437755c519a17429fc817ff59dcfa7fcb"  # Latest commit touching ofl/modernantiqua
 pkgdesc="Google Fonts family: Modern Antiqua"
 arch=('any')
 url="https://fonts.google.com/specimen/Modern+Antiqua"

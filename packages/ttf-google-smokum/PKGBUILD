@@ -1,7 +1,7 @@
 pkgname=ttf-google-smokum
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/smokum
+_commit="02f35d892d3078db7587ca2553412fea92b96a68"  # Latest commit touching apache/smokum
 pkgdesc="Google Fonts family: Smokum"
 arch=('any')
 url="https://fonts.google.com/specimen/Smokum"

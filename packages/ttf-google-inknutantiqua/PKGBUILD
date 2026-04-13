@@ -1,7 +1,7 @@
 pkgname=ttf-google-inknutantiqua
 pkgver=1.003
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/inknutantiqua
+_commit="21e4d552173b4e19cb38ad8dc3e45ece1987f82b"  # Latest commit touching ofl/inknutantiqua
 pkgdesc="Google Fonts family: Inknut Antiqua"
 arch=('any')
 url="https://fonts.google.com/specimen/Inknut+Antiqua"

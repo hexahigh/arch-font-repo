@@ -1,7 +1,7 @@
 pkgname=ttf-google-miama
 pkgver=0.32
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/miama
+_commit="482e43e851cdabb5047a2cee3f49b323a7f613ae"  # Latest commit touching ofl/miama
 pkgdesc="Google Fonts family: Miama"
 arch=('any')
 url="https://fonts.google.com/specimen/Miama"

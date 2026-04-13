@@ -1,7 +1,7 @@
 pkgname=ttf-google-nosifercaps
 pkgver=001.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/nosifercaps
+_commit="f405a06ca0df9c339ed60892f52c7cffb5ed275f"  # Latest commit touching ofl/nosifercaps
 pkgdesc="Google Fonts family: Nosifer Caps"
 arch=('any')
 url="https://fonts.google.com/specimen/Nosifer+Caps"

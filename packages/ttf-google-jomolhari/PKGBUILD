@@ -1,7 +1,7 @@
 pkgname=ttf-google-jomolhari
 pkgver=1.000
 pkgrel=1
-_commit="6e4b84c976cadb3c49a40fd9a1c203e4f7fcf2da"  # Latest commit touching ofl/jomolhari
+_commit="7ad90cae69c419bce2a9451deaa3119763ce75aa"  # Latest commit touching ofl/jomolhari
 pkgdesc="Google Fonts family: Jomolhari"
 arch=('any')
 url="https://fonts.google.com/specimen/Jomolhari"

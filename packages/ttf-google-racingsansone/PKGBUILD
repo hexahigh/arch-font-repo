@@ -1,7 +1,7 @@
 pkgname=ttf-google-racingsansone
 pkgver=1.001
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/racingsansone
+_commit="c1550b46580e5c15c11fc370a311eb92240d2a1e"  # Latest commit touching ofl/racingsansone
 pkgdesc="Google Fonts family: Racing Sans One"
 arch=('any')
 url="https://fonts.google.com/specimen/Racing+Sans+One"

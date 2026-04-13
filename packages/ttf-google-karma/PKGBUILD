@@ -1,7 +1,7 @@
 pkgname=ttf-google-karma
 pkgver=1.202
 pkgrel=1
-_commit="130fcfb0ff422fec96b335616b2ca99f91914792"  # Latest commit touching ofl/karma
+_commit="a66804b0d9da6cd4aa67444c36f9ba15e8508222"  # Latest commit touching ofl/karma
 pkgdesc="Google Fonts family: Karma"
 arch=('any')
 url="https://fonts.google.com/specimen/Karma"

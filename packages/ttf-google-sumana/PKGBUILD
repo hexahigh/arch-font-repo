@@ -1,7 +1,7 @@
 pkgname=ttf-google-sumana
 pkgver=1.015
 pkgrel=1
-_commit="c9eda29b29c62424e6aed760a1bb77b1d30ded0b"  # Latest commit touching ofl/sumana
+_commit="5ef4ccb8f5fee7750467e0fd1844c50434cc081d"  # Latest commit touching ofl/sumana
 pkgdesc="Google Fonts family: Sumana"
 arch=('any')
 url="https://fonts.google.com/specimen/Sumana"

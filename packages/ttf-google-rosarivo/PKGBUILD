@@ -1,7 +1,7 @@
 pkgname=ttf-google-rosarivo
 pkgver=1.003
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/rosarivo
+_commit="3e8cc42cd757805a42ad5b51cf8b0296743d16db"  # Latest commit touching ofl/rosarivo
 pkgdesc="Google Fonts family: Rosarivo"
 arch=('any')
 url="https://fonts.google.com/specimen/Rosarivo"

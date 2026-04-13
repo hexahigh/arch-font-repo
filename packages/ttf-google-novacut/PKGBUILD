@@ -1,7 +1,7 @@
 pkgname=ttf-google-novacut
 pkgver=2.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/novacut
+_commit="c4fb088b01b024525829754de4c9b6a3323ca509"  # Latest commit touching ofl/novacut
 pkgdesc="Google Fonts family: Nova Cut"
 arch=('any')
 url="https://fonts.google.com/specimen/Nova+Cut"

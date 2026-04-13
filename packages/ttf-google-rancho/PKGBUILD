@@ -1,7 +1,7 @@
 pkgname=ttf-google-rancho
 pkgver=1.001
 pkgrel=1
-_commit="47a6c224b3e0287b2e48e3ffef8c9ce2ca4931f4"  # Latest commit touching apache/rancho
+_commit="7e8a8ece304c0294fd7b863226dc1ed524ae495b"  # Latest commit touching apache/rancho
 pkgdesc="Google Fonts family: Rancho"
 arch=('any')
 url="https://fonts.google.com/specimen/Rancho"

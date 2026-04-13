@@ -1,7 +1,7 @@
 pkgname=ttf-google-stintultracondensed
 pkgver=1.000
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/stintultracondensed
+_commit="8da48a893890ac4fc454cc0ebcd3f169749e12f1"  # Latest commit touching ofl/stintultracondensed
 pkgdesc="Google Fonts family: Stint Ultra Condensed"
 arch=('any')
 url="https://fonts.google.com/specimen/Stint+Ultra+Condensed"

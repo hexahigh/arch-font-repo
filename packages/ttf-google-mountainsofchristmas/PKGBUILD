@@ -1,7 +1,7 @@
 pkgname=ttf-google-mountainsofchristmas
 pkgver=1.003
 pkgrel=1
-_commit="1db714082c3f035904de1f6bae2534583f059783"  # Latest commit touching apache/mountainsofchristmas
+_commit="85402ba9968a3ac7e32e4a5be29abc1298f52a3a"  # Latest commit touching apache/mountainsofchristmas
 pkgdesc="Google Fonts family: Mountains of Christmas"
 arch=('any')
 url="https://fonts.google.com/specimen/Mountains+of+Christmas"

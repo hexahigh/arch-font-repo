@@ -1,7 +1,7 @@
 pkgname=ttf-google-librecaslondisplay
 pkgver=1.100
 pkgrel=1
-_commit="e2332cf862ac3145c0ee5f24f04f4c1819b2410b"  # Latest commit touching ofl/librecaslondisplay
+_commit="0545fa8ab8321ac32cff617e7462ee3237d5e653"  # Latest commit touching ofl/librecaslondisplay
 pkgdesc="Google Fonts family: Libre Caslon Display"
 arch=('any')
 url="https://fonts.google.com/specimen/Libre+Caslon+Display"

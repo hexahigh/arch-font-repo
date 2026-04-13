@@ -1,7 +1,7 @@
 pkgname=ttf-google-imfelldoublepicasc
 pkgver=3.00
 pkgrel=1
-_commit="0b58fb370093f9a9f4ff785d94405710b79de67c"  # Latest commit touching ofl/imfelldoublepicasc
+_commit="be27c8e070986756865afad62d7b258b3871526d"  # Latest commit touching ofl/imfelldoublepicasc
 pkgdesc="Google Fonts family: IM Fell Double Pica SC"
 arch=('any')
 url="https://fonts.google.com/specimen/IM+Fell+Double+Pica+SC"

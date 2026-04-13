@@ -1,7 +1,7 @@
 pkgname=ttf-google-quantico
 pkgver=2.002
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/quantico
+_commit="35ae5c8ae1ed32036e34befd106202e086b0922c"  # Latest commit touching ofl/quantico
 pkgdesc="Google Fonts family: Quantico"
 arch=('any')
 url="https://fonts.google.com/specimen/Quantico"

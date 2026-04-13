@@ -1,7 +1,7 @@
 pkgname=ttf-google-notonaskharabicui
 pkgver=2.015
 pkgrel=1
-_commit="8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5"  # Latest commit touching ofl/notonaskharabicui
+_commit="54584294ef89979740aa9687fdc3c04d11c4b539"  # Latest commit touching ofl/notonaskharabicui
 pkgdesc="Google Fonts family: Noto Naskh Arabic UI"
 arch=('any')
 url="https://fonts.google.com/specimen/Noto+Naskh+Arabic+UI"

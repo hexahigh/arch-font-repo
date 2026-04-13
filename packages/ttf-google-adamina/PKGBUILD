@@ -1,7 +1,7 @@
 pkgname=ttf-google-adamina
 pkgver=1.013
 pkgrel=1
-_commit="7beedcffa59af71485370f3407ab220e22f33504"  # Latest commit touching ofl/adamina
+_commit="2eb54483f0c1f61c1f7f59d5ef0ba86acfc67cf3"  # Latest commit touching ofl/adamina
 pkgdesc="Google Fonts family: Adamina"
 arch=('any')
 url="https://fonts.google.com/specimen/Adamina"
