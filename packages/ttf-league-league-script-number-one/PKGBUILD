@@ -1,0 +1,25 @@
+pkgname=ttf-league-league-script-number-one
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: league-script-number-one"
+arch=('any')
+url='https://github.com/theleagueof/league-script-number-one'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/league-script-number-one/archive/225add0b37cf8268759ba4572e02630d9fb54ecf.tar.gz")
+sha256sums=("60feba0ea69e5210baa0a5a6a7a07d42b321818d9c4042a73e47f2befd1c59fe")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

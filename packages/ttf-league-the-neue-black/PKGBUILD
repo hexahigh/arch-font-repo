@@ -1,0 +1,25 @@
+pkgname=ttf-league-the-neue-black
+pkgver=20220429
+pkgrel=1
+pkgdesc="The League of Moveable Type family: the-neue-black"
+arch=('any')
+url='https://github.com/theleagueof/the-neue-black'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/the-neue-black/archive/f062213a99db2280725b09c718a1d4d6b8fe12e4.tar.gz")
+sha256sums=("a061ec0d4fb81bf8d330a61f002c5d37d4a7777d1013c07f817e12454c553a7c")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

@@ -1,0 +1,28 @@
+pkgname=ttf-fontshare-anton
+pkgver=2.116
+pkgrel=1
+_slug="anton"
+pkgdesc="Fontshare family: Anton"
+arch=('any')
+url="https://www.fontshare.com/fonts/anton/"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/anton")
+sha256sums=('3706212bda585bcd47dd5af33bb329dc9d1ffce88a65393d5dd09ed3100027e2')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

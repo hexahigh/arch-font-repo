@@ -1,0 +1,25 @@
+pkgname=ttf-league-ostrich-sans
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: ostrich-sans"
+arch=('any')
+url='https://github.com/theleagueof/ostrich-sans'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/ostrich-sans/archive/a949d40d0576d12ba26e2a45e19c91fd0228c964.tar.gz")
+sha256sums=("1f0f1251411b556222aff4d037bfd63ecb2c59359e3e9b103656f595e1b31758")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

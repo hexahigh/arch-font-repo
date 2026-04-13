@@ -1,0 +1,25 @@
+pkgname=ttf-league-league-mono
+pkgver=20220217
+pkgrel=1
+pkgdesc="The League of Moveable Type family: league-mono"
+arch=('any')
+url='https://github.com/theleagueof/league-mono'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/league-mono/archive/444f6c3a1eb9d0d5c00ecc0c3b07d21fdcd37a8a.tar.gz")
+sha256sums=("2e955f67b70809ce1b61adb1b2db124c4d039fa3154b14dee7a67e1ebced3cc0")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

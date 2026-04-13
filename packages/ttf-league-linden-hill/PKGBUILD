@@ -1,0 +1,25 @@
+pkgname=ttf-league-linden-hill
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: linden-hill"
+arch=('any')
+url='https://github.com/theleagueof/linden-hill'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/linden-hill/archive/a3f7ae6c4cac1b7e5ce5269e1fcc6a2fbb9e31ee.tar.gz")
+sha256sums=("f8c1d78f6f72e248a4b37b5a708b1b5c2acfb35a5c4220430747cf33a7079de3")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

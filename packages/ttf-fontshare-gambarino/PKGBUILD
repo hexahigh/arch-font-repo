@@ -1,0 +1,28 @@
+pkgname=ttf-fontshare-gambarino
+pkgver=1.0
+pkgrel=1
+_slug="gambarino"
+pkgdesc="Fontshare family: Gambarino"
+arch=('any')
+url="https://www.fontshare.com/fonts/gambarino/"
+license=('custom:ITF-FFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/gambarino")
+sha256sums=('ba14b3ab47903c1a40691b913f5854092fb3347185e38e39472be7912d1b89cf')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

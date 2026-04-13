@@ -1,0 +1,25 @@
+pkgname=ttf-league-sniglet
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: sniglet"
+arch=('any')
+url='https://github.com/theleagueof/sniglet'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/sniglet/archive/5c6b0860bdd0d8c4f16222e4de3918c384db17c4.tar.gz")
+sha256sums=("edb0b0ba6bcd987f60a7f03a72481cfd7d66615d793bf0f02eddbe01b35a7527")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

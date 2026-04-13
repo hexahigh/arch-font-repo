@@ -1,0 +1,28 @@
+pkgname=ttf-fontshare-trench-slab
+pkgver=1.0
+pkgrel=1
+_slug="trench-slab"
+pkgdesc="Fontshare family: Trench Slab"
+arch=('any')
+url="https://www.fontshare.com/fonts/trench-slab/"
+license=('custom:ITF-FFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/trench-slab")
+sha256sums=('1d706259774780d6ab6e9b751bd73a2c33d305c307069ce51be7bc1dfee3bde1')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

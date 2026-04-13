@@ -1,0 +1,28 @@
+pkgname=ttf-fontshare-poppins
+pkgver=6.0
+pkgrel=1
+_slug="poppins"
+pkgdesc="Fontshare family: Poppins"
+arch=('any')
+url="https://www.fontshare.com/fonts/poppins/"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/poppins")
+sha256sums=('47032360488b58148dc1d1d5655d153bebff1d7b50d7ca3fcf67de5e3521ff28')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

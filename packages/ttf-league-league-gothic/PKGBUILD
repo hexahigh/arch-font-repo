@@ -1,0 +1,25 @@
+pkgname=ttf-league-league-gothic
+pkgver=20231124
+pkgrel=1
+pkgdesc="The League of Moveable Type family: league-gothic"
+arch=('any')
+url='https://github.com/theleagueof/league-gothic'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/league-gothic/archive/f3cd0a182a57d32ceca0398a5ef1c49e577dde88.tar.gz")
+sha256sums=("1a9c8b5ee5041989f6895839b3c3465ecea9d0d033027f52133fa280f850d197")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

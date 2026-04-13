@@ -1,0 +1,28 @@
+pkgname=ttf-fontshare-manrope
+pkgver=4.505
+pkgrel=1
+_slug="manrope"
+pkgdesc="Fontshare family: Manrope"
+arch=('any')
+url="https://www.fontshare.com/fonts/manrope/"
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("${pkgname}-${pkgver}.zip::https://api.fontshare.com/v2/fonts/download/manrope")
+sha256sums=('daf5aa4b0ef4fd658453b0857149c9fe4e1302f25ce4f106650d46cc129251ec')
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install every shipped TTF/OTF/TTC font from the Fontshare bundle.
+  find "${srcdir}" -type f \
+    \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) \
+    ! -path '*/__MACOSX/*' ! -name '._*' -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL.txt' -o -iname 'FFL.txt' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

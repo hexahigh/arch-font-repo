@@ -1,0 +1,25 @@
+pkgname=ttf-league-junction
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: junction"
+arch=('any')
+url='https://github.com/theleagueof/junction'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/junction/archive/fb73260e86dd301b383cf6cc9ca8e726ef806535.tar.gz")
+sha256sums=("ae68c492db156dd0320dbbe64719585cdc028a420f8e42ac71c4352c4891e309")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

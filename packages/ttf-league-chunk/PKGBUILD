@@ -1,0 +1,25 @@
+pkgname=ttf-league-chunk
+pkgver=20210303
+pkgrel=1
+pkgdesc="The League of Moveable Type family: chunk"
+arch=('any')
+url='https://github.com/theleagueof/chunk'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/chunk/archive/12a243f3fb7c7a68844901023f7d95d6eaf14104.tar.gz")
+sha256sums=("78985b4effbe6e434a33e81fe544064a73f83c31a9981480b5b371d69113014f")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

@@ -1,0 +1,25 @@
+pkgname=ttf-league-prociono
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: prociono"
+arch=('any')
+url='https://github.com/theleagueof/prociono'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/prociono/archive/f9d9680de6d6f0c13939f23c9dd14cd7853cf844.tar.gz")
+sha256sums=("9006ca910c279608295875ce855a0b0236e00ad032a237890832ae457135724f")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

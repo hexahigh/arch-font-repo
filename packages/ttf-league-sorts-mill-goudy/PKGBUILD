@@ -1,0 +1,25 @@
+pkgname=ttf-league-sorts-mill-goudy
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: sorts-mill-goudy"
+arch=('any')
+url='https://github.com/theleagueof/sorts-mill-goudy'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/sorts-mill-goudy/archive/06072890c7b05f274215a24f17449655ccb2c8af.tar.gz")
+sha256sums=("e31504462eeda8b1d3694aee8c618e3ff2dad732ebec0decf22e416ad8482749")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}

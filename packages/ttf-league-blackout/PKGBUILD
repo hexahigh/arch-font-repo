@@ -1,0 +1,25 @@
+pkgname=ttf-league-blackout
+pkgver=20240219
+pkgrel=1
+pkgdesc="The League of Moveable Type family: blackout"
+arch=('any')
+url='https://github.com/theleagueof/blackout'
+license=('OFL')
+depends=('fontconfig')
+provides=('ttf-font')
+source=("https://github.com/theleagueof/blackout/archive/4864cfc1749590e9f78549c6e57116fe98480c0f.tar.gz")
+sha256sums=("719649b3e9578d3c018b9972791501e56241e5c79c2e5b89066df5d49df547cc")
+
+package() {
+  install -dm755 "${pkgdir}/usr/share/fonts/TTF/${pkgname}"
+
+  # Install all shipped OpenType/TrueType font binaries from the repository archive.
+  find "${srcdir}" -type f \( -name '*.ttf' -o -name '*.otf' -o -name '*.ttc' \) -print0 | while IFS= read -r -d '' font; do
+    install -m644 "${font}" "${pkgdir}/usr/share/fonts/TTF/${pkgname}/"
+  done
+
+  license_file="$(find "${srcdir}" -type f \( -iname 'OFL*' -o -iname 'LICENSE*' \) | head -n 1)"
+  if [[ -n "${license_file}" ]]; then
+    install -Dm644 "${license_file}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
+}
